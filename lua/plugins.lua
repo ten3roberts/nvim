@@ -17,7 +17,7 @@ return require('packer').startup(function()
   use 'arcticicestudio/nord-vim'
 
   use 'junegunn/vim-easy-align' -- Align text blocks
-  use { 'svermeulen/vim-easyclip', setup = function() vim.g.EasyClipUseSubstituteDefaults = 0 end } -- More intuitive clipboard
+  use 'maxbrunsfeld/vim-yankstack'
   use 'tpope/vim-commentary' -- Toggle comments
   use 'tpope/vim-fugitive' -- Git management
   use 'tpope/vim-repeat'
@@ -29,6 +29,7 @@ return require('packer').startup(function()
   -- Autoclose brackets
   use {'jiangmiao/auto-pairs', config = function()
     vim.g.AutoPairsCenterLine = 0
+    vim.g.AutoPairsShortcutToggle = ''
     vim.g.AutoPairs = {
       [ '(' ]=')',
       ['[']=']',
@@ -60,7 +61,7 @@ return require('packer').startup(function()
       vim.g.nvim_tree_tab_open = 1
       vim.g.nvim_tree_lint_lsp = 1
       vim.g.nvim_tree_git_hl = 1
-      vim.g.nvim_tree_gitignore = 1
+      vim.g.nvim_tree_gitignore = 0
       vim.g.nvim_tree_show_icons = { git = 0, folders = 1, files = 1 }
       vim.g.nvim_tree_group_empty = 1
       vim.g.nvim_tree_disable_window_picker = 1
@@ -105,7 +106,7 @@ return require('packer').startup(function()
         enable = true,
       },
       indent = {
-        enable = true
+        enable = true,
       }
     } end
   }
@@ -121,6 +122,9 @@ return require('packer').startup(function()
 
   -- Smart autocompletion
   use { 'hrsh7th/nvim-compe', config = function() require 'completion' end }
+  use 'hrsh7th/vim-vsnip'
+  use 'hrsh7th/vim-vsnip-integ'
+  use 'rafamadriz/friendly-snippets'
 
   -- Fuzzy finder
   use {"nvim-telescope/telescope.nvim", requires = { 'nvim-lua/popup.nvim', 'nvim-lua/plenary.nvim' }, config = function() require 'telescope_conf' end}
