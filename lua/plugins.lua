@@ -77,7 +77,22 @@ return require('packer').startup(function()
   use { 'neovim/nvim-lspconfig', config = function() require 'lsp'.setup() end }
   use { 'hrsh7th/nvim-compe', config = function() require 'completion' end }
 
-  use { 'steelsojka/pears.nvim', config = function() require 'pears'.setup() end }
+  use {'jiangmiao/auto-pairs', config = function() 
+    vim.g.AutoPairsCenterLine = 0
+    vim.g.AutoPairs = {
+      [ '(' ]=')',
+      ['[']=']',
+      ['{']='}',
+      ['<']='>',
+      ["'"]="'",
+      ['"']='"',
+      ["`"]="`",
+      ['```']='```',
+      ['"""']='"""',
+      ["'''"]="'''"
+    }
+  end
+  }
 
   use {"nvim-telescope/telescope.nvim", requires = { 'nvim-lua/popup.nvim', 'nvim-lua/plenary.nvim' }, config = function() require 'telescope_conf' end}
   use { "nvim-telescope/telescope-fzy-native.nvim" }

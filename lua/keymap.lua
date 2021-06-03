@@ -4,7 +4,7 @@ end
 
 vim.g.mapleader = ' '
 
-map('n', '<leader>f', ':NvimTreeOpen<CR>')
+map('n', '<leader>f', ':NvimTreeFindFile<CR>')
 
 -- Telescope
 map('n', '<leader><leader>', '<cmd>lua require"telescope.builtin".find_files()<CR>')
@@ -66,6 +66,8 @@ map('', '<C-a>', '^')
 
 map('i', '<C-e>', '<C-o>$')
 map('i', '<C-a>', '<C-o>^')
+
+map('n', '<Esc>', ':noh<CR>')
 
 -- Move lines
 map('n', '<A-k>', ':m .-2<CR>==')
