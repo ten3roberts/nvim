@@ -45,3 +45,14 @@ map('n', '<leader>gg', ':Ge :<CR>')
 map('n', '<leader>ga', ':Git add %<CR>')
 map('n', '<leader>gp', ':Git push<CR>')
 map('n', '<leader>gf', ':Git fetch<CR>')
+
+-- Movements
+map('', '<C-j>', '}')
+map('', '<C-k>', '{')
+
+map('', '<C-e>', '$')
+map('', '<C-a>', '^')
+
+
+map('i', '<C-e>', '<C-o>$')
+map('i', '<C-a>', '<C-o>^')
