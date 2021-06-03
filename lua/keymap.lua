@@ -8,6 +8,7 @@ map('n', '<leader>f', ':NvimTreeFindFile<CR>')
 
 -- Telescope
 map('n', '<leader><leader>', '<cmd>lua require"telescope.builtin".find_files()<CR>')
+map('n', '<leader>,', '<cmd>lua require"telescope.builtin".buffers()<CR>')
 map('n', '<leader>rg', '<cmd>lua require"telescope.builtin".live_grep()<CR>')
 map('n', '<leader>p', '<cmd>lua require"telescope".extensions.project.project{}<CR>')
 map('n', '<leader>o', '<cmd>lua require"telescope.builtin".lsp_document_symbols()<CR>')

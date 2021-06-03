@@ -4,14 +4,19 @@ local lsp_install = require 'lspinstall'
 local lsp = {}
 
 function lsp.on_attach() 
-  --
+  print("LSP started")
+
   -- Lsp signature
-  require 'lsp_signature'.on_attach()
+  require'lsp_signature'.on_attach({
+    handler_opts = {
+      border = "single"   -- double, single, shadow, none
+    },
+  })
 
   -- Setup mappings
   map('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
   map('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  map('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
   map('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
   map('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
   map('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
