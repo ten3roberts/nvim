@@ -55,6 +55,10 @@ map('n', '<leader>w<C-k>', '<C-w>k<C-w>q')
 map('n', '<leader>w<C-l>', '<C-w>l<C-w>q')
 
 -- Sneak (easyclip conflict mappings)
+map('n', 'f', '<plug>Sneak_f')
+map('n', 'F', '<plug>Sneak_F')
+map('n', 't', '<plug>Sneak_t')
+map('n', 'T', '<plug>Sneak_T')
 map('n', 's', '<plug>Sneak_s')
 map('n', 'S', '<plug>Sneak_S')
 
@@ -85,7 +89,7 @@ map('v', '<A-k>', ':m \'<-2<CR>')
 map('v', '<A-j>', ':m \'>+1<CR>')
 
 -- Toggle bool
-map('n', 'gb', ':ToggleBool<CR>')
+map('n', 'gb', '<cmd>lua require"toggle_bool".toggle()<CR>')
 
 -- Folding
 for i = 0, 9 do
