@@ -1,11 +1,10 @@
-local function map(mod, lhs, rhs, opt)
+function map(mod, lhs, rhs, opt)
   vim.api.nvim_set_keymap(mod, lhs, rhs, opt or {})
 end
 
 vim.g.mapleader = ' '
 
-
-map('n', '<leader>f', ':NvimTreeToggle<CR>')
+map('n', '<leader>f', ':NvimTreeOpen<CR>')
 
 -- Barbar
 map('n', '<A-,>', ':BufferPrevious<CR>')
@@ -39,10 +38,12 @@ map('n', '<leader>wh', '<C-w>h')
 map('n', '<leader>wj', '<C-w>j')
 map('n', '<leader>wk', '<C-w>k')
 map('n', '<leader>wl', '<C-w>l')
+map('n', '<leader>w=', '<C-w>=')
 
 -- Git mappings
 map('n', '<leader>gg', ':Ge :<CR>')
 map('n', '<leader>ga', ':Git add %<CR>')
+map('n', '<leader>gc', ':Git commit<CR>')
 map('n', '<leader>gp', ':Git push<CR>')
 map('n', '<leader>gf', ':Git fetch<CR>')
 
@@ -53,6 +54,17 @@ map('', '<C-k>', '{')
 map('', '<C-e>', '$')
 map('', '<C-a>', '^')
 
-
 map('i', '<C-e>', '<C-o>$')
 map('i', '<C-a>', '<C-o>^')
+
+-- Move lines
+map('n', '<A-j>', ':m .-1<CR>==')
+map('n', '<A-k>>', ':m .+1<CR>==')
+
+map('v', '<A-j>', ':m \'>-1<CR>==')
+map('v', '<A-k>', ':m \'<+1<CR>==')
+
+-- Folding
+for i = 0, 9 do
+  map('n', 'z'..i, ':set foldlevel='..i..'<CR>')
+end
