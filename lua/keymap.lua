@@ -6,6 +6,9 @@ vim.g.mapleader = ' '
 
 map('n', '<leader>f', ':NvimTreeOpen<CR>')
 
+-- Trouble
+map('n', '<leader>l', ':TroubleToggle<CR>')
+
 -- Barbar
 map('n', '<A-,>', ':BufferPrevious<CR>')
 map('n', '<A-.>', ':BufferNext<CR>')
@@ -58,11 +61,11 @@ map('i', '<C-e>', '<C-o>$')
 map('i', '<C-a>', '<C-o>^')
 
 -- Move lines
-map('n', '<A-j>', ':m .-1<CR>==')
-map('n', '<A-k>>', ':m .+1<CR>==')
+map('n', '<A-k>', ':m .-2<CR>==')
+map('n', '<A-j>', ':m .+1<CR>==')
 
-map('v', '<A-j>', ':m \'>-1<CR>==')
-map('v', '<A-k>', ':m \'<+1<CR>==')
+map('v', '<A-k>', ':m \'<-2<CR>gv=gv')
+map('v', '<A-j>', ':m \'>+1<CR>gv=gv')
 
 -- Folding
 for i = 0, 9 do
