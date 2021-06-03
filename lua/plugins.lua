@@ -17,6 +17,8 @@ return require('packer').startup(function()
   use 'tpope/vim-fugitive'
   use 'tpope/vim-surround'
 
+  use { 'justinmk/vim-sneak', config = function() vim.g[ 'sneak#label' ] = 1 end }
+
   -- Colorschemes
   use 'rakr/vim-one'
   use 'arcticicestudio/nord-vim'
@@ -77,7 +79,7 @@ return require('packer').startup(function()
   use { 'neovim/nvim-lspconfig', config = function() require 'lsp'.setup() end }
   use { 'hrsh7th/nvim-compe', config = function() require 'completion' end }
 
-  use {'jiangmiao/auto-pairs', config = function() 
+  use {'jiangmiao/auto-pairs', config = function()
     vim.g.AutoPairsCenterLine = 0
     vim.g.AutoPairs = {
       [ '(' ]=')',
