@@ -6,8 +6,15 @@ vim.g.mapleader = ' '
 
 map('n', '<leader>f', ':NvimTreeOpen<CR>')
 
--- Trouble
-map('n', '<leader>l', ':TroubleToggle<CR>')
+-- Telescope
+map('n', '<leader><leader>', '<cmd>lua require"telescope.builtin".find_files()<CR>')
+map('n', '<leader>rg', '<cmd>lua require"telescope.builtin".live_grep()<CR>')
+map('n', '<leader>p', '<cmd>lua require"telescope".extensions.project.project{}<CR>')
+
+map('n', '<leader>o', '<cmd>lua require"telescope.builtin".lsp_document_symbols()<CR>')
+map('n', '<leader>O', '<cmd>lua require"telescope.builtin".lsp_workspace_symbols()<CR>')
+map('n', '<leader>a', '<cmd>lua require"telescope.builtin".lsp_code_actions()<CR>')
+map('n', '<leader>gl', '<cmd>lua require"telescope.builtin".git_commits()<CR>')
 
 -- Barbar
 map('n', '<A-,>', ':BufferPrevious<CR>')

@@ -9,6 +9,8 @@ autocmd('BufWritePost', '*.rs', 'make build')
 -- Auto compile when there are changes in plugins.lua
 autocmd('BufWritePost', 'plugins.lua', 'PackerCompile')
 
-autocmd('TermEnter', '*', 'tnoremap <buffer> <Esc> <C-\\><C-n>')
+autocmd('TermEnter', '*', 'if (&filetype != "fzf") | tnoremap <buffer> <Esc> <C-\\><C-n> | endif')
 
 autocmd('FileType', 'fugitive', 'map <buffer> <Tab> =')
+
+autocmd('BufReadPost', '*', [[ if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif ]])

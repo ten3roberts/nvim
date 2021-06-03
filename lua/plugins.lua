@@ -11,6 +11,8 @@ vim.cmd [[packadd packer.nvim]]
 
 return require('packer').startup(function()
   use 'wbthomason/packer.nvim'
+
+  use 'junegunn/vim-easy-align'
   use 'tpope/vim-commentary'
   use 'tpope/vim-fugitive'
   use 'tpope/vim-surround'
@@ -72,19 +74,13 @@ return require('packer').startup(function()
 
   use 'ray-x/lsp_signature.nvim'
   use 'kabouzeid/nvim-lspinstall'
-  use {
-    'neovim/nvim-lspconfig', 
-    config = function() require 'lsp'.setup() end
-  }
+  use { 'neovim/nvim-lspconfig', config = function() require 'lsp'.setup() end }
+  use { 'hrsh7th/nvim-compe', config = function() require 'completion' end }
 
-  use {
-    'hrsh7th/nvim-compe',
-    config = function() require 'completion'.setup() end
-  }
+  use { 'steelsojka/pears.nvim', config = function() require 'pears'.setup() end }
 
-  use {
-    'steelsojka/pears.nvim',
-    config = function() require 'pears'.setup() end
-  }
+  use {"nvim-telescope/telescope.nvim", requires = { 'nvim-lua/popup.nvim', 'nvim-lua/plenary.nvim' }, config = function() require 'telescope_conf' end}
+  use { "nvim-telescope/telescope-fzy-native.nvim" }
+  use { "nvim-telescope/telescope-project.nvim" }
 end
 )
