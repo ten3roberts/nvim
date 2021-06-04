@@ -1,4 +1,4 @@
-function map(mod, lhs, rhs, opt)
+function _G.map(mod, lhs, rhs, opt)
   vim.api.nvim_set_keymap(mod, lhs, rhs, opt or {})
 end
 
@@ -95,7 +95,7 @@ map('v', '<A-k>', ':m \'<-2<CR>')
 map('v', '<A-j>', ':m \'>+1<CR>')
 
 -- Toggle bool
-map('n', 'gb', '<cmd>lua require"toggle_bool".toggle()<CR>')
+map('n', 'gb', '<cmd>lua require"config.toggle_bool".toggle()<CR>')
 
 -- Folding
 for i = 0, 9 do
@@ -106,4 +106,4 @@ end
 map('n', '<leader>ci', 'mggg=G`g')
 
 -- Dev utils
-map('n', '<leader>xx', '<cmd>lua require"dev_utils".save_and_exec()<CR>')
+map('n', '<leader>xx', '<cmd>lua require"config.dev_utils".save_and_exec()<CR>')

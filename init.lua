@@ -1,7 +1,7 @@
-require 'plugins'
+require 'config.plugins'
 
-require 'toggle_bool'
-require 'keymap'
-require 'options'
-require 'dev_utils'
-require 'autocommands'
+require 'config.toggle_bool'
+require 'config.keymap'
+require 'config.options'
+require 'config.dev_utils'
+require 'config.autocommands'

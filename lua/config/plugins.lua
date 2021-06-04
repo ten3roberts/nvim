@@ -1,7 +1,5 @@
-local fn = vim.fn
-
 -- Auto install packer.nvim if not exists
-if fn.empty(fn.glob('~/.local/share/nvim/site/pack/packer/start/packer.nvim')) > 0 then
+if vim.fn.empty(vim.fn.glob('~/.local/share/nvim/site/pack/packer/start/packer.nvim')) > 0 then
   print 'Downloading packer'
   vim.api.nvim_exec('!git clone https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim', false)
 end
@@ -121,16 +119,16 @@ return require('packer').startup(function()
   use 'kabouzeid/nvim-lspinstall'
 
   -- LSP configurations
-  use { 'neovim/nvim-lspconfig', config = function() require 'lsp'.setup() end }
+  use { 'neovim/nvim-lspconfig', config = function() require 'config.lsp'.setup() end }
 
   -- Smart autocompletion
-  use { 'hrsh7th/nvim-compe', config = function() require 'completion' end }
+  use { 'hrsh7th/nvim-compe', config = function() require 'config.completion' end }
   use 'hrsh7th/vim-vsnip'
   use 'hrsh7th/vim-vsnip-integ'
   use 'rafamadriz/friendly-snippets'
 
   -- Fuzzy finder
-  use {"nvim-telescope/telescope.nvim", requires = { 'nvim-lua/popup.nvim', 'nvim-lua/plenary.nvim' }, config = function() require 'telescope_conf' end}
+  use {"nvim-telescope/telescope.nvim", requires = { 'nvim-lua/popup.nvim', 'nvim-lua/plenary.nvim' }, config = function() require 'config.telescope' end}
   use { "nvim-telescope/telescope-fzy-native.nvim" }
   use { "nvim-telescope/telescope-project.nvim" }
 end

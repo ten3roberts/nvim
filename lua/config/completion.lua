@@ -1,4 +1,4 @@
-function t(str)
+local function t(str)
   return vim.api.nvim_replace_termcodes(str, true, true, true)
 end
 
@@ -14,7 +14,7 @@ end
 -- Use (s-)tab to:
 --- move to prev/next item in completion menuone
 --- jump to prev/next snippet's placeholder
-function tab_complete()
+function _G.tab_complete()
   if vim.fn.pumvisible() == 1 then
     return t "<C-n>"
   elseif vim.fn.call("vsnip#available", {1}) == 1 then
@@ -26,7 +26,7 @@ function tab_complete()
   end
 end
 
-function s_tab_complete()
+function _G.s_tab_complete()
   if vim.fn.pumvisible() == 1 then
     return t "<C-p>"
   elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then

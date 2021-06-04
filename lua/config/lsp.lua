@@ -54,7 +54,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 )
 
 M.configs = {
-  lua = function() return require 'lua_lsp' end
+  lua = function() return require 'config.lua-lsp' end
 }
 
 function M.setup()
