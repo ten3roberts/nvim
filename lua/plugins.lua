@@ -17,7 +17,11 @@ return require('packer').startup(function()
   use 'arcticicestudio/nord-vim'
 
   use 'junegunn/vim-easy-align' -- Align text blocks
-  use 'maxbrunsfeld/vim-yankstack'
+  use  { 'maxbrunsfeld/vim-yankstack', setup = function()
+    vim.g.yankstack_yank_keys = { 'y', 'd', 'c' }
+  end
+  }
+
   use 'tpope/vim-commentary' -- Toggle comments
   use 'tpope/vim-fugitive' -- Git management
   use 'tpope/vim-repeat'
@@ -45,7 +49,6 @@ return require('packer').startup(function()
   end
   }
 
-
   -- File tree
   use {
     'kyazdani42/nvim-tree.lua',
@@ -65,7 +68,7 @@ return require('packer').startup(function()
       vim.g.nvim_tree_show_icons = { git = 0, folders = 1, files = 1 }
       vim.g.nvim_tree_group_empty = 1
       vim.g.nvim_tree_disable_window_picker = 1
-      vim.g.nvim_tree_lsp_diagnostics = 0
+      vim.g.nvim_tree_lsp_diagnostics = 1
       vim.g.nvim_tree_special_files = {}
     end
   }

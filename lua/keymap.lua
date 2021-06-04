@@ -16,6 +16,11 @@ map('n', '<leader>O', '<cmd>lua require"telescope.builtin".lsp_workspace_symbols
 map('n', '<leader>a', '<cmd>lua require"telescope.builtin".lsp_code_actions()<CR>')
 map('n', '<leader>gl', '<cmd>lua require"telescope.builtin".git_commits()<CR>')
 
+-- Quickfix and location list
+map('n', '<leader>l', ':lopen<CR>')
+map('n', '<leader>co', ':copen<CR>')
+map('n', '<leader>cc', ':cclose | :lclose<CR>')
+
 -- Barbar
 map('n', '<A-,>', ':BufferPrevious<CR>')
 map('n', '<A-.>', ':BufferNext<CR>')
@@ -75,10 +80,10 @@ map('', '<C-j>', '}')
 map('', '<C-k>', '{')
 
 map('', '<C-e>', '$')
-map('', '<C-a>', '^')
+map('', '<C-b>', '^')
 
 map('i', '<C-e>', '<C-o>$')
-map('i', '<C-a>', '<C-o>^')
+map('i', '<C-b>', '<C-o>^')
 
 map('n', '<Esc>', ':noh<CR>')
 
@@ -96,3 +101,9 @@ map('n', 'gb', '<cmd>lua require"toggle_bool".toggle()<CR>')
 for i = 0, 9 do
   map('n', 'z'..i, ':set foldlevel='..i..'<CR>')
 end
+
+-- Indent whole buffer
+map('n', '<leader>ci', 'mggg=G`g')
+
+-- Dev utils
+map('n', '<leader>xx', '<cmd>lua require"dev_utils".save_and_exec()<CR>')

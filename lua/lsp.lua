@@ -1,9 +1,9 @@
 local nvim_lsp = require 'lspconfig'
 local lsp_install = require 'lspinstall'
 
-local lsp = {}
+local M = {}
 
-function lsp.on_attach() 
+function M.on_attach()
   print("LSP started")
 
   -- Lsp signature
@@ -14,6 +14,7 @@ function lsp.on_attach()
   })
 
   -- Setup mappings
+  local opts = {}
   map('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
   map('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
   map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
@@ -24,13 +25,13 @@ function lsp.on_attach()
   map('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
   map('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
   map('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  -- map('n', '<space>a', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  map('n', '<space>a', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
   map('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
   map('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   map('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
   map('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-  map("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+  map("n", "<space>cf", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 
 end
 
@@ -52,17 +53,24 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   }
 )
 
-function lsp.setup()
+M.configs = {
+  lua = function() return require 'lua_lsp' end
+}
+
+function M.setup()
   lsp_install.setup()
   local servers = lsp_install.installed_servers()
   for _, server in pairs(servers) do
-    nvim_lsp[server].setup{ on_attach = on_attach }
+    local config = M.configs[server]
+    config = vim.tbl_extend( "force", { on_attach = M.on_attach }, config and config() or {})
+
+    nvim_lsp[server].setup(config)
   end
+
   vim.cmd 'sign define LspDiagnosticsSignError text= texthl=LspDiagnosticsSignError linehl= numhl='
   vim.cmd 'sign define LspDiagnosticsSignWarning text= texthl=LspDiagnosticsSignWarning linehl= numhl='
   vim.cmd 'sign define LspDiagnosticsSignInformation text= texthl=LspDiagnosticsSignInformation linehl= numhl='
   vim.cmd 'sign define LspDiagnosticsSignHint text= texthl=LspDiagnosticsSignHint linehl= numhl='
 end
 
-
-return lsp
+return M
