@@ -38,5 +38,15 @@ o.updatetime = 300
 o.wildmenu = true -- Command line completion mode
 o.wildmode = 'full' -- Command line completion mode
 
--- Set colorscheme
+vim.g.gruvbox_contrast_dark = 'hard'
+vim.g.gruvbox_contrast_light = 'hard'
+vim.g.gruvbox_sign_column = 'bg0'
+
+vim.g.nord_cursor_line_number_background = 0
+vim.g.nord_bold = 1
+vim.g.nord_italic = 1
+vim.g.nord_uniform_diff_background = 1
+vim.g.nord_italic_comments = 1
+vim.g.nord_underline = 1
+
 vim.cmd "colorscheme nord"

@@ -11,8 +11,9 @@ return require('packer').startup(function()
   use 'wbthomason/packer.nvim' -- Manage plugins
 
   -- Colorschemes
-  use 'rakr/vim-one'
   use 'arcticicestudio/nord-vim'
+  use 'morhetz/gruvbox'
+  use 'rakr/vim-one'
 
   use 'junegunn/vim-easy-align' -- Align text blocks
   use  { 'maxbrunsfeld/vim-yankstack', setup = function()
