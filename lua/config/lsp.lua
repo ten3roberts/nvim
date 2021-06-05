@@ -8,6 +8,7 @@ function M.on_attach()
 
   -- Lsp signature
   require'lsp_signature'.on_attach({
+    bind = true,
     handler_opts = {
       border = "single"   -- double, single, shadow, none
     },

@@ -91,8 +91,8 @@ map('n', '<Esc>', ':noh<CR>')
 map('n', '<A-k>', ':m .-2<CR>')
 map('n', '<A-j>', ':m .+1<CR>')
 
-map('v', '<A-k>', ':m \'<-2<CR>')
-map('v', '<A-j>', ':m \'>+1<CR>')
+map('v', '<A-k>', ':m \'<-2<CR>gv')
+map('v', '<A-j>', ':m \'>+1<CR>gv')
 
 -- Toggle bool
 map('n', 'gb', '<cmd>lua require"config.toggle_bool".toggle()<CR>')

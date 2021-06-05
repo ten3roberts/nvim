@@ -1,0 +1,1 @@
+syntax keyword Type self

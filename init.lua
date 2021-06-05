@@ -6,4 +6,4 @@ require 'config.options'
 require 'config.dev_utils'
 require 'config.autocommands'
 
-vim.cmd "command Sort :'{,'}sort"
+require 'config.commands'

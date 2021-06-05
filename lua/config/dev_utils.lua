@@ -5,6 +5,11 @@ function _G.dump(...)
     print(unpack(objects))
 end
 
+function _G.dump_mod(module)
+  module = module or vim.fn.expand('%:t:r')
+  dump(require(module))
+end
+
 -- The function is called `t` for `termcodes`.
 -- You don't have to call it that, but I find the terseness convenient
 function M.replace_termcodes(str)
@@ -14,13 +19,16 @@ end
 
 function M.save_and_exec()
   if vim.o.ft ~= 'lua' then
+    error("Not a lua module!")
     return
   end
 
-  print ('Reloading ' .. vim.fn.expand('%:t'))
+  local module = vim.fn.expand('%:t:r')
+
+  print ('Reloading ' .. module)
   vim.cmd('silent! write')
-  require 'plenary.reload'.reload_module'%'
-  vim.cmd("luafile %")
+  require 'plenary.reload'.reload_module (module)
+  require(module).setup()
 end
 
 return M

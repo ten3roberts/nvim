@@ -10,22 +10,22 @@ vim.cmd [[packadd packer.nvim]]
 return require('packer').startup(function()
   use 'wbthomason/packer.nvim' -- Manage plugins
 
+  -- My plugins
+  use '~/dev/nvim/toggle.nvim'
+
   -- Colorschemes
   use 'arcticicestudio/nord-vim'
   use 'morhetz/gruvbox'
   use 'rakr/vim-one'
 
+  use  { 'maxbrunsfeld/vim-yankstack', setup = function() vim.g.yankstack_yank_keys = { 'y', 'd', 'c' } end }
   use 'junegunn/vim-easy-align' -- Align text blocks
-  use  { 'maxbrunsfeld/vim-yankstack', setup = function()
-    vim.g.yankstack_yank_keys = { 'y', 'd', 'c' }
-  end
-  }
-
   use 'tpope/vim-commentary' -- Toggle comments
-  use 'tpope/vim-fugitive' -- Git management
-  use 'tpope/vim-repeat'
-  use 'tpope/vim-surround' -- ( surround text )
   use 'tpope/vim-unimpaired' -- Handy bracket mappings
+  use 'tpope/vim-repeat'
+  use 'dkarter/bullets.vim'
+  use 'tpope/vim-surround' -- ( surround text )
+  use 'tpope/vim-fugitive' -- Git management
 
   use { 'justinmk/vim-sneak', config = function() vim.g[ 'sneak#label' ] = 1 end } -- Quickly jump in file by 2 chars
 
@@ -48,6 +48,12 @@ return require('packer').startup(function()
   end
   }
 
+  use {
+    'iamcco/markdown-preview.nvim',
+    run = function() vim.fn['mkdp#util#install']() end,
+    ft = {'markdown'}
+  }
+
   -- File tree
   use {
     'kyazdani42/nvim-tree.lua',
@@ -65,7 +71,7 @@ return require('packer').startup(function()
       vim.g.nvim_tree_git_hl = 1
       vim.g.nvim_tree_gitignore = 0
       vim.g.nvim_tree_show_icons = { git = 0, folders = 1, files = 1 }
-      vim.g.nvim_tree_group_empty = 1
+      vim.g.nvim_tree_group_empty = 0
       vim.g.nvim_tree_disable_window_picker = 1
       vim.g.nvim_tree_lsp_diagnostics = 1
       vim.g.nvim_tree_special_files = {}

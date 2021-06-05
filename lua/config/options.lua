@@ -37,6 +37,8 @@ o.termguicolors = true
 o.updatetime = 300
 o.wildmenu = true -- Command line completion mode
 o.wildmode = 'full' -- Command line completion mode
+o.autoread = true
+o.formatoptions = 'jcrqltn'
 
 vim.g.gruvbox_contrast_dark = 'hard'
 vim.g.gruvbox_contrast_light = 'hard'
