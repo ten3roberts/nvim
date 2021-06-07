@@ -6,24 +6,34 @@ end
 
 vim.cmd [[packadd packer.nvim]]
 
-
 return require('packer').startup(function()
   use 'wbthomason/packer.nvim' -- Manage plugins
 
   -- My plugins
-  use '~/dev/nvim/toggle.nvim'
+  use { '~/dev/nvim/toggle.nvim', config = function()
+    require'toggle'.setup{}
+  end
+  }
+
+  use { '~/dev/nvim/qf.nvim', config = function()
+    require'qf'.setup{}
+  end
+  }
 
   -- Colorschemes
   use 'arcticicestudio/nord-vim'
   use 'morhetz/gruvbox'
   use 'rakr/vim-one'
+  use 'sainnhe/sonokai'
 
+  use 'liuchengxu/vista.vim'
   use  { 'maxbrunsfeld/vim-yankstack', setup = function() vim.g.yankstack_yank_keys = { 'y', 'd', 'c' } end }
   use 'junegunn/vim-easy-align' -- Align text blocks
+  use 'qxxxb/vim-searchhi' -- Highlight current search match
   use 'tpope/vim-commentary' -- Toggle comments
   use 'tpope/vim-unimpaired' -- Handy bracket mappings
-  use 'tpope/vim-repeat'
-  use 'dkarter/bullets.vim'
+  use 'tpope/vim-repeat' -- Repeat plugin commands with .
+  use 'dkarter/bullets.vim' -- Markdown bullet management
   use 'tpope/vim-surround' -- ( surround text )
   use 'tpope/vim-fugitive' -- Git management
 
@@ -37,7 +47,7 @@ return require('packer').startup(function()
       [ '(' ]=')',
       ['[']=']',
       ['{']='}',
-      ['<']='>',
+      -- ['<']='>',
       ["'"]="'",
       ['"']='"',
       ["`"]="`",
@@ -48,10 +58,27 @@ return require('packer').startup(function()
   end
   }
 
+  use { 'iamcco/markdown-preview.nvim', run = function() vim.fn['mkdp#util#install']() end, ft = {'markdown'} }
+
   use {
-    'iamcco/markdown-preview.nvim',
-    run = function() vim.fn['mkdp#util#install']() end,
-    ft = {'markdown'}
+    'norcalli/nvim-colorizer.lua',
+    setup = function()
+      require'colorizer'.setup(
+        { '*' },
+        {
+          RGB      = true,         -- #RGB hex codes
+          RRGGBB   = true,         -- #RRGGBB hex codes
+          names    = true,         -- "Name" codes like Blue
+          RRGGBBAA = true,        -- #RRGGBBAA hex codes
+          rgb_fn   = true,        -- CSS rgb() and rgba() functions
+          hsl_fn   = true,        -- CSS hsl() and hsla() functions
+          css      = false,        -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
+          css_fn   = false,        -- Enable all CSS *functions*: rgb_fn, hsl_fn
+          -- Available mod,s: foreground, background
+          mode     = 'foreground', -- Set the display mode.
+        }
+      )
+    end
   }
 
   -- File tree
@@ -71,7 +98,7 @@ return require('packer').startup(function()
       vim.g.nvim_tree_git_hl = 1
       vim.g.nvim_tree_gitignore = 0
       vim.g.nvim_tree_show_icons = { git = 0, folders = 1, files = 1 }
-      vim.g.nvim_tree_group_empty = 0
+      vim.g.nvim_tree_group_empty = 1
       vim.g.nvim_tree_disable_window_picker = 1
       vim.g.nvim_tree_lsp_diagnostics = 1
       vim.g.nvim_tree_special_files = {}

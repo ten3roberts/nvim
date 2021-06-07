@@ -23,12 +23,23 @@ function M.save_and_exec()
     return
   end
 
-  local module = vim.fn.expand('%:t:r')
+  local module = vim.fn.expand('%:p:r')
+  local i,j = module:find('lua')
+
+  if i and j then
+    module = module:sub(j + 2)
+  end
+
 
   print ('Reloading ' .. module)
   vim.cmd('silent! write')
   require 'plenary.reload'.reload_module (module)
-  require(module).setup()
+
+  local mod = require(module)
+
+  if type(mod) == 'table' and mod.setup then
+    mod.setup {}
+  end
 end
 
 return M
