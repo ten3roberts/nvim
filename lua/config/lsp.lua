@@ -1,3 +1,7 @@
+local function buf_map(buf, mod, lhs, rhs, opt)
+  vim.api.nvim_buf_set_keymap(buf, mod, lhs, rhs, opt or {})
+end
+
 local nvim_lsp = require 'lspconfig'
 local lsp_install = require 'lspinstall'
 
@@ -16,23 +20,24 @@ function M.on_attach()
 
   -- Setup mappings
   local opts = {}
-  map('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  map('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  map('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  map('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  map('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-  map('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-  map('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-  map('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  map('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  map('n', '<space>a', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  map('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  map('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-  map('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  map('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-  map("n", "<space>cf", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+
+  local bufnr = vim.fn.bufnr('.')
+  buf_map(bufnr, 'n', 'gd',        '<cmd>lua vim.lsp.buf.declaration()<cr>',                                opts)
+  buf_map(bufnr, 'n', 'gd',        '<cmd>lua vim.lsp.buf.definition()<cr>',                                 opts)
+  buf_map(bufnr, 'n', 'K',         '<cmd>lua vim.lsp.buf.hover()<CR>',                                      opts)
+  buf_map(bufnr, 'n', 'gi',        '<cmd>lua vim.lsp.buf.implementation()<CR>',                             opts)
+  buf_map(bufnr, 'n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>',                       opts)
+  buf_map(bufnr, 'n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>',                    opts)
+  buf_map(bufnr, 'n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+  buf_map(bufnr, 'n', '<space>D',  '<cmd>lua vim.lsp.buf.type_definition()<CR>',                            opts)
+  buf_map(bufnr, 'n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>',                                     opts)
+  buf_map(bufnr, 'n', '<space>a',  '<cmd>lua vim.lsp.buf.code_action()<CR>',                                opts)
+  buf_map(bufnr, 'n', 'gr',        '<cmd>lua vim.lsp.buf.references()<CR>',                                 opts)
+  buf_map(bufnr, 'n', '<space>e',  '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>',               opts)
+  buf_map(bufnr, 'n', '[d',        '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>',                           opts)
+  buf_map(bufnr, 'n', ']d',        '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>',                           opts)
+  buf_map(bufnr, 'n', '<space>q',  '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>',                         opts)
+  buf_map(bufnr, "n", "<space>cf", "<cmd>lua vim.lsp.buf.formatting()<CR>",                                 opts)
 
 end
 

@@ -1,4 +1,4 @@
-function _G.map(mod, lhs, rhs, opt)
+local function map(mod, lhs, rhs, opt)
   vim.api.nvim_set_keymap(mod, lhs, rhs, opt or {})
 end
 
@@ -8,13 +8,13 @@ map('n', '<leader>f', ':NvimTreeFindFile<CR>')
 
 -- Telescope
 map('n', '<leader><leader>', '<cmd>lua require"telescope.builtin".find_files()<CR>')
-map('n', '<leader>,', '<cmd>lua require"telescope.builtin".buffers()<CR>')
-map('n', '<leader>rg', '<cmd>lua require"telescope.builtin".live_grep()<CR>')
-map('n', '<leader>p', '<cmd>lua require"telescope".extensions.project.project{}<CR>')
-map('n', '<leader>o', '<cmd>lua require"telescope.builtin".lsp_document_symbols()<CR>')
-map('n', '<leader>O', '<cmd>lua require"telescope.builtin".lsp_workspace_symbols()<CR>')
-map('n', '<leader>a', '<cmd>lua require"telescope.builtin".lsp_code_actions()<CR>')
-map('n', '<leader>gl', '<cmd>lua require"telescope.builtin".git_commits()<CR>')
+map('n', '<leader>,          ', '<cmd>lua require"telescope.builtin".buffers()<CR>')
+map('n', '<leader>rg',       '<cmd>lua require"telescope.builtin".live_grep()<CR>')
+map('n', '<leader>p',        '<cmd>lua require"telescope".extensions.project.project{}<CR>')
+map('n', '<leader>o',        '<cmd>lua require"telescope.builtin".lsp_document_symbols()<CR>')
+map('n', '<leader>O',        '<cmd>lua require"telescope.builtin".lsp_workspace_symbols()<CR>')
+map('n', '<leader>a',        '<cmd>lua require"telescope.builtin".lsp_code_actions()<CR>')
+map('n', '<leader>gl',       '<cmd>lua require"telescope.builtin".git_commits()<CR>')
 
 -- Quickfix and location list
 map('n', '<leader>l', ':lopen<CR>')
@@ -72,8 +72,35 @@ map('n', 'S', '<plug>Sneak_S')
 map('n', '<leader>gg', ':Ge :<CR>')
 map('n', '<leader>ga', ':Git add %<CR>')
 map('n', '<leader>gc', ':Git commit<CR>')
-map('n', '<leader>gp', ':Git push<CR>')
+map('n', '<leader>gpp', ':Git push<CR>')
+map('n', '<leader>gpf', ':Git push --force<CR>')
 map('n', '<leader>gf', ':Git fetch<CR>')
+
+-- Search highlighting
+map('n', 'n', '<plug>(searchhi-n)')
+map('n', 'N', '<plug>(searchhi-N)')
+map('n', '*', '<plug>(searchhi-*)')
+map('n', 'g*', '<plug>(searchhi-g*)')
+map('n', '#', '<plug>(searchhi-#)')
+map('n', 'g#', '<plug>(searchhi-g#)')
+map('n', 'gd', '<plug>(searchhi-gd)')
+map('n', 'gD', '<plug>(searchhi-gD)')
+
+map('v', 'n', '<plug>(searchhi-v-n)')
+map('v', 'N', '<plug>(searchhi-v-N)')
+map('v', '*', '<plug>(searchhi-v-*)')
+map('v', 'g*', '<plug>(searchhi-v-g*)')
+map('v', '#', '<plug>(searchhi-v-#)')
+map('v', 'g#', '<plug>(searchhi-v-g#)')
+map('v', 'gd', '<plug>(searchhi-v-gd)')
+map('v', 'gD', '<plug>(searchhi-v-gD)')
+
+map('n', '<Esc>', '<plug>(searchhi-clear-all)')
+
+-- Easy align
+map('x', 'ga', '<plug>(EasyAlign)')
+map('n', 'ga', '<plug>(EasyAlign)')
+
 
 -- Movements
 map('', '<C-j>', '}')
@@ -85,8 +112,6 @@ map('', '<C-b>', '^')
 map('i', '<C-e>', '<C-o>$')
 map('i', '<C-b>', '<C-o>^')
 
-map('n', '<Esc>', ':noh<CR>')
-
 -- Move lines
 map('n', '<A-k>', ':m .-2<CR>')
 map('n', '<A-j>', ':m .+1<CR>')
@@ -95,7 +120,7 @@ map('v', '<A-k>', ':m \'<-2<CR>gv')
 map('v', '<A-j>', ':m \'>+1<CR>gv')
 
 -- Toggle bool
-map('n', 'gb', '<cmd>lua require"config.toggle_bool".toggle()<CR>')
+map('n', 'gb', '<cmd>lua require"toggle".toggle()<CR>')
 
 -- Folding
 for i = 0, 9 do
@@ -107,3 +132,8 @@ map('n', '<leader>ci', 'mggg=G`g')
 
 -- Dev utils
 map('n', '<leader>xx', '<cmd>lua require"config.dev_utils".save_and_exec()<CR>')
+
+map('n', '<leader><cr>', ':ToggleCheckbox<CR>')
+
+-- Make Y behave like D and C
+map('n', 'Y', 'y$')
