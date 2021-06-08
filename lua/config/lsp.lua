@@ -2,10 +2,11 @@ local function buf_map(buf, mod, lhs, rhs, opt)
   vim.api.nvim_buf_set_keymap(buf, mod, lhs, rhs, opt or {})
 end
 
-local nvim_lsp = require 'lspconfig'
 local lsp_install = require 'lspinstall'
+local nvim_lsp = require 'lspconfig'
+local qf = require'qf'
 
-local M = {}
+local M = { buffers = {} }
 
 function M.on_attach()
   print("LSP started")
@@ -36,13 +37,55 @@ function M.on_attach()
   buf_map(bufnr, 'n', '<space>e',  '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>',               opts)
   buf_map(bufnr, 'n', '[d',        '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>',                           opts)
   buf_map(bufnr, 'n', ']d',        '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>',                           opts)
-  buf_map(bufnr, 'n', '<space>q',  '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>',                         opts)
+  buf_map(bufnr, 'n', '<space>q',  '<cmd>lua require"config.lsp".set_loc()<CR>',                         opts)
   buf_map(bufnr, "n", "<space>cf", "<cmd>lua vim.lsp.buf.formatting()<CR>",                                 opts)
 
 end
 
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, {
+local DiagnosticSeverity = require'vim.lsp.protocol'.DiagnosticSeverity
+
+local diagnostic_severities = {
+  [DiagnosticSeverity.Error]       = { guifg = "Red", kind = 'error', sign = ''};
+  [DiagnosticSeverity.Warning]     = { guifg = "Orange", kind = 'warning', sign = ''};
+  [DiagnosticSeverity.Information] = { guifg = "LightBlue", kind = 'info', sign = ''};
+  [DiagnosticSeverity.Hint]        = { guifg = "LightGrey", kind = 'hint', sign = ''};
+}
+
+
+function M.set_loc()
+  vim.lsp.diagnostic.set_loclist({ open_loclist = false })
+
+  qf.open('l', true)
+end
+
+function M.on_publish_diagnostics(err, method, result, client_id, _, _)
+  print("Publishing diagnostic")
+  local uri = result.uri
+  local bufnr = vim.uri_to_bufnr(uri)
+
+  if not bufnr then
+    return
+  end
+
+  local diagnostic_count = {
+    [DiagnosticSeverity.Error] = 0,
+    [DiagnosticSeverity.Warning] = 0,
+    [DiagnosticSeverity.Information] = 0,
+    [DiagnosticSeverity.Hint] = 0,
+  }
+
+  for _,v in ipairs(result.diagnostics) do
+    local severity = v.severity
+
+    diagnostic_count[severity] = diagnostic_count[severity] + 1
+  end
+
+  print(vim.inspect(diagnostic_count))
+
+  M.buffers[bufnr] = diagnostic_count
+
+
+  vim.lsp.diagnostic.on_publish_diagnostics(err, method, result, client_id, bufnr, {
     -- This will disable virtual text, like doing:
     -- let g:diagnostic_enable_virtual_text = 0
     virtual_text = false,
@@ -56,8 +99,35 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     -- This is similar to:
     -- "let g:diagnostic_insert_delay = 1"
     update_in_insert = false,
-  }
-)
+  })
+
+  -- Only update location list in insert mode
+  if vim.api.nvim_get_mode().mode ~= 'i' then
+    M.set_loc()
+  end
+
+end
+
+vim.lsp.handlers["textDocument/publishDiagnostics"] = M.on_publish_diagnostics
+
+-- Returns a formatted statusline
+function M.statusline(sep, bufnr)
+  bufnr = bufnr or vim.fn.bufnr('%')
+
+  local diagnostics = M.buffers[bufnr]
+
+  local t = {}
+
+  for k,v in pairs(diagnostics) do
+    if v > 0 then
+      t[#t+1] = diagnostic_severities[k].sign .. ' ' .. v
+    end
+  end
+
+  local s = table.concat(t, sep or ' | ')
+  M.statusline_str = s
+  return s
+end
 
 M.configs = {
   lua = function() return require 'config.lua-lsp' end

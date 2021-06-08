@@ -17,9 +17,19 @@ map('n', '<leader>a',        '<cmd>lua require"telescope.builtin".lsp_code_actio
 map('n', '<leader>gl',       '<cmd>lua require"telescope.builtin".git_commits()<CR>')
 
 -- Quickfix and location list
-map('n', '<leader>l', ':lopen<CR>')
-map('n', '<leader>co', ':copen<CR>')
-map('n', '<leader>cc', ':cclose | :lclose<CR>')
+map('n', '<leader>l', '<cmd>lua require"qf".open("l")<CR>') -- Open location list
+-- map('n', '<leader>lc', '<cmd>lua require"qf".close("l")<CR>') -- Close location list
+-- map('n', '<leader>lt', '<cmd>lua require"qf".toggle("l", true)<CR>') -- Toggle location list and stay in current window
+
+map('n', '<leader>co', '<cmd>lua require"qf".open("c")<CR>') -- Open quickfix list
+map('n', '<leader>cc', '<cmd>lua require"qf".close("c")<CR>') -- Close quickfix list
+map('n', '<leader>cl', '<cmd>lua require"qf".toggle("c", true)<CR>') --Toggle quickfix list and stay in current window
+
+map('n', '<leader>j', '<cmd>lua require"qf".below("l")<CR>') -- Go to next location list entry from cursor
+map('n', '<leader>k', '<cmd>lua require"qf".above("l")<CR>') -- Go to previous location list entry from cursor
+
+map('n', '<leader>J', '<cmd>lua require"qf".below("c")<CR>') -- Go to next quickfix entry from cursor
+map('n', '<leader>K', '<cmd>lua require"qf".above("c")<CR>') -- Go to previous quickfix entry from cursor
 
 -- Barbar
 map('n', '<A-,>', ':BufferPrevious<CR>')

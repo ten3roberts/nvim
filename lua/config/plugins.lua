@@ -16,7 +16,28 @@ return require('packer').startup(function()
   }
 
   use { '~/dev/nvim/qf.nvim', config = function()
-    require'qf'.setup{}
+    require'qf'.setup{
+      -- Location list configuration
+      ['l'] = { 
+        auto_close = true, -- Automatically close location/quickfix list if empty
+        auto_follow = 'prev', -- Follow current entry, possible values: prev,next,nearest
+        follow_slow = true, -- Only follow on CursorHold
+        auto_open = true, -- Automatically open location list on QuickFixCmdPost
+        auto_resize = true, -- Auto resize and shrink location list if less than `max_height`
+        max_height = 5, -- Maximum height of location/quickfix list
+        min_height = 5, -- Minumum height of location/quickfix list
+      },
+      -- Quickfix list configuration
+      ['c'] = { 
+        auto_close = true, -- Automatically close location/quickfix list if empty
+        auto_follow = 'prev', -- Follow current entry, possible values: prev,next,nearest
+        follow_slow = true, -- Only follow on CursorHold
+        auto_open = true, -- Automatically open location list on QuickFixCmdPost
+        auto_resize = true, -- Auto resize and shrink location list if less than `max_height`
+        max_height = 8, -- Maximum height of location/quickfix list
+        min_height = 5, -- Minumum height of location/quickfix list
+      }
+    }
   end
   }
 
@@ -26,7 +47,6 @@ return require('packer').startup(function()
   use 'rakr/vim-one'
   use 'sainnhe/sonokai'
 
-  use 'liuchengxu/vista.vim'
   use  { 'maxbrunsfeld/vim-yankstack', setup = function() vim.g.yankstack_yank_keys = { 'y', 'd', 'c' } end }
   use 'junegunn/vim-easy-align' -- Align text blocks
   use 'qxxxb/vim-searchhi' -- Highlight current search match
@@ -37,7 +57,7 @@ return require('packer').startup(function()
   use 'tpope/vim-surround' -- ( surround text )
   use 'tpope/vim-fugitive' -- Git management
 
-  use { 'justinmk/vim-sneak', config = function() vim.g[ 'sneak#label' ] = 1 end } -- Quickly jump in file by 2 chars
+  use { 'justinmk/vim-sneak', config = function() vim.g[ 'sneak#label' ] = 1 vim.g[ 'sneak#s_next' ] = 1 end } -- Quickly jump in file by 2 chars
 
   -- Autoclose brackets
   use {'jiangmiao/auto-pairs', config = function()
@@ -62,7 +82,7 @@ return require('packer').startup(function()
 
   use {
     'norcalli/nvim-colorizer.lua',
-    setup = function()
+    config = function()
       require'colorizer'.setup(
         { '*' },
         {
@@ -109,7 +129,7 @@ return require('packer').startup(function()
   use { 'romgrk/barbar.nvim', requires = 'kyazdani42/nvim-web-devicons', setup = function()
     vim.g.bufferline = {
       animation = true,
-      auto_hide = true,
+      auto_hide = false,
       tabpages = true,
       closable = false,
       clickable = true,
@@ -128,6 +148,26 @@ return require('packer').startup(function()
   end
   }
 
+  use {
+    'simrat39/symbols-outline.nvim',
+    config = function()
+      vim.g.symbols_outline = {
+        highlight_hovered_item = true,
+        show_guides = true,
+        auto_preview = false,
+        position = 'right',
+        keymaps = {
+          close = "<C-c>",
+          goto_location = "<Cr>",
+          focus_location = "o",
+          hover_symbol = "<C-space>",
+          rename_symbol = "r",
+          code_actions = "a",
+        },
+        lsp_blacklist = {},
+      }
+    end
+  }
   -- Show changed lines
   use { 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' }, config = function() require('gitsigns').setup() end }
 

@@ -2,6 +2,9 @@ local function autocmd(au_type, where, dispatch)
   vim.cmd(string.format('au! %s %s %s', au_type, where, dispatch))
 end
 
+vim.cmd 'augroup CONFIG'
+vim.cmd 'autocmd!'
+
 autocmd('BufNewFile, BufRead', '*.frag,*.vert', 'set ft=glsl')
 autocmd('FileType', 'rust', 'compiler cargo')
 autocmd('BufWritePost', '*.rs', 'make build')
@@ -14,3 +17,12 @@ autocmd('TermEnter', '*', 'if (&filetype != "fzf") | tnoremap <buffer> <Esc> <C-
 autocmd('FileType', 'fugitive', 'map <buffer> <Tab> =')
 
 autocmd('BufReadPost', '*', [[ if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif ]])
+
+-- Resize and lock outline size
+autocmd('FileType', 'Outline', 'vertical resize 40 <bar> set winfixwidth')
+
+autocmd('InsertLeave', '*', ':lua require"config.lsp".set_loc()')
+autocmd('TextChanged', '*', ':lua require"config.lsp".set_loc()')
+autocmd('BufWritePost', '*', ':lua require"config.lsp".set_loc()')
+
+vim.cmd 'augroup END'
