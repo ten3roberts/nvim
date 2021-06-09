@@ -61,8 +61,9 @@ local palettes = {
 }
 
 -- Returns a dictionary of current common colors
-function M.get_palette()
-  return palettes[vim.g.colors_name]() or palettes['sonokai']
+function M.generate_palette()
+  M.palette = palettes[vim.g.colors_name]() or palettes['sonokai']
+  return M.palette
 end
 
 
@@ -70,15 +71,14 @@ end
 -- - Color names
 -- Diagnostics
 -- Statusline
-function M.create_highlights()
+function M.setup()
   local highlight = M.highlight
-  local p = M.get_palette()
+  local p = M.generate_palette()
 
   local normal = M.get_hl('Normal')
   local signcolumn = M.get_hl('SignColumn')
 
   local normal_bg = normal.bg
-  local normal_fg = normal.fg
 
   local signcolumn_bg = signcolumn.bg
 

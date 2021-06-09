@@ -139,7 +139,7 @@ function M.on_publish_diagnostics(err, method, result, client_id, _, _)
 
 
   M.buffers[bufnr] = diagnostic_count
-  
+
   -- Reset statusline cache for current buffer
   M.statusline_cache[bufnr] = nil
 

@@ -58,7 +58,7 @@ local function get_git(highlight)
   end
 
   branch = signs.head
-  branch = branch and (' ' .. branch)
+  branch = branch and (' ' .. branch)
 
   local added,changed,removed = signs.added or 0, signs.changed or 0, signs.removed or 0
 
@@ -133,7 +133,7 @@ function M.update()
   local i = 1
   for j,v in ipairs(items) do
     if #v ~= 0 then
-      t[i] = string.format('%s %s ', hl[j], v)
+      t[i] = string.format('%s %s ', hl[j] or '', v)
       i = i + 1
     end
   end
@@ -163,7 +163,7 @@ function M.update_inactive()
   }
 
   local i = 1
-  for j,v in ipairs(items) do
+  for _,v in ipairs(items) do
     if #v ~= 0 then
       u[i] = string.format(' %s ', v)
       i = i + 1
@@ -175,16 +175,18 @@ function M.update_inactive()
   return s
 end
 
-vim.o.statusline = '%!v:lua.require\'config.statusline\'.update()'
+function M.setup()
+  vim.o.statusline = '%!v:lua.require\'config.statusline\'.update()'
 
-require'config.palette'.create_highlights()
-cmd [[
-augroup Statusline
-autocmd!
-autocmd DirChanged * lua require 'config.statusline'.update_git()
-autocmd BufWinEnter,WinEnter,BufEnter * lua vim.wo.statusline=nil
-autocmd WinLeave,BufLeave * lua vim.wo.statusline=require'config.statusline'.update_inactive()
-augroup END
-]]
+  cmd [[
+  augroup Statusline
+  autocmd!
+  autocmd DirChanged * lua require 'config.statusline'.update_git()
+  autocmd BufWinEnter,WinEnter,BufEnter * lua vim.wo.statusline=nil
+  autocmd WinLeave,BufLeave * lua vim.wo.statusline=require'config.statusline'.update_inactive()
+  autocmd ColorScheme * lua require 'config.palette'.setup()
+  augroup END
+  ]]
+end
 
 return M

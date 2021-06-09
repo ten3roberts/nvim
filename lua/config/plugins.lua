@@ -18,7 +18,7 @@ return require('packer').startup(function()
   use { '~/dev/nvim/qf.nvim', config = function()
     require'qf'.setup{
       -- Location list configuration
-      ['l'] = { 
+      ['l'] = {
         auto_close = true, -- Automatically close location/quickfix list if empty
         auto_follow = 'prev', -- Follow current entry, possible values: prev,next,nearest
         follow_slow = true, -- Only follow on CursorHold
@@ -28,7 +28,7 @@ return require('packer').startup(function()
         min_height = 5, -- Minumum height of location/quickfix list
       },
       -- Quickfix list configuration
-      ['c'] = { 
+      ['c'] = {
         auto_close = true, -- Automatically close location/quickfix list if empty
         auto_follow = 'prev', -- Follow current entry, possible values: prev,next,nearest
         follow_slow = true, -- Only follow on CursorHold

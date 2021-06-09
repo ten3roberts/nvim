@@ -7,4 +7,4 @@ require 'config.autocommands'
 
 require 'config.commands'
 
-require 'config.statusline'
+require 'config.statusline'.setup()

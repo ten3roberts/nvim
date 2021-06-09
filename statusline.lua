@@ -85,7 +85,7 @@ local function get_mode(_, highlight)
     return (vim.fn.getbufvar(bufnr, '&readonly') == 1 or vim.fn.getbufvar(bufnr, '&modifiable') == 0) and '' or ''
   end
 
-  local function get_path(_ highlight)
+  local function get_path(highlight)
     local path, filename, extension = fn.expand('%:~:.'), fn.expand('%:t'), fn.expand('%:e')
     if #filename == 0 then
       return '[NO NAME]'
