@@ -1,6 +1,5 @@
 local o = vim.o
 
-
 o.autoread = true
 o.clipboard = 'unnamedplus' -- Use system clipboard
 o.confirm = true -- Disable 'no write'
@@ -17,6 +16,7 @@ o.hlsearch = true -- Highlight search results (enforce)
 o.ignorecase = true
 o.inccommand = 'split' -- Show effects of command as you type in a split
 o.incsearch = true -- Move cursor during search
+o.laststatus = 2
 o.linebreak = true
 o.mouse = 'nvc'
 o.number = true
@@ -36,9 +36,10 @@ o.splitright = true -- Splits open on the right
 o.tabstop = 2
 o.termguicolors = true
 o.title = true
-o.updatetime = 700
+o.updatetime = 500
 o.wildmenu = true -- Command line completion mode
 o.wildmode = 'full' -- Command line completion mode
+
 vim.g.mkdp_refresh_slow = true
 
 vim.g.gruvbox_contrast_dark = 'medium'
@@ -53,5 +54,6 @@ vim.g.nord_italic_comments = 1
 vim.g.nord_underline = 1
 
 vim.g.sonokai_enable_italic = 1
+vim.g.sonokai_style = 'default'
 
 vim.cmd "colorscheme sonokai"

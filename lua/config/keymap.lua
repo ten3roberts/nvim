@@ -133,8 +133,8 @@ map('v', '<A-j>', ':m \'>+1<CR>gv')
 map('n', 'gb', '<cmd>lua require"toggle".toggle()<CR>')
 
 -- Folding
-for i = 0, 9 do
-  map('n', 'z'..i, ':set foldlevel='..i..'<CR>')
+for i = 1, 9 do
+  map('n', 'z' .. i, ':set foldlevel='.. i-1 ..'<CR>')
 end
 
 -- Indent whole buffer

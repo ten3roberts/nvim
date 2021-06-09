@@ -1,6 +1,8 @@
 local M = {}
 
 local function get_module_name(path)
+  path = path:gsub('/', '.')
+
   local i,j = path:find('lua')
 
   if i and j then
@@ -37,12 +39,10 @@ function M.save_and_exec()
   local path = vim.fn.expand('%:p:r')
   local module = get_module_name(path)
 
-
   print ('Reloading ' .. module)
 
   vim.cmd('silent! write')
   require 'plenary.reload'.reload_module (module)
-  require 'plenary.reload'.reload_module (module:gsub('/', '.'))
 
   local mod = require(module)
 

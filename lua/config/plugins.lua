@@ -22,7 +22,7 @@ return require('packer').startup(function()
         auto_close = true, -- Automatically close location/quickfix list if empty
         auto_follow = 'prev', -- Follow current entry, possible values: prev,next,nearest
         follow_slow = true, -- Only follow on CursorHold
-        auto_open = true, -- Automatically open location list on QuickFixCmdPost
+        auto_open = false, -- Automatically open location list on QuickFixCmdPost
         auto_resize = true, -- Auto resize and shrink location list if less than `max_height`
         max_height = 5, -- Maximum height of location/quickfix list
         min_height = 5, -- Minumum height of location/quickfix list
@@ -57,8 +57,12 @@ return require('packer').startup(function()
   use 'tpope/vim-surround' -- ( surround text )
   use 'tpope/vim-fugitive' -- Git management
 
-  use { 'justinmk/vim-sneak', config = function() vim.g[ 'sneak#label' ] = 1 vim.g[ 'sneak#s_next' ] = 1 end } -- Quickly jump in file by 2 chars
-
+  use { 'justinmk/vim-sneak', config = function()
+    vim.g[ 'sneak#label' ] = 1
+    vim.g[ 'sneak#s_next' ] = 1
+    vim.g[ 'sneak#absolute_dir' ] = 1
+    vim.g[ 'sneak#use_ic_scs' ] = 1
+  end } -- Quickly jump in file by 2 chars
   -- Autoclose brackets
   use {'jiangmiao/auto-pairs', config = function()
     vim.g.AutoPairsCenterLine = 0
@@ -175,16 +179,11 @@ return require('packer').startup(function()
   use {
     'nvim-treesitter/nvim-treesitter',
     -- run = function() vim.fn('TSUpdate') end,
-    config = function() require'nvim-treesitter.configs'.setup {
-      ensure_installed = "maintained",
-      highlight = {
-        enable = true,
-      },
-      indent = {
-        enable = true,
-      }
-    } end
+    config = function() require'config.treesitter' end 
   }
+
+  -- Swap arguments and select functions
+  use 'nvim-treesitter/nvim-treesitter-textobjects'
 
   -- Show function signature help
   use 'ray-x/lsp_signature.nvim'
