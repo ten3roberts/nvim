@@ -9,8 +9,8 @@ local icons = require'nvim-web-devicons'
 local M = {}
 
 local special_map = {
-  NvimTree = 'Files',
-  Outline = 'Outline'
+  NvimTree = { '%#Yellow#  Files', '  Files'},
+  Outline = { '%#Purple#  Outline', '  Outline'  }
 }
 
 local branch = ''
@@ -18,9 +18,11 @@ local branch = ''
 local mode_map = {
   ['n']   = { hl = '%#BlueSpecial#',   val = 'N'  },
   ['no']  = { hl = '%#BlueSpecial#',   val = 'NO' },
+  ['niI'] = { hl = '%#BlueSpecial#',   val = 'NI' },
 
   ['v']   = { hl = '%#PurpleSpecial#', val = 'V'  },
   ['V']   = { hl = '%#PurpleSpecial#', val = 'VL' },
+  ['niV'] = { hl = '%#PurpleSpecial#', val = 'VL' },
   ['\22'] = { hl = '%#PurpleSpecial#', val = 'VB' },
 
   ['i']   = { hl = '%#GreenSpecial#',  val = 'I'  },
@@ -29,6 +31,7 @@ local mode_map = {
 
   ['R']   = { hl = '%#RedSpecial#',    val = 'R'  },
   ['Rv']  = { hl = '%#RedSpecial#',    val = 'VR' },
+  ['niR']  = { hl = '%#RedSpecial#',    val = 'VR' },
 
   ['t']   = { hl = '%#OrangeSpecial#', val = 'T'  },
 
@@ -46,7 +49,7 @@ local mode_map = {
 
 local function get_mode()
   local mode = api.nvim_get_mode().mode
-  return mode_map[mode] or { val = '', hl = '%#Normal#' }
+  return mode_map[mode] or mode_map[mode:sub(1,1)] or { val = mode, hl = '%#Red#' }
 end
 
 local function get_git(highlight)
@@ -92,10 +95,10 @@ local function get_path(highlight)
     return '[NO NAME]'
   end
 
-  local icon, icon_hl = icons.get_icon(filename, extension, { default = true })
+  local icon, icon_hl = icons.get_icon(filename, extension)
 
   if highlight then
-    return string.format('%%#%s#%s %%#Normal#%s', icon_hl, icon ,path)
+    return string.format('%%#%s#%s %%#Normal#%s', icon_hl or '', icon or '', path)
   else
     return string.format('%s %s', icon ,path)
   end
@@ -109,7 +112,7 @@ function M.update()
 
   local special = special_map[ft]
   if special then
-    return special
+    return special[1]
   end
 
   local mode = get_mode()
@@ -150,7 +153,7 @@ function M.update_inactive()
 
   local special = special_map[ft]
   if special then
-    return special
+    return special[2]
   end
 
   local mode = get_mode()
@@ -181,7 +184,6 @@ function M.setup()
   cmd [[
   augroup Statusline
   autocmd!
-  autocmd DirChanged * lua require 'config.statusline'.update_git()
   autocmd BufWinEnter,WinEnter,BufEnter * lua vim.wo.statusline=nil
   autocmd WinLeave,BufLeave * lua vim.wo.statusline=require'config.statusline'.update_inactive()
   autocmd ColorScheme * lua require 'config.palette'.setup()

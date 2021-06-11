@@ -76,11 +76,10 @@ function M.setup()
   local p = M.generate_palette()
 
   local normal = M.get_hl('Normal')
-  local signcolumn = M.get_hl('SignColumn')
+  local signcolumn_bg = M.get_hl('SignColumn').bg
 
   local normal_bg = normal.bg
 
-  local signcolumn_bg = signcolumn.bg
 
   highlight('Black',  p.black,  normal_bg)
   highlight('Blue',   p.blue,   normal_bg)

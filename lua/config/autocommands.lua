@@ -21,9 +21,7 @@ autocmd('BufReadPost', '*', [[ if line("'\"") > 1 && line("'\"") <= line("$") | 
 -- Resize and lock outline size
 autocmd('FileType', 'Outline', 'vertical resize 40 | set winfixwidth')
 
-autocmd('InsertLeave',  '*', ':lua require"config.lsp".set_loc()')
-autocmd('TextChanged',  '*', ':lua require"config.lsp".set_loc()')
-autocmd('BufWritePost', '*', ':lua require"config.lsp".set_loc()')
-autocmd('VimResized',   '*', 'wincmd =')
+autocmd('VimResized', '*', 'wincmd =')
+autocmd('BufUnload,BufDelete',  '*', 'lua require"config.lsp".clear_buffer_cache(vim.fn.expand("<abuf>"))')
 
 vim.cmd 'augroup END'

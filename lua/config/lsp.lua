@@ -59,22 +59,22 @@ function M.on_attach()
   local opts = {}
 
   local bufnr = vim.fn.bufnr('.')
-  buf_map(bufnr, 'n', 'gd',        '<cmd>lua vim.lsp.buf.declaration()<cr>',                                opts)
-  buf_map(bufnr, 'n', 'gd',        '<cmd>lua vim.lsp.buf.definition()<cr>',                                 opts)
-  buf_map(bufnr, 'n', 'K',         '<cmd>lua vim.lsp.buf.hover()<CR>',                                      opts)
-  buf_map(bufnr, 'n', 'gi',        '<cmd>lua vim.lsp.buf.implementation()<CR>',                             opts)
-  buf_map(bufnr, 'n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>',                       opts)
-  buf_map(bufnr, 'n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>',                    opts)
-  buf_map(bufnr, 'n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-  buf_map(bufnr, 'n', '<space>D',  '<cmd>lua vim.lsp.buf.type_definition()<CR>',                            opts)
-  buf_map(bufnr, 'n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>',                                     opts)
-  buf_map(bufnr, 'n', '<space>a',  '<cmd>lua vim.lsp.buf.code_action()<CR>',                                opts)
-  buf_map(bufnr, 'n', 'gr',        '<cmd>lua vim.lsp.buf.references()<CR>',                                 opts)
-  buf_map(bufnr, 'n', '<space>e',  '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>',               opts)
-  buf_map(bufnr, 'n', '[d',        '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>',                           opts)
-  buf_map(bufnr, 'n', ']d',        '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>',                           opts)
-  buf_map(bufnr, 'n', '<space>q',  '<cmd>lua require"config.lsp".set_loc()<CR>',                         opts)
-  buf_map(bufnr, "n", "<space>cf", "<cmd>lua vim.lsp.buf.formatting()<CR>",                                 opts)
+  buf_map(bufnr, 'n', 'gd',        '<cmd>lua vim.lsp.buf.declaration()<CR>')
+  buf_map(bufnr, 'n', 'gd',        '<cmd>lua vim.lsp.buf.definition()<CR>')
+  buf_map(bufnr, 'n', 'K',         '<cmd>lua vim.lsp.buf.hover()<CR>')
+  buf_map(bufnr, 'n', 'gi',        '<cmd>lua vim.lsp.buf.implementation()<CR>')
+  buf_map(bufnr, 'n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>')
+  buf_map(bufnr, 'n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>')
+  buf_map(bufnr, 'n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>')
+  buf_map(bufnr, 'n', '<space>D',  '<cmd>lua vim.lsp.buf.type_definition()<CR>')
+  buf_map(bufnr, 'n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>')
+  buf_map(bufnr, 'n', '<space>a',  '<cmd>lua vim.lsp.buf.code_action()<CR>')
+  buf_map(bufnr, 'n', 'gr',        '<cmd>lua vim.lsp.buf.references()<CR>')
+  buf_map(bufnr, 'n', '<space>e',  '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>')
+  buf_map(bufnr, 'n', '[d',        '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
+  buf_map(bufnr, 'n', ']d',        '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
+  buf_map(bufnr, 'n', '<space>q',  '<cmd>lua require"config.lsp".set_loc()<CR>')
+  buf_map(bufnr, "n", "<space>cf", "<cmd>lua vim.lsp.buf.formatting()<CR>")
 
 end
 
@@ -124,6 +124,10 @@ function M.on_publish_diagnostics(err, method, result, client_id, _, _)
     return
   end
 
+  -- Reset cache for current buffer
+  M.clear_buffer_cache(bufnr)
+
+  -- Tally up diagnostics
   local diagnostic_count = {
     [DiagnosticSeverity.Error] = 0,
     [DiagnosticSeverity.Warning] = 0,
@@ -137,11 +141,7 @@ function M.on_publish_diagnostics(err, method, result, client_id, _, _)
     diagnostic_count[severity] = diagnostic_count[severity] + 1
   end
 
-
   M.buffers[bufnr] = diagnostic_count
-
-  -- Reset statusline cache for current buffer
-  M.statusline_cache[bufnr] = nil
 
   diagnostic.on_publish_diagnostics(err, method, result, client_id, bufnr, {
     -- This will disable virtual text, like doing:
@@ -159,19 +159,21 @@ function M.on_publish_diagnostics(err, method, result, client_id, _, _)
     update_in_insert = false,
   })
 
-  -- Only update location list in insert mode
-  if api.nvim_get_mode().mode ~= 'i' then
-    M.set_loc()
-  end
+  M.set_loc()
 end
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = M.on_publish_diagnostics
 
+function M.clear_buffer_cache(bufnr)
+  M.buffers[bufnr] = nil
+  M.statusline_cache[bufnr] = nil
+end
 -- Returns a formatted statusline
 function M.statusline(bufnr, highlight)
   bufnr = bufnr or vim.fn.bufnr('%')
 
   local cache = M.statusline_cache[bufnr]
+
   if cache then
     return cache
   end

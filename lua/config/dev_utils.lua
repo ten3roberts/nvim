@@ -12,14 +12,14 @@ local function get_module_name(path)
   end
 end
 
-function _G.dump(...)
+function M.dump(...)
   local objects = vim.tbl_map(vim.inspect, {...})
   print(unpack(objects))
 end
 
-function _G.dump_mod(module)
+function M.dump_mod(module)
   module = get_module_name(module or vim.fn.expand('%:p:r'))
-  dump(require(module))
+  M.dump(require(module))
 end
 
 -- The function is called `t` for `termcodes`.
@@ -29,6 +29,14 @@ function M.replace_termcodes(str)
   return vim.api.nvim_replace_termcodes(str, true, true, true)
 end
 
+function M.reload(module)
+  module = module or get_module_name(vim.fn.expand('%:p:r'))
+  
+  print ('Reloading ' .. module)
+  require 'plenary.reload'.reload_module (module)
+  local mod = require(module)
+end
+
 
 function M.save_and_exec()
   if vim.o.ft ~= 'lua' then
@@ -36,13 +44,13 @@ function M.save_and_exec()
     return
   end
 
+  vim.cmd('silent! write')
+
   local path = vim.fn.expand('%:p:r')
   local module = get_module_name(path)
 
-  print ('Reloading ' .. module)
+  M.reload(module)
 
-  vim.cmd('silent! write')
-  require 'plenary.reload'.reload_module (module)
 
   local mod = require(module)
 

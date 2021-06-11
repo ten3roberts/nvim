@@ -5,6 +5,8 @@ end
 vim.g.mapleader = ' '
 
 map('n', '<leader>f', ':NvimTreeFindFile<CR>')
+map('n', '<leader>pe', ':NvimTreeToggle<CR>')
+map('n', '<leader>po', ':SymbolsOutline<CR>')
 
 -- Telescope
 map('n', '<leader><leader>', '<cmd>lua require"telescope.builtin".find_files()<CR>')

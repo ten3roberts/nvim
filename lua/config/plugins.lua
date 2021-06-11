@@ -6,7 +6,7 @@ end
 
 vim.cmd [[packadd packer.nvim]]
 
-return require('packer').startup(function()
+return require('packer').startup(function(use)
   use 'wbthomason/packer.nvim' -- Manage plugins
 
   -- My plugins
@@ -63,26 +63,15 @@ return require('packer').startup(function()
     vim.g[ 'sneak#absolute_dir' ] = 1
     vim.g[ 'sneak#use_ic_scs' ] = 1
   end } -- Quickly jump in file by 2 chars
-  -- Autoclose brackets
-  use {'jiangmiao/auto-pairs', config = function()
-    vim.g.AutoPairsCenterLine = 0
-    vim.g.AutoPairsShortcutToggle = ''
-    vim.g.AutoPairs = {
-      [ '(' ]=')',
-      ['[']=']',
-      ['{']='}',
-      -- ['<']='>',
-      ["'"]="'",
-      ['"']='"',
-      ["`"]="`",
-      ['```']='```',
-      ['"""']='"""',
-      ["'''"]="'''"
-    }
-  end
-  }
 
   use { 'iamcco/markdown-preview.nvim', run = function() vim.fn['mkdp#util#install']() end, ft = {'markdown'} }
+
+  use {
+    'LunarWatcher/auto-pairs',
+    setup = function()
+      vim.g.AutoPairsMapBS = 1
+    end
+  }
 
   use {
     'norcalli/nvim-colorizer.lua',
