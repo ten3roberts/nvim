@@ -31,28 +31,25 @@ end
 
 function M.reload(module)
   module = module or get_module_name(vim.fn.expand('%:p:r'))
-  
+
   print ('Reloading ' .. module)
   require 'plenary.reload'.reload_module (module)
-  local mod = require(module)
+  return require(module)
 end
 
 
 function M.save_and_exec()
+  vim.cmd('silent! write')
+
   if vim.o.ft ~= 'lua' then
-    error("Not a lua module!")
     return
   end
 
-  vim.cmd('silent! write')
 
   local path = vim.fn.expand('%:p:r')
   local module = get_module_name(path)
 
-  M.reload(module)
-
-
-  local mod = require(module)
+  local mod = M.reload(module)
 
   if type(mod) == 'table' and mod.setup then
     mod.setup {}

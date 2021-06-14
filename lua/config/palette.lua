@@ -2,12 +2,14 @@ local M = {}
 local cmd = vim.cmd
 local fn = vim.fn
 
-function M.highlight(name, fg, bg, gui)
-  if gui then
-    cmd(string.format('hi! %s guifg=%s guibg=%s gui=%s', name, fg, bg, gui))
-  else
-    cmd(string.format('hi! %s guifg=%s guibg=%s ', name, fg, bg))
-  end
+function M.highlight(name, fg, bg, gui, guisp)
+
+  cmd('hi! ' .. name .. ' ' ..
+    (fg    and 'guifg=' .. fg    or '') .. ' ' ..
+    (bg    and 'guibg=' .. bg    or '') .. ' ' ..
+    (gui   and 'gui='   .. gui   or '') .. ' ' ..
+    (guisp and 'guisp=' .. guisp or '')
+  )
 end
 
 function M.get_hl(name)
@@ -81,24 +83,34 @@ function M.setup()
   local normal_bg = normal.bg
 
 
-  highlight('Black',  p.black,  normal_bg)
-  highlight('Blue',   p.blue,   normal_bg)
-  highlight('Green',  p.green,  normal_bg)
-  highlight('Grey',   p.grey,   normal_bg)
-  highlight('Orange', p.orange, normal_bg)
-  highlight('Purple', p.purple, normal_bg)
-  highlight('Red',    p.red,    normal_bg)
-  highlight('Yellow', p.yellow, normal_bg)
+  highlight('Black',  p.black)
+  highlight('Blue',   p.blue)
+  highlight('Green',  p.green)
+  highlight('Grey',   p.grey)
+  highlight('Orange', p.orange)
+  highlight('Purple', p.purple)
+  highlight('Red',    p.red)
+  highlight('Yellow', p.yellow)
+
+
+  highlight('GreenBold',  p.green,  nil, 'bold')
+  highlight('OrangeBold', p.orange, nil, 'bold')
+  highlight('PurpleBold', p.purple, nil, 'bold')
+  highlight('RedBold',    p.red,    nil, 'bold')
+  highlight('YellowBold', p.yellow, nil, 'bold')
 
   highlight('LspDiagnosticsSignError',   p.red, signcolumn_bg)
   highlight('LspDiagnosticsSignWarning', p.orange, signcolumn_bg)
   highlight('LspDiagnosticsSignInfo',    p.purple, signcolumn_bg)
   highlight('LspDiagnosticsSignHint',    p.green, signcolumn_bg)
 
+  highlight('LspDiagnosticsUnderlineWarning', nil, nil, 'undercurl', p.orange)
+
   cmd 'hi! link STError   Red'
   cmd 'hi! link STWarning Orange'
   cmd 'hi! link STInfo    Blue'
   cmd 'hi! link STHint    Green'
+  cmd 'hi! link GitSignsCurrentLineBlame Comment'
 
   highlight('BlackSpecial',  normal_bg, p.black,  'bold')
   highlight('BlueSpecial',   normal_bg, p.blue,   'bold')

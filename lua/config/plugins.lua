@@ -48,14 +48,16 @@ return require('packer').startup(function(use)
   use 'sainnhe/sonokai'
 
   use  { 'maxbrunsfeld/vim-yankstack', setup = function() vim.g.yankstack_yank_keys = { 'y', 'd', 'c' } end }
+  use 'dkarter/bullets.vim' -- Markdown bullet management
   use 'junegunn/vim-easy-align' -- Align text blocks
   use 'qxxxb/vim-searchhi' -- Highlight current search match
   use 'tpope/vim-commentary' -- Toggle comments
-  use 'tpope/vim-unimpaired' -- Handy bracket mappings
-  use 'tpope/vim-repeat' -- Repeat plugin commands with .
-  use 'dkarter/bullets.vim' -- Markdown bullet management
-  use 'tpope/vim-surround' -- ( surround text )
   use 'tpope/vim-fugitive' -- Git management
+  use 'tpope/vim-repeat' -- Repeat plugin commands with .
+  use 'tpope/vim-surround' -- ( surround text )
+  use 'tpope/vim-unimpaired' -- Handy bracket mappings
+  use 'wellle/targets.vim' -- Better handling and seeking for textobjects
+  use 'AndrewRadev/splitjoin.vim' -- Join and breakup statements
 
   use { 'justinmk/vim-sneak', config = function()
     vim.g[ 'sneak#label' ] = 1
@@ -70,6 +72,7 @@ return require('packer').startup(function(use)
     'LunarWatcher/auto-pairs',
     setup = function()
       vim.g.AutoPairsMapBS = 1
+      vim.g.AutoPairsShortcutToggle = ''
     end
   }
 
@@ -110,7 +113,12 @@ return require('packer').startup(function(use)
       vim.g.nvim_tree_lint_lsp = 1
       vim.g.nvim_tree_git_hl = 1
       vim.g.nvim_tree_gitignore = 0
-      vim.g.nvim_tree_show_icons = { git = 0, folders = 1, files = 1 }
+      vim.g.nvim_tree_show_icons = {
+        git = 0,
+        folders = 1,
+        files = 1,
+        folder_arrows = 0,
+      }
       vim.g.nvim_tree_group_empty = 1
       vim.g.nvim_tree_disable_window_picker = 1
       vim.g.nvim_tree_lsp_diagnostics = 1
@@ -130,8 +138,6 @@ return require('packer').startup(function(use)
       icon_custom_colors = false,
       icon_separator_active = '▎',
       icon_separator_inactive = '▎',
-      icon_close_tab = '',
-      icon_close_tab_modified = '●',
       maximum_padding = 4,
       maximum_length = 30,
       semantic_letters = true,
@@ -161,14 +167,24 @@ return require('packer').startup(function(use)
       }
     end
   }
+
   -- Show changed lines
-  use { 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' }, config = function() require('gitsigns').setup() end }
+  use {
+    'lewis6991/gitsigns.nvim',
+    requires = { 'nvim-lua/plenary.nvim' },
+    config = function()
+      require('gitsigns').setup({
+        current_line_blame = false,
+        current_line_blame_delay = 1000,
+      })
+    end,
+  }
 
   -- Better syntax highlighting using treesitter parsing
   use {
     'nvim-treesitter/nvim-treesitter',
     -- run = function() vim.fn('TSUpdate') end,
-    config = function() require'config.treesitter' end 
+    config = function() require'config.treesitter' end
   }
 
   -- Swap arguments and select functions

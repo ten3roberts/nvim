@@ -1,5 +1,6 @@
 vim.cmd "command! Sort :'{,'}sort"
 vim.cmd "command! -nargs=* Dump :lua require'config.dev_utils'.dump_mod(<f-args>)"
+vim.cmd "command! -nargs=* Reload :lua require'config.dev_utils'.reload(<f-args>)"
 
 vim.cmd [[
 function! Redir(cmd, rng, start, end)

@@ -18,6 +18,16 @@ map('n', '<leader>O',        '<cmd>lua require"telescope.builtin".lsp_workspace_
 map('n', '<leader>a',        '<cmd>lua require"telescope.builtin".lsp_code_actions()<CR>')
 map('n', '<leader>gl',       '<cmd>lua require"telescope.builtin".git_commits()<CR>')
 
+-- -- Telescope
+-- map('n', '<leader><leader>', '<cmd>lua require"telescope.builtin".find_files(require"telescope.themes".get_dropdown({}))<CR>')
+-- map('n', '<leader>,', '<cmd>lua require"telescope.builtin".buffers(require"telescope.themes".get_dropdown({}))<CR>')
+-- map('n', '<leader>/', '<cmd>lua require"telescope.builtin".current_buffer_fuzzy_find(require"telescope.themes".get_dropdown({}))<CR>')
+-- map('n', '<leader>rg', '<cmd>lua require"telescope.builtin".live_grep(require"telescope.themes".get_dropdown({}))<CR>')
+-- map('n', '<leader>o', '<cmd>lua require"telescope.builtin".lsp_document_symbols(require"telescope.themes".get_dropdown({}))<CR>')
+-- map('n', '<leader>O', '<cmd>lua require"telescope.builtin".lsp_workspace_symbols(require"telescope.themes".get_dropdown({}))<CR>')
+-- map('n', '<leader>gl', '<cmd>lua require"telescope.builtin".git_commits(require"telescope.themes".get_dropdown({}))<CR>')
+
+
 -- Quickfix and location list
 map('n', '<leader>l', '<cmd>lua require"qf".open("l")<CR>') -- Open location list
 -- map('n', '<leader>lc', '<cmd>lua require"qf".close("l")<CR>') -- Close location list
@@ -26,6 +36,8 @@ map('n', '<leader>l', '<cmd>lua require"qf".open("l")<CR>') -- Open location lis
 map('n', '<leader>co', '<cmd>lua require"qf".open("c")<CR>') -- Open quickfix list
 map('n', '<leader>cc', '<cmd>lua require"qf".close("c")<CR>') -- Close quickfix list
 map('n', '<leader>cl', '<cmd>lua require"qf".toggle("c", true)<CR>') --Toggle quickfix list and stay in current window
+
+map('v', 'gl', ':<c-u>lua require"config.onlines"()<CR>')
 
 map('n', '<leader>j', '<cmd>lua require"qf".below("l")<CR>') -- Go to next location list entry from cursor
 map('n', '<leader>k', '<cmd>lua require"qf".above("l")<CR>') -- Go to previous location list entry from cursor
@@ -71,6 +83,11 @@ map('n', '<leader>w<C-h>', '<C-w>h<C-w>q')
 map('n', '<leader>w<C-j>', '<C-w>j<C-w>q')
 map('n', '<leader>w<C-k>', '<C-w>k<C-w>q')
 map('n', '<leader>w<C-l>', '<C-w>l<C-w>q')
+
+map('n', '<C-w><C-h>', '<C-w>h<C-w>q')
+map('n', '<C-w><C-j>', '<C-w>j<C-w>q')
+map('n', '<C-w><C-k>', '<C-w>k<C-w>q')
+map('n', '<C-w><C-l>', '<C-w>l<C-w>q')
 
 -- Sneak (easyclip conflict mappings)
 map('n', 'f', '<plug>Sneak_f')

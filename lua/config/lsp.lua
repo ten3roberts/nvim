@@ -66,7 +66,7 @@ function M.on_attach()
   buf_map(bufnr, 'n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>')
   buf_map(bufnr, 'n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>')
   buf_map(bufnr, 'n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>')
-  buf_map(bufnr, 'n', '<space>D',  '<cmd>lua vim.lsp.buf.type_definition()<CR>')
+  buf_map(bufnr, 'n', 'gy',        '<cmd>lua vim.lsp.buf.type_definition()<CR>')
   buf_map(bufnr, 'n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>')
   buf_map(bufnr, 'n', '<space>a',  '<cmd>lua vim.lsp.buf.code_action()<CR>')
   buf_map(bufnr, 'n', 'gr',        '<cmd>lua vim.lsp.buf.references()<CR>')
@@ -76,6 +76,13 @@ function M.on_attach()
   buf_map(bufnr, 'n', '<space>q',  '<cmd>lua require"config.lsp".set_loc()<CR>')
   buf_map(bufnr, "n", "<space>cf", "<cmd>lua vim.lsp.buf.formatting()<CR>")
 
+end
+
+local old_references = vim.lsp.handlers['textDocument/references']
+
+vim.lsp.handlers['textDocument/references'] = function(...)
+  old_references(...)
+  qf.resize('c')
 end
 
 function M.set_loc()
@@ -156,7 +163,7 @@ function M.on_publish_diagnostics(err, method, result, client_id, _, _)
 
     -- This is similar to:
     -- "let g:diagnostic_insert_delay = 1"
-    update_in_insert = false,
+    update_in_insert = true,
   })
 
   M.set_loc()

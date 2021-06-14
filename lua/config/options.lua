@@ -2,6 +2,7 @@ local o = vim.o
 
 o.autoread = true
 o.clipboard = 'unnamedplus' -- Use system clipboard
+o.cmdheight = 2
 o.confirm = true -- Disable 'no write'
 o.cursorline = true
 o.equalalways = true

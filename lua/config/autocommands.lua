@@ -7,10 +7,14 @@ vim.cmd 'autocmd!'
 
 autocmd('BufNewFile, BufRead', '*.frag,*.vert', 'set ft=glsl')
 autocmd('FileType', 'rust', 'compiler cargo')
-autocmd('BufWritePost', '*.rs', 'make build')
+
+autocmd('BufWritePre', '*.rs', 'lua vim.lsp.buf.formatting()')
+
+-- Restart language server when modifying Cargo.toml
+autocmd('BufWritePost', '*/Cargo.toml', 'echom Restarting LSP | LspRestart')
 
 -- Auto compile when there are changes in plugins.lua
-autocmd('BufWritePost', 'plugins.lua', 'echo "Compiling Packer" | PackerCompile')
+autocmd('BufWritePost', 'plugins.lua', 'echo "Compiling Packer" | Reload config.plugins | PackerCompile')
 
 autocmd('TermEnter', '*', 'if (&filetype != "fzf") | tnoremap <buffer> <Esc> <C-\\><C-n> | endif')
 

@@ -1,9 +1,8 @@
 local actions = require('telescope.actions')
 require('telescope').setup {
   defaults = {
-    find_command = {'rg', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case'},
+    find_command = { 'rg', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case' },
     prompt_position = "bottom",
-    -- prompt_prefix = " ",
     prompt_prefix = "> ",
     selection_caret = "- ",
     entry_prefix = "  ",
@@ -61,7 +60,26 @@ require('telescope').setup {
         ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist
         -- ["<C-i>"] = my_cool_custom_action,
       }
+    },
+  },
+  pickers = {
+    -- Your special builtin config goes in here
+    theme = 'dropdown',
+    buffers = {
+      sort_lastused = true,
+      theme = 'dropdown',
+      previewer = false,
+      mappings = {
+        i = {
+          ["<c-d>"] = require("telescope.actions").delete_buffer,
+        },
+        n = {
+          ["<c-d>"] = require("telescope.actions").delete_buffer,
+        }
+      }
+    },
+    find_files = {
     }
   },
-  extensions = {fzy_native = {override_generic_sorter = false, override_file_sorter = true}}
+  extensions = {fzy_native = {override_generic_sorter = true, override_file_sorter = true}},
 }

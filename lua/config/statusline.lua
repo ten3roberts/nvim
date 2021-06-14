@@ -104,8 +104,6 @@ local function get_path(highlight)
   end
 end
 
-local t = {}
-
 function M.update()
   local bufnr = fn.bufnr('%')
   local ft, readonly, row, col, percent = get_infos(bufnr)
@@ -121,9 +119,9 @@ function M.update()
   local diag = lsp.statusline(bufnr, true)
 
   local items = {
-    mode.val, branch, path, git, readonly and '' or '',
+    mode.val, branch, path, diag, readonly and '' or '',
     '%=',
-    diag, percent, row .. ':' .. col
+     git, percent, row .. ':' .. col
   }
 
   local hl = {
@@ -133,20 +131,17 @@ function M.update()
   }
 
 
-  local i = 1
+  local t = {}
   for j,v in ipairs(items) do
-    if #v ~= 0 then
-      t[i] = string.format('%s %s ', hl[j] or '', v)
-      i = i + 1
+    if v ~= nil and #v ~= 0 then
+      t[#t+1] = string.format('%s %s ', hl[j] or '', v)
     end
   end
-  t[i] = nil
 
   local s = table.concat(t)
   return s
 end
 
-local u = {}
 function M.update_inactive()
   local bufnr = fn.bufnr('%')
   local ft, readonly, row, col, percent = get_infos(bufnr)
@@ -165,16 +160,14 @@ function M.update_inactive()
     percent, row .. ':' .. col
   }
 
-  local i = 1
+  local t = {}
   for _,v in ipairs(items) do
     if #v ~= 0 then
-      u[i] = string.format(' %s ', v)
-      i = i + 1
+      t[#t+1] = string.format(' %s ', v)
     end
   end
-  u[i] = nil
 
-  local s = table.concat(u)
+  local s = table.concat(t)
   return s
 end
 
@@ -184,7 +177,7 @@ function M.setup()
   cmd [[
   augroup Statusline
   autocmd!
-  autocmd BufWinEnter,WinEnter,BufEnter * lua vim.wo.statusline=nil
+  autocmd BufWinEnter,WinEnter,BufEnter * lua vim.wo.statusline='%!v:lua.require\'config.statusline\'.update()'
   autocmd WinLeave,BufLeave * lua vim.wo.statusline=require'config.statusline'.update_inactive()
   autocmd ColorScheme * lua require 'config.palette'.setup()
   augroup END
