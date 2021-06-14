@@ -90,6 +90,14 @@ local function get_infos(bufnr)
 end
 
 local function get_path(highlight)
+  if vim.o.buftype == 'quickfix' then
+    local info = fn.getwininfo(vim.g.statusline_winid or fn.win_getid(fn.winnr()))
+    if #info ~= 1 or info[1].quickfix ~= 1 then
+      return ''
+   end
+    return info[1].variables.quickfix_title or 'Quickfix'
+  end
+
   local path, filename, extension = fn.expand('%:~:.'), fn.expand('%:t'), fn.expand('%:e')
   if #filename == 0 then
     return '[NO NAME]'
