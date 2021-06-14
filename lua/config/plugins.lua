@@ -19,7 +19,7 @@ return require('packer').startup(function(use)
     require'qf'.setup{
       -- Location list configuration
       ['l'] = {
-        auto_close = true, -- Automatically close location/quickfix list if empty
+        auto_close = false, -- Automatically close location/quickfix list if empty
         auto_follow = 'prev', -- Follow current entry, possible values: prev,next,nearest
         follow_slow = true, -- Only follow on CursorHold
         auto_open = false, -- Automatically open location list on QuickFixCmdPost
@@ -30,7 +30,7 @@ return require('packer').startup(function(use)
       -- Quickfix list configuration
       ['c'] = {
         auto_close = true, -- Automatically close location/quickfix list if empty
-        auto_follow = 'prev', -- Follow current entry, possible values: prev,next,nearest
+        auto_follow = false, -- Follow current entry, possible values: prev,next,nearest
         follow_slow = true, -- Only follow on CursorHold
         auto_open = true, -- Automatically open location list on QuickFixCmdPost
         auto_resize = true, -- Auto resize and shrink location list if less than `max_height`
@@ -48,16 +48,17 @@ return require('packer').startup(function(use)
   use 'sainnhe/sonokai'
 
   use  { 'maxbrunsfeld/vim-yankstack', setup = function() vim.g.yankstack_yank_keys = { 'y', 'd', 'c' } end }
+  use 'AndrewRadev/splitjoin.vim' -- Join and breakup statements
   use 'dkarter/bullets.vim' -- Markdown bullet management
   use 'junegunn/vim-easy-align' -- Align text blocks
   use 'qxxxb/vim-searchhi' -- Highlight current search match
+  use 'rmagatti/auto-session'
   use 'tpope/vim-commentary' -- Toggle comments
   use 'tpope/vim-fugitive' -- Git management
   use 'tpope/vim-repeat' -- Repeat plugin commands with .
   use 'tpope/vim-surround' -- ( surround text )
   use 'tpope/vim-unimpaired' -- Handy bracket mappings
   use 'wellle/targets.vim' -- Better handling and seeking for textobjects
-  use 'AndrewRadev/splitjoin.vim' -- Join and breakup statements
 
   use { 'justinmk/vim-sneak', config = function()
     vim.g[ 'sneak#label' ] = 1

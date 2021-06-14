@@ -12,6 +12,7 @@ o.foldmethod = 'indent'
 o.formatoptions = 'jcrqltn'
 o.grepformat='%f:%l:%c:%m,%f:%l:%m'
 o.grepprg='rg --vimgrep --no-heading'
+o.sessionoptions = ''
 o.hidden = true
 o.hlsearch = true -- Highlight search results (enforce)
 o.ignorecase = true

@@ -11,12 +11,14 @@ map('n', '<leader>po', ':SymbolsOutline<CR>')
 -- Telescope
 map('n', '<leader><leader>', '<cmd>lua require"telescope.builtin".find_files()<CR>')
 map('n', '<leader>,',        '<cmd>lua require"telescope.builtin".buffers()<CR>')
+map('n', '<leader>/',        '<cmd>lua require"telescope.builtin".current_buffer_fuzzy_find()<CR>')
 map('n', '<leader>rg',       '<cmd>lua require"telescope.builtin".live_grep()<CR>')
 map('n', '<leader>p',        '<cmd>lua require"telescope".extensions.project.project{}<CR>')
 map('n', '<leader>o',        '<cmd>lua require"telescope.builtin".lsp_document_symbols()<CR>')
 map('n', '<leader>O',        '<cmd>lua require"telescope.builtin".lsp_workspace_symbols()<CR>')
-map('n', '<leader>a',        '<cmd>lua require"telescope.builtin".lsp_code_actions()<CR>')
 map('n', '<leader>gl',       '<cmd>lua require"telescope.builtin".git_commits()<CR>')
+map('n', '<leader>gs',       '<cmd>lua require"telescope.builtin".git_status()<CR>')
+map('n', '<leader>gS',       '<cmd>lua require"telescope.builtin".git_stash()<CR>')
 
 -- -- Telescope
 -- map('n', '<leader><leader>', '<cmd>lua require"telescope.builtin".find_files(require"telescope.themes".get_dropdown({}))<CR>')
@@ -83,11 +85,6 @@ map('n', '<leader>w<C-h>', '<C-w>h<C-w>q')
 map('n', '<leader>w<C-j>', '<C-w>j<C-w>q')
 map('n', '<leader>w<C-k>', '<C-w>k<C-w>q')
 map('n', '<leader>w<C-l>', '<C-w>l<C-w>q')
-
-map('n', '<C-w><C-h>', '<C-w>h<C-w>q')
-map('n', '<C-w><C-j>', '<C-w>j<C-w>q')
-map('n', '<C-w><C-k>', '<C-w>k<C-w>q')
-map('n', '<C-w><C-l>', '<C-w>l<C-w>q')
 
 -- Sneak (easyclip conflict mappings)
 map('n', 'f', '<plug>Sneak_f')
