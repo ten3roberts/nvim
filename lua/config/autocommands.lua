@@ -38,4 +38,7 @@ autocmd('VimResized', '*', 'wincmd =')
 -- Clear cached statuslines and errors from deleted buffers
 autocmd('BufUnload,BufDelete',  '*', 'lua require"config.lsp".clear_buffer_cache(vim.fn.expand("<abuf>"))')
 
+-- Save before grep,make etc
+autocmd('QuickFixCmdPre', '*', ':wa')
+
 vim.cmd 'augroup END'

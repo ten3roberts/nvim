@@ -2,38 +2,42 @@ local function map(mod, lhs, rhs, opt)
   vim.api.nvim_set_keymap(mod, lhs, rhs, opt or {})
 end
 
+local silent = { silent = true }
+
 vim.g.mapleader = ' '
 
-map('n', '<leader>f', ':NvimTreeFindFile<CR>')
+map('n', '<leader>f',  ':NvimTreeFindFile<CR>')
 map('n', '<leader>pe', ':NvimTreeToggle<CR>')
 map('n', '<leader>po', ':SymbolsOutline<CR>')
 
--- Telescope
-map('n', '<leader><leader>', '<cmd>lua require"telescope.builtin".find_files()<CR>')
-map('n', '<leader>,',        '<cmd>lua require"telescope.builtin".buffers()<CR>')
-map('n', '<leader>/',        '<cmd>lua require"telescope.builtin".current_buffer_fuzzy_find()<CR>')
-map('n', '<leader>rg',       '<cmd>lua require"telescope.builtin".live_grep()<CR>')
-map('n', '<leader>p',        '<cmd>lua require"telescope".extensions.project.project{}<CR>')
-map('n', '<leader>o',        '<cmd>lua require"telescope.builtin".lsp_document_symbols()<CR>')
-map('n', '<leader>O',        '<cmd>lua require"telescope.builtin".lsp_workspace_symbols()<CR>')
-map('n', '<leader>gl',       '<cmd>lua require"telescope.builtin".git_commits()<CR>')
-map('n', '<leader>gs',       '<cmd>lua require"telescope.builtin".git_status()<CR>')
-map('n', '<leader>gS',       '<cmd>lua require"telescope.builtin".git_stash()<CR>')
+-- Fzf
+map('n', '<leader><leader>', ':Files<CR>')
+map('n', '<leader>,',        ':Buffers<CR>')
+map('n', '<leader>/',        ':BLines<CR>')
+map('n', '<leader>rg',       ':Rg<CR>')
+map('n', '<leader>o',        ':Files<CR>')
+map('n', '<leader>O',        ':Files<CR>')
+map('n', '<leader>gl',       ':Commits<CR>')
+map('n', '<leader>gs',       ':GFiles?<CR>')
+map('n', '<leader>o',        ':DocumentSymbols<CR>')
+map('n', '<leader>O',        ':WorkspaceSymbols<CR>')
+map('n', '<leader>d',        ':Diagnostics<CR>')
+map('n', '<leader>D',        ':DiagnosticsAll<CR>')
 
 -- -- Telescope
--- map('n', '<leader><leader>', '<cmd>lua require"telescope.builtin".find_files(require"telescope.themes".get_dropdown({}))<CR>')
--- map('n', '<leader>,', '<cmd>lua require"telescope.builtin".buffers(require"telescope.themes".get_dropdown({}))<CR>')
--- map('n', '<leader>/', '<cmd>lua require"telescope.builtin".current_buffer_fuzzy_find(require"telescope.themes".get_dropdown({}))<CR>')
--- map('n', '<leader>rg', '<cmd>lua require"telescope.builtin".live_grep(require"telescope.themes".get_dropdown({}))<CR>')
--- map('n', '<leader>o', '<cmd>lua require"telescope.builtin".lsp_document_symbols(require"telescope.themes".get_dropdown({}))<CR>')
--- map('n', '<leader>O', '<cmd>lua require"telescope.builtin".lsp_workspace_symbols(require"telescope.themes".get_dropdown({}))<CR>')
--- map('n', '<leader>gl', '<cmd>lua require"telescope.builtin".git_commits(require"telescope.themes".get_dropdown({}))<CR>')
+-- map('n', '<leader><leader>', '<cmd>lua require"telescope.builtin".find_files()<CR>')
+-- map('n', '<leader>,          ', '<cmd>lua require"telescope.builtin".buffers()<CR>')
+-- map('n', '<leader>/',        '<cmd>lua require"telescope.builtin".current_buffer_fuzzy_find(require"telescope.themes".get_dropdown({}))<CR>')
+-- map('n', '<leader>rg',       '<cmd>lua require"telescope.builtin".live_grep(require"telescope.themes".get_dropdown({}))<CR>')
+-- map('n', '<leader>o',        '<cmd>lua require"telescope.builtin".lsp_document_symbols(require"telescope.themes".get_dropdown({}))<CR>')
+-- map('n', '<leader>O',        '<cmd>lua require"telescope.builtin".lsp_workspace_symbols(require"telescope.themes".get_dropdown({}))<CR>')
+-- map('n', '<leader>gl',       '<cmd>lua require"telescope.builtin".git_commits(require"telescope.themes".get_dropdown({}))<CR>')
 
 
 -- Quickfix and location list
 map('n', '<leader>l', '<cmd>lua require"qf".open("l")<CR>') -- Open location list
--- map('n', '<leader>lc', '<cmd>lua require"qf".close("l")<CR>') -- Close location list
--- map('n', '<leader>lt', '<cmd>lua require"qf".toggle("l", true)<CR>') -- Toggle location list and stay in current window
+map('n', '<leader>lc', '<cmd>lua require"qf".close("l")<CR>') -- Close location list
+map('n', '<leader>lt', '<cmd>lua require"qf".toggle("l", true)<CR>') -- Toggle location list and stay in current window
 
 map('n', '<leader>co', '<cmd>lua require"qf".open("c")<CR>') -- Open quickfix list
 map('n', '<leader>cc', '<cmd>lua require"qf".close("c")<CR>') -- Close quickfix list
@@ -63,9 +67,10 @@ map('n', '<A-7>', ':BufferGoto 7<CR>')
 map('n', '<A-8>', ':BufferGoto 8<CR>')
 map('n', '<A-9>', ':BufferLast<CR>')
 
-map('n', '<A-q>', ':BufferClose<CR>')
+map('n', '<A-q>',      ':BufferClose<CR>')
 map('n', '<leader>bk', ':BufferClose<CR>')
 map('n', '<leader>bo', ':BufferCloseAllButCurrent<CR>')
+map('n', '<leader>bp', '<C-^>')
 
 -- Window mappings
 map('n', '<leader>wo', '<C-w>o')
@@ -95,28 +100,28 @@ map('n', 's', '<plug>Sneak_s')
 map('n', 'S', '<plug>Sneak_S')
 
 -- Git mappings
-map('n', '<leader>gg', ':Ge :<CR>')
-map('n', '<leader>ga', ':Git add %<CR>')
-map('n', '<leader>gc', ':Git commit<CR>')
+map('n', '<leader>gg',  ':Ge :<CR>')
+map('n', '<leader>ga',  ':Git add %<CR>')
+map('n', '<leader>gc',  ':Git commit<CR>')
 map('n', '<leader>gpp', ':Git push<CR>')
 map('n', '<leader>gpf', ':Git push --force<CR>')
-map('n', '<leader>gf', ':Git fetch<CR>')
+map('n', '<leader>gf',  ':Git fetch<CR>')
 
 -- Search highlighting
-map('n', 'n', '<plug>(searchhi-n)')
-map('n', 'N', '<plug>(searchhi-N)')
-map('n', '*', '<plug>(searchhi-*)')
+map('n', 'n',  '<plug>(searchhi-n)')
+map('n', 'N',  '<plug>(searchhi-N)')
+map('n', '*',  '<plug>(searchhi-*)')
 map('n', 'g*', '<plug>(searchhi-g*)')
-map('n', '#', '<plug>(searchhi-#)')
+map('n', '#',  '<plug>(searchhi-#)')
 map('n', 'g#', '<plug>(searchhi-g#)')
 map('n', 'gd', '<plug>(searchhi-gd)')
 map('n', 'gD', '<plug>(searchhi-gD)')
 
-map('v', 'n', '<plug>(searchhi-v-n)')
-map('v', 'N', '<plug>(searchhi-v-N)')
-map('v', '*', '<plug>(searchhi-v-*)')
+map('v', 'n',  '<plug>(searchhi-v-n)')
+map('v', 'N',  '<plug>(searchhi-v-N)')
+map('v', '*',  '<plug>(searchhi-v-*)')
 map('v', 'g*', '<plug>(searchhi-v-g*)')
-map('v', '#', '<plug>(searchhi-v-#)')
+map('v', '#',  '<plug>(searchhi-v-#)')
 map('v', 'g#', '<plug>(searchhi-v-g#)')
 map('v', 'gd', '<plug>(searchhi-v-gd)')
 map('v', 'gD', '<plug>(searchhi-v-gD)')
@@ -127,6 +132,10 @@ map('n', '<Esc>', '<plug>(searchhi-clear-all)')
 map('x', 'ga', '<plug>(EasyAlign)')
 map('n', 'ga', '<plug>(EasyAlign)')
 
+-- Snippet expansion
+map('i', '<C-l>', 'vsnip#available(1) ? "<plug>(vsnip-expand-or-jump)" : "<C-l>"', { expr = true})
+
+map('n', '<C-l>', 'vsnip#available(1) ? "<plug>(vsnip-expand-or-jump)" : "<C-l>"', { expr = true})
 
 -- Movements
 map('', '<C-j>', '}')
@@ -137,13 +146,24 @@ map('', '<C-b>', '^')
 
 map('i', '<C-e>', '<C-o>$')
 map('i', '<C-b>', '<C-o>^')
+map('i', '<C-a>', '<C-o>^')
 
 -- Move lines
-map('n', '<A-k>', ':m .-2<CR>')
-map('n', '<A-j>', ':m .+1<CR>')
+map('n', '<A-k>', ':m .-2<CR>', silent)
+map('n', '<A-j>', ':m .+1<CR>', silent)
 
-map('v', '<A-k>', ':m \'<-2<CR>gv')
-map('v', '<A-j>', ':m \'>+1<CR>gv')
+map('v', '<A-k>', ':m \'<-2<CR>gv', silent)
+map('v', '<A-j>', ':m \'>+1<CR>gv', silent)
+
+map('n', '<A-h>', ':SidewaysLeft<CR>', silent)
+map('n', '<A-l>', ':SidewaysRight<CR>', silent)
+
+-- Textobjects for inside and around arguments/lists,paramater constraints
+map('o', 'a,', '<Plug>SidewaysArgumentTextobjA', silent)
+map('x', 'a,', '<Plug>SidewaysArgumentTextobjA', silent)
+
+map('o', 'i,', '<Plug>SidewaysArgumentTextobjI', silent)
+map('x', 'i,', '<Plug>SidewaysArgumentTextobjI', silent)
 
 -- Toggle bool
 map('n', 'gb', '<cmd>lua require"toggle".toggle()<CR>')

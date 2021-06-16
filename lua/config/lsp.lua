@@ -6,8 +6,8 @@ local lsp_install = require 'lspinstall'
 local nvim_lsp = require 'lspconfig'
 local qf = require'qf'
 local diagnostic = vim.lsp.diagnostic
-local util = vim.lsp.util
-local api = vim.api
+-- local util = vim.lsp.util
+-- local api = vim.api
 
 local M = { buffers = {}, statusline_cache = {} }
 
@@ -19,30 +19,6 @@ local diagnostic_severities = {
   [DiagnosticSeverity.Information] = { hl = '%#STInfo#',type == 'I', kind = 'info', sign = ''};
   [DiagnosticSeverity.Hint]        = { hl = '%#STHint#', type = 'I', kind = 'hint', sign = ''};
 }
-
-local to_severity = function(severity)
-  if not severity then return nil end
-  return type(severity) == 'string' and DiagnosticSeverity[severity] or severity
-end
-
-local filter_to_severity_limit = function(severity, diagnostics)
-  local filter_level = to_severity(severity)
-  if not filter_level then
-    return diagnostics
-  end
-
-  return vim.tbl_filter(function(t) return t.severity == filter_level end, diagnostics)
-end
-
-local filter_by_severity_limit = function(severity_limit, diagnostics)
-  local filter_level = to_severity(severity_limit)
-  if not filter_level then
-    return diagnostics
-  end
-
-  return vim.tbl_filter(function(t) return t.severity <= filter_level end, diagnostics)
-end
-
 
 function M.on_attach()
   print("LSP started")
@@ -56,71 +32,42 @@ function M.on_attach()
   })
 
   -- Setup mappings
-  local opts = {}
-
   local bufnr = vim.fn.bufnr('.')
-  buf_map(bufnr, 'n', 'gd',        '<cmd>lua vim.lsp.buf.declaration()<CR>')
-  buf_map(bufnr, 'n', 'gd',        '<cmd>lua vim.lsp.buf.definition()<CR>')
-  buf_map(bufnr, 'n', 'K',         '<cmd>lua vim.lsp.buf.hover()<CR>')
-  buf_map(bufnr, 'n', 'gi',        '<cmd>lua vim.lsp.buf.implementation()<CR>')
+
+  buf_map(bufnr, 'n', 'gD',         '<cmd>lua vim.lsp.buf.declaration()<CR>')
+  buf_map(bufnr, 'n', 'gd',         '<cmd>lua vim.lsp.buf.definition()<CR>')
+  buf_map(bufnr, 'n', 'K',          '<cmd>lua vim.lsp.buf.hover()<CR>')
+  buf_map(bufnr, 'n', 'gi',         '<cmd>lua vim.lsp.buf.implementation()<CR>')
   buf_map(bufnr, 'n', '<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>')
   buf_map(bufnr, 'n', '<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>')
   buf_map(bufnr, 'n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>')
-  buf_map(bufnr, 'n', 'gy',        '<cmd>lua vim.lsp.buf.type_definition()<CR>')
+  buf_map(bufnr, 'n', 'gy',         '<cmd>lua vim.lsp.buf.type_definition()<CR>')
   buf_map(bufnr, 'n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>')
-  buf_map(bufnr, 'n', '<leader>a',  '<cmd>lua vim.lsp.buf.code_action()<CR>')
-  buf_map(bufnr, 'n', 'gr',        '<cmd>lua vim.lsp.buf.references()<CR>')
+  buf_map(bufnr, 'n', '<leader>a',  ':CodeAction<CR>')
+  buf_map(bufnr, 'n', 'gr',         ':References<CR>')
   buf_map(bufnr, 'n', '<leader>e',  '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>')
-  buf_map(bufnr, 'n', '[d',        '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
-  buf_map(bufnr, 'n', ']d',        '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
+  buf_map(bufnr, 'n', '[d',         '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
+  buf_map(bufnr, 'n', ']d',         '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
   buf_map(bufnr, 'n', '<leader>q',  '<cmd>lua require"config.lsp".set_loc()<CR>')
   buf_map(bufnr, "n", "<leader>cf", "<cmd>lua vim.lsp.buf.formatting()<CR>")
 
 end
 
-local old_references = vim.lsp.handlers['textDocument/references']
+-- Sets the location list with predefined options. Does not focus list.
+function M.set_loc(buffer)
+  -- buffer = buffer or vim.fn.bufnr('%')
+  local severity_limit = nil
+  -- local diagnostic_count = M.buffers[buffer]
 
-vim.lsp.handlers['textDocument/references'] = function(...)
-  old_references(...)
-  qf.resize('c')
-end
+  -- -- Don't show hint and info if there are errors to not clutter
+  -- if diagnostic_count[DiagnosticSeverity.Error] ~= 0 then
+  --   severity_limit = 'Warning'
+  -- end
 
-function M.set_loc()
-  local opts = { severity_limit = nil  }
+  local opts = { severity_limit = severity_limit, open_loclist = false }
 
-  local bufnr = api.nvim_get_current_buf()
-  local buffer_diags = diagnostic.get(bufnr, opts.client_id)
-
-  if opts.severity then
-    buffer_diags = filter_to_severity_limit(opts.severity, buffer_diags)
-  elseif opts.severity_limit then
-    buffer_diags = filter_by_severity_limit(opts.severity_limit, buffer_diags)
-  end
-
-  local items = {}
-  local insert_diag = function(diag)
-    local pos = diag.range.start
-    local row = pos.line
-    local col = util.character_offset(bufnr, row, pos.character)
-
-    local line = (api.nvim_buf_get_lines(bufnr, row, row + 1, false) or {""})[1]
-
-    table.insert(items, {
-      bufnr = bufnr,
-      lnum = row + 1,
-      col = col + 1,
-      text = line .. " | " .. diag.message,
-      type = diagnostic_severities[diag.severity or DiagnosticSeverity.Error].type or 'E',
-    })
-  end
-
-  for _, diag in ipairs(buffer_diags) do
-    insert_diag(diag)
-  end
-
-  table.sort(items, function(a, b) return a.lnum < b.lnum end)
-
-  qf.set('l', items)
+  vim.lsp.diagnostic.set_loclist(opts)
+  qf.resize('l', true)
 end
 
 function M.on_publish_diagnostics(err, method, result, client_id, _, _)

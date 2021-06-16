@@ -16,35 +16,35 @@ local special_map = {
 local branch = ''
 
 local mode_map = {
-  ['n']   = { hl = '%#BlueSpecial#',   val = 'N'  },
-  ['no']  = { hl = '%#BlueSpecial#',   val = 'NO' },
-  ['niI'] = { hl = '%#BlueSpecial#',   val = 'NI' },
+  ['n']   = { hl = '%#BlueInv#',   val = 'N'  },
+  ['no']  = { hl = '%#BlueInv#',   val = 'NO' },
+  ['niI'] = { hl = '%#BlueInv#',   val = 'NI' },
 
-  ['v']   = { hl = '%#PurpleSpecial#', val = 'V'  },
-  ['V']   = { hl = '%#PurpleSpecial#', val = 'VL' },
-  ['niV'] = { hl = '%#PurpleSpecial#', val = 'VL' },
-  ['\22'] = { hl = '%#PurpleSpecial#', val = 'VB' },
+  ['v']   = { hl = '%#PurpleInv#', val = 'V'  },
+  ['V']   = { hl = '%#PurpleInv#', val = 'VL' },
+  ['niV'] = { hl = '%#PurpleInv#', val = 'VL' },
+  ['\22'] = { hl = '%#PurpleInv#', val = 'VB' },
 
-  ['i']   = { hl = '%#GreenSpecial#',  val = 'I'  },
-  ['ic']  = { hl = '%#GreenSpecial#',  val = 'I'  },
-  ['ix']  = { hl = '%#GreenSpecial#',  val = 'I'  },
+  ['i']   = { hl = '%#GreenInv#',  val = 'I'  },
+  ['ic']  = { hl = '%#GreenInv#',  val = 'I'  },
+  ['ix']  = { hl = '%#GreenInv#',  val = 'I'  },
 
-  ['R']   = { hl = '%#RedSpecial#',    val = 'R'  },
-  ['Rv']  = { hl = '%#RedSpecial#',    val = 'VR' },
-  ['niR']  = { hl = '%#RedSpecial#',    val = 'VR' },
+  ['R']   = { hl = '%#RedInv#',    val = 'R'  },
+  ['Rv']  = { hl = '%#RedInv#',    val = 'VR' },
+  ['niR']  = { hl = '%#RedInv#',    val = 'VR' },
 
-  ['t']   = { hl = '%#OrangeSpecial#', val = 'T'  },
+  ['t']   = { hl = '%#OrangeInv#', val = 'T'  },
 
-  ['s']   = { hl = '%#YellowSpecial#', val = 'S'  },
-  ['S']   = { hl = '%#YellowSpecial#', val = 'SL' },
-  ['^S']  = { hl = '%#YellowSpecial#', val = 'SB' },
-  ['c']   = { hl = '%#YellowSpecial#', val = 'C'  },
-  ['cv']  = { hl = '%#YellowSpecial#', val = 'E'  },
-  ['ce']  = { hl = '%#YellowSpecial#', val = 'E'  },
-  ['r']   = { hl = '%#YellowSpecial#', val = 'P'  },
-  ['rm']  = { hl = '%#YellowSpecial#', val = 'M'  },
-  ['r?']  = { hl = '%#YellowSpecial#', val = 'C'  },
-  ['!']   = { hl = '%#YellowSpecial#', val = 'SH' },
+  ['s']   = { hl = '%#YellowInv#', val = 'S'  },
+  ['S']   = { hl = '%#YellowInv#', val = 'SL' },
+  ['^S']  = { hl = '%#YellowInv#', val = 'SB' },
+  ['c']   = { hl = '%#YellowInv#', val = 'C'  },
+  ['cv']  = { hl = '%#YellowInv#', val = 'E'  },
+  ['ce']  = { hl = '%#YellowInv#', val = 'E'  },
+  ['r']   = { hl = '%#YellowInv#', val = 'P'  },
+  ['rm']  = { hl = '%#YellowInv#', val = 'M'  },
+  ['r?']  = { hl = '%#YellowInv#', val = 'C'  },
+  ['!']   = { hl = '%#YellowInv#', val = 'SH' },
 }
 
 local function get_mode()
@@ -129,7 +129,7 @@ function M.update()
   local items = {
     mode.val, branch, path, diag, readonly and '' or '',
     '%=',
-     git, percent, row .. ':' .. col
+    git, percent, row .. ':' .. col
   }
 
   local hl = {

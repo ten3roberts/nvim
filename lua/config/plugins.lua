@@ -11,7 +11,15 @@ return require('packer').startup(function(use)
 
   -- My plugins
   use { '~/dev/nvim/toggle.nvim', config = function()
-    require'toggle'.setup{}
+    require'toggle'.setup{
+      sets = {
+        { 'true', 'false' },
+        { 'on', 'off' },
+        { 'manual', 'auto' },
+        { 'always', 'never' },
+      },
+      variants = true,
+    }
   end
   }
 
@@ -48,11 +56,13 @@ return require('packer').startup(function(use)
   use 'sainnhe/sonokai'
 
   use  { 'maxbrunsfeld/vim-yankstack', setup = function() vim.g.yankstack_yank_keys = { 'y', 'd', 'c' } end }
+  use 'AndrewRadev/sideways.vim'
   use 'AndrewRadev/splitjoin.vim' -- Join and breakup statements
   use 'dkarter/bullets.vim' -- Markdown bullet management
   use 'junegunn/vim-easy-align' -- Align text blocks
   use 'qxxxb/vim-searchhi' -- Highlight current search match
   use 'rmagatti/auto-session'
+  use 'tpope/vim-abolish' 
   use 'tpope/vim-commentary' -- Toggle comments
   use 'tpope/vim-fugitive' -- Git management
   use 'tpope/vim-repeat' -- Repeat plugin commands with .
@@ -120,7 +130,7 @@ return require('packer').startup(function(use)
         files = 1,
         folder_arrows = 0,
       }
-      vim.g.nvim_tree_group_empty = 1
+      vim.g.nvim_tree_group_empty = 0
       vim.g.nvim_tree_disable_window_picker = 1
       vim.g.nvim_tree_lsp_diagnostics = 1
       vim.g.nvim_tree_special_files = {}
@@ -207,8 +217,14 @@ return require('packer').startup(function(use)
   use 'rafamadriz/friendly-snippets'
 
   -- Fuzzy finder
-  use {"nvim-telescope/telescope.nvim", requires = { 'nvim-lua/popup.nvim', 'nvim-lua/plenary.nvim' }, config = function() require 'config.telescope' end}
-  use { "nvim-telescope/telescope-fzy-native.nvim" }
-  use { "nvim-telescope/telescope-project.nvim" }
+  use {
+    'junegunn/fzf.vim',
+    requires = 'junegunn/fzf',
+    setup = function()
+      require'config.fzf'.setup()
+    end
+  }
+
+  use 'gfanto/fzf-lsp.nvim'
 end
 )

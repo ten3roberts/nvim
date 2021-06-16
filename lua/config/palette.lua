@@ -12,6 +12,10 @@ function M.highlight(name, fg, bg, gui, guisp)
   )
 end
 
+function M.link(dst, src)
+  cmd ('hi! link ' .. dst .. ' ' .. src)
+end
+
 function M.get_hl(name)
   local id = fn.synIDtrans(fn.hlID(name))
 
@@ -75,6 +79,8 @@ end
 -- Statusline
 function M.setup()
   local highlight = M.highlight
+  local link = M.link
+
   local p = M.generate_palette()
 
   local normal = M.get_hl('Normal')
@@ -106,20 +112,21 @@ function M.setup()
 
   highlight('LspDiagnosticsUnderlineWarning', nil, nil, 'undercurl', p.orange)
 
-  cmd 'hi! link STError   Red'
-  cmd 'hi! link STWarning Orange'
-  cmd 'hi! link STInfo    Blue'
-  cmd 'hi! link STHint    Green'
-  cmd 'hi! link GitSignsCurrentLineBlame Comment'
+  highlight('BlackInv',  normal_bg, p.black,  'bold')
+  highlight('BlueInv',   normal_bg, p.blue,   'bold')
+  highlight('GreenInv',  normal_bg, p.green,  'bold')
+  highlight('GreyInv',   normal_bg, p.grey,   'bold')
+  highlight('OrangeInv', normal_bg, p.orange, 'bold')
+  highlight('PurpleInv', normal_bg, p.purple, 'bold')
+  highlight('RedInv',    normal_bg, p.red,    'bold')
+  highlight('YellowInv', normal_bg, p.yellow, 'bold')
 
-  highlight('BlackSpecial',  normal_bg, p.black,  'bold')
-  highlight('BlueSpecial',   normal_bg, p.blue,   'bold')
-  highlight('GreenSpecial',  normal_bg, p.green,  'bold')
-  highlight('GreySpecial',   normal_bg, p.grey,   'bold')
-  highlight('OrangeSpecial', normal_bg, p.orange, 'bold')
-  highlight('PurpleSpecial', normal_bg, p.purple, 'bold')
-  highlight('RedSpecial',    normal_bg, p.red,    'bold')
-  highlight('YellowSpecial', normal_bg, p.yellow, 'bold')
+  link('STError',                  'Red')
+  link('STWarning',                'Orange')
+  link('STInfo',                   'Blue')
+  link('STHint',                   'Green')
+  link('GitSignsCurrentLineBlame', 'Comment')
+  link('FocusedSymbol',            'GreenInv')
 end
 
 return M

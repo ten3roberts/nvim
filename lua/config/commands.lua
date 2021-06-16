@@ -1,4 +1,4 @@
-vim.cmd "command! Sort :'{,'}sort"
+vim.cmd "command! Sort norm! vip:'<,'>sort<CR>"
 vim.cmd "command! -nargs=* Dump :lua require'config.dev_utils'.dump_mod(<f-args>)"
 vim.cmd "command! -nargs=* Reload :lua require'config.dev_utils'.reload(<f-args>)"
 
