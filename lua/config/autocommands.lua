@@ -1,5 +1,5 @@
 local function autocmd(au_type, where, dispatch)
-  vim.cmd(string.format('au! %s %s %s', au_type, where, dispatch))
+  vim.cmd(string.format('autocmd %s %s %s', au_type, where, dispatch))
 end
 
 vim.cmd 'augroup CONFIG'
@@ -9,7 +9,7 @@ vim.cmd 'autocmd!'
 autocmd('FileType', 'rust', 'compiler cargo')
 
 -- Auto format on save using LSP
-autocmd('BufWritePost', '*', 'lua vim.lsp.buf.formatting()')
+autocmd('BufWritePre', '*', 'lua vim.lsp.buf.formatting_sync()')
 
 -- Automatically create missing directories
 autocmd('BufWritePre', '*', 'if (&buftype == "") | call mkdir(expand("<afile>:p:h"), "p") | endif')
