@@ -1,8 +1,10 @@
 local o = vim.o
+local g = vim.g
 
 o.autoread = true
 o.clipboard = 'unnamedplus' -- Use system clipboard
 o.cmdheight = 2
+o.completeopt = 'menuone,noselect,longest'
 o.confirm = true -- Disable 'no write'
 o.cursorline = true
 o.equalalways = true
@@ -12,7 +14,6 @@ o.foldmethod = 'indent'
 o.formatoptions = 'jcrqltn'
 o.grepformat='%f:%l:%c:%m,%f:%l:%m'
 o.grepprg='rg --vimgrep --no-heading'
-o.sessionoptions = ''
 o.hidden = true
 o.hlsearch = true -- Highlight search results (enforce)
 o.ignorecase = true
@@ -26,6 +27,7 @@ o.path = o.path .. '**'
 o.pumheight = 8
 o.relativenumber = true
 o.scrolloff = 8 -- Lines from the cursor
+o.sessionoptions = ''
 o.shiftwidth = 2
 o.shortmess = vim.o.shortmess .. 'c'
 o.showmatch = true -- Show matching brackets/parenthesis
@@ -42,20 +44,20 @@ o.updatetime = 500
 o.wildmenu = true -- Command line completion mode
 o.wildmode = 'full' -- Command line completion mode
 
-vim.g.mkdp_refresh_slow = true
+g.mkdp_refresh_slow = true
 
-vim.g.gruvbox_contrast_dark = 'medium'
-vim.g.gruvbox_contrast_light = 'medium'
-vim.g.gruvbox_sign_column = 'bg0'
+g.gruvbox_contrast_dark = 'medium'
+g.gruvbox_contrast_light = 'medium'
+g.gruvbox_sign_column = 'bg0'
 
-vim.g.nord_cursor_line_number_background = 0
-vim.g.nord_bold = 1
-vim.g.nord_italic = 1
-vim.g.nord_uniform_diff_background = 1
-vim.g.nord_italic_comments = 1
-vim.g.nord_underline = 1
+g.nord_cursor_line_number_background = 0
+g.nord_bold = 1
+g.nord_italic = 1
+g.nord_uniform_diff_background = 1
+g.nord_italic_comments = 1
+g.nord_underline = 1
 
-vim.g.sonokai_enable_italic = 1
-vim.g.sonokai_style = 'default'
+g.sonokai_enable_italic = 1
+g.sonokai_style = 'default'
 
-vim.cmd "colorscheme sonokai"
+vim.cmd ( "colorscheme " .. ( vim.env.VIM_COLORSCHEME or 'sonokai' ) )

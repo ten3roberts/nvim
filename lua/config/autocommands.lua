@@ -41,4 +41,6 @@ autocmd('BufUnload,BufDelete',  '*', 'lua require"config.lsp".clear_buffer_cache
 -- Save before grep,make etc
 autocmd('QuickFixCmdPre', '*', ':wa')
 
+-- autocmd('BufEnter', '*', 'lua require"completion".on_attach()')
+
 vim.cmd 'augroup END'

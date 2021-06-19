@@ -23,13 +23,13 @@ local diagnostic_severities = {
 function M.on_attach()
   print("LSP started")
 
-  -- Lsp signature
-  require'lsp_signature'.on_attach({
-    bind = true,
-    handler_opts = {
-      border = "single"   -- double, single, shadow, none
-    },
-  })
+  -- -- Lsp signature
+  -- require'lsp_signature'.on_attach({
+  --   bind = true,
+  --   handler_opts = {
+  --     border = "single"   -- double, single, shadow, none
+  --   },
+  -- })
 
   -- Setup mappings
   local bufnr = vim.fn.bufnr('.')
@@ -43,8 +43,8 @@ function M.on_attach()
   buf_map(bufnr, 'n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>')
   buf_map(bufnr, 'n', 'gy',         '<cmd>lua vim.lsp.buf.type_definition()<CR>')
   buf_map(bufnr, 'n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>')
-  buf_map(bufnr, 'n', '<leader>a',  ':CodeAction<CR>')
-  buf_map(bufnr, 'n', 'gr',         ':References<CR>')
+  -- buf_map(bufnr, 'n', '<leader>a',  ':CodeAction<CR>')
+  -- buf_map(bufnr, 'n', 'gr',         ':References<CR>')
   buf_map(bufnr, 'n', '<leader>e',  '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>')
   buf_map(bufnr, 'n', '[d',         '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
   buf_map(bufnr, 'n', ']d',         '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
@@ -54,7 +54,7 @@ function M.on_attach()
 end
 
 -- Sets the location list with predefined options. Does not focus list.
-function M.set_loc(buffer)
+function M.set_loc()
   -- buffer = buffer or vim.fn.bufnr('%')
   local severity_limit = nil
   -- local diagnostic_count = M.buffers[buffer]
@@ -162,7 +162,20 @@ function M.statusline(bufnr, highlight)
 end
 
 M.configs = {
-  lua = function() return require 'config.lua-lsp' end
+  lua = function() return require 'config.lua-lsp' end,
+  rust = function()
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+    capabilities.textDocument.completion.completionItem.snippetSupport = false
+    capabilities.textDocument.completion.completionItem.resolveSupport = {
+    	properties = {
+    		'documentation',
+    		'detail',
+    		'additionalTextEdits',
+    	}
+    }
+
+    return { capabilities = capabilities }
+    end
 }
 
 function M.setup()

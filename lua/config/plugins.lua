@@ -15,6 +15,7 @@ return require('packer').startup(function(use)
       sets = {
         { 'true', 'false' },
         { 'on', 'off' },
+        { 'yes', 'no' },
         { 'manual', 'auto' },
         { 'always', 'never' },
       },
@@ -55,14 +56,14 @@ return require('packer').startup(function(use)
   use 'rakr/vim-one'
   use 'sainnhe/sonokai'
 
-  use  { 'maxbrunsfeld/vim-yankstack', setup = function() vim.g.yankstack_yank_keys = { 'y', 'd', 'c' } end }
-  use 'AndrewRadev/sideways.vim'
+  use  { 'maxbrunsfeld/vim-yankstack', setup = function() vim.g.yankstack_yank_keys = { 'y', 'd', 'c' } end } -- Easily use the registers
+  use 'AndrewRadev/sideways.vim' -- Move arguments and elements in list around
   use 'AndrewRadev/splitjoin.vim' -- Join and breakup statements
+  use 'airblade/vim-rooter' -- Change cwd to the git root
   use 'dkarter/bullets.vim' -- Markdown bullet management
   use 'junegunn/vim-easy-align' -- Align text blocks
   use 'qxxxb/vim-searchhi' -- Highlight current search match
-  use 'rmagatti/auto-session'
-  use 'tpope/vim-abolish' 
+  use 'tpope/vim-abolish' -- Change casing styles and provide smart search and replce
   use 'tpope/vim-commentary' -- Toggle comments
   use 'tpope/vim-fugitive' -- Git management
   use 'tpope/vim-repeat' -- Repeat plugin commands with .
@@ -80,12 +81,18 @@ return require('packer').startup(function(use)
   use { 'iamcco/markdown-preview.nvim', run = function() vim.fn['mkdp#util#install']() end, ft = {'markdown'} }
 
   use {
-    'LunarWatcher/auto-pairs',
-    setup = function()
-      vim.g.AutoPairsMapBS = 1
-      vim.g.AutoPairsShortcutToggle = ''
+    'windwp/nvim-autopairs',
+    config = function()
+      require'config.autopairs'
     end
   }
+  -- use {
+  --   'LunarWatcher/auto-pairs',
+  --   setup = function()
+  --     vim.g.AutoPairsMapBS = 1
+  --     vim.g.AutoPairsShortcutToggle = ''
+  --   end
+  -- }
 
   use {
     'norcalli/nvim-colorizer.lua',
@@ -198,33 +205,68 @@ return require('packer').startup(function(use)
     config = function() require'config.treesitter' end
   }
 
-  -- Swap arguments and select functions
-  use 'nvim-treesitter/nvim-treesitter-textobjects'
-
-  -- Show function signature help
-  use 'ray-x/lsp_signature.nvim'
-
-  -- Automatically install lsp servers
-  use 'kabouzeid/nvim-lspinstall'
+  use 'nvim-treesitter/nvim-treesitter-textobjects' -- Swap arguments and select functions
+  use 'ray-x/lsp_signature.nvim' -- Show function signature help
+  use 'kabouzeid/nvim-lspinstall' -- Automatically install lsp servers
 
   -- LSP configurations
   use { 'neovim/nvim-lspconfig', config = function() require 'config.lsp'.setup() end }
 
   -- Smart autocompletion
-  use { 'hrsh7th/nvim-compe', config = function() require 'config.completion' end }
-  use 'hrsh7th/vim-vsnip'
-  use 'hrsh7th/vim-vsnip-integ'
-  use 'rafamadriz/friendly-snippets'
+  use {
+    'hrsh7th/nvim-compe',
+    config = function()
+      require 'config.completion'
+    end,
+    commit = '99452ae6875889c12653963b68e53c4564848954'
+  }
+  -- use {
+  --   'nvim-lua/completion-nvim',
+  --   config = function()
+  --     require'config.completion'
+  --   end
+  --   }
+  -- use 'steelsojka/completion-buffers' -- Provide completion from words in current and other buffers
+  use 'hrsh7th/vim-vsnip' -- Snippets
+  use 'hrsh7th/vim-vsnip-integ' -- Snippet integrations
+  use 'rafamadriz/friendly-snippets' -- Preconfigured snippets
 
   -- Fuzzy finder
+  -- use {
+  --   'junegunn/fzf.vim',
+  --   requires = 'junegunn/fzf',
+  --   setup = function()
+  --     require'config.fzf'.setup()
+  --   end
+  -- }
+
+  -- use {
+  --   'dominickng/fzf-session.vim',
+  --   setup = function()
+  --     vim.g.fzf_session_path = vim.fn.stdpath('data').."/sessions"
+  --   end
+  -- }
+
+  -- use 'gfanto/fzf-lsp.nvim'
+
+  -- Telescope
   use {
-    'junegunn/fzf.vim',
-    requires = 'junegunn/fzf',
-    setup = function()
-      require'config.fzf'.setup()
+    'nvim-telescope/telescope.nvim',
+    requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}},
+    config = function()
+      require 'config.telescope'
     end
   }
+  use 'nvim-telescope/telescope-fzy-native.nvim'
 
-  use 'gfanto/fzf-lsp.nvim'
+  use 'rmagatti/auto-session'
+  use {
+    'rmagatti/session-lens',
+    config = function()
+      require'session-lens'.setup {
+        shorten_path=false
+      }
+    end
+  }
 end
 )

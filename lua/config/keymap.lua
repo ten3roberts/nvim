@@ -10,21 +10,35 @@ map('n', '<leader>f',  ':NvimTreeFindFile<CR>')
 map('n', '<leader>pe', ':NvimTreeToggle<CR>')
 map('n', '<leader>po', ':SymbolsOutline<CR>')
 
--- Fzf
-map('n', '<leader><leader>', ':Files<CR>')
-map('n', '<leader>,',        ':Buffers<CR>')
-map('n', '<leader>/',        ':BLines<CR>')
-map('n', '<leader>rg',       ':Rg<CR>')
-map('n', '<leader>o',        ':Files<CR>')
-map('n', '<leader>O',        ':Files<CR>')
-map('n', '<leader>gl',       ':Commits<CR>')
-map('n', '<leader>gs',       ':GFiles?<CR>')
-map('n', '<leader>o',        ':DocumentSymbols<CR>')
-map('n', '<leader>O',        ':WorkspaceSymbols<CR>')
-map('n', '<leader>d',        ':Diagnostics<CR>')
-map('n', '<leader>D',        ':DiagnosticsAll<CR>')
+-- -- Fzf
+-- map('n', '<leader><leader>', ':Files<CR>')
+-- map('n', '<leader>,',        ':Buffers<CR>')
+-- map('n', '<leader>/',        ':BLines<CR>')
+-- map('n', '<leader>rg',       ':Rg<CR>')
+-- map('n', '<leader>o',        ':Files<CR>')
+-- map('n', '<leader>O',        ':Files<CR>')
+-- map('n', '<leader>gl',       ':Commits<CR>')
+-- map('n', '<leader>gs',       ':GFiles?<CR>')
+-- map('n', '<leader>o',        ':DocumentSymbols<CR>')
+-- map('n', '<leader>O',        ':WorkspaceSymbols<CR>')
+-- map('n', '<leader>d',        ':Diagnostics<CR>')
+-- map('n', '<leader>D',        ':DiagnosticsAll<CR>')
 
--- -- Telescope
+-- Telescope
+map('n', '<leader><leader>', ':Telescope find_files<CR>')
+map('n', '<leader>,',        ':Telescope buffers<CR>')
+map('n', '<leader>/',        ':Telescope current_buffer_fuzzy_find<CR>')
+map('n', '<leader>rg',       ':Telescope live_grep<CR>')
+map('n', '<leader>o',        ':Telescope lsp_document_symbols<CR>')
+map('n', '<leader>O',        ':Telescope lsp_workspace_symbols<CR>')
+map('n', '<leader>gl',       ':Telescope git_commits<CR>')
+map('n', '<leader>gs',       ':Telescope git_status<CR>')
+map('n', '<leader>pp',       ':Telescope session-lens search_session<CR>')
+map('n', '<leader>d',        ':Telescope lsp_document_symbols<CR>')
+map('n', '<leader>D',        ':Telescope lsp_workspace_diagnostics<CR>')
+map('n', '<leader>a',        ':Telescope lsp_code_actions<CR>')
+map('n', 'gr',               ':Telescope lsp_references<CR>')
+
 -- map('n', '<leader><leader>', '<cmd>lua require"telescope.builtin".find_files()<CR>')
 -- map('n', '<leader>,          ', '<cmd>lua require"telescope.builtin".buffers()<CR>')
 -- map('n', '<leader>/',        '<cmd>lua require"telescope.builtin".current_buffer_fuzzy_find(require"telescope.themes".get_dropdown({}))<CR>')
@@ -134,8 +148,13 @@ map('n', 'ga', '<plug>(EasyAlign)')
 
 -- Snippet expansion
 map('i', '<C-l>', 'vsnip#available(1) ? "<plug>(vsnip-expand-or-jump)" : "<C-l>"', { expr = true})
-
 map('n', '<C-l>', 'vsnip#available(1) ? "<plug>(vsnip-expand-or-jump)" : "<C-l>"', { expr = true})
+
+map('i', '<CR>', 'v:lua.autopairs_cr()', { expr = true })
+
+-- Completion
+map('i', '<tab>', '<Plug>(completion_smart_tab)')
+map('i', '<s-tab>', '<Plug>(completion_smart_s_tab)')
 
 -- Movements
 map('', '<C-j>', '}')

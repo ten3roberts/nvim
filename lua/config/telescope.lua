@@ -1,4 +1,5 @@
 local actions = require('telescope.actions')
+
 require('telescope').setup {
   defaults = {
     find_command = { 'rg', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case' },
@@ -81,5 +82,7 @@ require('telescope').setup {
     find_files = {
     }
   },
-  extensions = {fzy_native = {override_generic_sorter = true, override_file_sorter = true}},
+  extensions = {
+    fzy_native = {override_generic_sorter = true, override_file_sorter = true},
+  },
 }
