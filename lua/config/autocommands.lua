@@ -41,6 +41,6 @@ autocmd('BufUnload,BufDelete',  '*', 'lua require"config.lsp".clear_buffer_cache
 -- Save before grep,make etc
 autocmd('QuickFixCmdPre', '*', ':wa')
 
--- autocmd('BufEnter', '*', 'lua require"completion".on_attach()')
+autocmd('InsertLeave,TextChanged', '*', 'lua require"config.lsp".set_loc()')
 
 vim.cmd 'augroup END'

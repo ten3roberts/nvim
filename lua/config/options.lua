@@ -3,10 +3,10 @@ local g = vim.g
 
 o.autoread = true
 o.clipboard = 'unnamedplus' -- Use system clipboard
-o.cmdheight = 2
-o.completeopt = 'menuone,noselect,longest'
+o.cmdheight = 1
+o.completeopt = 'menuone,noselect'
 o.confirm = true -- Disable 'no write'
-o.cursorline = true
+o.cursorline = false
 o.equalalways = true
 o.expandtab = true
 o.foldlevelstart = 99
@@ -39,12 +39,21 @@ o.splitbelow = true -- Splits open on the bottom
 o.splitright = true -- Splits open on the right
 o.tabstop = 2
 o.termguicolors = true
+o.textwidth = 80
 o.title = true
 o.updatetime = 500
 o.wildmenu = true -- Command line completion mode
 o.wildmode = 'full' -- Command line completion mode
 
+g.AutoPairsMapBS = 1
+g.AutoPairsShortcutToggle = ''
+
+g.rooter_patterns = { '.git' }
+
 g.mkdp_refresh_slow = true
+g.mkdp_auto_close = false
+
+g.vim_markdown_fenced_languages = { 'rust', 'lua', 'python', 'sh', 'bash' }
 
 g.gruvbox_contrast_dark = 'medium'
 g.gruvbox_contrast_light = 'medium'

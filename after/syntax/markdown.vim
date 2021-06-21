@@ -10,3 +10,5 @@ hi! link customHeader2 GreenBold
 hi! link customHeader3 YellowBold
 hi! link customHeader4 OrangeBold
 hi! link customHeader5 RedBold
+
+set textwidth=80

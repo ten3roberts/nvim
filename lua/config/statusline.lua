@@ -61,7 +61,7 @@ local function get_git(highlight)
   end
 
   branch = signs.head
-  branch = branch and (' ' .. branch)
+  branch = branch and (' ' .. branch) or ''
 
   local added,changed,removed = signs.added or 0, signs.changed or 0, signs.removed or 0
 
@@ -108,7 +108,7 @@ local function get_path(highlight)
   if highlight then
     return string.format('%%#%s#%s %%#Normal#%s', icon_hl or '', icon or '', path)
   else
-    return string.format('%s %s', icon ,path)
+    return string.format('%s %s', icon or '', path)
   end
 end
 
@@ -134,7 +134,7 @@ function M.update()
 
   local hl = {
     mode.hl, '%#Orange#', '%#Purple#', '', '%#Red#',
-    '%#Normal#',
+    '%#StatusLineNC#',
     '%#Normal#', '%#Orange#', mode.hl
   }
 
@@ -163,7 +163,7 @@ function M.update_inactive()
   local path = get_path(false)
 
   local items = {
-    mode.val, branch, path, readonly and '' or '',
+    mode.val, path, readonly and '' or '',
     '%=',
     percent, row .. ':' .. col
   }

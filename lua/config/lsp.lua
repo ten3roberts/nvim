@@ -23,13 +23,13 @@ local diagnostic_severities = {
 function M.on_attach()
   print("LSP started")
 
-  -- -- Lsp signature
-  -- require'lsp_signature'.on_attach({
-  --   bind = true,
-  --   handler_opts = {
-  --     border = "single"   -- double, single, shadow, none
-  --   },
-  -- })
+  -- Lsp signature
+  require'lsp_signature'.on_attach({
+    bind = true,
+    handler_opts = {
+      border = "single"   -- double, single, shadow, none
+    },
+  })
 
   -- Setup mappings
   local bufnr = vim.fn.bufnr('.')
@@ -67,7 +67,9 @@ function M.set_loc()
   local opts = { severity_limit = severity_limit, open_loclist = false }
 
   vim.lsp.diagnostic.set_loclist(opts)
-  qf.resize('l', true)
+  if not qf.list_visible('c') then
+    qf.open('l', true, false)
+  end
 end
 
 function M.on_publish_diagnostics(err, method, result, client_id, _, _)
@@ -113,7 +115,9 @@ function M.on_publish_diagnostics(err, method, result, client_id, _, _)
     update_in_insert = true,
   })
 
-  M.set_loc()
+  if vim.api.nvim_get_mode().mode == 'n' then
+    M.set_loc()
+  end
 end
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = M.on_publish_diagnostics
@@ -164,18 +168,18 @@ end
 M.configs = {
   lua = function() return require 'config.lua-lsp' end,
   rust = function()
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
+    local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities.textDocument.completion.completionItem.snippetSupport = false
     capabilities.textDocument.completion.completionItem.resolveSupport = {
-    	properties = {
-    		'documentation',
-    		'detail',
-    		'additionalTextEdits',
-    	}
+      properties = {
+        'documentation',
+        'detail',
+        'additionalTextEdits',
+      }
     }
 
-    return { capabilities = capabilities }
-    end
+    return {}
+  end
 }
 
 function M.setup()

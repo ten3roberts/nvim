@@ -31,7 +31,7 @@ return require('packer').startup(function(use)
         auto_close = false, -- Automatically close location/quickfix list if empty
         auto_follow = 'prev', -- Follow current entry, possible values: prev,next,nearest
         follow_slow = true, -- Only follow on CursorHold
-        auto_open = false, -- Automatically open location list on QuickFixCmdPost
+        auto_open = true, -- Automatically open location list on QuickFixCmdPost
         auto_resize = true, -- Auto resize and shrink location list if less than `max_height`
         max_height = 5, -- Maximum height of location/quickfix list
         min_height = 5, -- Minumum height of location/quickfix list
@@ -41,23 +41,34 @@ return require('packer').startup(function(use)
         auto_close = true, -- Automatically close location/quickfix list if empty
         auto_follow = false, -- Follow current entry, possible values: prev,next,nearest
         follow_slow = true, -- Only follow on CursorHold
-        auto_open = true, -- Automatically open location list on QuickFixCmdPost
+        auto_open = true, -- Automatically open list on QuickFixCmdPost
         auto_resize = true, -- Auto resize and shrink location list if less than `max_height`
         max_height = 8, -- Maximum height of location/quickfix list
         min_height = 5, -- Minumum height of location/quickfix list
-      }
+      },
+      qf_close_loc = true,
     }
   end
   }
 
+  use {
+    '~/dev/nvim/darken.nvim',
+    config = function()
+      require'darken'.setup{
+        amount = 0.7,
+        filetypes = { 'NvimTree', 'qf', 'help', 'Outline' }
+      }
+    end
+  }
+
   -- Colorschemes
   use 'arcticicestudio/nord-vim'
-  use 'morhetz/gruvbox'
   use 'rakr/vim-one'
+  use 'romgrk/doom-one.vim'
   use 'sainnhe/sonokai'
-
   use  { 'maxbrunsfeld/vim-yankstack', setup = function() vim.g.yankstack_yank_keys = { 'y', 'd', 'c' } end } -- Easily use the registers
   use 'AndrewRadev/sideways.vim' -- Move arguments and elements in list around
+  use 'wesQ3/vim-windowswap'
   use 'AndrewRadev/splitjoin.vim' -- Join and breakup statements
   use 'airblade/vim-rooter' -- Change cwd to the git root
   use 'dkarter/bullets.vim' -- Markdown bullet management
@@ -71,28 +82,17 @@ return require('packer').startup(function(use)
   use 'tpope/vim-unimpaired' -- Handy bracket mappings
   use 'wellle/targets.vim' -- Better handling and seeking for textobjects
 
+  -- Quickly jump in file by 2 chars
   use { 'justinmk/vim-sneak', config = function()
     vim.g[ 'sneak#label' ] = 1
-    vim.g[ 'sneak#s_next' ] = 1
+    vim.g[ 'sneak#s_next' ] = 0
     vim.g[ 'sneak#absolute_dir' ] = 1
     vim.g[ 'sneak#use_ic_scs' ] = 1
-  end } -- Quickly jump in file by 2 chars
+  end }
 
   use { 'iamcco/markdown-preview.nvim', run = function() vim.fn['mkdp#util#install']() end, ft = {'markdown'} }
 
-  use {
-    'windwp/nvim-autopairs',
-    config = function()
-      require'config.autopairs'
-    end
-  }
-  -- use {
-  --   'LunarWatcher/auto-pairs',
-  --   setup = function()
-  --     vim.g.AutoPairsMapBS = 1
-  --     vim.g.AutoPairsShortcutToggle = ''
-  --   end
-  -- }
+  use 'LunarWatcher/auto-pairs'
 
   use {
     'norcalli/nvim-colorizer.lua',
@@ -218,36 +218,11 @@ return require('packer').startup(function(use)
     config = function()
       require 'config.completion'
     end,
-    commit = '99452ae6875889c12653963b68e53c4564848954'
   }
-  -- use {
-  --   'nvim-lua/completion-nvim',
-  --   config = function()
-  --     require'config.completion'
-  --   end
-  --   }
-  -- use 'steelsojka/completion-buffers' -- Provide completion from words in current and other buffers
+
   use 'hrsh7th/vim-vsnip' -- Snippets
   use 'hrsh7th/vim-vsnip-integ' -- Snippet integrations
   use 'rafamadriz/friendly-snippets' -- Preconfigured snippets
-
-  -- Fuzzy finder
-  -- use {
-  --   'junegunn/fzf.vim',
-  --   requires = 'junegunn/fzf',
-  --   setup = function()
-  --     require'config.fzf'.setup()
-  --   end
-  -- }
-
-  -- use {
-  --   'dominickng/fzf-session.vim',
-  --   setup = function()
-  --     vim.g.fzf_session_path = vim.fn.stdpath('data').."/sessions"
-  --   end
-  -- }
-
-  -- use 'gfanto/fzf-lsp.nvim'
 
   -- Telescope
   use {

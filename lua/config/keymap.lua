@@ -36,7 +36,7 @@ map('n', '<leader>gs',       ':Telescope git_status<CR>')
 map('n', '<leader>pp',       ':Telescope session-lens search_session<CR>')
 map('n', '<leader>d',        ':Telescope lsp_document_symbols<CR>')
 map('n', '<leader>D',        ':Telescope lsp_workspace_diagnostics<CR>')
-map('n', '<leader>a',        ':Telescope lsp_code_actions<CR>')
+map('n', '<leader>a',        ':Telescope lsp_code_actions theme=get_dropdown<CR>')
 map('n', 'gr',               ':Telescope lsp_references<CR>')
 
 -- map('n', '<leader><leader>', '<cmd>lua require"telescope.builtin".find_files()<CR>')
@@ -49,7 +49,8 @@ map('n', 'gr',               ':Telescope lsp_references<CR>')
 
 
 -- Quickfix and location list
-map('n', '<leader>l', '<cmd>lua require"qf".open("l")<CR>') -- Open location list
+map('n', '<leader>ll', '<cmd>lua require"qf".open("l")<CR>') -- Open location list
+map('n', '<leader>lo', '<cmd>lua require"qf".open("l")<CR>') -- Open location list
 map('n', '<leader>lc', '<cmd>lua require"qf".close("l")<CR>') -- Close location list
 map('n', '<leader>lt', '<cmd>lua require"qf".toggle("l", true)<CR>') -- Toggle location list and stay in current window
 
@@ -99,6 +100,11 @@ map('n', '<leader>wj', '<C-w>j')
 map('n', '<leader>wk', '<C-w>k')
 map('n', '<leader>wl', '<C-w>l')
 map('n', '<leader>w=', '<C-w>=')
+map('n', '<leader>w|', '<C-w>|')
+map('n', '<leader>w_', '<C-w>_')
+
+map('n', '<leader>w+', ':vertical resize +20 | :resize +20<CR>')
+map('n', '<leader>w-', ':vertical resize -20 | :resize -20<CR>')
 
 map('n', '<leader>w<C-h>', '<C-w>h<C-w>q')
 map('n', '<leader>w<C-j>', '<C-w>j<C-w>q')
@@ -149,8 +155,6 @@ map('n', 'ga', '<plug>(EasyAlign)')
 -- Snippet expansion
 map('i', '<C-l>', 'vsnip#available(1) ? "<plug>(vsnip-expand-or-jump)" : "<C-l>"', { expr = true})
 map('n', '<C-l>', 'vsnip#available(1) ? "<plug>(vsnip-expand-or-jump)" : "<C-l>"', { expr = true})
-
-map('i', '<CR>', 'v:lua.autopairs_cr()', { expr = true })
 
 -- Completion
 map('i', '<tab>', '<Plug>(completion_smart_tab)')

@@ -52,6 +52,24 @@ local palettes = {
       yellow = '#e5c07b',
     }
   end,
+  ["doom-one"] = function()
+    return {
+      black = '#1b2229',
+      blue = '#51afef',
+      cyan = '#46d9ff',
+      dark_blue= '#2257a0',
+      dark_cyan= '#5699af',
+      green= '#98be65',
+      grey = '#3f444a',
+      purple = '#c678dd',
+      orange = '#da8548',
+      red= '#ff6c6b',
+      teal = '#4db5bd',
+      violet = '#a9a1e1',
+      white= '#efefef',
+      yellow = '#ecbe7b',
+    }
+  end,
   nord = function()
     return {
       black  = '#2e3440',
@@ -68,8 +86,8 @@ local palettes = {
 
 -- Returns a dictionary of current common colors
 function M.generate_palette()
-  M.palette = palettes[vim.g.colors_name]() or palettes['sonokai']
-  return M.palette
+  M.palette = palettes[vim.g.colors_name] or palettes['sonokai']
+  return M.palette()
 end
 
 
@@ -85,9 +103,9 @@ function M.setup()
 
   local normal = M.get_hl('Normal')
   local signcolumn_bg = M.get_hl('SignColumn').bg
+  local statusline_bg = M.get_hl('StatusLine').bg
 
   local normal_bg = normal.bg
-
 
   highlight('Black',  p.black)
   highlight('Blue',   p.blue)
@@ -98,6 +116,14 @@ function M.setup()
   highlight('Red',    p.red)
   highlight('Yellow', p.yellow)
 
+  highlight('SL_Black',  p.black,  statusline_bg)
+  highlight('SL_Blue',   p.blue,   statusline_bg)
+  highlight('SL_Green',  p.green,  statusline_bg)
+  highlight('SL_Grey',   p.grey,   statusline_bg)
+  highlight('SL_Orange', p.orange, statusline_bg)
+  highlight('SL_Purple', p.purple, statusline_bg)
+  highlight('SL_Red',    p.red,    statusline_bg)
+  highlight('SL_Yellow', p.yellow, statusline_bg)
 
   highlight('GreenBold',  p.green,  nil, 'bold')
   highlight('OrangeBold', p.orange, nil, 'bold')
@@ -105,12 +131,15 @@ function M.setup()
   highlight('RedBold',    p.red,    nil, 'bold')
   highlight('YellowBold', p.yellow, nil, 'bold')
 
-  highlight('LspDiagnosticsSignError',   p.red, signcolumn_bg)
-  highlight('LspDiagnosticsSignWarning', p.orange, signcolumn_bg)
-  highlight('LspDiagnosticsSignInfo',    p.purple, signcolumn_bg)
-  highlight('LspDiagnosticsSignHint',    p.green, signcolumn_bg)
+  -- highlight('LspDiagnosticsSignError',   p.red, signcolumn_bg)
+  -- highlight('LspDiagnosticsSignWarning', p.orange, signcolumn_bg)
+  -- highlight('LspDiagnosticsSignInfo',    p.purple, signcolumn_bg)
+  -- highlight('LspDiagnosticsSignHint',    p.green, signcolumn_bg)
 
-  highlight('LspDiagnosticsUnderlineWarning', nil, nil, 'undercurl', p.orange)
+  -- highlight('LspDiagnosticsUnderlineError',       nil, nil, 'undercurl', p.red)
+  -- highlight('LspDiagnosticsUnderlineWarning',     nil, nil, 'undercurl', p.orange)
+  -- highlight('LspDiagnosticsUnderlineInformation', nil, nil, 'undercurl', p.blue)
+  -- highlight('LspDiagnosticsUnderlineHint',        nil, nil, 'undercurl', p.green)
 
   highlight('BlackInv',  normal_bg, p.black,  'bold')
   highlight('BlueInv',   normal_bg, p.blue,   'bold')
@@ -127,6 +156,7 @@ function M.setup()
   link('STHint',                   'Green')
   link('GitSignsCurrentLineBlame', 'Comment')
   link('FocusedSymbol',            'GreenInv')
+  link('BufferCurrentMod',         'String')
 end
 
 return M
