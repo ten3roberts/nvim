@@ -66,6 +66,13 @@ map('n', '<leader>k', '<cmd>lua require"qf".above("l")<CR>') -- Go to previous l
 map('n', '<leader>J', '<cmd>lua require"qf".below("c")<CR>') -- Go to next quickfix entry from cursor
 map('n', '<leader>K', '<cmd>lua require"qf".above("c")<CR>') -- Go to previous quickfix entry from cursor
 
+-- Dispatching
+map('n', '<leader>eb', '<cmd>lua require"config.dispatch".dispatch("build")<CR>')
+map('n', '<leader>er', '<cmd>lua require"config.dispatch".dispatch("run")<CR>')
+map('n', '<leader>et', '<cmd>lua require"config.dispatch".dispatch("test")<CR>')
+map('n', '<leader>el', '<cmd>lua require"config.dispatch".dispatch("lint")<CR>')
+map('n', '<leader>ec', '<cmd>lua require"config.dispatch".dispatch("check")<CR>')
+
 -- Barbar
 map('n', '<A-,>', ':BufferPrevious<CR>')
 map('n', '<A-.>', ':BufferNext<CR>')

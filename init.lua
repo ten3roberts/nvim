@@ -1,5 +1,3 @@
-require 'config.plugins'
-
 require 'config.keymap'
 require 'config.options'
 require 'config.dev_utils'

@@ -76,8 +76,17 @@ return require('packer').startup(function(use)
   use 'rakr/vim-one'
   use 'romgrk/doom-one.vim'
   use 'sainnhe/sonokai'
-  use 'tpope/vim-abolish' -- Change casing styles and provide smart search and replce
+  use 'tikhomirov/vim-glsl'
+  -- Change casing styles and provide smart search and replce
+  use {
+    'tpope/vim-abolish',
+    cond = 'true',
+    config = function()
+      require'config.abolish'
+    end
+  }
   use 'tpope/vim-commentary' -- Toggle comments
+  use 'tpope/vim-dispatch'
   use 'tpope/vim-fugitive' -- Git management
   use 'tpope/vim-repeat' -- Repeat plugin commands with .
   use 'tpope/vim-surround' -- ( surround text )
@@ -222,7 +231,7 @@ return require('packer').startup(function(use)
     'rmagatti/session-lens',
     config = function()
       require'session-lens'.setup {
-        shorten_path=false
+        shorten_path = false
       }
     end
   }

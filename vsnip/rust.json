@@ -4,24 +4,28 @@
     "body": [
       "// Returns a reference the ${1}'s ${2}.",
       "pub fn ${2}(&self) -> &${3} {",
-        "    &self.${4}",
-        "}"
+      "    &self.${4}",
+      "}"
     ]
   },
   "debug": {
     "prefix": "debug",
-      "body": "log::debug!(\"${1}: {:#?}\", ${2});"
+    "body": "log::debug!(\"${1}: {:#?}\", ${2});"
   },
   "info": {
     "prefix": "info",
-      "body": "log::info!(\"${1}: {:#?}\", ${2});"
+    "body": "log::info!(\"${1}: {:#?}\", ${2});"
   },
   "static_send_sync": {
     "prefix": "static",
-      "body": "'static + Send + Sync "
+    "body": "'static + Send + Sync "
   },
   "derive_copy": {
     "prefix": "copy",
     "body": "#[derive(Debug, Clone, Copy, PartialEq)]"
+  },
+  "as_ref": {
+    "prefix": "as_ref",
+    "body": "let ${1} = ${1}.as_ref();"
   }
 }

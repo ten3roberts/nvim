@@ -1,8 +1,8 @@
 local o = vim.o
 local g = vim.g
 
-o.autoread = true
 -- o.clipboard = 'unnamedplus' -- Use system clipboard
+o.autoread = true
 o.cmdheight = 1
 o.completeopt = 'menuone,noselect'
 o.confirm = true -- Disable 'no write'

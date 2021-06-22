@@ -5,8 +5,12 @@ end
 vim.cmd 'augroup CONFIG'
 vim.cmd 'autocmd!'
 
+autocmd('FileType', '*', 'lua require"config.dispatch".on_ft()')
+
 -- Auto format on save using LSP
 autocmd('BufWritePre', '*', 'lua vim.lsp.buf.formatting_sync()')
+
+autocmd('OptionSet', 'errorformat', 'setlocal errorformat+=%f:%l:\\ %t%*[^:]:%m')
 
 -- Automatically create missing directories
 autocmd('BufWritePre', '*', 'if (&buftype == "") | call mkdir(expand("<afile>:p:h"), "p") | endif')
@@ -15,7 +19,7 @@ autocmd('BufWritePre', '*', 'if (&buftype == "") | call mkdir(expand("<afile>:p:
 autocmd('BufWritePost', '*/Cargo.toml', 'echom "Restarting LSP" | LspRestart')
 
 -- Auto compile when there are changes in plugins.lua
-autocmd('BufWritePost', 'plugins.lua', 'echo "Compiling Packer" | Reload config.plugins | PackerCompile')
+autocmd('BufWritePost', 'plugins.lua', 'Reload config.plugins | echom "Compiling Packer" | PackerCompile')
 
 -- Make Esc work in terminal mode (I know, some programs make use of Esc, but that's rare for my use case)
 autocmd('TermEnter', '*', 'if (&filetype != "fzf") | tnoremap <buffer> <Esc> <C-\\><C-n> | endif')
@@ -37,6 +41,6 @@ autocmd('QuickFixCmdPre', '*', ':wa')
 
 autocmd('InsertLeave,TextChanged', '*', 'lua require"config.lsp".set_loc()')
 
-autocmd('WinLeave', '*', 'AerialClose')
+-- autocmd('WinLeave', '*', 'AerialClose')
 
 vim.cmd 'augroup END'
