@@ -2,12 +2,12 @@ local function buf_map(buf, mod, lhs, rhs, opt)
   vim.api.nvim_buf_set_keymap(buf, mod, lhs, rhs, opt or {})
 end
 
+local aerial = require'aerial'
+local diagnostic = vim.lsp.diagnostic
 local lsp_install = require 'lspinstall'
+local lsp_signature = require'lsp_signature'
 local nvim_lsp = require 'lspconfig'
 local qf = require'qf'
-local diagnostic = vim.lsp.diagnostic
--- local util = vim.lsp.util
--- local api = vim.api
 
 local M = { buffers = {}, statusline_cache = {} }
 
@@ -24,36 +24,45 @@ function M.on_attach()
   print("LSP started")
 
   -- Lsp signature
-  require'lsp_signature'.on_attach({
+  lsp_signature.on_attach({
     bind = true,
     handler_opts = {
       border = "single"   -- double, single, shadow, none
     },
   })
 
-  -- Setup mappings
-  local bufnr = vim.fn.bufnr('.')
+  aerial.on_attach()
 
-  buf_map(bufnr, 'n', 'gD',         '<cmd>lua vim.lsp.buf.declaration()<CR>')
-  buf_map(bufnr, 'n', 'gd',         '<cmd>lua vim.lsp.buf.definition()<CR>')
-  buf_map(bufnr, 'n', 'K',          '<cmd>lua vim.lsp.buf.hover()<CR>')
-  buf_map(bufnr, 'n', 'gi',         '<cmd>lua vim.lsp.buf.implementation()<CR>')
-  buf_map(bufnr, 'n', '<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>')
-  buf_map(bufnr, 'n', '<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>')
-  buf_map(bufnr, 'n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>')
-  buf_map(bufnr, 'n', 'gy',         '<cmd>lua vim.lsp.buf.type_definition()<CR>')
-  buf_map(bufnr, 'n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>')
+  -- Setup mappings
+
+  -- Jump forwards/backwards with '{' and '}'
+  buf_map(0, '', '[[',         '<cmd>AerialPrev<CR>',    {})
+  buf_map(0, '', ']]',         '<cmd>AerialNext<CR>',    {})
+
+  -- Jump forwards/backwards at the same tree level with '[[' and ']]'
+  buf_map(0, '', '[m',        '<cmd>AerialPrevUp<CR>',  {})
+  buf_map(0, '', ']m',        '<cmd>AerialNextUp<CR>',  {})
+
+  buf_map(0, 'n', 'gD',         '<cmd>lua vim.lsp.buf.declaration()<CR>')
+  buf_map(0, 'n', 'gd',         '<cmd>lua vim.lsp.buf.definition()<CR>')
+  buf_map(0, 'n', 'K',          '<cmd>lua vim.lsp.buf.hover()<CR>')
+  buf_map(0, 'n', 'gi',         '<cmd>lua vim.lsp.buf.implementation()<CR>')
+  buf_map(0, 'n', '<leader>cwa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>')
+  buf_map(0, 'n', '<leader>cwr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>')
+  buf_map(0, 'n', '<leader>cwl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>')
+  buf_map(0, 'n', 'gy',         '<cmd>lua vim.lsp.buf.type_definition()<CR>')
+  buf_map(0, 'n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>')
   -- buf_map(bufnr, 'n', '<leader>a',  ':CodeAction<CR>')
   -- buf_map(bufnr, 'n', 'gr',         ':References<CR>')
-  buf_map(bufnr, 'n', '<leader>e',  '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>')
-  buf_map(bufnr, 'n', '[d',         '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
-  buf_map(bufnr, 'n', ']d',         '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
-  buf_map(bufnr, 'n', '<leader>q',  '<cmd>lua require"config.lsp".set_loc()<CR>')
-  buf_map(bufnr, "n", "<leader>cf", "<cmd>lua vim.lsp.buf.formatting()<CR>")
+  buf_map(0, 'n', '<leader>e',  '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>')
+  buf_map(0, 'n', '[d',         '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
+  buf_map(0, 'n', ']d',         '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
+  buf_map(0, 'n', '<leader>q',  '<cmd>lua require"config.lsp".set_loc()<CR>')
+  buf_map(0, "n", "<leader>cf", "<cmd>lua vim.lsp.buf.formatting()<CR>")
 
 end
 
--- Sets the location list with predefined options. Does not focus list.
+-- Sets th0ation list with predefined options. Does not focus list.
 function M.set_loc()
   -- buffer = buffer or vim.fn.bufnr('%')
   local severity_limit = nil
@@ -178,7 +187,11 @@ M.configs = {
       }
     }
 
-    return {}
+    return {
+        cargo = {
+          runBuildScripts = false,
+        }
+    }
   end
 }
 
@@ -188,6 +201,7 @@ function M.setup()
   for _, server in pairs(servers) do
     local config = M.configs[server]
     config = vim.tbl_extend( "force", { on_attach = M.on_attach }, config and config() or {})
+    -- print(vim.inspect(config))
 
     nvim_lsp[server].setup(config)
   end

@@ -1,5 +1,6 @@
 
 local api = vim.api
+local g = vim.g
 local fn = vim.fn
 local cmd = vim.cmd
 
@@ -10,7 +11,8 @@ local M = {}
 
 local special_map = {
   NvimTree = { '%#Yellow#  Files', '  Files'},
-  Outline = { '%#Purple#  Outline', '  Outline'  }
+  Outline = { '%#Purple#  Outline', '  Outline'  },
+  aerial = { '%#Purple# λ Aerial', ' λ Aerial'  }
 }
 
 local branch = ''
@@ -114,6 +116,14 @@ end
 
 function M.update()
   local bufnr = fn.bufnr('%')
+
+  local winid = fn.win_getid()
+  local actual_curwin = tonumber(g.actual_curwin)
+
+  if winid ~= actual_curwin then
+    return M.update_inactive()
+  end
+
   local ft, readonly, row, col, percent = get_infos(bufnr)
 
   local special = special_map[ft]
@@ -180,12 +190,12 @@ function M.update_inactive()
 end
 
 function M.setup()
-  vim.o.statusline = '%!v:lua.require\'config.statusline\'.update()'
+  vim.o.statusline = '%{%v:lua.require\'config.statusline\'.update()%}'
 
   cmd [[
   augroup Statusline
   autocmd!
-  autocmd BufWinEnter,WinEnter,BufEnter * lua vim.wo.statusline='%!v:lua.require\'config.statusline\'.update()'
+  autocmd BufWinEnter,WinEnter,BufEnter * lua vim.wo.statusline='%{%v:lua.require\'config.statusline\'.update()%}'
   autocmd WinLeave,BufLeave * lua vim.wo.statusline=require'config.statusline'.update_inactive()
   autocmd ColorScheme * lua require 'config.palette'.setup()
   augroup END

@@ -5,9 +5,6 @@ end
 vim.cmd 'augroup CONFIG'
 vim.cmd 'autocmd!'
 
--- Set compiler to use cargo in rust files
-autocmd('FileType', 'rust', 'compiler cargo')
-
 -- Auto format on save using LSP
 autocmd('BufWritePre', '*', 'lua vim.lsp.buf.formatting_sync()')
 
@@ -29,9 +26,6 @@ autocmd('FileType', 'fugitive', 'map <buffer> <Tab> =')
 -- Restore last position when opening file
 autocmd('BufReadPost', '*', [[ if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif ]])
 
--- Resize and lock outline size
-autocmd('FileType', 'Outline', 'vertical resize 40 | set winfixwidth')
-
 -- Make windows equal sized when resizing OS window
 autocmd('VimResized', '*', 'wincmd =')
 
@@ -42,5 +36,7 @@ autocmd('BufUnload,BufDelete',  '*', 'lua require"config.lsp".clear_buffer_cache
 autocmd('QuickFixCmdPre', '*', ':wa')
 
 autocmd('InsertLeave,TextChanged', '*', 'lua require"config.lsp".set_loc()')
+
+autocmd('WinLeave', '*', 'AerialClose')
 
 vim.cmd 'augroup END'

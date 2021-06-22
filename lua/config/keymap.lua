@@ -8,7 +8,7 @@ vim.g.mapleader = ' '
 
 map('n', '<leader>f',  ':NvimTreeFindFile<CR>')
 map('n', '<leader>pe', ':NvimTreeToggle<CR>')
-map('n', '<leader>po', ':SymbolsOutline<CR>')
+map('n', '<leader>po', ':AerialToggle<CR>')
 
 -- -- Fzf
 -- map('n', '<leader><leader>', ':Files<CR>')

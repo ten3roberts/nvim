@@ -35,6 +35,7 @@ return require('packer').startup(function(use)
         auto_resize = true, -- Auto resize and shrink location list if less than `max_height`
         max_height = 5, -- Maximum height of location/quickfix list
         min_height = 5, -- Minumum height of location/quickfix list
+        wide = false,
       },
       -- Quickfix list configuration
       ['c'] = {
@@ -45,6 +46,7 @@ return require('packer').startup(function(use)
         auto_resize = true, -- Auto resize and shrink location list if less than `max_height`
         max_height = 8, -- Maximum height of location/quickfix list
         min_height = 5, -- Minumum height of location/quickfix list
+        wide = true
       },
       qf_close_loc = true,
     }
@@ -56,24 +58,24 @@ return require('packer').startup(function(use)
     config = function()
       require'darken'.setup{
         amount = 0.7,
-        filetypes = { 'NvimTree', 'qf', 'help', 'Outline' }
+        filetypes = { 'NvimTree', 'qf', 'help', 'aerial' }
       }
     end
   }
 
   -- Colorschemes
-  use 'arcticicestudio/nord-vim'
-  use 'rakr/vim-one'
-  use 'romgrk/doom-one.vim'
-  use 'sainnhe/sonokai'
   use  { 'maxbrunsfeld/vim-yankstack', setup = function() vim.g.yankstack_yank_keys = { 'y', 'd', 'c' } end } -- Easily use the registers
   use 'AndrewRadev/sideways.vim' -- Move arguments and elements in list around
-  use 'wesQ3/vim-windowswap'
   use 'AndrewRadev/splitjoin.vim' -- Join and breakup statements
   use 'airblade/vim-rooter' -- Change cwd to the git root
+  use 'arcticicestudio/nord-vim'
+  use 'arecarn/vim-clean-fold'
   use 'dkarter/bullets.vim' -- Markdown bullet management
   use 'junegunn/vim-easy-align' -- Align text blocks
   use 'qxxxb/vim-searchhi' -- Highlight current search match
+  use 'rakr/vim-one'
+  use 'romgrk/doom-one.vim'
+  use 'sainnhe/sonokai'
   use 'tpope/vim-abolish' -- Change casing styles and provide smart search and replce
   use 'tpope/vim-commentary' -- Toggle comments
   use 'tpope/vim-fugitive' -- Git management
@@ -81,6 +83,7 @@ return require('packer').startup(function(use)
   use 'tpope/vim-surround' -- ( surround text )
   use 'tpope/vim-unimpaired' -- Handy bracket mappings
   use 'wellle/targets.vim' -- Better handling and seeking for textobjects
+  use 'wesQ3/vim-windowswap'
 
   -- Quickly jump in file by 2 chars
   use { 'justinmk/vim-sneak', config = function()
@@ -165,26 +168,7 @@ return require('packer').startup(function(use)
   end
   }
 
-  use {
-    'simrat39/symbols-outline.nvim',
-    config = function()
-      vim.g.symbols_outline = {
-        highlight_hovered_item = true,
-        show_guides = true,
-        auto_preview = false,
-        position = 'right',
-        keymaps = {
-          close = "<C-c>",
-          goto_location = "<Cr>",
-          focus_location = "o",
-          hover_symbol = "<C-space>",
-          rename_symbol = "r",
-          code_actions = "a",
-        },
-        lsp_blacklist = {},
-      }
-    end
-  }
+  use 'stevearc/aerial.nvim' -- Symbol tree
 
   -- Show changed lines
   use {
@@ -205,7 +189,6 @@ return require('packer').startup(function(use)
     config = function() require'config.treesitter' end
   }
 
-  use 'nvim-treesitter/nvim-treesitter-textobjects' -- Swap arguments and select functions
   use 'ray-x/lsp_signature.nvim' -- Show function signature help
   use 'kabouzeid/nvim-lspinstall' -- Automatically install lsp servers
 
