@@ -13,7 +13,9 @@ table.insert(path, "lua/?/init.lua")
 local function add(lib)
   for _, p in pairs(vim.fn.expand(lib, false, true)) do
     p = vim.loop.fs_realpath(p)
-    library[p] = true
+    if p then
+      library[p] = true
+    end
   end
 end
 
@@ -23,10 +25,9 @@ add("$VIMRUNTIME")
 -- add your config
 add("~/.config/nvim")
 
--- add plugins
--- if you're not using packer, then you might need to change the paths below
-add("~/.local/share/nvim/site/pack/packer/opt/*")
-add("~/.local/share/nvim/site/pack/packer/start/*")
+-- add plugins from paq
+add("~/.local/share/nvim/site/pack/paqs/opt/*")
+add("~/.local/share/nvim/site/pack/paqs/start/*")
 
 return {
   -- delete root from workspace to make sure we don't trigger duplicate warnings
@@ -52,8 +53,8 @@ return {
       workspace = {
         -- Make the server aware of Neovim runtime files
         library = library,
-        maxPreload = 2000,
-        preloadFileSize = 50000
+        maxPreload = 200,
+        preloadFileSize = 5000
       },
       -- Do not send telemetry data containing a randomized but unique identifier
       telemetry = { enable = false }

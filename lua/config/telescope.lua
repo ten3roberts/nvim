@@ -1,6 +1,11 @@
 local actions = require('telescope.actions')
 
-require('telescope').setup {
+
+      require'session-lens'.setup {
+        shorten_path = false
+      }
+
+require'telescope'.setup {
   defaults = {
     find_command = { 'rg', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case' },
     prompt_position = "bottom",

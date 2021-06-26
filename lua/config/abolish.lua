@@ -7,3 +7,5 @@ end
 abolish('wiht{,out}', 'with{,out}')
 abolish('widht', 'width')
 abolish('requirment{,s}', 'requirement{,s}')
+abolish('rqeuire', 'require')
+abolish('dispath', 'dispatch')

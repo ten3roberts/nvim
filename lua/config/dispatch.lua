@@ -1,7 +1,16 @@
 local api = vim.api
 local b = vim.b
 local cmd = vim.cmd
+local fn = vim.fn
 local o = vim.o
+
+local default = {
+  build = './scripts/build.sh',
+  clean = './scripts/clean.sh',
+  list = './scripts/lint.sh',
+  run = './scripts/run.sh',
+  test = './scripts/test.sh',
+}
 
 local filetypes = {
   rust = {
@@ -19,38 +28,51 @@ local filetypes = {
     lint = 'luac %',
     run = 'lua %',
   },
+  __index = function()
+    return default
+  end
 }
 
-local default = {
-  build = './scripts/build.sh',
-  clean = './scripts/clean.sh',
-  list = './scripts/lint.sh',
-  run = './scripts/run.sh',
-  test = './scripts/test.sh',
-}
+setmetatable(filetypes, filetypes)
 
 local M = {}
 
-local current_commands = default;
-local current_ft = nil;
+local current_commands = {};
 
-function M.on_ft()
-  local ft = o.filetype
+function M.load_config(path, verbose)
+  local file = io.open(path, 'r')
 
-  local filetype_comands = filetypes[ft]
-  if filetype_comands then
-    current_commands = filetype_comands
-    current_ft = ft
+  if not file then
+    if verbose == nil or verbose then
+      api.nvim_err_writeln(string.format("Config file %q does not exist", path))
+    end
+    return
   end
 
+  local lines = {}
+
+  for line in file:lines() do
+    lines[#lines+1] = line
+  end
+
+  local cont = table.concat(lines, '\n')
+  M.set_commands(fn.json_decode(cont))
+end
+
+function M.on_ft()
+  b.dispatch = M.get_command('build')
+end
+
+function M.set_commands(commands)
+  current_commands = commands
   b.dispatch = M.get_command('build')
 end
 
 function M.get_command(name)
-  local command = current_commands[name]
+  local command = current_commands[name] or filetypes[o.filetype][name]
 
   if command == nil then
-    api.nvim_err_writeln(string.format("Unknown dispatch command '%s' for '%s'", command, current_ft or 'none'))
+    api.nvim_err_writeln(string.format("Unknown dispatch command '%s'", name))
     return
   end
 

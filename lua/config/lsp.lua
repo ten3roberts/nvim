@@ -16,7 +16,7 @@ local DiagnosticSeverity = require'vim.lsp.protocol'.DiagnosticSeverity
 local diagnostic_severities = {
   [DiagnosticSeverity.Error]       = { hl = '%#STError#', type == 'E', kind = 'error', sign = ''};
   [DiagnosticSeverity.Warning]     = { hl = '%#STWarning#', type == 'W', kind = 'warning', sign = ''};
-  [DiagnosticSeverity.Information] = { hl = '%#STInfo#',type == 'I', kind = 'info', sign = ''};
+  [DiagnosticSeverity.Information] = { hl = '%#STInfo#', type == 'I', kind = 'info', sign = ''};
   [DiagnosticSeverity.Hint]        = { hl = '%#STHint#', type = 'I', kind = 'hint', sign = ''};
 }
 
@@ -36,12 +36,12 @@ function M.on_attach()
   -- Setup mappings
 
   -- Jump forwards/backwards with '{' and '}'
-  buf_map(0, '', '[[',         '<cmd>AerialPrev<CR>',    {})
-  buf_map(0, '', ']]',         '<cmd>AerialNext<CR>',    {})
+  buf_map(0, '', '{',         '<cmd>AerialPrev<CR>')
+  buf_map(0, '', '}',         '<cmd>AerialNext<CR>')
 
   -- Jump forwards/backwards at the same tree level with '[[' and ']]'
-  buf_map(0, '', '[m',        '<cmd>AerialPrevUp<CR>',  {})
-  buf_map(0, '', ']m',        '<cmd>AerialNextUp<CR>',  {})
+  buf_map(0, '', '[[',         '<cmd>AerialPrevUp<CR>')
+  buf_map(0, '', ']]',         '<cmd>AerialNextUp<CR>')
 
   buf_map(0, 'n', 'gD',         '<cmd>lua vim.lsp.buf.declaration()<CR>')
   buf_map(0, 'n', 'gd',         '<cmd>lua vim.lsp.buf.definition()<CR>')
@@ -188,9 +188,13 @@ M.configs = {
     }
 
     return {
-        cargo = {
-          runBuildScripts = false,
+      setting = {
+        ['rust-analyzer'] = {
+          cargo = {
+            runBuildScripts = false,
+          }
         }
+      }
     }
   end
 }

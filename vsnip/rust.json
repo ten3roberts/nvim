@@ -27,5 +27,9 @@
   "as_ref": {
     "prefix": "as_ref",
     "body": "let ${1} = ${1}.as_ref();"
+  },
+  "Default": {
+    "prefix": "default",
+    "body": "Default::default()"
   }
 }

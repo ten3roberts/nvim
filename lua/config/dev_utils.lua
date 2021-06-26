@@ -33,7 +33,7 @@ function M.reload(module)
   module = module or get_module_name(vim.fn.expand('%:p:r'))
 
   print ('Reloading ' .. module)
-  require 'plenary.reload'.reload_module (module)
+  package.loaded[module] = nil
   return require(module)
 end
 

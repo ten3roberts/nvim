@@ -65,6 +65,8 @@ map('n', '<leader>k', '<cmd>lua require"qf".above("l")<CR>') -- Go to previous l
 
 map('n', '<leader>J', '<cmd>lua require"qf".below("c")<CR>') -- Go to next quickfix entry from cursor
 map('n', '<leader>K', '<cmd>lua require"qf".above("c")<CR>') -- Go to previous quickfix entry from cursor
+map('n', ']q', '<cmd>lua require"qf".below("visible")<CR>') -- Go to next quickfix entry from cursor
+map('n', '[q', '<cmd>lua require"qf".above("visible")<CR>') -- Go to previous quickfix entry from cursor
 
 -- Dispatching
 map('n', '<leader>eb', '<cmd>lua require"config.dispatch".dispatch("build")<CR>')
@@ -96,6 +98,8 @@ map('n', '<leader>bp', '<C-^>')
 
 -- Window mappings
 map('n', '<leader>wo', '<C-w>o')
+map('n', '<leader>ws', '<C-w>s')
+map('n', '<leader>wv', '<C-w>v')
 map('n', '<leader>wq', '<C-w>q')
 map('n', '<leader>wp', '<C-w>P')
 map('n', '<leader>wH', '<C-w>H')
@@ -168,8 +172,8 @@ map('i', '<tab>', '<Plug>(completion_smart_tab)')
 map('i', '<s-tab>', '<Plug>(completion_smart_s_tab)')
 
 -- Movements
-map('', '<C-j>', '}')
-map('', '<C-k>', '{')
+map('', '<C-j>', '}', { noremap = true })
+map('', '<C-k>', '{', { noremap = true })
 
 map('', '<C-e>', '$')
 map('', '<C-b>', '^')
