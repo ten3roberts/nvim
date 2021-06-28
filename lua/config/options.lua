@@ -5,7 +5,6 @@ local g = vim.g
 -- o.clipboard = 'unnamedplus' -- Use system clipboard
 o.autoread = true
 o.cmdheight = 1
-o.runtimepath = o.runtimepath .. ",~/dev/nvim"
 o.completeopt = 'menuone,noselect'
 o.confirm = true -- Disable 'no write'
 o.cursorline = false
@@ -25,10 +24,11 @@ o.incsearch = true -- Move cursor during search
 o.laststatus = 2
 o.linebreak = true
 o.mouse = 'nvc'
-o.number = true
+o.number = false
 o.path = o.path .. '**'
 o.pumheight = 8
-o.relativenumber = true
+o.relativenumber = false
+o.runtimepath = o.runtimepath .. ",~/dev/nvim"
 o.scrolloff = 8 -- Lines from the cursor
 o.sessionoptions = 'buffers,folds'
 o.shiftwidth = 2
@@ -45,9 +45,12 @@ o.termguicolors = true
 o.textwidth = 80
 o.title = true
 o.titlestring="nvim %{fnamemodify(getcwd(), ':~')} %M"
+o.undofile = true
 o.updatetime = 500
 o.wildmenu = true -- Command line completion mode
 o.wildmode = 'full' -- Command line completion mode
+
+g.windowswap_map_keys = 0
 
 -- AutoPairs
 g.AutoPairsMapBS = 1
@@ -77,8 +80,9 @@ g.nvim_tree_show_icons = {
   files = 1,
   folder_arrows = 0,
 }
+g.nvim_tree_quit_on_open = 1
 g.nvim_tree_group_empty = 0
-g.nvim_tree_disable_window_picker = 1
+g.nvim_tree_disable_window_picker = 0
 g.nvim_tree_lsp_diagnostics = 1
 g.nvim_tree_special_files = {}
 
@@ -100,7 +104,7 @@ g.bufferline = {
   no_name_title = nil,
 }
 
-vim.g.yankstack_yank_keys = { 'y', 'd', 'c' } 
+vim.g.yankstack_yank_keys = { 'y', 'd', 'c' }
 
 -- Rooter
 g.rooter_patterns = { '.git' }

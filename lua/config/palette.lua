@@ -102,7 +102,7 @@ function M.setup()
   local p = M.generate_palette()
 
   local normal = M.get_hl('Normal')
-  local signcolumn_bg = M.get_hl('SignColumn').bg
+
   local statusline_bg = M.get_hl('StatusLine').bg
 
   local normal_bg = normal.bg
@@ -140,6 +140,10 @@ function M.setup()
   -- highlight('LspDiagnosticsUnderlineWarning',     nil, nil, 'undercurl', p.orange)
   -- highlight('LspDiagnosticsUnderlineInformation', nil, nil, 'undercurl', p.blue)
   -- highlight('LspDiagnosticsUnderlineHint',        nil, nil, 'undercurl', p.green)
+  --
+  link('HopNextKey',   'WarningMsg')
+  link('HopNextKey1',  'Green')
+  link('HopUnmatched', 'Comment')
 
   highlight('BlackInv',  normal_bg, p.black,  'bold')
   highlight('BlueInv',   normal_bg, p.blue,   'bold')
@@ -156,7 +160,8 @@ function M.setup()
   link('STHint',                   'Green')
   link('GitSignsCurrentLineBlame', 'Comment')
   link('FocusedSymbol',            'GreenInv')
-  link('BufferCurrentMod',         'String')
+
+  link('BufferCurrentMod', 'String')
 end
 
 return M

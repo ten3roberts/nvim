@@ -1,9 +1,18 @@
-local actions = require('telescope.actions')
+local fn = vim.fn
+local actions = require'telescope.actions'
+local sorters = require'telescope.sorters'
+
+local finders = require('telescope.finders')
+local make_entry = require('telescope.make_entry')
+local pickers = require('telescope.pickers')
+local previewers = require('telescope.previewers')
+local utils = require('telescope.utils')
+local conf = require('telescope.config').values
 
 
-      require'session-lens'.setup {
-        shorten_path = false
-      }
+require'session-lens'.setup {
+  shorten_path = false
+}
 
 require'telescope'.setup {
   defaults = {
@@ -18,9 +27,9 @@ require'telescope'.setup {
     sorting_strategy = "descending",
     layout_strategy = "horizontal",
     layout_defaults = {horizontal = {mirror = false}, vertical = {mirror = false}},
-    file_sorter = require'telescope.sorters'.get_fzy_sorter,
+    file_sorter = sorters.get_fzy_sorter,
     file_ignore_patterns = {},
-    generic_sorter = require'telescope.sorters'.get_generic_fuzzy_sorter,
+    generic_sorter = sorters.get_fzy_sorter,
     shorten_path = true,
     winblend = 0,
     width = 0.25,
@@ -49,7 +58,7 @@ require'telescope'.setup {
         -- To disable a keymap, put [map] = false
         -- So, to not map "<C-n>", just put
         -- ["<c-x>"] = false,
-        -- ["<Esc>"] = actions.close,
+        ["<Esc>"] = actions.close,
 
         -- Otherwise, just set the mapping to the function that you want it to be.
         -- ["<C-i>"] = actions.select_horizontal,
@@ -73,8 +82,10 @@ require'telescope'.setup {
     theme = 'dropdown',
     buffers = {
       sort_lastused = true,
+      ignore_current_buffer = false,
       theme = 'dropdown',
       previewer = false,
+      bufnr_width = 2,
       mappings = {
         i = {
           ["<c-d>"] = require("telescope.actions").delete_buffer,
@@ -85,9 +96,20 @@ require'telescope'.setup {
       }
     },
     find_files = {
+      theme = 'dropdown',
+
     }
   },
   extensions = {
     fzy_native = {override_generic_sorter = true, override_file_sorter = true},
   },
 }
+
+function _G.fd_proximity()
+  if vim.o.buftype ~= '' then
+    return {'fd'}
+  end
+  local fname = fn.expand('%')
+
+  return {'sh',  '-c', 'fd | proximity-sort ' .. fname}
+end

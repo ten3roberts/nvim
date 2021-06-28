@@ -15,38 +15,36 @@ local special_map = {
   aerial = { '%#Purple# λ Aerial', ' λ Aerial'  }
 }
 
-local branch = ''
-
 local mode_map = {
-  ['n']   = { hl = '%#BlueInv#',   val = 'N'  },
-  ['no']  = { hl = '%#BlueInv#',   val = 'NO' },
-  ['niI'] = { hl = '%#BlueInv#',   val = 'NI' },
+  ['n']   = { hl = '%#BlueInv#',   val = ' N '  },
+  ['no']  = { hl = '%#BlueInv#',   val = ' NO ' },
+  ['niI'] = { hl = '%#BlueInv#',   val = ' NI ' },
 
-  ['v']   = { hl = '%#PurpleInv#', val = 'V'  },
-  ['V']   = { hl = '%#PurpleInv#', val = 'VL' },
-  ['niV'] = { hl = '%#PurpleInv#', val = 'VL' },
-  ['\22'] = { hl = '%#PurpleInv#', val = 'VB' },
+  ['v']   = { hl = '%#PurpleInv#', val = ' V '  },
+  ['V']   = { hl = '%#PurpleInv#', val = ' VL ' },
+  ['niV'] = { hl = '%#PurpleInv#', val = ' VL ' },
+  ['\22'] = { hl = '%#PurpleInv#', val = ' VB ' },
 
-  ['i']   = { hl = '%#GreenInv#',  val = 'I'  },
-  ['ic']  = { hl = '%#GreenInv#',  val = 'I'  },
-  ['ix']  = { hl = '%#GreenInv#',  val = 'I'  },
+  ['i']   = { hl = '%#GreenInv#',  val = ' I '  },
+  ['ic']  = { hl = '%#GreenInv#',  val = ' I '  },
+  ['ix']  = { hl = '%#GreenInv#',  val = ' I '  },
 
-  ['R']   = { hl = '%#RedInv#',    val = 'R'  },
-  ['Rv']  = { hl = '%#RedInv#',    val = 'VR' },
-  ['niR']  = { hl = '%#RedInv#',    val = 'VR' },
+  ['R']   = { hl = '%#RedInv#',    val = ' R '  },
+  ['Rv']  = { hl = '%#RedInv#',    val = ' VR ' },
+  ['niR'] = { hl = '%#RedInv#',    val = ' VR ' },
 
-  ['t']   = { hl = '%#OrangeInv#', val = 'T'  },
+  ['t']   = { hl = '%#OrangeInv#', val = ' T '  },
 
-  ['s']   = { hl = '%#YellowInv#', val = 'S'  },
-  ['S']   = { hl = '%#YellowInv#', val = 'SL' },
-  ['^S']  = { hl = '%#YellowInv#', val = 'SB' },
-  ['c']   = { hl = '%#YellowInv#', val = 'C'  },
-  ['cv']  = { hl = '%#YellowInv#', val = 'E'  },
-  ['ce']  = { hl = '%#YellowInv#', val = 'E'  },
-  ['r']   = { hl = '%#YellowInv#', val = 'P'  },
-  ['rm']  = { hl = '%#YellowInv#', val = 'M'  },
-  ['r?']  = { hl = '%#YellowInv#', val = 'C'  },
-  ['!']   = { hl = '%#YellowInv#', val = 'SH' },
+  ['s']   = { hl = '%#YellowInv#', val = ' S '  },
+  ['S']   = { hl = '%#YellowInv#', val = ' SL ' },
+  ['^S']  = { hl = '%#YellowInv#', val = ' SB ' },
+  ['c']   = { hl = '%#YellowInv#', val = ' C '  },
+  ['cv']  = { hl = '%#YellowInv#', val = ' E '  },
+  ['ce']  = { hl = '%#YellowInv#', val = ' E '  },
+  ['r']   = { hl = '%#YellowInv#', val = ' P '  },
+  ['rm']  = { hl = '%#YellowInv#', val = ' M '  },
+  ['r?']  = { hl = '%#YellowInv#', val = ' C '  },
+  ['!']   = { hl = '%#YellowInv#', val = ' SH ' },
 }
 
 local function get_mode()
@@ -58,25 +56,24 @@ local function get_git(highlight)
   local signs = vim.b.gitsigns_status_dict
 
   if not signs then
-    branch = ''
-    return ''
+    return '',''
   end
 
-  branch = signs.head
-  branch = branch and (' ' .. branch) or ''
+  local branch = signs.head
+  branch = branch and ('  ' .. branch .. ' ') or ''
 
   local added,changed,removed = signs.added or 0, signs.changed or 0, signs.removed or 0
 
   if highlight then
-    return
+    return '%#Orange#' .. branch,
       (added > 0 and ('%#Green#+' .. added) or '') ..
       (changed > 0 and (' %#Blue#~' .. changed) or '') ..
-      (removed > 0 and (' %#Red#-' .. removed) or '')
+      (removed > 0 and (' %#Red#-' .. removed) or '') .. ' '
   else
-    return
+    return branch,
       (added > 0 and '+' .. added or '') ..
       (changed > 0 and ' ~' .. changed or '') ..
-      (removed > 0 and ' ~' .. removed or '')
+      (removed > 0 and ' ~' .. removed or '') .. ' '
   end
 end
 
@@ -92,11 +89,13 @@ local function get_infos(bufnr)
 end
 
 local function get_path(highlight)
+  local modified = vim.o.modified
+
   if vim.o.buftype == 'quickfix' then
     local info = fn.getwininfo(vim.g.statusline_winid or fn.win_getid(fn.winnr()))
     if #info ~= 1 or info[1].quickfix ~= 1 then
       return ''
-   end
+    end
     return info[1].variables.quickfix_title or 'Quickfix'
   end
 
@@ -108,9 +107,9 @@ local function get_path(highlight)
   local icon, icon_hl = icons.get_icon(filename, extension)
 
   if highlight then
-    return string.format('%%#%s#%s %%#Normal#%s', icon_hl or '', icon or '', path)
+    return string.format('%%#%s#%s %s%s%s ', icon_hl or '', icon or '', modified and '%#Red#' or '%#Normal#', path, modified and ' ' or '')
   else
-    return string.format('%s %s', icon or '', path)
+    return string.format('%s %s%s ', icon or '', path, modified and ' ' or '')
   end
 end
 
@@ -133,31 +132,18 @@ function M.update()
 
   local mode = get_mode()
   local path = get_path(true)
-  local git = get_git(true)
-  local diag = lsp.statusline(bufnr, true)
+  local branch, git = get_git(true)
+  local lsp = lsp.statusline(bufnr, true)
 
   local items = {
-    mode.val, branch, path, diag, readonly and '' or '',
-    '%=',
-    git, percent, row .. ':' .. col
+    mode.hl .. mode.val, branch, path, lsp, readonly and '' or '',
+    '%#StatusLine#%=%#Normal# ',
+    git, '%#Purple#',
+    percent, ' ', mode.hl, ' ', row, ':', col, ' '
   }
 
-  local hl = {
-    mode.hl, '%#Orange#', '%#Purple#', '', '%#Red#',
-    '%#StatusLineNC#',
-    '%#Normal#', '%#Orange#', mode.hl
-  }
-
-
-  local t = {}
-  for j,v in ipairs(items) do
-    if v ~= nil and #v ~= 0 then
-      t[#t+1] = string.format('%s %s ', hl[j] or '', v)
-    end
-  end
-
-  local s = table.concat(t)
-  return s
+  -- print(vim.inspect(items))
+  return table.concat(items)
 end
 
 function M.update_inactive()
@@ -173,20 +159,12 @@ function M.update_inactive()
   local path = get_path(false)
 
   local items = {
-    mode.val, path, readonly and '' or '',
+    mode.val, ' ', path, readonly and '' or '',
     '%=',
-    percent, row .. ':' .. col
+    percent, '  ', row, ':', col, ' '
   }
 
-  local t = {}
-  for _,v in ipairs(items) do
-    if #v ~= 0 then
-      t[#t+1] = string.format(' %s ', v)
-    end
-  end
-
-  local s = table.concat(t)
-  return s
+  return table.concat(items)
 end
 
 function M.setup()

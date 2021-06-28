@@ -31,5 +31,13 @@
   "Default": {
     "prefix": "default",
     "body": "Default::default()"
+  },
+  "collect": {
+    "prefix": "collect",
+    "body": "collect::<Vec<_>>()?;"
+  },
+  "collect_result": {
+    "prefix": "collect_result",
+    "body": "collect::<Result<Vec<_>, _>>()?;"
   }
 }

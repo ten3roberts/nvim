@@ -4,6 +4,7 @@ end
 
 local aerial = require'aerial'
 local diagnostic = vim.lsp.diagnostic
+local fn = vim.fn
 local lsp_install = require 'lspinstall'
 local lsp_signature = require'lsp_signature'
 local nvim_lsp = require 'lspconfig'
@@ -75,8 +76,12 @@ function M.set_loc()
 
   local opts = { severity_limit = severity_limit, open_loclist = false }
 
+  if vim.o.buftype ~= '' then
+    return
+  end
+
   vim.lsp.diagnostic.set_loclist(opts)
-  if not qf.list_visible('c') then
+  if not qf.list_visible('c') and fn.winheight('.') > 25 then
     qf.open('l', true, false)
   end
 end
@@ -157,19 +162,19 @@ function M.statusline(bufnr, highlight)
     for i,v in ipairs(diagnostics) do
       if v > 0 then
         local severity = diagnostic_severities[i]
-        t[#t+1] = severity.hl .. severity.sign .. ' ' .. v
+        t[#t+1] = severity.hl .. severity.sign .. ' ' .. v .. ' '
       end
     end
   else
     for i,v in ipairs(diagnostics) do
       if v > 0 then
         local severity = diagnostic_severities[i]
-        t[#t+1] = severity.sign .. ' ' .. v
+        t[#t+1] = severity.sign .. ' ' .. v .. ' '
       end
     end
   end
 
-  local s = table.concat(t, '  ')
+  local s = table.concat(t)
   M.statusline_cache[bufnr] = s
   return s
 end

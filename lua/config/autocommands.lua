@@ -17,6 +17,8 @@ autocmd('OptionSet', 'errorformat', 'setlocal errorformat+=%f:%l:\\ %t%*[^:]:%m'
 -- Automatically create missing directories
 autocmd('BufWritePre', '*', 'if (&buftype == "") | call mkdir(expand("<afile>:p:h"), "p") | endif')
 
+autocmd('ColorScheme', '*', 'lua require "config.palette".setup()')
+
 -- Restart language server when modifying Cargo.toml
 autocmd('BufWritePost', '*/Cargo.toml', 'echom "Restarting LSP" | LspRestart')
 
@@ -40,6 +42,6 @@ autocmd('QuickFixCmdPre', '*', ':wa')
 
 autocmd('InsertLeave,TextChanged', '*', 'lua require"config.lsp".set_loc()')
 
--- autocmd('WinLeave', '*', 'AerialClose')
+autocmd('FileType', 'TelescopePrompt', 'let b:autopairs_enabled = 0')
 
 vim.cmd 'augroup END'

@@ -9,6 +9,7 @@ require 'config.telescope'
 require 'config.treesitter'
 require 'config.commands'
 require 'config.clean_fold'
+require 'config.fzf'
 require 'config.lsp'.setup()
 
 require 'config.statusline'.setup()
