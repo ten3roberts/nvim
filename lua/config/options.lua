@@ -5,6 +5,7 @@ local g = vim.g
 -- o.clipboard = 'unnamedplus' -- Use system clipboard
 o.autoread = true
 o.cmdheight = 1
+o.switchbuf = 'useopen,usetab'
 o.completeopt = 'menuone,noselect'
 o.confirm = true -- Disable 'no write'
 o.cursorline = false
@@ -30,7 +31,7 @@ o.pumheight = 8
 o.relativenumber = false
 o.runtimepath = o.runtimepath .. ",~/dev/nvim"
 o.scrolloff = 8 -- Lines from the cursor
-o.sessionoptions = 'buffers,folds'
+o.sessionoptions = 'folds,tabpages,terminal'
 o.shiftwidth = 2
 o.shortmess = vim.o.shortmess .. 'c'
 o.showmatch = true -- Show matching brackets/parenthesis
@@ -70,8 +71,9 @@ g.nvim_tree_auto_close = 1
 g.nvim_tree_disable_netrw = 1
 g.nvim_tree_hijack_netrw = 1
 g.nvim_tree_follow = 1
-g.nvim_tree_tab_open = 1
+g.nvim_tree_tab_open = 0
 g.nvim_tree_lint_lsp = 1
+g.nvim_tree_side = 'right'
 g.nvim_tree_git_hl = 1
 g.nvim_tree_gitignore = 0
 g.nvim_tree_show_icons = {
@@ -104,7 +106,7 @@ g.bufferline = {
   no_name_title = nil,
 }
 
-vim.g.yankstack_yank_keys = { 'y', 'd', 'c' }
+g.yankstack_yank_keys = { 'y', 'd', 'c' }
 
 -- Rooter
 g.rooter_patterns = { '.git' }

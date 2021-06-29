@@ -8,7 +8,7 @@ vim.g.mapleader = ' '
 
 map('n', '<leader>f',  ':NvimTreeFindFile<CR>')
 map('n', '<leader>pe', ':NvimTreeToggle<CR>')
-map('n', '<leader>po', ':AerialToggle<CR>')
+map('n', '<leader>po', ':AerialOpen<CR>')
 
 -- -- Fzf
 -- map('n', '<leader><leader>', ':Files<CR>')
@@ -35,6 +35,7 @@ map('n', '<leader>gl',       ':Telescope git_commits<CR>')
 map('n', '<leader>gs',       ':Telescope git_status<CR>')
 map('n', '<leader>pp',       ':Telescope session-lens search_session<CR>')
 map('n', '<leader>d',        ':Telescope lsp_document_symbols<CR>')
+
 map('n', '<leader>D',        ':Telescope lsp_workspace_diagnostics<CR>')
 map('n', '<leader>a',        ':Telescope lsp_code_actions theme=get_dropdown<CR>')
 map('n', 'gr',               ':Telescope lsp_references<CR>')
@@ -92,8 +93,8 @@ map('n', '<leader>ec', '<cmd>lua require"config.dispatch".dispatch("check")<CR>'
 -- map('n', '<A-9>', ':BufferLast<CR>')
 
 -- Tabs
-map('n', '<leader>tn', ':tabnew<CR>')
-map('n', '<leader>tq', ':tabclose<CR>')
+map('n', '<leader>N', ':tabnew<CR>')
+map('n', '<leader>Q', ':tabclose<CR>')
 
 for i = 0,9 do
   map('n', '<leader>' .. i , i .. 'gt')
@@ -133,6 +134,7 @@ map('n', '<leader>w<C-k>', '<C-w>k<C-w>q')
 map('n', '<leader>w<C-l>', '<C-w>l<C-w>q')
 
 map('n', '<leader>ww', ':WindowPick<CR>')
+map('n', '<leader>W',  ':WindowSwap<CR>')
 
 -- Sneak (easyclip conflict mappings)
 -- map('n', 'f', '<plug>Sneak_f')
@@ -182,10 +184,6 @@ map('n', 'ga', '<plug>(EasyAlign)')
 -- Snippet expansion
 map('i', '<C-l>', 'vsnip#available(1) ? "<plug>(vsnip-expand-or-jump)" : "<C-l>"', { expr = true})
 map('n', '<C-l>', 'vsnip#available(1) ? "<plug>(vsnip-expand-or-jump)" : "<C-l>"', { expr = true})
-
--- Completion
-map('i', '<tab>', '<Plug>(completion_smart_tab)')
-map('i', '<s-tab>', '<Plug>(completion_smart_s_tab)')
 
 -- Movements
 map('', '<C-j>', '}', { noremap = true })

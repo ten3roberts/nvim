@@ -81,7 +81,7 @@ require'telescope'.setup {
     -- Your special builtin config goes in here
     theme = 'dropdown',
     buffers = {
-      sort_lastused = true,
+      sort_lastused = false,
       ignore_current_buffer = false,
       theme = 'dropdown',
       previewer = false,

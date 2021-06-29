@@ -1,6 +1,7 @@
 vim.cmd "command! Sort norm! vip:'<,'>sort<CR>"
 vim.cmd "command! -nargs=* Dump :lua require'config.dev_utils'.dump_mod(<f-args>)"
 vim.cmd "command! -nargs=* Reload :lua require'config.dev_utils'.reload(<f-args>)"
+vim.cmd "command! Quit :wa | qa"
 
 vim.cmd [[
 function! Redir(cmd, rng, start, end)
@@ -49,3 +50,5 @@ vim.cmd [[
 endfunction
 command! BCloseHidden silent call DeleteHiddenBuffers()
 ]]
+
+

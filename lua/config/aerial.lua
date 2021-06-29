@@ -4,7 +4,7 @@ vim.g.aerial = {
   --   close   - aerial window will close when original file is no longer visible
   --   auto    - aerial window will stay open as long as there is a visible
   --             buffer to attach to
-  close_behavior = 'close',
+  close_behavior = 'global',
 
   -- Set to false to remove the default keybindings for the aerial buffer
   default_bindings = true,
@@ -14,6 +14,9 @@ vim.g.aerial = {
   -- options will open the window in the other direction *if* there is a
   -- different buffer in the way of the preferred direction
   default_direction = 'prefer_left',
+
+  -- Place at the far edge
+  placement_editor_edge = true,
 
   -- Fetch document symbols when LSP diagnostics change.
   -- If you set this to false, you will need to manually fetch symbols
@@ -38,7 +41,7 @@ vim.g.aerial = {
   manage_folds = 'auto',
 
   -- The maximum width of the aerial window
-  max_width = 30,
+  max_width = 20,
 
   -- The minimum width of the aerial window.
   -- To disable dynamic resizing, set this to be equal to max_width
@@ -49,7 +52,7 @@ vim.g.aerial = {
 
   -- Whether to open aerial automatically when entering a buffer.
   -- Can also be specified per-filetype as a map (see below)
-  open_automatic = false,
+  open_automatic = true,
 
   -- If open_automatic is true, only open aerial if the source buffer is at
   -- least this long
@@ -77,6 +80,6 @@ vim.g.aerial = {
 
   -- You can also override the default icons.
   icons = {
-    Function       = ' λ';
+    Function = ' λ';
   },
 }

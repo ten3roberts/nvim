@@ -21,6 +21,7 @@ localpaq('~/dev/nvim/qf.nvim')
 localpaq('~/dev/nvim/darken.nvim')
 localpaq('~/dev/nvim/toggle.nvim')
 localpaq('~/dev/nvim/window-picker.nvim')
+localpaq('~/dev/nvim/aerial.nvim')
 
 local paq = require 'paq-nvim' {
   'savq/paq-nvim', -- Let Paq manage itself

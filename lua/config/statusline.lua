@@ -10,9 +10,15 @@ local icons = require'nvim-web-devicons'
 local M = {}
 
 local special_map = {
-  NvimTree = { '%#Yellow#  Files', '  Files'},
-  Outline = { '%#Purple#  Outline', '  Outline'  },
-  aerial = { '%#Purple# λ Aerial', ' λ Aerial'  }
+  NvimTree = { '%#Yellow#  Files ', '  Files '},
+  Outline = { '%#Purple#  Outline ', '  Outline '  },
+  aerial = { '%#Purple# λ Aerial ', ' λ Aerial '  }
+}
+
+local special_tab = {
+  NvimTree = '',
+  qf = '',
+  aerial = '',
 }
 
 local mode_map = {
@@ -60,28 +66,44 @@ local function get_git(highlight)
   end
 
   local branch = signs.head
-  branch = branch and ('  ' .. branch .. ' ') or ''
+  branch = branch and (' ' .. branch .. ' ') or ''
 
   local added,changed,removed = signs.added or 0, signs.changed or 0, signs.removed or 0
 
+  local total = added + changed + removed
+  local rel_added, rel_changed, rel_removed =
+    math.ceil(added / total * 3), math.ceil(changed / total * 3), math.ceil(removed / total * 3)
+
   if highlight then
     return '%#Orange#' .. branch,
-      (added > 0 and ('%#Green#+' .. added) or '') ..
-      (changed > 0 and (' %#Blue#~' .. changed) or '') ..
-      (removed > 0 and (' %#Red#-' .. removed) or '') .. ' '
+      (rel_added > 0 and ('%#Green#' .. string.rep('+', rel_added) .. ' ') or '') ..
+      (rel_changed > 0 and ('%#Blue#' .. string.rep('~', rel_changed) .. ' ') or '') ..
+      (rel_removed > 0 and ('%#Red#' .. string.rep('-', rel_removed) .. ' ') or '')
   else
     return branch,
-      (added > 0 and '+' .. added or '') ..
-      (changed > 0 and ' ~' .. changed or '') ..
-      (removed > 0 and ' ~' .. removed or '') .. ' '
+      (rel_added > 0 and (string.rep('+', rel_added) .. ' ') or '') ..
+      (rel_changed > 0 and (string.rep('~', rel_changed) .. ' ') or '') ..
+      (rel_removed > 0 and (string.rep('-', rel_removed) .. ' ') or '')
   end
+
+  -- if highlight then
+  --   return '%#Orange#' .. branch,
+  --     (added > 0 and ('%#Green#+' .. added .. ' ') or '') ..
+  --     (changed > 0 and ('%#Blue#~' .. changed .. ' ') or '') ..
+  --     (removed > 0 and ('%#Red#-' .. removed .. ' ') or '')
+  -- else
+  --   return branch,
+  --     (added > 0 and ' +' .. added or '') ..
+  --     (changed > 0 and ' ~' .. changed or '') ..
+  --     (removed > 0 and ' ~' .. removed or '')
+  -- end
 end
 
 local function get_infos(bufnr)
   local ft = api.nvim_buf_get_option(bufnr, 'ft')
-  local readonly = vim.fn.getbufvar(bufnr, '&readonly') == 1 or vim.fn.getbufvar(bufnr, '&modifiable') == 0
+  local readonly = fn.getbufvar(bufnr, '&readonly') == 1 or fn.getbufvar(bufnr, '&modifiable') == 0
 
-  local _, row, col = unpack(vim.fn.getpos('.'))
+  local _, row, col = unpack(fn.getpos('.'))
   local num_lines = #api.nvim_buf_get_lines(bufnr, 0, -1, false)
   local percent = string.format('%d', row / num_lines * 100) .. '%%'
 
@@ -96,12 +118,12 @@ local function get_path(highlight)
     if #info ~= 1 or info[1].quickfix ~= 1 then
       return ''
     end
-    return info[1].variables.quickfix_title or 'Quickfix'
+    return (info[1].variables.quickfix_title or 'Quickfix') .. ' '
   end
 
   local path, filename, extension = fn.expand('%:~:.'), fn.expand('%:t'), fn.expand('%:e')
-  if #filename == 0 then
-    return '[NO NAME]'
+  if filename == '' then
+    return '[NO NAME] '
   end
 
   local icon, icon_hl = icons.get_icon(filename, extension)
@@ -112,6 +134,31 @@ local function get_path(highlight)
     return string.format('%s %s%s ', icon or '', path, modified and ' ' or '')
   end
 end
+
+local function get_filename(bufnr)
+  local special = special_tab[api.nvim_buf_get_option(bufnr, 'filetype')]
+  if special then
+    return special
+  end
+
+  local modified = api.nvim_buf_get_option(bufnr, 'modified')
+
+  local filename = fn.fnamemodify(fn.bufname(bufnr), ':t') .. (modified and ' +' or '')
+
+  return filename
+end
+
+-- local function get_ft(bufnr, highlight)
+--   local ft = api.nvim_buf_get_option(bufnr, 'filetype')
+
+--   local icon, icon_hl = icons.get_icon(fn.expand('%:t'), fn.expand('%:e'))
+
+--   if highlight then
+--     return string.format('%%#%s#%s %s ', icon_hl or '', icon or '', ft)
+--   else
+--     return string.format('%s %s ', icon or '', ft)
+--   end
+-- end
 
 function M.update()
   local bufnr = fn.bufnr('%')
@@ -133,12 +180,12 @@ function M.update()
   local mode = get_mode()
   local path = get_path(true)
   local branch, git = get_git(true)
-  local lsp = lsp.statusline(bufnr, true)
+  local diag = lsp.statusline(bufnr, true)
 
   local items = {
-    mode.hl .. mode.val, branch, path, lsp, readonly and '' or '',
+    '%#Normal# ', branch, git, path, readonly and ' ' or '',
     '%#StatusLine#%=%#Normal# ',
-    git, '%#Purple#',
+    diag, '%#Purple#',
     percent, ' ', mode.hl, ' ', row, ':', col, ' '
   }
 
@@ -155,11 +202,10 @@ function M.update_inactive()
     return special[2]
   end
 
-  local mode = get_mode()
   local path = get_path(false)
 
   local items = {
-    mode.val, ' ', path, readonly and '' or '',
+    ' ', path, readonly and '' or '',
     '%=',
     percent, '  ', row, ':', col, ' '
   }
@@ -167,8 +213,42 @@ function M.update_inactive()
   return table.concat(items)
 end
 
+function M.update_tabline()
+  local t = {}
+  local tabpagenr = fn.tabpagenr()
+  for i=1,fn.tabpagenr('$') do
+    -- select the highlighting
+    if i == tabpagenr then
+      t[#t + 1] = '%#TabLineSel# '
+    else
+      t[#t + 1] = '%#TabLine# '
+    end
+
+    -- set the tab page number (for mouse clicks)
+    t[#t + 1] = '%' .. i  .. 'T' .. i .. ' '
+
+
+    local buflist = fn.tabpagebuflist(i)
+    local windows = vim.tbl_filter(function(v) return v ~= '' end, vim.tbl_map(function(bufnr) return get_filename(bufnr) end, buflist))
+    local windows_str = table.concat(windows, ' | ')
+
+    if windows_str ~= '' then
+      t[#t+1] = windows_str .. ' '
+      else
+    end
+
+    -- t[#t+1] = ' '
+  end
+
+  -- after the last tab fill with TabLineFill and reset tab page nr
+  t[#t + 1] = '%#TabLineFill#%T'
+
+  return table.concat(t)
+end
+
 function M.setup()
   vim.o.statusline = '%{%v:lua.require\'config.statusline\'.update()%}'
+  vim.o.tabline = '%!v:lua.require\'config.statusline\'.update_tabline()'
 
   cmd [[
   augroup Statusline

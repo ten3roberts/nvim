@@ -141,8 +141,8 @@ function M.setup()
   -- highlight('LspDiagnosticsUnderlineInformation', nil, nil, 'undercurl', p.blue)
   -- highlight('LspDiagnosticsUnderlineHint',        nil, nil, 'undercurl', p.green)
   --
-  link('HopNextKey',   'WarningMsg')
-  link('HopNextKey1',  'Green')
+  highlight('HopNextKey',   p.yellow, nil, 'bold')
+  highlight('HopNextKey1',  p.red, nil, 'bold')
   link('HopUnmatched', 'Comment')
 
   highlight('BlackInv',  normal_bg, p.black,  'bold')
