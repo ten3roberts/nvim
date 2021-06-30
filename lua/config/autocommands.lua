@@ -23,7 +23,7 @@ autocmd('ColorScheme', '*', 'lua require "config.palette".setup()')
 autocmd('BufWritePost', '*/Cargo.toml', 'echom "Restarting LSP" | LspRestart')
 
 -- Make Esc work in terminal mode (I know, some programs make use of Esc, but that's rare for my use case)
-autocmd('TermEnter', '*', 'if (&filetype != "fzf") | tnoremap <buffer> <Esc> <C-\\><C-n> | endif')
+autocmd('TermEnter', '*', 'if &filetype != "fzf" | tnoremap <buffer> <Esc> <C-\\><C-n> | endif')
 
 -- Make <Tab> expand diffs in Fugitive mode
 autocmd('FileType', 'fugitive', 'map <buffer> <Tab> =')
@@ -43,5 +43,7 @@ autocmd('QuickFixCmdPre', '*', ':wa')
 autocmd('InsertLeave,TextChanged', '*', 'lua require"config.lsp".set_loc()')
 
 autocmd('FileType', 'TelescopePrompt', 'let b:autopairs_enabled = 0')
+
+-- autocmd('TabEnter', '*', 'if &buftype == "terminal" && &ft != "fzf" | :startinsert | endif')
 
 vim.cmd 'augroup END'

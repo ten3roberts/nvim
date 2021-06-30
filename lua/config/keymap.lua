@@ -8,37 +8,38 @@ vim.g.mapleader = ' '
 
 map('n', '<leader>f',  ':NvimTreeFindFile<CR>')
 map('n', '<leader>pe', ':NvimTreeToggle<CR>')
-map('n', '<leader>po', ':AerialOpen<CR>')
+map('n', '<leader>po', ':AerialToggle<CR>')
 
--- -- Fzf
--- map('n', '<leader><leader>', ':Files<CR>')
--- map('n', '<leader>,',        ':Buffers<CR>')
--- map('n', '<leader>/',        ':BLines<CR>')
--- map('n', '<leader>rg',       ':Rg<CR>')
--- map('n', '<leader>o',        ':Files<CR>')
--- map('n', '<leader>O',        ':Files<CR>')
--- map('n', '<leader>gl',       ':Commits<CR>')
--- map('n', '<leader>gs',       ':GFiles?<CR>')
--- map('n', '<leader>o',        ':DocumentSymbols<CR>')
--- map('n', '<leader>O',        ':WorkspaceSymbols<CR>')
--- map('n', '<leader>d',        ':Diagnostics<CR>')
--- map('n', '<leader>D',        ':DiagnosticsAll<CR>')
+-- Fzf
+map('n', '<leader><leader>', ':Files<CR>')
+map('n', '<leader>,',        ':Buffers<CR>')
+map('n', '<leader>/',        ':BLines<CR>')
+map('n', '<leader>rg',       ':Rg<CR>')
+map('n', '<leader>o',        ':Files<CR>')
+map('n', '<leader>O',        ':Files<CR>')
+map('n', '<leader>gl',       ':Commits<CR>')
+map('n', '<leader>gs',       ':GFiles?<CR>')
+map('n', '<leader>a',        ':CodeActions<CR>')
+map('n', '<leader>o',        ':DocumentSymbols<CR>')
+map('n', '<leader>O',        ':WorkspaceSymbols<CR>')
+map('n', '<leader>d',        ':Diagnostics<CR>')
+map('n', '<leader>D',        ':DiagnosticsAll<CR>')
 
 -- Telescope
-map('n', '<leader><leader>', ':Telescope find_files<CR>')
-map('n', '<leader>,',        ':Telescope buffers<CR>')
-map('n', '<leader>/',        ':Telescope current_buffer_fuzzy_find<CR>')
-map('n', '<leader>rg',       ':Telescope live_grep<CR>')
-map('n', '<leader>o',        ':Telescope lsp_document_symbols<CR>')
-map('n', '<leader>O',        ':Telescope lsp_workspace_symbols<CR>')
-map('n', '<leader>gl',       ':Telescope git_commits<CR>')
-map('n', '<leader>gs',       ':Telescope git_status<CR>')
-map('n', '<leader>pp',       ':Telescope session-lens search_session<CR>')
-map('n', '<leader>d',        ':Telescope lsp_document_symbols<CR>')
+-- map('n', '<leader><leader>', ':Telescope find_files<CR>')
+-- map('n', '<leader>,',        ':Telescope buffers<CR>')
+-- map('n', '<leader>/',        ':Telescope current_buffer_fuzzy_find<CR>')
+-- map('n', '<leader>rg',       ':Telescope live_grep<CR>')
+-- map('n', '<leader>o',        ':Telescope lsp_document_symbols<CR>')
+-- map('n', '<leader>O',        ':Telescope lsp_workspace_symbols<CR>')
+-- map('n', '<leader>gl',       ':Telescope git_commits<CR>')
+-- map('n', '<leader>gs',       ':Telescope git_status<CR>')
+-- map('n', '<leader>pp',       ':Telescope session-lens search_session<CR>')
+-- map('n', '<leader>d',        ':Telescope lsp_document_symbols<CR>')
 
-map('n', '<leader>D',        ':Telescope lsp_workspace_diagnostics<CR>')
-map('n', '<leader>a',        ':Telescope lsp_code_actions theme=get_dropdown<CR>')
-map('n', 'gr',               ':Telescope lsp_references<CR>')
+-- map('n', '<leader>D',        ':Telescope lsp_workspace_diagnostics<CR>')
+-- map('n', '<leader>a',        ':Telescope lsp_code_actions theme=get_dropdown<CR>')
+-- map('n', 'gr',               ':Telescope lsp_references<CR>')
 
 -- map('n', '<leader><leader>', '<cmd>lua require"telescope.builtin".find_files()<CR>')
 -- map('n', '<leader>,          ', '<cmd>lua require"telescope.builtin".buffers()<CR>')
@@ -66,8 +67,8 @@ map('n', '<leader>k', '<cmd>lua require"qf".above("l")<CR>') -- Go to previous l
 
 map('n', '<leader>J', '<cmd>lua require"qf".below("c")<CR>') -- Go to next quickfix entry from cursor
 map('n', '<leader>K', '<cmd>lua require"qf".above("c")<CR>') -- Go to previous quickfix entry from cursor
-map('n', ']q', '<cmd>lua require"qf".below("visible")<CR>') -- Go to next quickfix entry from cursor
-map('n', '[q', '<cmd>lua require"qf".above("visible")<CR>') -- Go to previous quickfix entry from cursor
+map('n', ']q', '<cmd>lua require"qf".next("visible")<CR>') -- Go to next quickfix entry from cursor
+map('n', '[q', '<cmd>lua require"qf".prev("visible")<CR>') -- Go to previous quickfix entry from cursor
 
 -- Dispatching
 map('n', '<leader>eb', '<cmd>lua require"config.dispatch".dispatch("build")<CR>')
@@ -94,10 +95,14 @@ map('n', '<leader>ec', '<cmd>lua require"config.dispatch".dispatch("check")<CR>'
 
 -- Tabs
 map('n', '<leader>N', ':tabnew<CR>')
+map('n', '<leader>S', ':tab split<CR>')
 map('n', '<leader>Q', ':tabclose<CR>')
 
 for i = 0,9 do
   map('n', '<leader>' .. i , i .. 'gt')
+  map('n', '<A-' .. i .. '>', i .. 'gt')
+  map('!', '<A-' .. i .. '>', '<ESC>' .. i .. 'gt')
+  map('t', '<A-' .. i .. '>', '<C-\\><C-n>' .. i .. 'gt')
 end
 
 -- Buffers
@@ -144,7 +149,7 @@ map('n', '<leader>W',  ':WindowSwap<CR>')
 -- map('n', 's', '<plug>Sneak_s')
 -- map('n', 'S', '<plug>Sneak_S')
 
-map('', 's', "<cmd>lua require'hop'.hint_char1()<cr>")
+map('', 's', "<cmd>lua require'hop'.hint_char2()<cr>")
 map('', 'S', "<cmd>lua require'hop'.hint_words()<cr>")
 map('', '\\', "<cmd>lua require'hop'.hint_lines()<cr>")
 

@@ -4,32 +4,68 @@ local g = vim.g
 
 local M = {}
 
-local fd = 'fd -t f'
+local ripgrep = 'rg --files'
 
 -- Makes files closer to the current file favored.
-function M.proximity()
+function _G.fzf_proximity()
   if vim.o.buftype ~= '' then
-    return fd
+    return ripgrep
   end
 
-  return fd .. ' | proximity-sort ' .. fn.expand('%')
+  local filename = fn.expand('%')
+  if filename == '' then
+    return ripgrep
+  end
+
+  return ripgrep .. ' | proximity-sort ' .. filename
 end
 
 function M.setup()
-  g.fzf_layout = { window = { width = 0.8, height = 0.6 } }
+
+  -- g.fzf_layout = { down = 20 }
+  g.fzf_tall = { width = 60, height = 20 }
+  g.fzf_wide = { width = 0.8, height = 0.6 }
+  g.fzf_square = { width = 0.6, height = 0.6 }
+
+  g.fzf_layout = { window = g.fzf_square }
+
+  g.fzf_action = {
+    ['ctrl-t'] = 'tab split',
+    ['ctrl-x'] = 'split',
+    ['ctrl-s'] = 'split',
+    ['ctrl-v'] = 'vsplit',
+  }
+
+  g.fzf_buffers_jump = 1
+
+  -- g.fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
+
+  g.fzf_colors = {
+    fg      = {'fg', 'Normal'},
+    bg      = {'bg', 'Normal'},
+    gutter  = {'bg', 'Normal'},
+    hl      = {'fg', 'Comment'},
+    ['fg+'] = {'fg', 'CursorLine', 'CursorColumn', 'Normal'},
+    ['bg+'] = {'bg', 'CursorLine', 'CursorColumn'},
+    ['hl+'] = {'fg', 'Statement'},
+    info    = {'fg', 'PreProc'},
+    border  = {'fg', 'Ignore'},
+    prompt  = {'fg', 'Conditional'},
+    pointer = {'fg', 'Exception'},
+    marker  = {'fg', 'Keyword'},
+    spinner = {'fg', 'Label'},
+    header  = {'fg', 'Comment'}
+  }
+
+  g.fzf_opts = {
+    files = function () return { source = M.fzf_proximity(), options= '--tiebreak=index', window = g.fzf_tall } end,
+    buffers = { window = g.fzf_tall },
+  }
 
   cmd [[
-  function! FZFProximity()
-  return luaeval('require"config.fzf".proximity()')
-  endfunc
-  ]]
-
-  cmd [[
-  command! -bang -nargs=? -complete=dir Buffers call fzf#vim#buffers(<q-args>, {}, <bang>0)
-  ]]
-
-  cmd [[
-  command! -bang -nargs=? -complete=dir Files call fzf#vim#files(<q-args>, {'source': FZFProximity(), 'options': '--tiebreak=index'}, <bang>0)
+  command! -bang -nargs=? -complete=dir Buffers call fzf#vim#buffers(<q-args>, { 'window': g:fzf_tall }, <bang>0)
+  command! -bang -nargs=? -complete=dir Files call fzf#vim#files(<q-args>, { 'source': v:lua.fzf_proximity(), 'options': '--tiebreak=index', 'window': g:fzf_tall }, <bang>0)
+  command! -bang -nargs=? Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -- ".shellescape(<q-args>), 1, fzf#vim#with_preview({ 'window': g:fzf_wide }), <bang>0)
   ]]
 end
 

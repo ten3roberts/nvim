@@ -10,7 +10,7 @@ end
 
 local function localpaq(path)
   local name = fn.fnamemodify(path, ':t')
-    path = fn.fnamemodify(path, ':p'):sub(1,-2)
+  path = fn.fnamemodify(path, ':p'):sub(1,-2)
 
   if fn.empty(fn.glob(path)) == 0 then
     fn.system({'ln', '-s', path, paq_dir .. name})
@@ -42,9 +42,11 @@ local paq = require 'paq-nvim' {
   'LunarWatcher/auto-pairs', -- Automatic brackets
   'airblade/vim-rooter', -- Change cwd to the git root
   'dkarter/bullets.vim', -- Markdown bullet management
+  'gfanto/fzf-lsp.nvim',
   'hrsh7th/nvim-compe', -- Smart autocompletion
   'hrsh7th/vim-vsnip', -- Snippets
   'hrsh7th/vim-vsnip-integ',-- Snippet integrations
+  'junegunn/fzf.vim',
   'junegunn/vim-easy-align', -- Align text blocks
   'kabouzeid/nvim-lspinstall', -- Automatically install lsp servers
   'kyazdani42/nvim-tree.lua', -- File tree
@@ -54,7 +56,7 @@ local paq = require 'paq-nvim' {
   'neovim/nvim-lspconfig', -- LSP configurations
   'norcalli/nvim-colorizer.lua', -- Highlight colorcodes
   'nvim-lua/plenary.nvim', -- Lua utils library
-  'phaazon/hop.nvim',
+  'phaazon/hop.nvim', -- Jump around in current buffer
   'qxxxb/vim-searchhi', -- Highlight current search match
   'rafamadriz/friendly-snippets', -- Preconfigured snippets
   'ray-x/lsp_signature.nvim', -- Show function signature help
@@ -69,18 +71,13 @@ local paq = require 'paq-nvim' {
   'tpope/vim-unimpaired', -- Handy bracket mappings
   'wellle/targets.vim', -- Better handling and seeking for textobjects
   -- 'AndrewRadev/splitjoin.vim', -- Join and breakup statements
+  -- 'akinsho/nvim-bufferline.lua',
   -- 'romgrk/barbar.nvim', -- Show open buffers in tabline
   { 'iamcco/markdown-preview.nvim', run = function() vim.fn['mkdp#util#install']() end }, -- Markdown previewing
+  { 'junegunn/fzf', run = function() vim.fn['fzf#install()']() end },
   {'nvim-treesitter/nvim-treesitter', run = function() vim.fn.TSInstall('maintained') end }, -- Better syntax highlighting using treesitter parsing
-  -- 'akinsho/nvim-bufferline.lua',
-
-  -- Telescope
-  'nvim-telescope/telescope.nvim', -- Finder UI
-  'nvim-lua/popup.nvim', -- Neovim popup library
-  'nvim-telescope/telescope-fzy-native.nvim', -- Fuzzy finder
 
   'rmagatti/auto-session', -- Remember last session for cwd
-  'rmagatti/session-lens', -- Telescope session finder
 }
 
 paq:install()

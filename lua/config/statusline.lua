@@ -186,7 +186,7 @@ function M.update()
     '%#Normal# ', branch, git, path, readonly and ' ' or '',
     '%#StatusLine#%=%#Normal# ',
     diag, '%#Purple#',
-    percent, ' ', mode.hl, ' ', row, ':', col, ' '
+    percent, string.format(' %s%4d:%-3d', mode.hl, row, col)
   }
 
   -- print(vim.inspect(items))
@@ -207,7 +207,7 @@ function M.update_inactive()
   local items = {
     ' ', path, readonly and '' or '',
     '%=',
-    percent, '  ', row, ':', col, ' '
+    percent, string.format(' %4d:%-3d', row, col)
   }
 
   return table.concat(items)

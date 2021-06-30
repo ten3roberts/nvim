@@ -5,14 +5,12 @@ require 'config.onlines'
 require 'config.autocommands'
 require 'config.aerial'
 require 'config.completion'
-require 'config.telescope'
 require 'config.treesitter'
 require 'config.commands'
 require 'config.clean_fold'
-require 'config.fzf'
-require 'config.lsp'.setup()
-
 require 'config.statusline'.setup()
+require 'config.fzf'.setup()
+require 'config.lsp'.setup()
 
 require'colorizer'.setup(
   { '*' },
