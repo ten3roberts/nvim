@@ -81,7 +81,19 @@ local palettes = {
       red    = '#bf616a',
       yellow = '#ebcb8b',
     }
-  end
+  end,
+  -- ayu = function()
+  --   return {
+  --     black  = '#0f1419',
+  --     blue   = '#36a3d9',
+  --     green  = '#b8cc52',
+  --     grey   = '#5c6773',
+  --     orange = '#f29718',
+  --     purple = '#a37acc',
+  --     red    = '#f07178',
+  --     yellow = '#e7c547',
+  --   }
+  -- end
 }
 
 -- Returns a dictionary of current common colors
@@ -102,10 +114,11 @@ function M.setup()
   local p = M.generate_palette()
 
   local normal = M.get_hl('Normal')
-
-  local statusline_bg = M.get_hl('StatusLine').bg
-
   local normal_bg = normal.bg
+
+  local statusline_bg = M.get_hl('StatusLine').bg or normal_bg
+  local comment_fg = M.get_hl('Comment').fg or normal_bg
+  local tabline_fill_bg = M.get_hl('TabLineFill').bg or normal_bg
 
   highlight('Black',  p.black)
   highlight('Blue',   p.blue)
@@ -124,6 +137,8 @@ function M.setup()
   highlight('SL_Purple', p.purple, statusline_bg)
   highlight('SL_Red',    p.red,    statusline_bg)
   highlight('SL_Yellow', p.yellow, statusline_bg)
+
+  highlight('TabLineDim', comment_fg, tabline_fill_bg)
 
   highlight('GreenBold',  p.green,  nil, 'bold')
   highlight('OrangeBold', p.orange, nil, 'bold')
@@ -161,7 +176,8 @@ function M.setup()
   link('GitSignsCurrentLineBlame', 'Comment')
   link('FocusedSymbol',            'GreenInv')
 
-  link('BufferCurrentMod', 'String')
+  highlight('debugPC', normal_bg, p.green)
+  highlight('debugBreakpoint', p.red, normal_bg)
 end
 
 return M

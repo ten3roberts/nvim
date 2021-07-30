@@ -30,11 +30,12 @@ function M.close(bufnr)
 
   for w=1,fn.winnr('$') do
     local winid = fn.win_getid(w)
-    if api.nvim_win_get_buf(winid) == bufnr then
+    if api.nvim_win_get_buf(winid) == bufnr and fn.buflisted(bufnr) then
       api.nvim_win_set_buf(winid, prev)
     end
   end
 
+  cmd('bdelete ' .. bufnr)
   cmd('redraw')
 end
 

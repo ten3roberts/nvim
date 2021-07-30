@@ -13,7 +13,7 @@ vim.g.aerial = {
   -- Determines the default direction to open the aerial window. The 'prefer'
   -- options will open the window in the other direction *if* there is a
   -- different buffer in the way of the preferred direction
-  default_direction = 'prefer_left',
+  default_direction = 'left',
 
   -- Place at the far edge
   placement_editor_edge = true,
@@ -38,7 +38,7 @@ vim.g.aerial = {
 
   -- Use symbol tree for folding. Set to true or false to enable/disable
   -- 'auto' will manage folds if your previous foldmethod was 'manual'
-  manage_folds = 'auto',
+  manage_folds = false,
 
   -- The maximum width of the aerial window
   max_width = 20,

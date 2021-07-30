@@ -22,7 +22,7 @@ map('n', '<leader>gs',       ':GFiles?<CR>')
 map('n', '<leader>a',        ':CodeActions<CR>')
 map('n', '<leader>o',        ':DocumentSymbols<CR>')
 map('n', '<leader>O',        ':WorkspaceSymbols<CR>')
-map('n', '<leader>d',        ':Diagnostics<CR>')
+map('n', '<leader>dd',       ':Diagnostics<CR>')
 map('n', '<leader>D',        ':DiagnosticsAll<CR>')
 
 -- Telescope
@@ -67,8 +67,8 @@ map('n', '<leader>k', '<cmd>lua require"qf".above("l")<CR>') -- Go to previous l
 
 map('n', '<leader>J', '<cmd>lua require"qf".below("c")<CR>') -- Go to next quickfix entry from cursor
 map('n', '<leader>K', '<cmd>lua require"qf".above("c")<CR>') -- Go to previous quickfix entry from cursor
-map('n', ']q', '<cmd>lua require"qf".next("visible")<CR>') -- Go to next quickfix entry from cursor
-map('n', '[q', '<cmd>lua require"qf".prev("visible")<CR>') -- Go to previous quickfix entry from cursor
+map('n', ']q', '<cmd>lua require"qf".below("visible")<CR>') -- Go to next quickfix entry from cursor
+map('n', '[q', '<cmd>lua require"qf".above("visible")<CR>') -- Go to previous quickfix entry from cursor
 
 -- Dispatching
 map('n', '<leader>eb', '<cmd>lua require"config.dispatch".dispatch("build")<CR>')
@@ -105,6 +105,9 @@ for i = 0,9 do
   map('t', '<A-' .. i .. '>', '<C-\\><C-n>' .. i .. 'gt')
 end
 
+map('n', '<A-,>', ':tabprevious<CR>')
+map('n', '<A-.>', ':tabnext<CR>')
+
 -- Buffers
 map('n', '<leader>bk', ':lua require"config.bclose".close()<CR>')
 map('n', '<leader>bo', ':lua require"config.bclose".close_hidden()<CR>')
@@ -123,7 +126,7 @@ map('n', '<leader>wj', '<C-w>j')
 map('n', '<leader>wk', '<C-w>k')
 map('n', '<leader>wl', '<C-w>l')
 map('n', '<leader>wo', '<C-w>o')
-map('n', '<leader>wp', '<C-w>P')
+map('n', '<leader>wp', '<C-w>p')
 map('n', '<leader>wq', '<C-w>q')
 map('n', '<leader>wr', '<C-w>r')
 map('n', '<leader>ws', '<C-w>s')
@@ -138,7 +141,7 @@ map('n', '<leader>w<C-j>', '<C-w>j<C-w>q')
 map('n', '<leader>w<C-k>', '<C-w>k<C-w>q')
 map('n', '<leader>w<C-l>', '<C-w>l<C-w>q')
 
-map('n', '<leader>ww', ':WindowPick<CR>')
+map('n', '<leader>ww',  ':WindowPick<CR>')
 map('n', '<leader>W',  ':WindowSwap<CR>')
 
 -- Sneak (easyclip conflict mappings)
@@ -149,12 +152,14 @@ map('n', '<leader>W',  ':WindowSwap<CR>')
 -- map('n', 's', '<plug>Sneak_s')
 -- map('n', 'S', '<plug>Sneak_S')
 
-map('', 's', "<cmd>lua require'hop'.hint_char2()<cr>")
+map('', 's', "<cmd>lua require'hop'.hint_char1()<cr>")
 map('', 'S', "<cmd>lua require'hop'.hint_words()<cr>")
+map('v', '<C-s>', "<cmd>lua require'hop'.hint_words()<cr>")
 map('', '\\', "<cmd>lua require'hop'.hint_lines()<cr>")
 
 -- Git mappings
 map('n', '<leader>gg',  ':Ge :<CR>')
+map('n', '<leader>gd',  ':G difftool --name-status<CR>')
 map('n', '<leader>ga',  ':Git add %<CR>')
 map('n', '<leader>gc',  ':Git commit<CR>')
 map('n', '<leader>gpp', ':Git push<CR>')
@@ -236,3 +241,11 @@ map('n', '<leader><cr>', ':ToggleCheckbox<CR>')
 
 -- Make Y behave like D and C
 map('n', 'Y', 'y$')
+
+-- GDB
+map('n', '<leader>dr', ':Run<CR>')
+map('n', '<leader>dn', ':Over<CR>')
+map('n', '<leader>di', ':Step<CR>')
+map('n', '<leader>db', ':Break<CR>')
+map('n', '<leader>df', ':Finish<CR>')
+map('n', '<leader>dc', ':Continue<CR>')

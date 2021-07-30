@@ -4,16 +4,24 @@ local g = vim.g
 
 local M = {}
 
-local ripgrep = 'rg --files'
+local ripgrep = 'rg --files --hidden'
 
 -- Makes files closer to the current file favored.
 function _G.fzf_proximity()
-  if vim.o.buftype ~= '' then
-    return ripgrep
+  local filename = fn.expand('%')
+  if filename == '' or vim.o.buftype ~= '' then
+    -- Retry with alternate file
+    return fzf_proximity_alternate()
   end
 
-  local filename = fn.expand('%')
-  if filename == '' then
+  return ripgrep .. ' | proximity-sort ' .. filename
+end
+
+-- Makes files closer to the alternate file favored.
+function _G.fzf_proximity_alternate()
+  local bufnr = fn.bufnr('#')
+  local filename = fn.expand('#')
+  if filename == '' or vim.api.nvim_buf_get_option(bufnr, 'buftype') ~= '' then
     return ripgrep
   end
 
@@ -30,10 +38,13 @@ function M.setup()
   g.fzf_layout = { window = g.fzf_square }
 
   g.fzf_action = {
+    -- [ 'enter' ] = 'drop',
     ['ctrl-t'] = 'tab split',
     ['ctrl-x'] = 'split',
     ['ctrl-s'] = 'split',
     ['ctrl-v'] = 'vsplit',
+    ['ctrl-d'] = 'drop',
+
   }
 
   g.fzf_buffers_jump = 1

@@ -9,6 +9,8 @@ autocmd('VimEnter,DirChanged', '*', 'lua require"config.dispatch".load_config(".
 
 autocmd('FileType', '*', 'lua require"config.dispatch".on_ft()')
 
+-- autocmd('BufWinEnter,TabEnter', '*', 'SaveSession')
+
 -- Auto format on save using LSP
 autocmd('BufWritePre', '*', 'lua vim.lsp.buf.formatting_sync()')
 
@@ -40,7 +42,7 @@ autocmd('BufUnload,BufDelete',  '*', 'lua require"config.lsp".clear_buffer_cache
 -- Save before grep,make etc
 autocmd('QuickFixCmdPre', '*', ':wa')
 
-autocmd('InsertLeave,TextChanged', '*', 'lua require"config.lsp".set_loc()')
+autocmd('WinEnter', '*', 'lua if vim.o.buftype == "" and vim.fn.win_gettype(0) == "" then print("Setting loc") require"config.lsp".set_loc() end')
 
 autocmd('FileType', 'TelescopePrompt', 'let b:autopairs_enabled = 0')
 

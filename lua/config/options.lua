@@ -4,7 +4,7 @@ local g = vim.g
 -- Vim Options
 -- o.clipboard = 'unnamedplus' -- Use system clipboard
 o.autoread = true
-o.cmdheight = 1
+o.cmdheight = 2
 o.switchbuf = 'useopen,usetab'
 o.completeopt = 'menuone,noselect'
 o.confirm = true -- Disable 'no write'
@@ -12,6 +12,7 @@ o.cursorline = false
 o.equalalways = true
 o.expandtab = true
 o.foldlevelstart = 99
+o.foldnestmax = 3
 o.foldmethod = 'indent'
 o.foldtext = 'v:lua.clean_fold()'
 o.formatoptions = 'jcrqltn'
@@ -50,6 +51,9 @@ o.undofile = true
 o.updatetime = 500
 o.wildmenu = true -- Command line completion mode
 o.wildmode = 'full' -- Command line completion mode
+
+g.termdebug_wide = 1
+g.termdebugger='rust-gdb'
 
 g.windowswap_map_keys = 0
 
@@ -130,4 +134,4 @@ g.sonokai_enable_italic = 1
 g.sonokai_style = 'default'
 
 -- Set colorscheme from env var or default
-vim.cmd ( "colorscheme " .. ( vim.env.VIM_COLORSCHEME or 'sonokai' ) )
+vim.cmd ( "colorscheme " .. ( vim.env.VIM_COLORSCHEME or 'nord' ) )

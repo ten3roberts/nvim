@@ -9,19 +9,21 @@ if fn.empty(fn.glob(paq_path)) > 0 then
 end
 
 local function localpaq(path)
-  local name = fn.fnamemodify(path, ':t')
   path = fn.fnamemodify(path, ':p'):sub(1,-2)
 
   if fn.empty(fn.glob(path)) == 0 then
-    fn.system({'ln', '-s', path, paq_dir .. name})
+    fn.system({'ln', '-s', path, paq_dir})
+    -- print('ln', '-s', path, paq_dir)
   end
 end
+
+vim.cmd 'packadd termdebug'
 
 localpaq('~/dev/nvim/qf.nvim')
 localpaq('~/dev/nvim/darken.nvim')
 localpaq('~/dev/nvim/toggle.nvim')
 localpaq('~/dev/nvim/window-picker.nvim')
-localpaq('~/dev/nvim/aerial.nvim')
+-- localpaq('~/dev/nvim/aerial.nvim')
 
 local paq = require 'paq-nvim' {
   'savq/paq-nvim', -- Let Paq manage itself
@@ -32,16 +34,18 @@ local paq = require 'paq-nvim' {
   'ten3roberts/darken.nvim',
   'ten3roberts/window-picker.nvim',
 
-  -- Colorschemes
-  'rakr/vim-one',
   'arcticicestudio/nord-vim',
+  'chriskempson/base16-vim',
+  'rakr/vim-one',
   'romgrk/doom-one.vim',
   'sainnhe/sonokai',
+  -- Colorschemes
 
   'AndrewRadev/sideways.vim', -- Move arguments and elements in list around
   'LunarWatcher/auto-pairs', -- Automatic brackets
   'airblade/vim-rooter', -- Change cwd to the git root
   'dkarter/bullets.vim', -- Markdown bullet management
+  'folke/zen-mode.nvim',
   'gfanto/fzf-lsp.nvim',
   'hrsh7th/nvim-compe', -- Smart autocompletion
   'hrsh7th/vim-vsnip', -- Snippets
@@ -53,6 +57,7 @@ local paq = require 'paq-nvim' {
   'kyazdani42/nvim-web-devicons', -- File icons for barbar, nvim-tree and statusline
   'lewis6991/gitsigns.nvim', -- Show changed lines
   'maxbrunsfeld/vim-yankstack', -- Easily use the registers
+  'mbbill/undotree',
   'neovim/nvim-lspconfig', -- LSP configurations
   'norcalli/nvim-colorizer.lua', -- Highlight colorcodes
   'nvim-lua/plenary.nvim', -- Lua utils library
@@ -71,6 +76,7 @@ local paq = require 'paq-nvim' {
   'tpope/vim-unimpaired', -- Handy bracket mappings
   'wellle/targets.vim', -- Better handling and seeking for textobjects
   -- 'AndrewRadev/splitjoin.vim', -- Join and breakup statements
+  -- 'OmniSharp/omnisharp-vim',
   -- 'akinsho/nvim-bufferline.lua',
   -- 'romgrk/barbar.nvim', -- Show open buffers in tabline
   { 'iamcco/markdown-preview.nvim', run = function() vim.fn['mkdp#util#install']() end }, -- Markdown previewing
@@ -79,7 +85,6 @@ local paq = require 'paq-nvim' {
 
   'rmagatti/auto-session', -- Remember last session for cwd
 }
-
 paq:install()
 paq:clean()
 paq:update()

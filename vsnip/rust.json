@@ -8,6 +8,10 @@
       "}"
     ]
   },
+  "dbg": {
+    "prefix": "dbg",
+    "body": "dbg!(\"${1}: {:#?}\", ${2});"
+  },
   "debug": {
     "prefix": "debug",
     "body": "log::debug!(\"${1}: {:#?}\", ${2});"
@@ -34,10 +38,18 @@
   },
   "collect": {
     "prefix": "collect",
-    "body": "collect::<Vec<_>>()?;"
+    "body": "collect::<Vec<_>>();"
   },
   "collect_result": {
     "prefix": "collect_result",
-    "body": "collect::<Result<Vec<_>, _>>()?;"
+    "body": "collect::<Result<Vec<_>>>()?;"
+  },
+  "error": {
+    "prefix": "error",
+    "body": "#[error(${1})]\n${2}(#[from] ${3}),"
+  },
+  "map_err": {
+    "prefix": ".map_err",
+    "body": ".map_err(|e| e.into())"
   }
 }

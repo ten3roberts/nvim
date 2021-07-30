@@ -15,10 +15,11 @@ local special_map = {
   aerial = { '%#Purple# λ Aerial ', ' λ Aerial '  }
 }
 
-local special_tab = {
-  NvimTree = '',
-  qf = '',
-  aerial = '',
+local tab_hide = {
+  NvimTree = true,
+  qf = true,
+  aerial = true,
+  fzf = true,
 }
 
 local mode_map = {
@@ -135,17 +136,87 @@ local function get_path(highlight)
   end
 end
 
-local function get_filename(bufnr)
-  local special = special_tab[api.nvim_buf_get_option(bufnr, 'filetype')]
-  if special then
-    return special
+local separator = '/'
+
+local function subtbl(tbl, first, last)
+  if type(tbl) == 'string' then
+    return string.sub(tbl, first, last)
+  end
+
+  if first < 0 then
+    first = #tbl + 1 + first
+  end
+
+  if last ~= nil and last < 0 then
+    last = #tbl + 1 + last
+  end
+
+  local sliced = {}
+
+  for i = first or 1, last or #tbl do
+    sliced[#sliced+1] = tbl[i]
+  end
+
+  return sliced
+end
+
+local function get_unique_name(a, b)
+  local a_parts = fn.split(a, separator)
+  local b_parts = fn.split(b, separator)
+
+  local shortest = math.min(#a_parts, #b_parts)
+
+  -- Find the last index of the common divisors
+  local common_divisor = 1
+  for i = 1,shortest do
+    local a_part = a_parts[i]
+    local b_part = b_parts[i]
+
+    if a_part ~= b_part then
+      common_divisor = i
+      break
+    end
+  end
+
+  return
+    fn.join(subtbl(a_parts, common_divisor), separator),
+    fn.join(subtbl(b_parts, common_divisor), separator)
+end
+
+local buffer_names = {}
+local buffer_ids = {}
+
+local function get_buffername(bufnr)
+  if tab_hide[api.nvim_buf_get_option(bufnr, 'filetype')] then
+    return
   end
 
   local modified = api.nvim_buf_get_option(bufnr, 'modified')
 
-  local filename = fn.fnamemodify(fn.bufname(bufnr), ':t') .. (modified and ' +' or '')
+  local filename = fn.fnamemodify(fn.bufname(bufnr), ':t')
 
-  return filename
+  if filename == '' then
+    filename = '[NO NAME]'
+  end
+
+  if buffer_names[filename] ~= nil then
+    local other = buffer_names[filename]
+
+    local cur_bufname = fn.bufname(bufnr)
+    local other_bufname = fn.bufname(other)
+    -- print(cur_bufname, other_bufname, other, bufnr)
+
+    if cur_bufname ~= other_bufname then
+      local new_other, new_cur = get_unique_name(other_bufname, cur_bufname)
+
+      buffer_names[new_other] = bufnr
+      buffer_ids[other] = new_other
+
+      filename = new_cur
+    end
+  end
+  buffer_names[filename] = bufnr
+  buffer_ids[bufnr] = filename .. (modified and ' +' or '')
 end
 
 -- local function get_ft(bufnr, highlight)
@@ -186,7 +257,7 @@ function M.update()
     '%#Normal# ', branch, git, path, readonly and ' ' or '',
     '%#StatusLine#%=%#Normal# ',
     diag, '%#Purple#',
-    percent, string.format(' %s%4d:%-3d', mode.hl, row, col)
+    percent, string.format(' %s %2d:%-2d ', mode.hl, row, col)
   }
 
   -- print(vim.inspect(items))
@@ -207,7 +278,7 @@ function M.update_inactive()
   local items = {
     ' ', path, readonly and '' or '',
     '%=',
-    percent, string.format(' %4d:%-3d', row, col)
+    percent, string.format('  %2d:%-2d ', row, col)
   }
 
   return table.concat(items)
@@ -216,34 +287,42 @@ end
 function M.update_tabline()
   local t = {}
   local tabpagenr = fn.tabpagenr()
+
+  -- Generate buffer names
+
+  buffer_names = {}
+  buffer_ids = {}
+
+  for bufnr=1,fn.bufnr('$') do
+    if fn.bufloaded(bufnr) == 1 then
+      get_buffername(bufnr)
+    end
+  end
+
   for i=1,fn.tabpagenr('$') do
     -- select the highlighting
+    local highlight = '%#TabLineDim#'
     if i == tabpagenr then
-      t[#t + 1] = '%#TabLineSel# '
-    else
-      t[#t + 1] = '%#TabLine# '
+      highlight = '%#Normal#'
     end
-
-    -- set the tab page number (for mouse clicks)
-    t[#t + 1] = '%' .. i  .. 'T' .. i .. ' '
-
 
     local buflist = fn.tabpagebuflist(i)
-    local windows = vim.tbl_filter(function(v) return v ~= '' end, vim.tbl_map(function(bufnr) return get_filename(bufnr) end, buflist))
-    local windows_str = table.concat(windows, ' | ')
 
-    if windows_str ~= '' then
-      t[#t+1] = windows_str .. ' '
-      else
+    local windows = {}
+    for _, bufnr in ipairs(buflist) do
+      local name = buffer_ids[bufnr]
+      if name then
+        windows[#windows + 1] = ' ' .. name .. ' '
+      end
     end
 
-    -- t[#t+1] = ' '
+    t[#t + 1] = highlight .. '  %' .. i  .. 'T' .. i .. table.concat(windows, '·')
   end
 
   -- after the last tab fill with TabLineFill and reset tab page nr
   t[#t + 1] = '%#TabLineFill#%T'
 
-  return table.concat(t)
+  return table.concat(t, ' 🮇')
 end
 
 function M.setup()

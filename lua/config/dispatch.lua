@@ -60,12 +60,16 @@ function M.load_config(path, verbose)
 end
 
 function M.on_ft()
+  if vim.o.buftype ~= '' then
+    return
+  end
+
   b.dispatch = M.get_command('build')
 end
 
 function M.set_commands(commands)
   current_commands = commands
-  b.dispatch = M.get_command('build')
+  b.dispatch = M.get_command('check')
 end
 
 function M.get_command(name)

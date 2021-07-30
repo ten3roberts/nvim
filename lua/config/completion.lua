@@ -43,23 +43,23 @@ require'compe'.setup {
   debug = false;
   min_length = 2;
   preselect = 'disable';
-  throttle_time = 300;
+  throttle_time = 200;
   source_timeout = 200;
-  incomplete_delay = 400;
+  incomplete_delay = 200;
   max_abbr_width = 100;
   max_kind_width = 100;
   max_menu_width = 100;
   documentation = true;
 
   source = {
-    path = true;
-    buffer = true;
+    path = { priority = 500 };
+    buffer = { priority = 300 };
     calc = false;
-    nvim_lsp = true;
-    nvim_lua = true;
-    vsnip = true;
-    ultisnips = false;
-    treesitter = false;
+    nvim_lsp = { priority = 750 };
+    -- nvim_lua = { priority = 500 };
+    vsnip = { priority = 1000 };
+    -- ultisnips = { priority = 500 };
+    -- treesitter = { priority = 500 };
   };
 }
 
