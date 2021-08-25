@@ -14,7 +14,7 @@
   "getset": {
     "prefix": "getset;",
     "body": [
-      "{ get; set; }"
+      "{ get; private set; }"
     ]
   }
 }

@@ -155,7 +155,7 @@ function M.setup()
   -- highlight('LspDiagnosticsUnderlineWarning',     nil, nil, 'undercurl', p.orange)
   -- highlight('LspDiagnosticsUnderlineInformation', nil, nil, 'undercurl', p.blue)
   -- highlight('LspDiagnosticsUnderlineHint',        nil, nil, 'undercurl', p.green)
-  --
+
   highlight('HopNextKey',   p.yellow, nil, 'bold')
   highlight('HopNextKey1',  p.red, nil, 'bold')
   link('HopUnmatched', 'Comment')
@@ -175,6 +175,9 @@ function M.setup()
   link('STHint',                   'Green')
   link('GitSignsCurrentLineBlame', 'Comment')
   link('FocusedSymbol',            'GreenInv')
+
+  link('TSError', 'LspDiagnosticsUnderlineError')
+  link('TSWarning', 'LspDiagnosticsUnderlineWarning')
 
   highlight('debugPC', normal_bg, p.green)
   highlight('debugBreakpoint', p.red, normal_bg)

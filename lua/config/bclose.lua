@@ -26,16 +26,21 @@ end
 function M.close(bufnr)
   bufnr = bufnr or fn.bufnr('%')
 
+
   local prev = fn.bufnr('#')
 
-  for w=1,fn.winnr('$') do
-    local winid = fn.win_getid(w)
-    if api.nvim_win_get_buf(winid) == bufnr and fn.buflisted(bufnr) then
-      api.nvim_win_set_buf(winid, prev)
+  -- Close special splits
+  if api.nvim_buf_get_option(bufnr, 'buftype') == '' then
+    for w=1,fn.winnr('$') do
+      local winid = fn.win_getid(w)
+      if api.nvim_win_get_buf(winid) == bufnr and fn.buflisted(bufnr) then
+        api.nvim_win_set_buf(winid, prev)
+      end
     end
   end
 
   cmd('bdelete ' .. bufnr)
+
   cmd('redraw')
 end
 

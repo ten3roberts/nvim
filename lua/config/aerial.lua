@@ -24,7 +24,7 @@ vim.g.aerial = {
 
   -- Enum: split_width, full_width, last, none
   -- Determines line highlighting mode when multiple buffers are visible
-  highlight_mode = 'split_width',
+  highlight_mode = 'full_width',
 
   -- When jumping to a symbol, highlight the line for this many ms
   -- Set to 0 or false to disable
@@ -41,7 +41,7 @@ vim.g.aerial = {
   manage_folds = false,
 
   -- The maximum width of the aerial window
-  max_width = 20,
+  max_width = 15,
 
   -- The minimum width of the aerial window.
   -- To disable dynamic resizing, set this to be equal to max_width

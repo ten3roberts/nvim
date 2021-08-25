@@ -27,8 +27,13 @@ function M.on_attach(client)
   -- Lsp signature
   lsp_signature.on_attach({
     bind = true,
+    max_height = 5,
+    max_width = 20,
+    hint_enable = false,
+    -- hint_scheme = "String",
+    zindex = 1,
     handler_opts = {
-      border = "single"   -- double, single, shadow, none
+      border = "none"   -- double, single, shadow, none
     },
   })
 
@@ -68,23 +73,6 @@ local to_severity = function(severity)
   return type(severity) == 'string' and DiagnosticSeverity[severity] or severity
 end
 
-local filter_to_severity_limit = function(severity, diagnostics)
-  local filter_level = to_severity(severity)
-  if not filter_level then
-    return diagnostics
-  end
-
-  return vim.tbl_filter(function(t) return t.severity == filter_level end, diagnostics)
-end
-
-local filter_by_severity_limit = function(severity_limit, diagnostics)
-  local filter_level = to_severity(severity_limit)
-  if not filter_level then
-    return diagnostics
-  end
-
-  return vim.tbl_filter(function(t) return t.severity <= filter_level end, diagnostics)
-end
 
 -- Sets th0ation list with predefined options. Does not focus list.
 function M.set_loc()
@@ -123,7 +111,6 @@ function M.set_loc()
   local items = util.diagnostics_to_items(diags, predicate)
   local winid = vim.api.nvim_get_current_win()
   qf.set('l', items, 'Diagnostics', winid)
-  -- end
 end
 
 function M.on_publish_diagnostics(err, method, result, client_id, _, _)
@@ -169,9 +156,9 @@ function M.on_publish_diagnostics(err, method, result, client_id, _, _)
     update_in_insert = true,
   })
 
-  if vim.api.nvim_get_mode().mode == 'n' then
-    M.set_loc()
-  end
+  -- if vim.api.nvim_get_mode().mode == 'n' then
+  M.set_loc()
+  -- end
 end
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = M.on_publish_diagnostics
@@ -221,19 +208,25 @@ end
 
 M.configs = {
   lua = function() return require 'config.lua-lsp' end,
+  css = function()
+    local capabilities = vim.lsp.protocol.make_client_capabilities()
+    capabilities.textDocument.completion.completionItem.snippetSupport = true
+    return { capabilities = capabilities }
+  end,
+
   rust = function()
     local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities.textDocument.completion.completionItem.snippetSupport = false
+    capabilities.textDocument.completion.completionItem.snippetSupport = true
     capabilities.textDocument.completion.completionItem.resolveSupport = {
       properties = {
         'documentation',
         'detail',
-        'additionalTextEdits',
+        -- 'additionalTextEdits',
       }
     }
 
     return {
-      -- capabilities = capabilities,
+      capabilities = capabilities,
       settings = {
         ['rust-analyzer'] = {
           cargo = {
@@ -245,7 +238,7 @@ M.configs = {
   end,
   csharp = function()
     return {
-    root_dir = nvim_lsp.util.root_pattern("*.csproj","*.sln"),
+      root_dir = nvim_lsp.util.root_pattern("*.csproj","*.sln"),
       -- settings = {
       --   ["omnisharp.useGlobalMono"] = "always",
       --   omnisharp = {
@@ -274,8 +267,8 @@ function M.setup()
 
   -- nvim_lsp.omnisharp.setup{
   --   cmd = { omnisharp_bin, "--languageserver" , "--hostPID", tostring(pid) };
-    -- root_dir = nvim_lsp.util.root_pattern("*.csproj","*.sln"),
-    -- on_attach = M.on_attach,
+  -- root_dir = nvim_lsp.util.root_pattern("*.csproj","*.sln"),
+  -- on_attach = M.on_attach,
   -- }
 
   vim.cmd 'sign define LspDiagnosticsSignError text= texthl=LspDiagnosticsSignError linehl= numhl='

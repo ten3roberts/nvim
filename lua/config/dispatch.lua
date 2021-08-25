@@ -12,6 +12,7 @@ local default = {
   test = './scripts/test.sh',
 }
 
+
 local filetypes = {
   rust = {
     build = 'cargo build',
@@ -20,6 +21,16 @@ local filetypes = {
     lint = 'cargo clean && cargo clippy',
     run = 'cargo run',
     test = 'cargo test',
+  },
+  html = {
+    build = 'firefox %',
+    check = 'firefox %',
+    run = 'firefox %',
+  },
+  css = {
+    build = 'firefox %',
+    check = 'firefox %',
+    run = 'firefox %',
   },
   lua = {
     build = 'luac %',
@@ -64,18 +75,18 @@ function M.on_ft()
     return
   end
 
-  b.dispatch = M.get_command('build')
+  b.dispatch = M.get_command('check', true) or M.get_command('build')
 end
 
 function M.set_commands(commands)
   current_commands = commands
-  b.dispatch = M.get_command('check')
+  b.dispatch = M.get_command('check', true) or M.get_command('build')
 end
 
-function M.get_command(name)
+function M.get_command(name, silent)
   local command = current_commands[name] or filetypes[o.filetype][name]
 
-  if command == nil then
+  if command == nil and not silent then
     api.nvim_err_writeln(string.format("Unknown dispatch command '%s'", name))
     return
   end
@@ -88,6 +99,8 @@ function M.dispatch(name)
   local command = M.get_command(name)
 
   if not command then return end
+
+  require'qf'.close'l'
 
   cmd('Dispatch ' .. command)
 end

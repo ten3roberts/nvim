@@ -9,6 +9,7 @@ require 'config.treesitter'
 require 'config.commands'
 require 'config.clean_fold'
 require 'config.statusline'.setup()
+require 'config.pairs'
 require 'config.fzf'.setup()
 require 'config.lsp'.setup()
 
@@ -76,6 +77,7 @@ require'toggle'.setup{
     { 'yes', 'no' },
     { 'manual', 'auto' },
     { 'always', 'never' },
+    { 'public', 'private' },
   },
   variants = true,
 }
@@ -121,18 +123,18 @@ require'zen-mode'.setup {
 }
 
 require'nvim-web-devicons'.setup {
- -- your personnal icons can go here (to override)
- -- DevIcon will be appended to `name`
- override = {
-  cs = {
-    icon = "",
-    color = "#a70495",
-    name = "Cs"
-  }
- };
- -- globally enable default icons (default to false)
- -- will get overriden by `get_icons` option
- default = true;
+  -- your personnal icons can go here (to override)
+  -- DevIcon will be appended to `name`
+  override = {
+    cs = {
+      icon = "",
+      color = "#a70495",
+      name = "Cs"
+    }
+  };
+  -- globally enable default icons (default to false)
+  -- will get overriden by `get_icons` option
+  default = true;
 }
 
 require 'config.palette'.setup()

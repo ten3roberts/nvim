@@ -4,7 +4,7 @@ local g = vim.g
 
 local M = {}
 
-local ripgrep = 'rg --files --hidden'
+local ripgrep = 'rg --files'
 
 -- Makes files closer to the current file favored.
 function _G.fzf_proximity()
@@ -40,8 +40,8 @@ function M.setup()
   g.fzf_action = {
     -- [ 'enter' ] = 'drop',
     ['ctrl-t'] = 'tab split',
-    ['ctrl-x'] = 'split',
     ['ctrl-s'] = 'split',
+    ['ctrl-h'] = 'split',
     ['ctrl-v'] = 'vsplit',
     ['ctrl-d'] = 'drop',
 

@@ -34,15 +34,15 @@ local paq = require 'paq-nvim' {
   'ten3roberts/darken.nvim',
   'ten3roberts/window-picker.nvim',
 
+  -- Colorschemes
   'arcticicestudio/nord-vim',
   'chriskempson/base16-vim',
   'rakr/vim-one',
   'romgrk/doom-one.vim',
   'sainnhe/sonokai',
-  -- Colorschemes
 
   'AndrewRadev/sideways.vim', -- Move arguments and elements in list around
-  'LunarWatcher/auto-pairs', -- Automatic brackets
+  'David-Kunz/treesitter-unit',
   'airblade/vim-rooter', -- Change cwd to the git root
   'dkarter/bullets.vim', -- Markdown bullet management
   'folke/zen-mode.nvim',
@@ -61,6 +61,7 @@ local paq = require 'paq-nvim' {
   'neovim/nvim-lspconfig', -- LSP configurations
   'norcalli/nvim-colorizer.lua', -- Highlight colorcodes
   'nvim-lua/plenary.nvim', -- Lua utils library
+  'nvim-treesitter/playground',
   'phaazon/hop.nvim', -- Jump around in current buffer
   'qxxxb/vim-searchhi', -- Highlight current search match
   'rafamadriz/friendly-snippets', -- Preconfigured snippets
@@ -70,15 +71,16 @@ local paq = require 'paq-nvim' {
   'tpope/vim-abolish', -- Change casing styles and provide smart search and replace
   'tpope/vim-commentary', -- Toggle comments
   'tpope/vim-dispatch', -- Async build and command dispatch
+  'tpope/vim-eunuch',
   'tpope/vim-fugitive', -- Git management
   'tpope/vim-repeat', -- Repeat plugin commands with .
   'tpope/vim-surround', -- ( surround text )
   'tpope/vim-unimpaired', -- Handy bracket mappings
   'wellle/targets.vim', -- Better handling and seeking for textobjects
+  'windwp/nvim-autopairs',
+  'windwp/nvim-ts-autotag',
   -- 'AndrewRadev/splitjoin.vim', -- Join and breakup statements
-  -- 'OmniSharp/omnisharp-vim',
-  -- 'akinsho/nvim-bufferline.lua',
-  -- 'romgrk/barbar.nvim', -- Show open buffers in tabline
+  -- 'LunarWatcher/auto-pairs', -- Automatic brackets
   { 'iamcco/markdown-preview.nvim', run = function() vim.fn['mkdp#util#install']() end }, -- Markdown previewing
   { 'junegunn/fzf', run = function() vim.fn['fzf#install()']() end },
   {'nvim-treesitter/nvim-treesitter', run = function() vim.fn.TSInstall('maintained') end }, -- Better syntax highlighting using treesitter parsing

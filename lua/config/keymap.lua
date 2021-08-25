@@ -14,6 +14,7 @@ map('n', '<leader>po', ':AerialToggle<CR>')
 map('n', '<leader><leader>', ':Files<CR>')
 map('n', '<leader>,',        ':Buffers<CR>')
 map('n', '<leader>/',        ':BLines<CR>')
+map('n', '<leader>?',        ':BLines<CR>')
 map('n', '<leader>rg',       ':Rg<CR>')
 map('n', '<leader>o',        ':Files<CR>')
 map('n', '<leader>O',        ':Files<CR>')
@@ -51,24 +52,26 @@ map('n', '<leader>D',        ':DiagnosticsAll<CR>')
 
 
 -- Quickfix and location list
-map('n', '<leader>ll', '<cmd>lua require"qf".open("l")<CR>') -- Open location list
-map('n', '<leader>lo', '<cmd>lua require"qf".open("l")<CR>') -- Open location list
-map('n', '<leader>lc', '<cmd>lua require"qf".close("l")<CR>') -- Close location list
-map('n', '<leader>lt', '<cmd>lua require"qf".toggle("l", true)<CR>') -- Toggle location list and stay in current window
+map('n', '<leader>ll', '<cmd>lua require"qf".open("l")<CR>', silent) -- Open location list
+map('n', '<leader>lo', '<cmd>lua require"qf".open("l", true)<CR>', silent) -- Open location list
+map('n', '<leader>lc', '<cmd>lua require"qf".close("l")<CR>', silent) -- Close location list
+map('n', '<leader>lt', '<cmd>lua require"qf".toggle("l", true)<CR>', silent) -- Toggle location list and stay in current window
 
-map('n', '<leader>co', '<cmd>lua require"qf".open("c")<CR>') -- Open quickfix list
-map('n', '<leader>cc', '<cmd>lua require"qf".close("c")<CR>') -- Close quickfix list
-map('n', '<leader>cl', '<cmd>lua require"qf".toggle("c", true)<CR>') --Toggle quickfix list and stay in current window
+map('n', '<leader>co', '<cmd>lua require"qf".open("c")<CR>', silent) -- Open quickfix list
+-- map('n', '<leader>co', '<cmd>lua require"qf".open("c")<CR>') -- Open quickfix list
+map('n', '<leader>cc', '<cmd>lua require"qf".close("c")<CR>', silent) -- Close quickfix list
+map('n', '<leader>C', '<cmd>lua require"qf".close("c")<CR>', silent) -- Close quickfix list
+map('n', '<leader>ct', '<cmd>lua require"qf".toggle("c", true)<CR>', silent) --Toggle quickfix list and stay in current window
 
-map('v', 'gl', ':<c-u>lua require"config.onlines"()<CR>')
+map('v', 'gl', ':<c-u>lua require"config.onlines"()<CR>', silent)
 
-map('n', '<leader>j', '<cmd>lua require"qf".below("l")<CR>') -- Go to next location list entry from cursor
-map('n', '<leader>k', '<cmd>lua require"qf".above("l")<CR>') -- Go to previous location list entry from cursor
+map('n', '<leader>j', '<cmd>lua require"qf".below("l")<CR>', silent) -- Go to next location list entry from cursor
+map('n', '<leader>k', '<cmd>lua require"qf".above("l")<CR>', silent) -- Go to previous location list entry from cursor
 
-map('n', '<leader>J', '<cmd>lua require"qf".below("c")<CR>') -- Go to next quickfix entry from cursor
-map('n', '<leader>K', '<cmd>lua require"qf".above("c")<CR>') -- Go to previous quickfix entry from cursor
-map('n', ']q', '<cmd>lua require"qf".below("visible")<CR>') -- Go to next quickfix entry from cursor
-map('n', '[q', '<cmd>lua require"qf".above("visible")<CR>') -- Go to previous quickfix entry from cursor
+map('n', '<leader>J', '<cmd>lua require"qf".below("c")<CR>', silent) -- Go to next quickfix entry from cursor
+map('n', '<leader>K', '<cmd>lua require"qf".above("c")<CR>', silent) -- Go to previous quickfix entry from cursor
+map('n', ']q', '<cmd>lua require"qf".below("visible")<CR>', silent) -- Go to next quickfix entry from cursor
+map('n', '[q', '<cmd>lua require"qf".above("visible")<CR>', silent) -- Go to previous quickfix entry from cursor
 
 -- Dispatching
 map('n', '<leader>eb', '<cmd>lua require"config.dispatch".dispatch("build")<CR>')
@@ -144,14 +147,6 @@ map('n', '<leader>w<C-l>', '<C-w>l<C-w>q')
 map('n', '<leader>ww',  ':WindowPick<CR>')
 map('n', '<leader>W',  ':WindowSwap<CR>')
 
--- Sneak (easyclip conflict mappings)
--- map('n', 'f', '<plug>Sneak_f')
--- map('n', 'F', '<plug>Sneak_F')
--- map('n', 't', '<plug>Sneak_t')
--- map('n', 'T', '<plug>Sneak_T')
--- map('n', 's', '<plug>Sneak_s')
--- map('n', 'S', '<plug>Sneak_S')
-
 map('', 's', "<cmd>lua require'hop'.hint_char1()<cr>")
 map('', 'S', "<cmd>lua require'hop'.hint_words()<cr>")
 map('v', '<C-s>', "<cmd>lua require'hop'.hint_words()<cr>")
@@ -161,6 +156,7 @@ map('', '\\', "<cmd>lua require'hop'.hint_lines()<cr>")
 map('n', '<leader>gg',  ':Ge :<CR>')
 map('n', '<leader>gd',  ':G difftool --name-status<CR>')
 map('n', '<leader>ga',  ':Git add %<CR>')
+map('n', '<leader>gS',  ':Git stage .<CR>')
 map('n', '<leader>gc',  ':Git commit<CR>')
 map('n', '<leader>gpp', ':Git push<CR>')
 map('n', '<leader>gpf', ':Git push --force<CR>')
@@ -185,6 +181,7 @@ map('v', 'g#', '<plug>(searchhi-v-g#)')
 map('v', 'gd', '<plug>(searchhi-v-gd)')
 map('v', 'gD', '<plug>(searchhi-v-gD)')
 
+-- Clear search highlight
 map('n', '<Esc>', '<plug>(searchhi-clear-all)')
 
 -- Easy align
@@ -202,26 +199,50 @@ map('', '<C-k>', '{', { noremap = true })
 map('', '<C-e>', '$')
 map('', '<C-b>', '^')
 
+-- Readline like
 map('i', '<C-e>', '<C-o>$')
 map('i', '<C-b>', '<C-o>^')
 map('i', '<C-a>', '<C-o>^')
+map('i', '<C-a>', '<C-o>^')
+map('i', '<A-b>', '<C-o>b')
+map('i', '<A-f>', '<C-o>w')
+
+-- Transpose word
+-- map('', 'L', 'daWWPB')
+-- map('', 'H', 'daWBPB')
+-- map('', 'M', '2dWBhP')
 
 -- Move lines
-map('n', '<A-k>', ':m .-2<CR>', silent)
-map('n', '<A-j>', ':m .+1<CR>', silent)
+map('n', '<A-k>', ':m .-2<CR>==', silent)
+map('n', '<A-j>', ':m .+1<CR>==', silent)
 
-map('v', '<A-k>', ':m \'<-2<CR>gv', silent)
-map('v', '<A-j>', ':m \'>+1<CR>gv', silent)
+map('v', '<A-k>', ':m \'<-2<CR>gv==gv', silent)
+map('v', '<A-j>', ':m \'>+1<CR>gv==gv', silent)
 
 map('n', '<A-h>', ':SidewaysLeft<CR>', silent)
 map('n', '<A-l>', ':SidewaysRight<CR>', silent)
 
 -- Textobjects for inside and around arguments/lists,paramater constraints
+map('o', 'aa', '<Plug>SidewaysArgumentTextobjA', silent)
+map('x', 'aa', '<Plug>SidewaysArgumentTextobjA', silent)
+map('x', 'aa', '<Plug>SidewaysArgumentTextobjA', silent)
 map('o', 'a,', '<Plug>SidewaysArgumentTextobjA', silent)
 map('x', 'a,', '<Plug>SidewaysArgumentTextobjA', silent)
 
+map('o', 'ia', '<Plug>SidewaysArgumentTextobjI', silent)
+map('x', 'ia', '<Plug>SidewaysArgumentTextobjI', silent)
 map('o', 'i,', '<Plug>SidewaysArgumentTextobjI', silent)
 map('x', 'i,', '<Plug>SidewaysArgumentTextobjI', silent)
+
+map('o', 'i,', '<Plug>SidewaysArgumentTextobjI', silent)
+map('x', 'i,', '<Plug>SidewaysArgumentTextobjI', silent)
+
+map('v', 'x', ':lua require"treesitter-unit".select()<CR>',      { noremap=true })
+map('o', 'x', ':<c-u>lua require"treesitter-unit".select()<CR>', { noremap=true })
+map('v', 'X', 'xd')
+
+-- Select all
+map('', 'vA', 'ggVG');
 
 -- Toggle bool
 map('n', 'gb', '<cmd>lua require"toggle".toggle()<CR>')

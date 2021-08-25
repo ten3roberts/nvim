@@ -6,13 +6,14 @@ vim.cmd 'augroup CONFIG'
 vim.cmd 'autocmd!'
 
 autocmd('VimEnter,DirChanged', '*', 'lua require"config.dispatch".load_config(".dispatch.json", false)')
+autocmd('BufWrite', '.dispatch.json', 'lua require"config.dispatch".load_config(".dispatch.json", false)')
 
 autocmd('FileType', '*', 'lua require"config.dispatch".on_ft()')
 
 -- autocmd('BufWinEnter,TabEnter', '*', 'SaveSession')
 
 -- Auto format on save using LSP
-autocmd('BufWritePre', '*', 'lua vim.lsp.buf.formatting_sync()')
+autocmd('BufWritePre', '*.rs,*.c,*.cpp', 'lua vim.lsp.buf.formatting_sync()')
 
 autocmd('OptionSet', 'errorformat', 'setlocal errorformat+=%f:%l:\\ %t%*[^:]:%m')
 
@@ -27,8 +28,12 @@ autocmd('BufWritePost', '*/Cargo.toml', 'echom "Restarting LSP" | LspRestart')
 -- Make Esc work in terminal mode (I know, some programs make use of Esc, but that's rare for my use case)
 autocmd('TermEnter', '*', 'if &filetype != "fzf" | tnoremap <buffer> <Esc> <C-\\><C-n> | endif')
 
+autocmd('FileType', 'fzf', 'tnoremap <A-q> <A-a><CR> | tmap  <C-q> <A-q>')
+
 -- Make <Tab> expand diffs in Fugitive mode
 autocmd('FileType', 'fugitive', 'map <buffer> <Tab> =')
+
+autocmd('FileType', '*', 'setlocal formatoptions-=o')
 
 -- Restore last position when opening file
 autocmd('BufReadPost', '*', [[ if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif ]])
@@ -42,7 +47,7 @@ autocmd('BufUnload,BufDelete',  '*', 'lua require"config.lsp".clear_buffer_cache
 -- Save before grep,make etc
 autocmd('QuickFixCmdPre', '*', ':wa')
 
-autocmd('WinEnter', '*', 'lua if vim.o.buftype == "" and vim.fn.win_gettype(0) == "" then print("Setting loc") require"config.lsp".set_loc() end')
+autocmd('WinEnter', '*', 'lua if vim.o.buftype == "" and vim.fn.win_gettype(0) == "" then require"config.lsp".set_loc() end')
 
 autocmd('FileType', 'TelescopePrompt', 'let b:autopairs_enabled = 0')
 

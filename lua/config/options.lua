@@ -8,11 +8,11 @@ o.cmdheight = 2
 o.switchbuf = 'useopen,usetab'
 o.completeopt = 'menuone,noselect'
 o.confirm = true -- Disable 'no write'
-o.cursorline = false
+o.cursorline = true
 o.equalalways = true
 o.expandtab = true
 o.foldlevelstart = 99
-o.foldnestmax = 3
+o.foldnestmax = 6
 o.foldmethod = 'indent'
 o.foldtext = 'v:lua.clean_fold()'
 o.formatoptions = 'jcrqltn'
@@ -26,10 +26,10 @@ o.incsearch = true -- Move cursor during search
 o.laststatus = 2
 o.linebreak = true
 o.mouse = 'nvc'
-o.number = false
+o.number = true
 o.path = o.path .. '**'
 o.pumheight = 8
-o.relativenumber = false
+o.relativenumber = true
 o.runtimepath = o.runtimepath .. ",~/dev/nvim"
 o.scrolloff = 8 -- Lines from the cursor
 o.sessionoptions = 'folds,tabpages,terminal'
@@ -46,7 +46,8 @@ o.tabstop = 2
 o.termguicolors = true
 o.textwidth = 80
 o.title = true
-o.titlestring="nvim %{fnamemodify(getcwd(), ':~')} %M"
+o.titlestring="nvim %{fnamemodify(getcwd(), ':~')}"
+-- o.titlestring="nvim %{fnamemodify(getcwd(), ':~')} %M"
 o.undofile = true
 o.updatetime = 500
 o.wildmenu = true -- Command line completion mode
@@ -59,6 +60,7 @@ g.windowswap_map_keys = 0
 
 -- AutoPairs
 g.AutoPairsMapBS = 1
+g.AutoPairsMultilineClose = 1
 g.AutoPairsShortcutToggle = ''
 
 -- Sneak
@@ -122,7 +124,7 @@ g.mkdp_auto_close = false
 g.vim_markdown_fenced_languages = { 'rust', 'lua', 'python', 'sh', 'bash' }
 
 -- Nord
-g.nord_cursor_line_number_background = 0
+g.nord_cursor_line_number_background = 1
 g.nord_bold = 1
 g.nord_italic = 1
 g.nord_uniform_diff_background = 1

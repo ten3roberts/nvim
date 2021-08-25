@@ -66,9 +66,6 @@ local function get_git(highlight)
     return '',''
   end
 
-  local branch = signs.head
-  branch = branch and (' ' .. branch .. ' ') or ''
-
   local added,changed,removed = signs.added or 0, signs.changed or 0, signs.removed or 0
 
   local total = added + changed + removed
@@ -76,12 +73,12 @@ local function get_git(highlight)
     math.ceil(added / total * 3), math.ceil(changed / total * 3), math.ceil(removed / total * 3)
 
   if highlight then
-    return '%#Orange#' .. branch,
+    return
       (rel_added > 0 and ('%#Green#' .. string.rep('+', rel_added) .. ' ') or '') ..
       (rel_changed > 0 and ('%#Blue#' .. string.rep('~', rel_changed) .. ' ') or '') ..
       (rel_removed > 0 and ('%#Red#' .. string.rep('-', rel_removed) .. ' ') or '')
   else
-    return branch,
+    return
       (rel_added > 0 and (string.rep('+', rel_added) .. ' ') or '') ..
       (rel_changed > 0 and (string.rep('~', rel_changed) .. ' ') or '') ..
       (rel_removed > 0 and (string.rep('-', rel_removed) .. ' ') or '')
@@ -237,6 +234,9 @@ function M.update()
   local winid = fn.win_getid()
   local actual_curwin = tonumber(g.actual_curwin)
 
+  local branch = vim.fn.FugitiveHead()
+  branch = branch and ('%#Orange# ' .. branch .. ' ') or ''
+
   if winid ~= actual_curwin then
     return M.update_inactive()
   end
@@ -250,7 +250,7 @@ function M.update()
 
   local mode = get_mode()
   local path = get_path(true)
-  local branch, git = get_git(true)
+  local git = get_git(true)
   local diag = lsp.statusline(bufnr, true)
 
   local items = {
@@ -334,7 +334,6 @@ function M.setup()
   autocmd!
   autocmd BufWinEnter,WinEnter,BufEnter * lua vim.wo.statusline='%{%v:lua.require\'config.statusline\'.update()%}'
   autocmd WinLeave,BufLeave * lua vim.wo.statusline=require'config.statusline'.update_inactive()
-  autocmd ColorScheme * lua require 'config.palette'.setup()
   augroup END
   ]]
 end
