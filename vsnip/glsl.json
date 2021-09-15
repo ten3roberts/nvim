@@ -1,0 +1,22 @@
+{
+  "uniform": {
+    "prefix": ["uniform"],
+    "body": [
+      "layout(binding = ${1}) uniform ${2} {",
+      "} ${3};"
+    ]
+  },
+  "sampler": {
+    "prefix": ["sampler"],
+    "body": [
+      "layout(binding = ${1}) uniform sampler2D ${2}; "
+    ]
+  },
+
+  "input": {
+    "prefix": ["input_attachment"],
+    "body": [
+      "layout (input_attachment_index = ${1}, binding = ${1}) uniform subpassInput ${2}"
+    ]
+  }
+}

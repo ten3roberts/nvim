@@ -1,52 +1,38 @@
-local fn = vim.fn
 local actions = require'telescope.actions'
-local sorters = require'telescope.sorters'
-
-local finders = require('telescope.finders')
-local make_entry = require('telescope.make_entry')
-local pickers = require('telescope.pickers')
-local previewers = require('telescope.previewers')
-local utils = require('telescope.utils')
-local conf = require('telescope.config').values
 
 
-require'session-lens'.setup {
-  shorten_path = false
-}
-
-require'telescope'.setup {
-  defaults = {
-    find_command = { 'rg', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case' },
-    prompt_position = "bottom",
+require('telescope').setup{
+  defaults = vim.tbl_extend('force', {
+    vimgrep_arguments = {
+      'rg',
+      '--color=never',
+      '--no-heading',
+      '--with-filename',
+      '--line-number',
+      '--column',
+      '--smart-case'
+    },
     prompt_prefix = "> ",
-    selection_caret = "- ",
+    selection_caret = "> ",
     entry_prefix = "  ",
     initial_mode = "insert",
-    -- initial_mode = "insert",
     selection_strategy = "reset",
     sorting_strategy = "descending",
     layout_strategy = "horizontal",
-    layout_defaults = {horizontal = {mirror = false}, vertical = {mirror = false}},
-    file_sorter = sorters.get_fzy_sorter,
+      layout_config = {
+        width = 0.75,
+        prompt_position = "bottom",
+        -- preview_cutoff = 120,
+        horizontal = {preview_width = 0.4, mirror = false },
+        vertical = { mirror = false },
+      },
+    file_sorter =  require'telescope.sorters'.get_fuzzy_file,
     file_ignore_patterns = {},
-    generic_sorter = sorters.get_fzy_sorter,
-    shorten_path = true,
+    generic_sorter =  require'telescope.sorters'.get_generic_fuzzy_sorter,
     winblend = 0,
-    width = 0.25,
-    preview_cutoff = 120,
-    results_height = 1,
-    results_width = 0.3,
     border = {},
-    borderchars = {'─', '│', '─', '│', '╭', '╮', '╯', '╰'},
-    color_devicons = true,
-    use_less = true,
-    set_env = {['COLORTERM'] = 'truecolor'}, -- default = nil,
-    file_previewer = require'telescope.previewers'.vim_buffer_cat.new,
-    grep_previewer = require'telescope.previewers'.vim_buffer_vimgrep.new,
-    qflist_previewer = require'telescope.previewers'.vim_buffer_qflist.new,
+    borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' },
 
-    -- Developer configurations: Not meant for general override
-    buffer_previewer_maker = require'telescope.previewers'.buffer_previewer_maker,
     mappings = {
       i = {
         ["<C-c>"] = actions.close,
@@ -64,7 +50,10 @@ require'telescope'.setup {
         -- ["<C-i>"] = actions.select_horizontal,
 
         -- Add up multiple actions
-        ["<CR>"] = actions.select_default + actions.center
+        ["<CR>"] = actions.select_default + actions.center,
+        ["<C-s>"] = actions.file_tab,
+        ["<C-v>"] = actions.file_vsplit,
+        ["<C-h>"] = actions.file_split,
 
         -- You can perform as many actions in a row as you like
         -- ["<CR>"] = actions.select_default + actions.center + my_cool_custom_action,
@@ -76,14 +65,14 @@ require'telescope'.setup {
         -- ["<C-i>"] = my_cool_custom_action,
       }
     },
-  },
+  }, require'telescope.themes'.get_dropdown()),
   pickers = {
-    -- Your special builtin config goes in here
-    theme = 'dropdown',
+    -- theme = 'dropdown',
     buffers = {
-      sort_lastused = false,
-      ignore_current_buffer = false,
+      sort_lastused = true,
+      ignore_current_buffer = true,
       theme = 'dropdown',
+      selection_strategy = "reset",
       previewer = false,
       bufnr_width = 2,
       mappings = {
@@ -97,19 +86,22 @@ require'telescope'.setup {
     },
     find_files = {
       theme = 'dropdown',
-
-    }
+    },
+    lsp_code_actions = {
+      theme = 'cursor',
+  }
   },
   extensions = {
-    fzy_native = {override_generic_sorter = true, override_file_sorter = true},
+    fzf = {
+      fuzzy = true,                    -- false will only do exact matching
+      override_generic_sorter = false, -- override the generic sorter
+      override_file_sorter = true,     -- override the file sorter
+      case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+                                       -- the default case_mode is "smart_case"
+    }
   },
 }
 
-function _G.fd_proximity()
-  if vim.o.buftype ~= '' then
-    return {'fd'}
-  end
-  local fname = fn.expand('%')
-
-  return {'sh',  '-c', 'fd | proximity-sort ' .. fname}
-end
+require('telescope').load_extension('fzf')
+require('telescope').load_extension('dap')
+require'session-lens'.setup {}

@@ -4,7 +4,6 @@ end
 
 local aerial = require'aerial'
 local diagnostic = vim.lsp.diagnostic
-local fn = vim.fn
 local util = vim.lsp.util
 local api = vim.api
 local lsp_install = require 'lspinstall'
@@ -41,6 +40,8 @@ function M.on_attach(client)
 
   -- Setup mappings
 
+  local silent = { silent = true }
+
   -- Jump forwards/backwards with '{' and '}'
   buf_map(0, '', '{',         '<cmd>AerialPrev<CR>')
   buf_map(0, '', '}',         '<cmd>AerialNext<CR>')
@@ -49,22 +50,21 @@ function M.on_attach(client)
   buf_map(0, '', '[[',         '<cmd>AerialPrevUp<CR>')
   buf_map(0, '', ']]',         '<cmd>AerialNextUp<CR>')
 
-  buf_map(0, 'n', 'gD',         '<cmd>lua vim.lsp.buf.declaration()<CR>')
-  buf_map(0, 'n', 'gd',         '<cmd>lua vim.lsp.buf.definition()<CR>')
-  buf_map(0, 'n', 'K',          '<cmd>lua vim.lsp.buf.hover()<CR>')
-  buf_map(0, 'n', 'gi',         '<cmd>lua vim.lsp.buf.implementation()<CR>')
+  buf_map(0, "n", "<leader>cf",  "<cmd>lua vim.lsp.buf.formatting()<CR>")
   buf_map(0, 'n', '<leader>cwa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>')
-  buf_map(0, 'n', '<leader>cwr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>')
   buf_map(0, 'n', '<leader>cwl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>')
-  buf_map(0, 'n', 'gy',         '<cmd>lua vim.lsp.buf.type_definition()<CR>')
-  buf_map(0, 'n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>')
-  buf_map(0, 'n', '<leader>a',  ':CodeAction<CR>')
-  buf_map(0, 'n', 'gr',         '<cmd>lua vim.lsp.buf.references()<CR>')
-  buf_map(0, 'n', '<leader>e',  '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>')
-  buf_map(0, 'n', '[d',         '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
-  buf_map(0, 'n', ']d',         '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
-  buf_map(0, 'n', '<leader>q',  '<cmd>lua require"config.lsp".set_loc()<CR>')
-  buf_map(0, "n", "<leader>cf", "<cmd>lua vim.lsp.buf.formatting()<CR>")
+  buf_map(0, 'n', '<leader>cwr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>')
+  buf_map(0, 'n', '<leader>e',   '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>')
+  buf_map(0, 'n', '<leader>q',   '<cmd>lua require"config.lsp".set_loc()<CR>')
+  buf_map(0, 'n', '<leader>rn',  '<cmd>lua vim.lsp.buf.rename()<CR>')
+  buf_map(0, 'n', 'K',           '<cmd>lua vim.lsp.buf.hover()<CR>')
+  buf_map(0, 'n', '[d',          '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
+  buf_map(0, 'n', ']d',          '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
+  buf_map(0, 'n', 'gD',          '<cmd>lua vim.lsp.buf.declaration()<CR>')
+  buf_map(0, 'n', 'gd',          ':Telescope lsp_definitions<CR>', silent)
+  buf_map(0, 'n', 'gi',          '<cmd>lua vim.lsp.buf.implementation()<CR>')
+  buf_map(0, 'n', 'gr',          ':Telescope lsp_references<CR>', silent)
+  buf_map(0, 'n', 'gy',          '<cmd>lua vim.lsp.buf.type_definition()<CR>')
 
 end
 
@@ -113,7 +113,8 @@ function M.set_loc()
   qf.set('l', items, 'Diagnostics', winid)
 end
 
-function M.on_publish_diagnostics(err, method, result, client_id, _, _)
+-- function M.on_publish_diagnostics(err, method, result, client_id, _, _)
+function M.on_publish_diagnostics(_, result, ctx, _)
   local uri = result.uri
   local bufnr = vim.uri_to_bufnr(uri)
 
@@ -140,7 +141,7 @@ function M.on_publish_diagnostics(err, method, result, client_id, _, _)
 
   M.buffers[bufnr] = diagnostic_count
 
-  diagnostic.on_publish_diagnostics(err, method, result, client_id, bufnr, {
+  diagnostic.on_publish_diagnostics(_, result, ctx, {
     -- This will disable virtual text, like doing:
     -- let g:diagnostic_enable_virtual_text = 0
     virtual_text = false,
@@ -206,26 +207,30 @@ function M.statusline(bufnr, highlight)
   return s
 end
 
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+capabilities.textDocument.completion.completionItem.resolveSupport = {
+  properties = {
+    'documentation',
+    'detail',
+    -- 'additionalTextEdits',
+  }
+}
+
+local default_config = {
+  on_attach = M.on_attach,
+  capabilities = capabilities,
+}
+
 M.configs = {
-  lua = function() return require 'config.lua-lsp' end,
+  lua = function() return vim.tbl_extend('force', require 'config.lua-lsp', default_config) end,
   css = function()
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities.textDocument.completion.completionItem.snippetSupport = true
-    return { capabilities = capabilities }
+    return { on_attach = M.on_attach, capabilities = capabilities }
   end,
 
   rust = function()
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities.textDocument.completion.completionItem.snippetSupport = true
-    capabilities.textDocument.completion.completionItem.resolveSupport = {
-      properties = {
-        'documentation',
-        'detail',
-        -- 'additionalTextEdits',
-      }
-    }
-
     return {
+      on_attach = M.on_attach,
       capabilities = capabilities,
       settings = {
         ['rust-analyzer'] = {
@@ -238,7 +243,10 @@ M.configs = {
   end,
   csharp = function()
     return {
+      on_attach = M.on_attach,
+      capabilities = capabilities,
       root_dir = nvim_lsp.util.root_pattern("*.csproj","*.sln"),
+      cmd = { "omnisharp_run", "--languageserver" , "--hostPID", tostring(vim.fn.getpid()) },
       -- settings = {
       --   ["omnisharp.useGlobalMono"] = "always",
       --   omnisharp = {
@@ -254,8 +262,8 @@ function M.setup()
   local servers = lsp_install.installed_servers()
   for _, server in pairs(servers) do
     local config = M.configs[server]
-    config = vim.tbl_extend( "force", { on_attach = M.on_attach }, config and config() or {})
-    -- print(vim.inspect(config))
+    config = config and config() or default_config
+    -- print("Setting up ", server)
 
     nvim_lsp[server].setup(config)
   end
@@ -271,10 +279,6 @@ function M.setup()
   -- on_attach = M.on_attach,
   -- }
 
-  vim.cmd 'sign define LspDiagnosticsSignError text= texthl=LspDiagnosticsSignError linehl= numhl='
-  vim.cmd 'sign define LspDiagnosticsSignWarning text= texthl=LspDiagnosticsSignWarning linehl= numhl='
-  vim.cmd 'sign define LspDiagnosticsSignInformation text= texthl=LspDiagnosticsSignInformation linehl= numhl='
-  vim.cmd 'sign define LspDiagnosticsSignHint text= texthl=LspDiagnosticsSignHint linehl= numhl='
 end
 
 return M

@@ -1,5 +1,6 @@
 require 'config.keymap'
 require 'config.options'
+require 'config.telescope'
 require 'config.dev_utils'
 require 'config.onlines'
 require 'config.autocommands'
@@ -10,9 +11,8 @@ require 'config.commands'
 require 'config.clean_fold'
 require 'config.statusline'.setup()
 require 'config.pairs'
-require 'config.fzf'.setup()
 require 'config.lsp'.setup()
-
+require 'config.dbg'
 require'colorizer'.setup(
   { '*' },
   {
@@ -29,14 +29,17 @@ require'colorizer'.setup(
   }
 )
 
+require('auto-session').setup{
+  auto_session_suppress_dirs = {vim.env.HOME},
+}
+
 require'gitsigns'.setup({
   current_line_blame = false,
-  current_line_blame_delay = 1000,
 })
 
 require'darken'.setup{
   amount = 0.7,
-  filetypes = { 'NvimTree', 'qf', 'help', 'aerial' }
+  filetypes = { 'vaffle', 'qf', 'help', 'aerial' }
 }
 
 require'qf'.setup{
@@ -61,8 +64,8 @@ require'qf'.setup{
     follow_slow = true, -- Only follow on CursorHold
     auto_open = true, -- Automatically open list on QuickFixCmdPost
     auto_resize = true, -- Auto resize and shrink location list if less than `max_height`
-    max_height = 8, -- Maximum height of location/quickfix list
-    min_height = 5, -- Minumum height of location/quickfix list
+    max_height = 10, -- Maximum height of location/quickfix list
+    min_height = 10, -- Minumum height of location/quickfix list
     wide = true,
     unfocus_close = false,
     focus_open = false,
@@ -140,3 +143,24 @@ require'nvim-web-devicons'.setup {
 require 'config.palette'.setup()
 
 vim.cmd 'packadd termdebug'
+
+-- local R = require "pears.rule"
+
+-- require "pears".setup(function(conf)
+--   conf.pair("{", "}")
+--   conf.pair("\"", {
+--     close = "\"",
+--     should_expand = R.not_(R.start_of_context "\\"),
+--   })
+--   conf.pair("<", {
+--     close = ">",
+--     should_expand = R.all_of(
+--       -- Don't expand a quote if it comes after an alpha character
+--       R.not_(R.start_of_context "[a-zA-Z]"),
+--       -- Only expand when in a treesitter "string" node
+--       R.child_of_node "type_parameters"
+--     )
+--   })
+--   conf.preset("tag_matching")
+--   conf.expand_on_enter(true)
+-- end)

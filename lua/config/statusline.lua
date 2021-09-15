@@ -10,7 +10,7 @@ local icons = require'nvim-web-devicons'
 local M = {}
 
 local special_map = {
-  NvimTree = { '%#Yellow#  Files ', '  Files '},
+  vaffle = { function() return '%#Blue#  Files %#Normal#' .. fn.fnamemodify(vim.b.vaffle.dir, ':p:.') end, function() return '  Files ' .. fn.fnamemodify(vim.b.vaffle.dir,':p:.') end },
   Outline = { '%#Purple#  Outline ', '  Outline '  },
   aerial = { '%#Purple# λ Aerial ', ' λ Aerial '  }
 }
@@ -193,7 +193,7 @@ local function get_buffername(bufnr)
   local filename = fn.fnamemodify(fn.bufname(bufnr), ':t')
 
   if filename == '' then
-    filename = '[NO NAME]'
+    return
   end
 
   if buffer_names[filename] ~= nil then
@@ -245,7 +245,12 @@ function M.update()
 
   local special = special_map[ft]
   if special then
-    return special[1]
+    special = special[1]
+    if type(special) == 'function' then
+      return special()
+    else
+      return special
+    end
   end
 
   local mode = get_mode()
@@ -270,7 +275,12 @@ function M.update_inactive()
 
   local special = special_map[ft]
   if special then
-    return special[2]
+    special = special[2]
+    if type(special) == 'function' then
+      return special()
+    else
+      return special
+    end
   end
 
   local path = get_path(false)

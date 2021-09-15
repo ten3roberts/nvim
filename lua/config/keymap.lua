@@ -6,73 +6,63 @@ local silent = { silent = true }
 
 vim.g.mapleader = ' '
 
-map('n', '<leader>f',  ':NvimTreeFindFile<CR>')
-map('n', '<leader>pe', ':NvimTreeToggle<CR>')
+map('n', '<leader>f',  ':Vaffle %<CR>')
+map('n', '<leader>pe', ':Vaffle<CR>')
 map('n', '<leader>po', ':AerialToggle<CR>')
 
--- Fzf
-map('n', '<leader><leader>', ':Files<CR>')
-map('n', '<leader>,',        ':Buffers<CR>')
-map('n', '<leader>/',        ':BLines<CR>')
-map('n', '<leader>?',        ':BLines<CR>')
-map('n', '<leader>rg',       ':Rg<CR>')
-map('n', '<leader>o',        ':Files<CR>')
-map('n', '<leader>O',        ':Files<CR>')
-map('n', '<leader>gl',       ':Commits<CR>')
-map('n', '<leader>gs',       ':GFiles?<CR>')
-map('n', '<leader>a',        ':CodeActions<CR>')
-map('n', '<leader>o',        ':DocumentSymbols<CR>')
-map('n', '<leader>O',        ':WorkspaceSymbols<CR>')
-map('n', '<leader>dd',       ':Diagnostics<CR>')
-map('n', '<leader>D',        ':DiagnosticsAll<CR>')
+-- -- Fzf
+-- map('n', '<leader><leader>', ':Files<CR>')
+-- map('n', '<leader>,',        ':Buffers<CR>')
+-- map('n', '<leader>/',        ':BLines<CR>')
+-- map('n', '<leader>?',        ':BLines<CR>')
+-- map('n', '<leader>rg',       ':Rg<CR>')
+-- map('n', '<leader>o',        ':Files<CR>')
+-- map('n', '<leader>O',        ':Files<CR>')
+-- map('n', '<leader>gl',       ':Commits<CR>')
+-- map('n', '<leader>gs',       ':GFiles?<CR>')
+-- map('n', '<leader>a',        ':CodeActions<CR>')
+-- map('n', '<leader>o',        ':DocumentSymbols<CR>')
+-- map('n', '<leader>O',        ':WorkspaceSymbols<CR>')
+-- map('n', '<leader>dd',       ':Diagnostics<CR>')
+-- map('n', '<leader>D',        ':DiagnosticsAll<CR>')
 
 -- Telescope
--- map('n', '<leader><leader>', ':Telescope find_files<CR>')
--- map('n', '<leader>,',        ':Telescope buffers<CR>')
--- map('n', '<leader>/',        ':Telescope current_buffer_fuzzy_find<CR>')
--- map('n', '<leader>rg',       ':Telescope live_grep<CR>')
--- map('n', '<leader>o',        ':Telescope lsp_document_symbols<CR>')
--- map('n', '<leader>O',        ':Telescope lsp_workspace_symbols<CR>')
--- map('n', '<leader>gl',       ':Telescope git_commits<CR>')
--- map('n', '<leader>gs',       ':Telescope git_status<CR>')
--- map('n', '<leader>pp',       ':Telescope session-lens search_session<CR>')
--- map('n', '<leader>d',        ':Telescope lsp_document_symbols<CR>')
-
--- map('n', '<leader>D',        ':Telescope lsp_workspace_diagnostics<CR>')
--- map('n', '<leader>a',        ':Telescope lsp_code_actions theme=get_dropdown<CR>')
--- map('n', 'gr',               ':Telescope lsp_references<CR>')
-
--- map('n', '<leader><leader>', '<cmd>lua require"telescope.builtin".find_files()<CR>')
--- map('n', '<leader>,          ', '<cmd>lua require"telescope.builtin".buffers()<CR>')
--- map('n', '<leader>/',        '<cmd>lua require"telescope.builtin".current_buffer_fuzzy_find(require"telescope.themes".get_dropdown({}))<CR>')
--- map('n', '<leader>rg',       '<cmd>lua require"telescope.builtin".live_grep(require"telescope.themes".get_dropdown({}))<CR>')
--- map('n', '<leader>o',        '<cmd>lua require"telescope.builtin".lsp_document_symbols(require"telescope.themes".get_dropdown({}))<CR>')
--- map('n', '<leader>O',        '<cmd>lua require"telescope.builtin".lsp_workspace_symbols(require"telescope.themes".get_dropdown({}))<CR>')
--- map('n', '<leader>gl',       '<cmd>lua require"telescope.builtin".git_commits(require"telescope.themes".get_dropdown({}))<CR>')
-
+map('n', '<leader><leader>', ':Telescope find_files<CR>')
+map('n', '<leader>,',        ':Telescope buffers<CR>')
+map('n', '<leader>/',        ':Telescope current_buffer_fuzzy_find<CR>')
+map('n', '<leader>/',        ':Telescope current_buffer_fuzzy_find<CR>')
+map('n', '<leader>rg',       ':Telescope live_grep<CR>')
+map('n', '<leader>gl',       ':Telescope git_commits<CR>')
+map('n', '<leader>gs',       ':Telescope git_status<CR>')
+map('n', '<leader>a',        ':Telescope lsp_code_actions<CR>')
+map('n', '<leader>o',        ':Telescope lsp_document_symbols<CR>')
+map('n', '<leader>O',        ':Telescope lsp_dynamic_workspace_symbols<CR>')
+map('n', '<leader>dd',       ':Telescope lsp_document_diagnostics<CR>')
+map('n', '<leader>D',        ':Telescope lsp_workspace_diagnostics<CR>')
+map('n', '<leader>pp',       ':SearchSession<CR>')
 
 -- Quickfix and location list
-map('n', '<leader>ll', '<cmd>lua require"qf".open("l")<CR>', silent) -- Open location list
-map('n', '<leader>lo', '<cmd>lua require"qf".open("l", true)<CR>', silent) -- Open location list
-map('n', '<leader>lc', '<cmd>lua require"qf".close("l")<CR>', silent) -- Close location list
-map('n', '<leader>lt', '<cmd>lua require"qf".toggle("l", true)<CR>', silent) -- Toggle location list and stay in current window
+map('n', '<leader>ll', ':Lopen<CR>', silent) -- Open location list
+map('n', '<leader>lo', ':Lopen true<CR>', silent) -- Open location list
+map('n', '<leader>lc', ':Lclose<CR>', silent) -- Close location list
+map('n', '<leader>lt', ':Ltoggle true<CR>', silent) -- Toggle location list and stay in current window
 
-map('n', '<leader>co', '<cmd>lua require"qf".open("c")<CR>', silent) -- Open quickfix list
+map('n', '<leader>co', ':Qopen<CR>', silent) -- Open quickfix list
 -- map('n', '<leader>co', '<cmd>lua require"qf".open("c")<CR>') -- Open quickfix list
-map('n', '<leader>cc', '<cmd>lua require"qf".close("c")<CR>', silent) -- Close quickfix list
-map('n', '<leader>C', '<cmd>lua require"qf".close("c")<CR>', silent) -- Close quickfix list
-map('n', '<leader>ct', '<cmd>lua require"qf".toggle("c", true)<CR>', silent) --Toggle quickfix list and stay in current window
+map('n', '<leader>cc', ':Qclose<CR>', silent) -- Close quickfix list
+map('n', '<leader>C', ':Qclose<CR>', silent) -- Close quickfix list
+map('n', '<leader>ct', ':Qtoggle true<CR>', silent) --Toggle quickfix list and stay in current window
 
-map('v', 'gl', ':<c-u>lua require"config.onlines"()<CR>', silent)
 
-map('n', '<leader>j', '<cmd>lua require"qf".below("l")<CR>', silent) -- Go to next location list entry from cursor
-map('n', '<leader>k', '<cmd>lua require"qf".above("l")<CR>', silent) -- Go to previous location list entry from cursor
+map('n', '<leader>j', ':Lbelow<CR>', silent) -- Go to next location list entry from cursor
+map('n', '<leader>k', ':Labove<CR>', silent) -- Go to previous location list entry from cursor
 
-map('n', '<leader>J', '<cmd>lua require"qf".below("c")<CR>', silent) -- Go to next quickfix entry from cursor
-map('n', '<leader>K', '<cmd>lua require"qf".above("c")<CR>', silent) -- Go to previous quickfix entry from cursor
+map('n', '<leader>J', ':Qbelow<CR>', silent) -- Go to next quickfix entry from cursor
+map('n', '<leader>K', ':Qabove<CR>', silent) -- Go to previous quickfix entry from cursor
 map('n', ']q', '<cmd>lua require"qf".below("visible")<CR>', silent) -- Go to next quickfix entry from cursor
 map('n', '[q', '<cmd>lua require"qf".above("visible")<CR>', silent) -- Go to previous quickfix entry from cursor
 
+map('v', 'gl', ':<c-u>lua require"config.onlines"()<CR>', silent)
 -- Dispatching
 map('n', '<leader>eb', '<cmd>lua require"config.dispatch".dispatch("build")<CR>')
 map('n', '<leader>er', '<cmd>lua require"config.dispatch".dispatch("run")<CR>')
@@ -102,10 +92,10 @@ map('n', '<leader>S', ':tab split<CR>')
 map('n', '<leader>Q', ':tabclose<CR>')
 
 for i = 0,9 do
-  map('n', '<leader>' .. i , i .. 'gt')
-  map('n', '<A-' .. i .. '>', i .. 'gt')
-  map('!', '<A-' .. i .. '>', '<ESC>' .. i .. 'gt')
-  map('t', '<A-' .. i .. '>', '<C-\\><C-n>' .. i .. 'gt')
+map('n', '<leader>' .. i , i .. 'gt')
+map('n', '<A-' .. i .. '>', i .. 'gt')
+map('!', '<A-' .. i .. '>', '<ESC>' .. i .. 'gt')
+map('t', '<A-' .. i .. '>', '<C-\\><C-n>' .. i .. 'gt')
 end
 
 map('n', '<A-,>', ':tabprevious<CR>')
@@ -144,13 +134,20 @@ map('n', '<leader>w<C-j>', '<C-w>j<C-w>q')
 map('n', '<leader>w<C-k>', '<C-w>k<C-w>q')
 map('n', '<leader>w<C-l>', '<C-w>l<C-w>q')
 
-map('n', '<leader>ww',  ':WindowPick<CR>')
+map('n', '<leader>ww', ':WindowPick<CR>')
 map('n', '<leader>W',  ':WindowSwap<CR>')
 
-map('', 's', "<cmd>lua require'hop'.hint_char1()<cr>")
-map('', 'S', "<cmd>lua require'hop'.hint_words()<cr>")
-map('v', '<C-s>', "<cmd>lua require'hop'.hint_words()<cr>")
-map('', '\\', "<cmd>lua require'hop'.hint_lines()<cr>")
+map('', '<C-p>', '"0p')
+
+-- map('',  's',     ':HopChar1<CR>')
+-- map('',  'S',     ':HopWord<CR>')
+-- map('',  'S',     ':HopWord<CR>')
+-- map('v', '<C-s>', ':HopWord<CR>')
+-- map('',  '\\',    ':HopLines<CR>')
+-- map('', 'f', ':HopChar1AC<CR>')
+-- map('', 'F', ':HopChar1BC<CR>')
+-- map('', 't', ':HopChar1AC<CR>')
+-- map('', 'T', ':HopChar1AC<CR>')
 
 -- Git mappings
 map('n', '<leader>gg',  ':Ge :<CR>')
@@ -192,6 +189,9 @@ map('n', 'ga', '<plug>(EasyAlign)')
 map('i', '<C-l>', 'vsnip#available(1) ? "<plug>(vsnip-expand-or-jump)" : "<C-l>"', { expr = true})
 map('n', '<C-l>', 'vsnip#available(1) ? "<plug>(vsnip-expand-or-jump)" : "<C-l>"', { expr = true})
 
+-- map('i', '<Tab>', 'vsnip#available(1) ? "<plug>(vsnip-expand-or-jump)" : "<Tab>"', { expr = true})
+map('s', '<Tab>', 'vsnip#available(1) ? "<plug>(vsnip-expand-or-jump)" : "<Tab>"', { expr = true})
+
 -- Movements
 map('', '<C-j>', '}', { noremap = true })
 map('', '<C-k>', '{', { noremap = true })
@@ -216,8 +216,8 @@ map('i', '<A-f>', '<C-o>w')
 map('n', '<A-k>', ':m .-2<CR>==', silent)
 map('n', '<A-j>', ':m .+1<CR>==', silent)
 
-map('v', '<A-k>', ':m \'<-2<CR>gv==gv', silent)
-map('v', '<A-j>', ':m \'>+1<CR>gv==gv', silent)
+map('v', '<A-k>', ':m \'<-2<CR>gv', silent)
+map('v', '<A-j>', ':m \'>+1<CR>gv', silent)
 
 map('n', '<A-h>', ':SidewaysLeft<CR>', silent)
 map('n', '<A-l>', ':SidewaysRight<CR>', silent)
@@ -237,9 +237,9 @@ map('x', 'i,', '<Plug>SidewaysArgumentTextobjI', silent)
 map('o', 'i,', '<Plug>SidewaysArgumentTextobjI', silent)
 map('x', 'i,', '<Plug>SidewaysArgumentTextobjI', silent)
 
-map('v', 'x', ':lua require"treesitter-unit".select()<CR>',      { noremap=true })
-map('o', 'x', ':<c-u>lua require"treesitter-unit".select()<CR>', { noremap=true })
-map('v', 'X', 'xd')
+map('v', 'x', ':lua require"treesitter-unit".select()<CR>',      silent)
+map('o', 'x', ':<c-u>lua require"treesitter-unit".select()<CR>', silent)
+map('n', 'X', ':lua require"treesitter-unit".select()<CR>', silent)
 
 -- Select all
 map('', 'vA', 'ggVG');
@@ -249,8 +249,11 @@ map('n', 'gb', '<cmd>lua require"toggle".toggle()<CR>')
 
 -- Folding
 for i = 1, 9 do
-  map('n', 'z' .. i, ':set foldlevel='.. i-1 ..'<CR>')
+  map('n', 'z' .. i, ':set foldlevel='.. i ..'| echo "Foldlevel: " . &foldlevel<CR>', silent)
 end
+
+map('n', 'z-', ':set foldlevel-=1 | echo "Foldlevel: " . &foldlevel<CR>', silent)
+map('n', 'z=', ':set foldlevel+=1 | echo "Foldlevel: " . &foldlevel<CR>', silent)
 
 -- Indent whole buffer
 map('n', '<leader>ci', 'mggg=G`g')
@@ -263,10 +266,50 @@ map('n', '<leader><cr>', ':ToggleCheckbox<CR>')
 -- Make Y behave like D and C
 map('n', 'Y', 'y$')
 
--- GDB
-map('n', '<leader>dr', ':Run<CR>')
-map('n', '<leader>dn', ':Over<CR>')
-map('n', '<leader>di', ':Step<CR>')
-map('n', '<leader>db', ':Break<CR>')
-map('n', '<leader>df', ':Finish<CR>')
-map('n', '<leader>dc', ':Continue<CR>')
+map('', '<leader>dn', ':lua require"config.dbg".dap.step_over()<CR>')
+map('', '<leader>dl', ':lua require"config.dbg".dap.step_into()<CR>')
+map('', '<leader>dh', ':lua require"config.dbg".dap.step_out()<CR>')
+map('', '<leader>dj', ':lua require"config.dbg".dap.down()<CR>')
+map('', '<leader>dk', ':lua require"config.dbg".dap.up()<CR>')
+map('', '<leader>ds', ':lua require"config.dbg".dap.pause()<CR>')
+map('', '<leader>dQ', ':lua require"config.dbg".dap.close()<CR>')
+
+map('', '<leader>db', ':lua require"config.dbg".dap.toggle_breakpoint()<CR>')
+map('', '<leader>dB', ':lua require"config.dbg".dap.set_breakpoint(vim.fn.input("Breakpoint condition: "))()<CR>')
+map('', '<leader>deb', ':lua require"config.dbg".dap.set_exception_breakpoints()<CR>')
+
+
+map('', '<leader>dc', ':lua require"config.dbg".dap.continue()<CR>')
+map('', '<leader>dr', ':lua require"config.dbg".dap.run_last()<CR>')
+map('', '<leader>dg', ':lua require"config.dbg".dap.run_to_cursor()<CR>')
+map('', '<leader>dO', ':lua require"config.dbg".dap.repl_open()<CR>')
+map('', '<leader>do', ':lua require"config.dbg".ui.toggle()<CR>')
+
+map('', '<leader>dlv', ':Telescope dap variables<CR>')
+map('', '<leader>dlb', ':Telescope dap list_breakpoints<CR>')
+map('', '<leader>dlf', ':Telescope dap frames<CR>')
+map('', '<leader>dlc', ':Telescope dap commands<CR>')
+
+map('', '<F5>', ':lua require"config.dbg".dap.continue()<CR>' )
+map('', '<F10>', ':lua require"config.dbg".dap.step_over()<CR>' )
+map('', '<F11>', ':lua require"config.dbg".dap.step_into()<CR>' )
+map('', '<F12>', ':lua require"config.dbg".dap.step_out()<CR>' )
+
+    -- nnoremap <silent> <F5> :lua require'dap'.continue()<CR>
+    -- nnoremap <silent> <F10> :lua require'dap'.step_over()<CR>
+    -- nnoremap <silent> <F11> :lua require'dap'.step_into()<CR>
+    -- nnoremap <silent> <F12> :lua require'dap'.step_out()<CR>
+    -- nnoremap <silent> <leader>b :lua require'dap'.toggle_breakpoint()<CR>
+    -- nnoremap <silent> <leader>B :lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>
+    -- nnoremap <silent> <leader>lp :lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>
+    -- nnoremap <silent> <leader>dr :lua require'dap'.repl.open()<CR>
+    -- nnoremap <silent> <leader>dl :lua require'dap'.run_last()<CR>
+
+-- -- GDB
+-- map('n', '<leader>dr', ':Run<CR>')
+-- map('n', '<leader>dn', ':Over<CR>')
+-- map('n', '<leader>di', ':Step<CR>')
+-- map('n', '<leader>db', ':Break<CR>')
+-- map('n', '<leader>dB', ':Clear<CR>')
+-- map('n', '<leader>df', ':Finish<CR>')
+-- map('n', '<leader>dc', ':Continue<CR>')

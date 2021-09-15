@@ -40,7 +40,7 @@ function M.setup()
   g.fzf_action = {
     -- [ 'enter' ] = 'drop',
     ['ctrl-t'] = 'tab split',
-    ['ctrl-s'] = 'split',
+    ['ctrl-s'] = 'tab split',
     ['ctrl-h'] = 'split',
     ['ctrl-v'] = 'vsplit',
     ['ctrl-d'] = 'drop',
@@ -76,7 +76,7 @@ function M.setup()
   cmd [[
   command! -bang -nargs=? -complete=dir Buffers call fzf#vim#buffers(<q-args>, { 'window': g:fzf_tall }, <bang>0)
   command! -bang -nargs=? -complete=dir Files call fzf#vim#files(<q-args>, { 'source': v:lua.fzf_proximity(), 'options': '--tiebreak=index', 'window': g:fzf_tall }, <bang>0)
-  command! -bang -nargs=? Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -- ".shellescape(<q-args>), 1, fzf#vim#with_preview({ 'window': g:fzf_wide }), <bang>0)
+  command! -bang -nargs=? Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -- ".shellescape(<q-args>), 1, fzf#vim#with_preview({ 'window': g:fzf_wide, 'options': '--delimiter : --nth 4..'}), <bang>0)
   ]]
 end
 

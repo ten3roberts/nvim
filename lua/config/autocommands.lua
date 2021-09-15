@@ -13,7 +13,12 @@ autocmd('FileType', '*', 'lua require"config.dispatch".on_ft()')
 -- autocmd('BufWinEnter,TabEnter', '*', 'SaveSession')
 
 -- Auto format on save using LSP
-autocmd('BufWritePre', '*.rs,*.c,*.cpp', 'lua vim.lsp.buf.formatting_sync()')
+autocmd('BufWritePre', '*', 'lua vim.lsp.buf.formatting_sync()')
+
+-- autocmd('FileType', 'dap-repl', 'lua require(:dap.ext.autocompl").attach()');
+
+autocmd('StdinReadPre', '*', 'let g:std_in=1')
+autocmd('VimEnter', '*', 'if getcwd() == $HOME && argc() == 0 && !exists("g:std_in") | execute("SearchSession") | endif')
 
 autocmd('OptionSet', 'errorformat', 'setlocal errorformat+=%f:%l:\\ %t%*[^:]:%m')
 
@@ -27,6 +32,7 @@ autocmd('BufWritePost', '*/Cargo.toml', 'echom "Restarting LSP" | LspRestart')
 
 -- Make Esc work in terminal mode (I know, some programs make use of Esc, but that's rare for my use case)
 autocmd('TermEnter', '*', 'if &filetype != "fzf" | tnoremap <buffer> <Esc> <C-\\><C-n> | endif')
+autocmd('TermOpen', '*', 'setlocal nonumber norelativenumber')
 
 autocmd('FileType', 'fzf', 'tnoremap <A-q> <A-a><CR> | tmap  <C-q> <A-q>')
 

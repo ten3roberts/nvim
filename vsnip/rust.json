@@ -33,16 +33,16 @@
     "body": "let ${1} = ${1}.as_ref();"
   },
   "Default": {
-    "prefix": "default",
+    "prefix": "Default",
     "body": "Default::default()"
   },
   "collect": {
-    "prefix": "collect",
-    "body": "collect::<Vec<_>>();"
+    "prefix": "collect()",
+    "body": "collect::<Vec<_>>()"
   },
   "collect_result": {
     "prefix": "collect_result",
-    "body": "collect::<Result<Vec<_>>>()?;"
+    "body": "collect::<Result<Vec<_>>>()?"
   },
   "error": {
     "prefix": "error",

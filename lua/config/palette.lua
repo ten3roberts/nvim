@@ -181,6 +181,17 @@ function M.setup()
 
   highlight('debugPC', normal_bg, p.green)
   highlight('debugBreakpoint', p.red, normal_bg)
+
+
+  fn.sign_define('LspDiagnosticsSignError',{ text='', texthl='LspDiagnosticsSignError' })
+  fn.sign_define( 'LspDiagnosticsSignWarning', {text='', texthl='LspDiagnosticsSignWarning' })
+  fn.sign_define( 'LspDiagnosticsSignInformation', { text='', texthl='LspDiagnosticsSignInformation' })
+  fn.sign_define( 'LspDiagnosticsSignHint', { text='', texthl='LspDiagnosticsSignHint' })
+
+
+fn.sign_define('DapBreakpoint', {text='●', texthl='Red', linehl='', numhl=''})
+fn.sign_define('DapStopped', {text='⯈', texthl='Green', linehl='', numhl=''})
+
 end
 
 return M

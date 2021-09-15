@@ -41,6 +41,10 @@ end
 function M.save_and_exec()
   vim.cmd('silent! write')
 
+  if vim.o.ft == 'vim' then
+    vim.cmd 'w | source %'
+    return
+  end
   if vim.o.ft ~= 'lua' then
     return
   end

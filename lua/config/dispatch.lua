@@ -4,33 +4,24 @@ local cmd = vim.cmd
 local fn = vim.fn
 local o = vim.o
 
-local default = {
-  build = './scripts/build.sh',
-  clean = './scripts/clean.sh',
-  list = './scripts/lint.sh',
-  run = './scripts/run.sh',
-  test = './scripts/test.sh',
-}
-
+local current_dispatch;
 
 local filetypes = {
   rust = {
     build = 'cargo build',
-    check = 'cargo check',
+    check = 'cargo check --examples',
     clean = 'clean',
     lint = 'cargo clean && cargo clippy',
     run = 'cargo run',
     test = 'cargo test',
   },
-  html = {
-    build = 'firefox %',
-    check = 'firefox %',
-    run = 'firefox %',
+  glsl = {
+    check = 'glslangValidator -V %'
   },
-  css = {
-    build = 'firefox %',
-    check = 'firefox %',
-    run = 'firefox %',
+  html = {
+    build = 'live-server %',
+    check = 'live-server %',
+    run = 'live-server %',
   },
   lua = {
     build = 'luac %',
@@ -40,7 +31,7 @@ local filetypes = {
     run = 'lua %',
   },
   __index = function()
-    return default
+    return {}
   end
 }
 
@@ -75,12 +66,13 @@ function M.on_ft()
     return
   end
 
-  b.dispatch = M.get_command('check', true) or M.get_command('build')
+  current_dispatch = M.get_command('check', true) or M.get_command('build', true) or current_dispatch
+  b.dispatch = current_dispatch
 end
 
 function M.set_commands(commands)
   current_commands = commands
-  b.dispatch = M.get_command('check', true) or M.get_command('build')
+  M.on_ft()
 end
 
 function M.get_command(name, silent)

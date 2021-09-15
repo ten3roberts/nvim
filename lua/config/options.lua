@@ -32,7 +32,8 @@ o.pumheight = 8
 o.relativenumber = true
 o.runtimepath = o.runtimepath .. ",~/dev/nvim"
 o.scrolloff = 8 -- Lines from the cursor
-o.sessionoptions = 'folds,tabpages,terminal'
+o.sessionoptions = 'tabpages,terminal'
+-- o.sessionoptions="blank,buffers,curdir,folds,help,options,tabpages,winsize,resize,winpos,terminal"
 o.shiftwidth = 2
 o.shortmess = vim.o.shortmess .. 'c'
 o.showmatch = true -- Show matching brackets/parenthesis
@@ -56,61 +57,12 @@ o.wildmode = 'full' -- Command line completion mode
 g.termdebug_wide = 1
 g.termdebugger='rust-gdb'
 
-g.windowswap_map_keys = 0
+-- g.netrw_keepdir = 0
 
 -- AutoPairs
 g.AutoPairsMapBS = 1
 g.AutoPairsMultilineClose = 1
 g.AutoPairsShortcutToggle = ''
-
--- Sneak
-g[ 'sneak#label' ] = 1
-g[ 'sneak#s_next' ] = 0
-g[ 'sneak#absolute_dir' ] = 1
-g[ 'sneak#use_ic_scs' ] = 1
-
--- NvimTree
-g.nvim_tree_ignore = { '.git' }
-g.nvim_tree_width = 28
-g.nvim_tree_auto_open = 1
-g.nvim_tree_auto_close = 1
-g.nvim_tree_disable_netrw = 1
-g.nvim_tree_hijack_netrw = 1
-g.nvim_tree_follow = 1
-g.nvim_tree_tab_open = 0
-g.nvim_tree_lint_lsp = 1
-g.nvim_tree_side = 'right'
-g.nvim_tree_git_hl = 1
-g.nvim_tree_gitignore = 0
-g.nvim_tree_show_icons = {
-  git = 0,
-  folders = 1,
-  files = 1,
-  folder_arrows = 0,
-}
-g.nvim_tree_quit_on_open = 1
-g.nvim_tree_group_empty = 0
-g.nvim_tree_disable_window_picker = 0
-g.nvim_tree_lsp_diagnostics = 1
-g.nvim_tree_special_files = {}
-
--- Barbar
-g.bufferline = {
-  animation = true,
-  auto_hide = false,
-  tabpages = true,
-  closable = false,
-  clickable = true,
-  icons = true,
-  icon_custom_colors = false,
-  icon_separator_active = '▎',
-  icon_separator_inactive = '▎',
-  maximum_padding = 4,
-  maximum_length = 30,
-  semantic_letters = true,
-  letters = 'asdfjkl;ghnmxcvbziowerutyqpASDFJKLGHNMXCVBZIOWERUTYQP',
-  no_name_title = nil,
-}
 
 g.yankstack_yank_keys = { 'y', 'd', 'c' }
 
