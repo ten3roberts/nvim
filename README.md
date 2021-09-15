@@ -6,6 +6,13 @@ This is my personal configuration of neovim
 - Neovim lsp
 - Treesitter
 - Telescope
-- Filetree
+- File explorer
 - Nvim lua Development utils
-- Completion 
+- Completion
+- DAP debugging with UI
+- Many keybinds
+- Quickfix and location lists for everything
+- Auto lsp population of loc list
+- Custom minimal statusbar
+- Split overview in tabline
+- Persistent sessions
