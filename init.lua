@@ -65,7 +65,7 @@ require'qf'.setup{
     auto_open = true, -- Automatically open list on QuickFixCmdPost
     auto_resize = true, -- Auto resize and shrink location list if less than `max_height`
     max_height = 10, -- Maximum height of location/quickfix list
-    min_height = 10, -- Minumum height of location/quickfix list
+    min_height = 5, -- Minumum height of location/quickfix list
     wide = true,
     unfocus_close = false,
     focus_open = false,

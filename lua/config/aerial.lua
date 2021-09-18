@@ -45,7 +45,7 @@ vim.g.aerial = {
 
   -- The minimum width of the aerial window.
   -- To disable dynamic resizing, set this to be equal to max_width
-  min_width = 15,
+  min_width = 10,
 
   -- Set default symbol icons to use Nerd Font icons (see https://www.nerdfonts.com/)
   nerd_font = 'auto',
@@ -81,5 +81,6 @@ vim.g.aerial = {
   -- You can also override the default icons.
   icons = {
     Function = ' λ';
+
   },
 }

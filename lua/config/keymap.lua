@@ -190,11 +190,12 @@ map('i', '<C-l>', 'vsnip#available(1) ? "<plug>(vsnip-expand-or-jump)" : "<C-l>"
 map('n', '<C-l>', 'vsnip#available(1) ? "<plug>(vsnip-expand-or-jump)" : "<C-l>"', { expr = true})
 
 -- map('i', '<Tab>', 'vsnip#available(1) ? "<plug>(vsnip-expand-or-jump)" : "<Tab>"', { expr = true})
-map('s', '<Tab>', 'vsnip#available(1) ? "<plug>(vsnip-expand-or-jump)" : "<Tab>"', { expr = true})
+-- map('s', '<Tab>', 'vsnip#available(1) ? "<plug>(vsnip-expand-or-jump)" : "<Tab>"', { expr = true})
 
 -- Movements
 map('', '<C-j>', '}', { noremap = true })
 map('', '<C-k>', '{', { noremap = true })
+map('', '<C-5>', '<C-o>%', { noremap = true })
 
 map('', '<C-e>', '$')
 map('', '<C-b>', '^')

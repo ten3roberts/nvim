@@ -16,7 +16,7 @@ npairs.setup{
     highlight = 'HopNextKey',
     map = '<M-e>',
     chars = { '{', '[', '(', '"', "'", "<" , "{ ", "[ ", " ( " },
-    pattern = '[' .. table.concat { ' ', '%.', '%)', '%]', '%}', '%,', '%"', '%;', '%>' } .. ']',
+    pattern = '[' .. table.concat { ' ', '%.', '%)', '%]', '%}', ',', '%"', '%;', '>' } .. ']',
     offset = -1,
     keys = 'qwertyuiopzxcvbnmasdfghjkl',
     check_comma = true,

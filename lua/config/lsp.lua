@@ -3,24 +3,14 @@ local function buf_map(buf, mod, lhs, rhs, opt)
 end
 
 local aerial = require'aerial'
-local diagnostic = vim.lsp.diagnostic
-local util = vim.lsp.util
-local api = vim.api
+local diagnostic = vim.diagnostic
+local lsp_diagnostic = vim.lsp.diagnostic
 local lsp_install = require 'lspinstall'
 local lsp_signature = require'lsp_signature'
 local nvim_lsp = require 'lspconfig'
-local qf = require'qf'
+local sev = diagnostic.severity
 
 local M = { buffers = {}, statusline_cache = {} }
-
-local DiagnosticSeverity = require'vim.lsp.protocol'.DiagnosticSeverity
-
-local diagnostic_severities = {
-  [DiagnosticSeverity.Error]       = { hl = '%#STError#', type == 'E', kind = 'error', sign = ''};
-  [DiagnosticSeverity.Warning]     = { hl = '%#STWarning#', type == 'W', kind = 'warning', sign = ''};
-  [DiagnosticSeverity.Information] = { hl = '%#STInfo#', type == 'I', kind = 'info', sign = ''};
-  [DiagnosticSeverity.Hint]        = { hl = '%#STHint#', type = 'I', kind = 'hint', sign = ''};
-}
 
 function M.on_attach(client)
   -- Lsp signature
@@ -65,220 +55,184 @@ function M.on_attach(client)
   buf_map(0, 'n', 'gi',          '<cmd>lua vim.lsp.buf.implementation()<CR>')
   buf_map(0, 'n', 'gr',          ':Telescope lsp_references<CR>', silent)
   buf_map(0, 'n', 'gy',          '<cmd>lua vim.lsp.buf.type_definition()<CR>')
-
 end
 
-local to_severity = function(severity)
-  if not severity then return nil end
-  return type(severity) == 'string' and DiagnosticSeverity[severity] or severity
-end
-
-
--- Sets th0ation list with predefined options. Does not focus list.
+-- Sets the location list with predefined options. Does not focus list.
 function M.set_loc()
-  -- buffer = buffer or vim.fn.bufnr('%')
-  -- local diagnostic_count = M.buffers[buffer]
-
-  -- -- Don't show hint and info if there are errors to not clutter
-  -- if diagnostic_count[DiagnosticSeverity.Error] ~= 0 then
-  --   severity_limit = 'Warning'
-  -- end
-
-  local opts = { severity_limit = nil, open_loclist = false }
-
   if vim.o.buftype ~= '' then
     return
   end
 
-  opts = opts or {}
-  local current_bufnr = api.nvim_get_current_buf()
-  local diags = opts.workspace and M.get_all(opts.client_id) or {
-    [current_bufnr] = diagnostic.get(current_bufnr, opts.client_id)
-  }
-
-  local predicate = function(d)
-    local severity = to_severity(opts.severity)
-    if severity then
-      return d.severity == severity
-    end
-    local severity_limit = to_severity(opts.severity_limit)
-    if severity_limit then
-      return d.severity <= severity_limit
-    end
-    return true
-  end
-
-  local items = util.diagnostics_to_items(diags, predicate)
-  local winid = vim.api.nvim_get_current_win()
-  qf.set('l', items, 'Diagnostics', winid)
+  diagnostic.setloclist({
+    open = false
+  })
 end
+
+local diagnostic_severities = {
+  [sev.ERROR] = { hl = '%#STError#',   type = 'E', kind = 'error',   sign = ''};
+  [sev.WARN]  = { hl = '%#STWarning#', type = 'W', kind = 'warning', sign = ''};
+  [sev.INFO]  = { hl = '%#STInfo#',    type = 'I', kind = 'info',    sign = ''};
+  [sev.HINT]  = { hl = '%#STHint#',    type = 'H', kind = 'hint',    sign = ''};
+}
 
 -- function M.on_publish_diagnostics(err, method, result, client_id, _, _)
-function M.on_publish_diagnostics(_, result, ctx, _)
-  local uri = result.uri
-  local bufnr = vim.uri_to_bufnr(uri)
+  function M.on_publish_diagnostics(_, result, ctx, cfg)
+    local uri = result.uri
+    local bufnr = vim.uri_to_bufnr(uri)
 
-  if not bufnr then
-    return
+    if not bufnr then
+      return
+    end
+
+    -- Reset cache for current buffer
+    M.clear_buffer_cache(bufnr)
+
+    -- Tally up diagnostics
+    local diagnostic_count = {
+      [sev.ERROR] = 0,
+      [sev.WARN] = 0,
+      [sev.INFO] = 0,
+      [sev.HINT] = 0,
+    }
+
+    for _,v in ipairs(result.diagnostics) do
+      local severity = v.severity
+
+      diagnostic_count[severity] = diagnostic_count[severity] + 1
+    end
+
+    M.buffers[bufnr] = diagnostic_count
+
+    lsp_diagnostic.on_publish_diagnostics(_, result, ctx, cfg)
+
+    -- if vim.api.nvim_get_mode().mode == 'n' then
+    M.set_loc()
+    -- end
   end
 
-  -- Reset cache for current buffer
-  M.clear_buffer_cache(bufnr)
+  vim.lsp.handlers["textDocument/publishDiagnostics"] = M.on_publish_diagnostics
 
-  -- Tally up diagnostics
-  local diagnostic_count = {
-    [DiagnosticSeverity.Error] = 0,
-    [DiagnosticSeverity.Warning] = 0,
-    [DiagnosticSeverity.Information] = 0,
-    [DiagnosticSeverity.Hint] = 0,
-  }
-
-  for _,v in ipairs(result.diagnostics) do
-    local severity = v.severity
-
-    diagnostic_count[severity] = diagnostic_count[severity] + 1
+  function M.clear_buffer_cache(bufnr)
+    M.buffers[bufnr] = nil
+    M.statusline_cache[bufnr] = nil
   end
+  -- Returns a formatted statusline
+  function M.statusline(bufnr, highlight)
+    bufnr = bufnr or vim.fn.bufnr('%')
 
-  M.buffers[bufnr] = diagnostic_count
+    local cache = M.statusline_cache[bufnr]
 
-  diagnostic.on_publish_diagnostics(_, result, ctx, {
-    -- This will disable virtual text, like doing:
-    -- let g:diagnostic_enable_virtual_text = 0
-    virtual_text = false,
+    if cache then
+      return cache
+    end
 
-    -- This is similar to:
-    -- let g:diagnostic_show_sign = 1
-    -- To configure sign display,
-    --  see: ":help diagnostic.set_signs()"
-    signs = true,
+    local diagnostics = M.buffers[bufnr]
 
-    -- This is similar to:
-    -- "let g:diagnostic_insert_delay = 1"
-    update_in_insert = true,
-  })
+    if diagnostics == nil then
+      return ''
+    end
 
-  -- if vim.api.nvim_get_mode().mode == 'n' then
-  M.set_loc()
-  -- end
-end
+    local t = {}
 
-vim.lsp.handlers["textDocument/publishDiagnostics"] = M.on_publish_diagnostics
-
-function M.clear_buffer_cache(bufnr)
-  M.buffers[bufnr] = nil
-  M.statusline_cache[bufnr] = nil
-end
--- Returns a formatted statusline
-function M.statusline(bufnr, highlight)
-  bufnr = bufnr or vim.fn.bufnr('%')
-
-  local cache = M.statusline_cache[bufnr]
-
-  if cache then
-    return cache
-  end
-
-  local diagnostics = M.buffers[bufnr]
-
-  if diagnostics == nil then
-    return ''
-  end
-
-  local t = {}
-
-  if highlight then
-    for i,v in ipairs(diagnostics) do
-      if v > 0 then
-        local severity = diagnostic_severities[i]
-        t[#t+1] = severity.hl .. severity.sign .. ' ' .. v .. ' '
+    if highlight then
+      for i,v in ipairs(diagnostics) do
+        if v > 0 then
+          local severity = diagnostic_severities[i]
+          t[#t+1] = severity.hl .. severity.sign .. ' ' .. v .. ' '
+        end
+      end
+    else
+      for i,v in ipairs(diagnostics) do
+        if v > 0 then
+          local severity = diagnostic_severities[i]
+          t[#t+1] = severity.sign .. ' ' .. v .. ' '
+        end
       end
     end
-  else
-    for i,v in ipairs(diagnostics) do
-      if v > 0 then
-        local severity = diagnostic_severities[i]
-        t[#t+1] = severity.sign .. ' ' .. v .. ' '
-      end
-    end
+
+    local s = table.concat(t)
+    M.statusline_cache[bufnr] = s
+    return s
   end
 
-  local s = table.concat(t)
-  M.statusline_cache[bufnr] = s
-  return s
-end
-
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-capabilities.textDocument.completion.completionItem.resolveSupport = {
-  properties = {
-    'documentation',
-    'detail',
-    -- 'additionalTextEdits',
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  capabilities.textDocument.completion.completionItem.snippetSupport = true
+  capabilities.textDocument.completion.completionItem.resolveSupport = {
+    properties = {
+      'documentation',
+      'detail',
+      -- 'additionalTextEdits',
+    }
   }
-}
 
-local default_config = {
-  on_attach = M.on_attach,
-  capabilities = capabilities,
-}
+  local default_config = {
+    on_attach = M.on_attach,
+    capabilities = capabilities,
+  }
 
-M.configs = {
-  lua = function() return vim.tbl_extend('force', require 'config.lua-lsp', default_config) end,
-  css = function()
-    return { on_attach = M.on_attach, capabilities = capabilities }
-  end,
+  M.configs = {
+    lua = function() return vim.tbl_extend('force', require 'config.lua-lsp', default_config) end,
+    css = function()
+      return { on_attach = M.on_attach, capabilities = capabilities }
+    end,
 
-  rust = function()
-    return {
-      on_attach = M.on_attach,
-      capabilities = capabilities,
-      settings = {
-        ['rust-analyzer'] = {
-          cargo = {
-            runBuildScripts = false,
+    rust = function()
+      return {
+        on_attach = M.on_attach,
+        capabilities = capabilities,
+        settings = {
+          ['rust-analyzer'] = {
+            cargo = {
+              runBuildScripts = false,
+            }
           }
         }
       }
-    }
-  end,
-  csharp = function()
-    return {
-      on_attach = M.on_attach,
-      capabilities = capabilities,
-      root_dir = nvim_lsp.util.root_pattern("*.csproj","*.sln"),
-      cmd = { "omnisharp_run", "--languageserver" , "--hostPID", tostring(vim.fn.getpid()) },
-      -- settings = {
-      --   ["omnisharp.useGlobalMono"] = "always",
-      --   omnisharp = {
-      --     useGlobalMono = "always",
-      --   }
-      -- }
-    }
-  end
-}
+    end,
+    csharp = function()
+      return {
+        on_attach = M.on_attach,
+        capabilities = capabilities,
+        root_dir = nvim_lsp.util.root_pattern("*.csproj","*.sln"),
+        cmd = { "omnisharp_run", "--languageserver" , "--hostPID", tostring(vim.fn.getpid()) },
+        -- settings = {
+          --   ["omnisharp.useGlobalMono"] = "always",
+          --   omnisharp = {
+            --     useGlobalMono = "always",
+            --   }
+            -- }
+          }
+        end
+      }
 
-function M.setup()
-  lsp_install.setup()
-  local servers = lsp_install.installed_servers()
-  for _, server in pairs(servers) do
-    local config = M.configs[server]
-    config = config and config() or default_config
-    -- print("Setting up ", server)
+      function M.setup()
+        -- Config
+        diagnostic.config {
+          virtual_text = false,
+          update_in_insert = true,
+          severity_sort = true,
+        }
 
-    nvim_lsp[server].setup(config)
-  end
+        lsp_install.setup()
+        local servers = lsp_install.installed_servers()
+        for _, server in pairs(servers) do
+          local config = M.configs[server]
+          config = config and config() or default_config
 
-  -- local pid = vim.fn.getpid()
-  -- On linux/darwin if using a release build, otherwise under scripts/OmniSharp(.Core)(.cmd)
-  -- local omnisharp_bin = "/home/timmer/.local/share/omnisharp/run"
-  -- print("Setting up omnisharp at ", omnisharp_bin)
+          nvim_lsp[server].setup(config)
+        end
 
-  -- nvim_lsp.omnisharp.setup{
-  --   cmd = { omnisharp_bin, "--languageserver" , "--hostPID", tostring(pid) };
-  -- root_dir = nvim_lsp.util.root_pattern("*.csproj","*.sln"),
-  -- on_attach = M.on_attach,
-  -- }
+        -- local pid = vim.fn.getpid()
+        -- On linux/darwin if using a release build, otherwise under scripts/OmniSharp(.Core)(.cmd)
+        -- local omnisharp_bin = "/home/timmer/.local/share/omnisharp/run"
+        -- print("Setting up omnisharp at ", omnisharp_bin)
 
-end
+        -- nvim_lsp.omnisharp.setup{
+          --   cmd = { omnisharp_bin, "--languageserver" , "--hostPID", tostring(pid) };
+          -- root_dir = nvim_lsp.util.root_pattern("*.csproj","*.sln"),
+          -- on_attach = M.on_attach,
+          -- }
 
-return M
+        end
+
+        return M

@@ -176,21 +176,21 @@ function M.setup()
   link('GitSignsCurrentLineBlame', 'Comment')
   link('FocusedSymbol',            'GreenInv')
 
-  link('TSError', 'LspDiagnosticsUnderlineError')
+  link('TSError',   'LspDiagnosticsUnderlineError')
   link('TSWarning', 'LspDiagnosticsUnderlineWarning')
 
   highlight('debugPC', normal_bg, p.green)
   highlight('debugBreakpoint', p.red, normal_bg)
 
 
-  fn.sign_define('LspDiagnosticsSignError',{ text='', texthl='LspDiagnosticsSignError' })
-  fn.sign_define( 'LspDiagnosticsSignWarning', {text='', texthl='LspDiagnosticsSignWarning' })
-  fn.sign_define( 'LspDiagnosticsSignInformation', { text='', texthl='LspDiagnosticsSignInformation' })
-  fn.sign_define( 'LspDiagnosticsSignHint', { text='', texthl='LspDiagnosticsSignHint' })
+  fn.sign_define( 'DiagnosticSignError',       { text = '', texthl = 'LspDiagnosticsSignError' })
+  fn.sign_define( 'DiagnosticSignWarning',     { text = '', texthl = 'LspDiagnosticsSignWarning' })
+  fn.sign_define( 'DiagnosticSignInformation', { text = '', texthl = 'LspDiagnosticsSignInformation' })
+  fn.sign_define( 'DiagnosticSignHint',        { text = '', texthl = 'LspDiagnosticsSignHint' })
 
 
-fn.sign_define('DapBreakpoint', {text='●', texthl='Red', linehl='', numhl=''})
-fn.sign_define('DapStopped', {text='⯈', texthl='Green', linehl='', numhl=''})
+fn.sign_define('DapBreakpoint', {text='●', texthl='Red',   linehl='', numhl=''})
+fn.sign_define('DapStopped',    {text='⯈', texthl='Green', linehl='', numhl=''})
 
 end
 
