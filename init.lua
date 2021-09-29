@@ -39,17 +39,17 @@ require'gitsigns'.setup({
 
 require'darken'.setup{
   amount = 0.7,
-  filetypes = { 'vaffle', 'qf', 'help', 'aerial' }
+  filetypes = { 'term', 'vaffle', 'qf', 'help', 'aerial' }
 }
 
 require'qf'.setup{
   -- Location list configuration
   ['l'] = {
     auto_close = false, -- Automatically close location/quickfix list if empty
-    auto_follow = 'prev', -- Follow current entry, possible values: prev,next,nearest
-    follow_slow = true, -- Only follow on CursorHold
+    auto_follow = 'nearest', -- Follow current entry, possible values: prev,next,nearest
+    follow_slow = false, -- Only follow on CursorHold
     auto_open = false, -- Automatically open location list on QuickFixCmdPost
-    auto_resize = true, -- Auto resize and shrink location list if less than `max_height`
+    auto_resize = false, -- Auto resize and shrink location list if less than `max_height`
     max_height = 5, -- Maximum height of location/quickfix list
     min_height = 5, -- Minimum height of location/quickfix list
     wide = false,
@@ -63,7 +63,7 @@ require'qf'.setup{
     auto_follow = 'prev', -- Follow current entry, possible values: prev,next,nearest
     follow_slow = true, -- Only follow on CursorHold
     auto_open = true, -- Automatically open list on QuickFixCmdPost
-    auto_resize = true, -- Auto resize and shrink location list if less than `max_height`
+    auto_resize = false, -- Auto resize and shrink location list if less than `max_height`
     max_height = 10, -- Maximum height of location/quickfix list
     min_height = 5, -- Minumum height of location/quickfix list
     wide = true,
@@ -142,7 +142,7 @@ require'nvim-web-devicons'.setup {
 
 require 'config.palette'.setup()
 
-vim.cmd 'packadd termdebug'
+-- vim.cmd 'packadd termdebug'
 
 -- local R = require "pears.rule"
 

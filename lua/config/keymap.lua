@@ -157,7 +157,7 @@ map('n', '<leader>gS',  ':Git stage .<CR>')
 map('n', '<leader>gc',  ':Git commit<CR>')
 map('n', '<leader>gpp', ':Git push<CR>')
 map('n', '<leader>gpf', ':Git push --force<CR>')
-map('n', '<leader>gf',  ':Git fetch<CR>')
+map('n', '<leader>gf',  ':Git pull<CR>')
 
 -- Search highlighting
 map('n', 'n',  '<plug>(searchhi-n)')

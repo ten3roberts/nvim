@@ -37,19 +37,33 @@
     "body": "Default::default()"
   },
   "collect": {
-    "prefix": ".collect()",
-    "body": ".collect::<Vec<_>>()"
+    "prefix": "collect()",
+    "body": "collect::<Vec<_>>()"
   },
   "collect_result": {
-    "prefix": ".collect_result",
-    "body": ".collect::<Result<Vec<_>>>()?"
+    "prefix": "collect_result",
+    "body": "collect::<Result<Vec<_>>>()?"
   },
   "error": {
     "prefix": "error",
     "body": "#[error(${1})]\n${2}(#[from] ${3}),"
   },
   "map_err": {
-    "prefix": ".map_err",
-    "body": ".map_err(|e| e.into())"
+    "prefix": "map_err()",
+    "body": "map_err(|e| e.into())"
+  },
+  "LoadResource": {
+    "prefix": ["LoadResource"],
+    "body": [
+      "impl LoadResource for ${0} {",
+      "    type Info = ${0}Info;",
+      "",
+      "    type Error = Error;",
+      "",
+      "    fn load(resources: &Resources, info: &Self::Info) -> Result<Self> {",
+      "        ${1}",
+      "    }",
+      "}"
+    ]
   }
 }

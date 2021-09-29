@@ -1,6 +1,9 @@
 local cmp = require('cmp')
 
 cmp.setup {
+  completion = {
+    completeopt = "menuone,noinsert,preview",
+  },
   snippet = {
     expand = function(args)
       vim.fn['vsnip#anonymous'](args.body)
@@ -28,7 +31,7 @@ cmp.setup {
     ['<TAB>'] = function(fallback)
       if vim.fn.pumvisible() == 1 then
         cmp.confirm {
-          behavior = cmp.ConfirmBehavior.Insert,
+          behavior = cmp.ConfirmBehavior.Replace,
           select = true,
         }
       elseif vim.fn['vsnip#available']() == 1 then
@@ -49,10 +52,11 @@ cmp.setup {
         fallback()
       end
     end,
+    -- ['<CR>'] = function(fallback) fallback() end,
   },
   sources = {
-    { name = 'nvim_lsp' },
     { name = 'vsnip' },
+    { name = 'nvim_lsp' },
     { name = "path" },
     { name = 'buffer' },
   },

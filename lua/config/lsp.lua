@@ -22,7 +22,7 @@ function M.on_attach(client)
     -- hint_scheme = "String",
     zindex = 1,
     handler_opts = {
-      border = "none"   -- double, single, shadow, none
+      border = "single"   -- double, single, shadow, none
     },
   })
 
@@ -54,7 +54,7 @@ function M.on_attach(client)
   buf_map(0, 'n', 'gd',          ':Telescope lsp_definitions<CR>', silent)
   buf_map(0, 'n', 'gi',          '<cmd>lua vim.lsp.buf.implementation()<CR>')
   buf_map(0, 'n', 'gr',          ':Telescope lsp_references<CR>', silent)
-  buf_map(0, 'n', 'gy',          '<cmd>lua vim.lsp.buf.type_definition()<CR>')
+  buf_map(0, 'n', 'gy',          ':Telescope lsp_type_definitions<CR>', silent)
 end
 
 -- Sets the location list with predefined options. Does not focus list.
@@ -76,163 +76,155 @@ local diagnostic_severities = {
 }
 
 -- function M.on_publish_diagnostics(err, method, result, client_id, _, _)
-  function M.on_publish_diagnostics(_, result, ctx, cfg)
-    local uri = result.uri
-    local bufnr = vim.uri_to_bufnr(uri)
+function M.on_publish_diagnostics(_, result, ctx, cfg)
+  local uri = result.uri
+  local bufnr = vim.uri_to_bufnr(uri)
 
-    if not bufnr then
-      return
-    end
-
-    -- Reset cache for current buffer
-    M.clear_buffer_cache(bufnr)
-
-    -- Tally up diagnostics
-    local diagnostic_count = {
-      [sev.ERROR] = 0,
-      [sev.WARN] = 0,
-      [sev.INFO] = 0,
-      [sev.HINT] = 0,
-    }
-
-    for _,v in ipairs(result.diagnostics) do
-      local severity = v.severity
-
-      diagnostic_count[severity] = diagnostic_count[severity] + 1
-    end
-
-    M.buffers[bufnr] = diagnostic_count
-
-    lsp_diagnostic.on_publish_diagnostics(_, result, ctx, cfg)
-
-    -- if vim.api.nvim_get_mode().mode == 'n' then
-    M.set_loc()
-    -- end
+  if not bufnr then
+    return
   end
 
-  vim.lsp.handlers["textDocument/publishDiagnostics"] = M.on_publish_diagnostics
+  -- Reset cache for current buffer
+  M.clear_buffer_cache(bufnr)
 
-  function M.clear_buffer_cache(bufnr)
-    M.buffers[bufnr] = nil
-    M.statusline_cache[bufnr] = nil
-  end
-  -- Returns a formatted statusline
-  function M.statusline(bufnr, highlight)
-    bufnr = bufnr or vim.fn.bufnr('%')
-
-    local cache = M.statusline_cache[bufnr]
-
-    if cache then
-      return cache
-    end
-
-    local diagnostics = M.buffers[bufnr]
-
-    if diagnostics == nil then
-      return ''
-    end
-
-    local t = {}
-
-    if highlight then
-      for i,v in ipairs(diagnostics) do
-        if v > 0 then
-          local severity = diagnostic_severities[i]
-          t[#t+1] = severity.hl .. severity.sign .. ' ' .. v .. ' '
-        end
-      end
-    else
-      for i,v in ipairs(diagnostics) do
-        if v > 0 then
-          local severity = diagnostic_severities[i]
-          t[#t+1] = severity.sign .. ' ' .. v .. ' '
-        end
-      end
-    end
-
-    local s = table.concat(t)
-    M.statusline_cache[bufnr] = s
-    return s
-  end
-
-  local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities.textDocument.completion.completionItem.snippetSupport = true
-  capabilities.textDocument.completion.completionItem.resolveSupport = {
-    properties = {
-      'documentation',
-      'detail',
-      -- 'additionalTextEdits',
-    }
+  -- Tally up diagnostics
+  local diagnostic_count = {
+    [sev.ERROR] = 0,
+    [sev.WARN] = 0,
+    [sev.INFO] = 0,
+    [sev.HINT] = 0,
   }
 
-  local default_config = {
-    on_attach = M.on_attach,
-    capabilities = capabilities,
+  for _,v in ipairs(result.diagnostics) do
+    local severity = v.severity
+
+    diagnostic_count[severity] = diagnostic_count[severity] + 1
+  end
+
+  M.buffers[bufnr] = diagnostic_count
+
+  lsp_diagnostic.on_publish_diagnostics(_, result, ctx, cfg)
+
+  -- if vim.api.nvim_get_mode().mode == 'n' then
+  M.set_loc()
+  -- end
+end
+
+vim.lsp.handlers["textDocument/publishDiagnostics"] = M.on_publish_diagnostics
+
+function M.clear_buffer_cache(bufnr)
+  M.buffers[bufnr] = nil
+  M.statusline_cache[bufnr] = nil
+end
+-- Returns a formatted statusline
+function M.statusline(bufnr, highlight)
+  bufnr = bufnr or vim.fn.bufnr('%')
+
+  local cache = M.statusline_cache[bufnr]
+
+  if cache then
+    return cache
+  end
+
+  local diagnostics = M.buffers[bufnr]
+
+  if diagnostics == nil then
+    return ''
+  end
+
+  local t = {}
+
+  if highlight then
+    for i,v in ipairs(diagnostics) do
+      if v > 0 then
+        local severity = diagnostic_severities[i]
+        t[#t+1] = severity.hl .. severity.sign .. ' ' .. v .. ' '
+      end
+    end
+  else
+    for i,v in ipairs(diagnostics) do
+      if v > 0 then
+        local severity = diagnostic_severities[i]
+        t[#t+1] = severity.sign .. ' ' .. v .. ' '
+      end
+    end
+  end
+
+  local s = table.concat(t)
+  M.statusline_cache[bufnr] = s
+  return s
+end
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+-- print(vim.inspect(capabilities))
+
+local default_config = {
+  on_attach = M.on_attach,
+  capabilities = capabilities,
+}
+
+M.configs = {
+  lua = function() return vim.tbl_extend('force', require 'config.lua-lsp', default_config) end,
+  css = function()
+    return { on_attach = M.on_attach, capabilities = capabilities }
+  end,
+  rust = function()
+    return {
+      on_attach = M.on_attach,
+      capabilities = capabilities,
+      settings = {
+        ['rust-analyzer'] = {
+          cargo = {
+            runBuildScripts = false,
+          } } } }
+  end,
+  csharp = function()
+    return {
+      on_attach = M.on_attach,
+      capabilities = capabilities,
+      root_dir = nvim_lsp.util.root_pattern("*.csproj","*.sln"),
+      -- cmd = { "omnisharp_run", "--languageserver" , "--hostPID", tostring(vim.fn.getpid()) },
+      -- settings = {
+      --   ["omnisharp.useGlobalMono"] = "always",
+      --   omnisharp = {
+      --     useGlobalMono = "always",
+      --   }
+      -- }
+    }
+  end
+}
+function M.setup()
+  -- Config
+  diagnostic.config {
+    virtual_text = false,
+    update_in_insert = true,
+    severity_sort = false,
   }
 
-  M.configs = {
-    lua = function() return vim.tbl_extend('force', require 'config.lua-lsp', default_config) end,
-    css = function()
-      return { on_attach = M.on_attach, capabilities = capabilities }
-    end,
+  lsp_install.setup()
+  local servers = lsp_install.installed_servers()
 
-    rust = function()
-      return {
-        on_attach = M.on_attach,
-        capabilities = capabilities,
-        settings = {
-          ['rust-analyzer'] = {
-            cargo = {
-              runBuildScripts = false,
-            }
-          }
-        }
-      }
-    end,
-    csharp = function()
-      return {
-        on_attach = M.on_attach,
-        capabilities = capabilities,
-        root_dir = nvim_lsp.util.root_pattern("*.csproj","*.sln"),
-        cmd = { "omnisharp_run", "--languageserver" , "--hostPID", tostring(vim.fn.getpid()) },
-        -- settings = {
-          --   ["omnisharp.useGlobalMono"] = "always",
-          --   omnisharp = {
-            --     useGlobalMono = "always",
-            --   }
-            -- }
-          }
-        end
-      }
+  servers[#servers + 1] = "rust_analyzer";
 
-      function M.setup()
-        -- Config
-        diagnostic.config {
-          virtual_text = false,
-          update_in_insert = true,
-          severity_sort = true,
-        }
+  for _, server in pairs(servers) do
+    local config = M.configs[server]
+    config = config and config() or default_config
 
-        lsp_install.setup()
-        local servers = lsp_install.installed_servers()
-        for _, server in pairs(servers) do
-          local config = M.configs[server]
-          config = config and config() or default_config
+    nvim_lsp[server].setup(config)
+  end
 
-          nvim_lsp[server].setup(config)
-        end
+  -- local pid = vim.fn.getpid()
+  -- On linux/darwin if using a release build, otherwise under scripts/OmniSharp(.Core)(.cmd)
+  -- local omnisharp_bin = "/home/timmer/.local/share/omnisharp/run"
+  -- print("Setting up omnisharp at ", omnisharp_bin)
 
-        -- local pid = vim.fn.getpid()
-        -- On linux/darwin if using a release build, otherwise under scripts/OmniSharp(.Core)(.cmd)
-        -- local omnisharp_bin = "/home/timmer/.local/share/omnisharp/run"
-        -- print("Setting up omnisharp at ", omnisharp_bin)
+  -- nvim_lsp.omnisharp.setup{
+  --   cmd = { omnisharp_bin, "--languageserver" , "--hostPID", tostring(pid) };
+  -- root_dir = nvim_lsp.util.root_pattern("*.csproj","*.sln"),
+  -- on_attach = M.on_attach,
+  -- }
 
-        -- nvim_lsp.omnisharp.setup{
-          --   cmd = { omnisharp_bin, "--languageserver" , "--hostPID", tostring(pid) };
-          -- root_dir = nvim_lsp.util.root_pattern("*.csproj","*.sln"),
-          -- on_attach = M.on_attach,
-          -- }
+end
 
-        end
-
-        return M
+return M

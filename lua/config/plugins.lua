@@ -36,7 +36,6 @@ local paq = require 'paq-nvim' {
   'ten3roberts/qf.nvim',
   'ten3roberts/darken.nvim',
   'ten3roberts/window-picker.nvim',
-  -- 'ten3roberts/rust-tools.nvim',
 
   -- Colorschemes
   'arcticicestudio/nord-vim',

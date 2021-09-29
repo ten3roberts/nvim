@@ -1,5 +1,4 @@
 local npairs  = require'nvim-autopairs'
-local cond = require('nvim-autopairs.conds')
 local Rule    = require'nvim-autopairs.rule'
 local endwise = require('nvim-autopairs.ts-rule').endwise
 
@@ -8,7 +7,7 @@ npairs.setup{
   autotag = {
     enable = true,
   },
-  lua = { "string" }, -- it will not add pair on that treesitter node
+  ts_config = { lua = { "string" }}, -- it will not add pair on that treesitter node
   -- rust = { "type_parameters" },
   enable_check_bracket_line = true,
   fast_wrap = {
@@ -19,7 +18,7 @@ npairs.setup{
     pattern = '[' .. table.concat { ' ', '%.', '%)', '%]', '%}', ',', '%"', '%;', '>' } .. ']',
     offset = -1,
     keys = 'qwertyuiopzxcvbnmasdfghjkl',
-    check_comma = true,
+    check_comma = false,
   },
 }
 
@@ -35,24 +34,24 @@ npairs.add_rules {
       local pair = opts.line:sub(opts.col - 1, opts.col)
       return vim.tbl_contains({ '()', '[]', '{}' }, pair)
     end),
-  Rule('( ', ' )')
-    :with_pair(function() return false end)
-    :with_move(function(opts)
-      return opts.prev_char:match('.%)') ~= nil
-    end)
-    :use_key(')'),
-  Rule('{ ', ' }')
-    :with_pair(function() return false end)
-    :with_move(function(opts)
-      return opts.prev_char:match('.%}') ~= nil
-    end)
-    :use_key('}'),
-  Rule('[ ', ' ]')
-    :with_pair(function() return false end)
-    :with_move(function(opts)
-      return opts.prev_char:match('.%]') ~= nil
-    end)
-    :use_key(']'),
+  -- Rule('( ', ' )')
+  --   :with_pair(function() return false end)
+  --   :with_move(function(opts)
+  --     return opts.prev_char:match('.%)') ~= nil
+  --   end)
+  --   :use_key(')'),
+  -- Rule('{ ', ' }')
+  --   :with_pair(function() return false end)
+  --   :with_move(function(opts)
+  --     return opts.prev_char:match('.%}') ~= nil
+  --   end)
+  --   :use_key('}'),
+  -- Rule('[ ', ' ]')
+  --   :with_pair(function() return false end)
+  --   :with_move(function(opts)
+  --     return opts.prev_char:match('.%]') ~= nil
+  --   end)
+  --   :use_key(']'),
 
   -- Disable aphostrophes in rust
   -- Rule("'", "'")
@@ -71,7 +70,7 @@ require('nvim-autopairs').remove_rule('\'')
 
 function _G.pairs_enter()
   if vim.fn.pumvisible() ~= 0  then
-    return npairs.esc("<cr>")
+    return npairs.esc("<CR>")
   else
     return npairs.autopairs_cr()
   end
