@@ -33,7 +33,7 @@ function M.setup()
   -- g.fzf_layout = { down = 20 }
   g.fzf_tall = { width = 60, height = 20 }
   g.fzf_wide = { width = 0.8, height = 0.6 }
-  g.fzf_square = { width = 0.6, height = 0.6 }
+  g.fzf_square = { width = 0.8, height = 0.6 }
 
   g.fzf_layout = { window = g.fzf_square }
 

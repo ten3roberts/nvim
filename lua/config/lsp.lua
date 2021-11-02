@@ -2,15 +2,34 @@ local function buf_map(buf, mod, lhs, rhs, opt)
   vim.api.nvim_buf_set_keymap(buf, mod, lhs, rhs, opt or {})
 end
 
+local stdpath = vim.fn.stdpath
 local aerial = require'aerial'
 local diagnostic = vim.diagnostic
 local lsp_diagnostic = vim.lsp.diagnostic
-local lsp_install = require 'lspinstall'
 local lsp_signature = require'lsp_signature'
 local nvim_lsp = require 'lspconfig'
 local sev = diagnostic.severity
 
 local M = { buffers = {}, statusline_cache = {} }
+
+local cmd = {
+  fzf = {
+    references = ':References<CR>',
+    type_definitions = ':TypeDefinitions<CR>',
+    definitions = ':Definitions<CR>',
+    declarations = ':Declarations<CR>',
+    code_actions = ":CodeActions<CR>",
+  },
+  telescope = {
+    references = ':Telescope lsp_references<CR>',
+    type_definitions = ':Telescope lsp_type_definitions<CR>',
+    definitions = ':Telescope lsp_definitions<CR>',
+    declarations = ':Telescope lsp_declarations<CR>',
+    code_actions = ':Telescope lsp_code_actions<CR>',
+  }
+}
+
+local provider = 'telescope'
 
 function M.on_attach(client)
   -- Lsp signature
@@ -47,21 +66,23 @@ function M.on_attach(client)
   buf_map(0, 'n', '<leader>e',   '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>')
   buf_map(0, 'n', '<leader>q',   '<cmd>lua require"config.lsp".set_loc()<CR>')
   buf_map(0, 'n', '<leader>rn',  '<cmd>lua vim.lsp.buf.rename()<CR>')
+  buf_map(0, 'n', '<leader>a',   '<cmd>lua vim.lsp.buf.code_action()<CR>', silent)
   buf_map(0, 'n', 'K',           '<cmd>lua vim.lsp.buf.hover()<CR>')
   buf_map(0, 'n', '[d',          '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
   buf_map(0, 'n', ']d',          '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
-  buf_map(0, 'n', 'gD',          '<cmd>lua vim.lsp.buf.declaration()<CR>')
-  buf_map(0, 'n', 'gd',          ':Telescope lsp_definitions<CR>', silent)
+  buf_map(0, 'n', 'gD',          cmd[provider].declarations, silent)
+  buf_map(0, 'n', 'gd',          cmd[provider].definitions, silent)
   buf_map(0, 'n', 'gi',          '<cmd>lua vim.lsp.buf.implementation()<CR>')
-  buf_map(0, 'n', 'gr',          ':Telescope lsp_references<CR>', silent)
-  buf_map(0, 'n', 'gy',          ':Telescope lsp_type_definitions<CR>', silent)
+  -- buf_map(0, 'n', 'gr',          cmd[provider].references, silent)
+  buf_map(0, 'n', 'gr',          '<cmd>lua vim.lsp.buf.references()<CR>', silent)
+  buf_map(0, 'n', 'gy',          cmd[provider].type_definitions, silent)
 end
 
 -- Sets the location list with predefined options. Does not focus list.
 function M.set_loc()
-  if vim.o.buftype ~= '' then
-    return
-  end
+  -- if vim.o.buftype ~= '' then
+  --   return
+  -- end
 
   diagnostic.setloclist({
     open = false
@@ -157,43 +178,47 @@ end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
--- print(vim.inspect(capabilities))
 
 local default_config = {
   on_attach = M.on_attach,
   capabilities = capabilities,
 }
 
+local sumneko_root_path = vim.fn.stdpath('config')..'/lsp/lua-language-server'
+local sumneko_binary = sumneko_root_path.."/bin/Linux/lua-language-server"
+
 M.configs = {
-  lua = function() return vim.tbl_extend('force', require 'config.lua-lsp', default_config) end,
-  css = function()
-    return { on_attach = M.on_attach, capabilities = capabilities }
-  end,
-  rust = function()
-    return {
+  sumneko_lua = vim.tbl_extend('force', require 'config.lua-lsp', {
+    cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"};
+  }),
+  cssls = { on_attach = M.on_attach, capabilities = capabilities },
+  rust_analyzer =
+    {
       on_attach = M.on_attach,
       capabilities = capabilities,
       settings = {
         ['rust-analyzer'] = {
           cargo = {
             runBuildScripts = false,
-          } } } }
-  end,
-  csharp = function()
-    return {
+          } } } },
+  omnisharp =
+    {
       on_attach = M.on_attach,
       capabilities = capabilities,
       root_dir = nvim_lsp.util.root_pattern("*.csproj","*.sln"),
-      -- cmd = { "omnisharp_run", "--languageserver" , "--hostPID", tostring(vim.fn.getpid()) },
-      -- settings = {
-      --   ["omnisharp.useGlobalMono"] = "always",
-      --   omnisharp = {
-      --     useGlobalMono = "always",
-      --   }
-      -- }
+      cmd = { stdpath("config") .. "/lsp/omnisharp/run", "--languageserver" , "--hostPID", tostring(vim.fn.getpid()) },
+      settings = {
+        ["omnisharp.useGlobalMono"] = "always",
+        omnisharp = {
+          useGlobalMono = "always",
+        }
+      }
     }
-  end
+  ,
+  denols = default_config,
+  html = default_config,
 }
+
 function M.setup()
   -- Config
   diagnostic.config {
@@ -202,15 +227,7 @@ function M.setup()
     severity_sort = false,
   }
 
-  lsp_install.setup()
-  local servers = lsp_install.installed_servers()
-
-  servers[#servers + 1] = "rust_analyzer";
-
-  for _, server in pairs(servers) do
-    local config = M.configs[server]
-    config = config and config() or default_config
-
+  for server, config in pairs(M.configs) do
     nvim_lsp[server].setup(config)
   end
 
@@ -227,4 +244,7 @@ function M.setup()
 
 end
 
+-- require('dd').setup {
+--   timeout = 100
+-- }
 return M

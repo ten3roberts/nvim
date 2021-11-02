@@ -8,9 +8,9 @@ vim.g.mapleader = ' '
 
 map('n', '<leader>f',  ':Vaffle %<CR>')
 map('n', '<leader>pe', ':Vaffle<CR>')
-map('n', '<leader>po', ':AerialToggle<CR>')
+map('n', '<leader>po', ':AerialOpen<CR>')
 
--- -- Fzf
+-- Fzf
 -- map('n', '<leader><leader>', ':Files<CR>')
 -- map('n', '<leader>,',        ':Buffers<CR>')
 -- map('n', '<leader>/',        ':BLines<CR>')
@@ -34,12 +34,20 @@ map('n', '<leader>/',        ':Telescope current_buffer_fuzzy_find<CR>')
 map('n', '<leader>rg',       ':Telescope live_grep<CR>')
 map('n', '<leader>gl',       ':Telescope git_commits<CR>')
 map('n', '<leader>gs',       ':Telescope git_status<CR>')
-map('n', '<leader>a',        ':Telescope lsp_code_actions<CR>')
+-- map('n', '<leader>a',        ':Telescope lsp_code_actions<CR>')
 map('n', '<leader>o',        ':Telescope lsp_document_symbols<CR>')
 map('n', '<leader>O',        ':Telescope lsp_dynamic_workspace_symbols<CR>')
 map('n', '<leader>dd',       ':Telescope lsp_document_diagnostics<CR>')
 map('n', '<leader>D',        ':Telescope lsp_workspace_diagnostics<CR>')
 map('n', '<leader>pp',       ':SearchSession<CR>')
+
+-- Harpoon
+map('n', '<leader>ha', ':lua require("harpoon.mark").add_file()<CR>')
+map('n', '<leader>ho', ':lua require("harpoon.ui").toggle_quick_menu()<CR>')
+
+for i = 0, 9 do
+  map('n', '<leader>h' .. i, string.format(':lua require("harpoon.ui").nav_file(%d)<CR>', i))
+end
 
 -- Quickfix and location list
 map('n', '<leader>ll', ':Lopen<CR>', silent) -- Open location list
@@ -64,10 +72,10 @@ map('n', '[q', '<cmd>lua require"qf".above("visible")<CR>', silent) -- Go to pre
 
 map('v', 'gl', ':<c-u>lua require"config.onlines"()<CR>', silent)
 -- Dispatching
-map('n', '<leader>eb', '<cmd>lua require"config.dispatch".dispatch("build")<CR>')
-map('n', '<leader>er', '<cmd>lua require"config.dispatch".dispatch("run")<CR>')
-map('n', '<leader>et', '<cmd>lua require"config.dispatch".dispatch("test")<CR>')
-map('n', '<leader>el', '<cmd>lua require"config.dispatch".dispatch("lint")<CR>')
+map('n', '<leader>eb', '<cmd>lua require"config.dispatch".start("build")<CR>')
+map('n', '<leader>er', '<cmd>lua require"config.dispatch".start("run")<CR>')
+map('n', '<leader>et', '<cmd>lua require"config.dispatch".start("test")<CR>')
+map('n', '<leader>el', '<cmd>lua require"config.dispatch".start("lint")<CR>')
 map('n', '<leader>ec', '<cmd>lua require"config.dispatch".dispatch("check")<CR>')
 
 -- Barbar
@@ -90,16 +98,19 @@ map('n', '<leader>ec', '<cmd>lua require"config.dispatch".dispatch("check")<CR>'
 map('n', '<leader>N', ':tabnew<CR>')
 map('n', '<leader>S', ':tab split<CR>')
 map('n', '<leader>Q', ':tabclose<CR>')
+map('n', '<leader>to', ':tabonly<CR>')
 
 for i = 0,9 do
-map('n', '<leader>' .. i , i .. 'gt')
-map('n', '<A-' .. i .. '>', i .. 'gt')
-map('!', '<A-' .. i .. '>', '<ESC>' .. i .. 'gt')
-map('t', '<A-' .. i .. '>', '<C-\\><C-n>' .. i .. 'gt')
+  map('n', '<leader>' .. i , i .. 'gt')
+  map('n', '<A-' .. i .. '>', i .. 'gt')
+  map('!', '<A-' .. i .. '>', '<ESC>' .. i .. 'gt')
+  map('t', '<A-' .. i .. '>', '<C-\\><C-n>' .. i .. 'gt')
 end
 
 map('n', '<A-,>', ':tabprevious<CR>')
 map('n', '<A-.>', ':tabnext<CR>')
+map('n', '<A-<>', ':tabmove -1<CR>')
+map('n', '<A->>', ':tabmove +1<CR>')
 
 -- Buffers
 map('n', '<leader>bk', ':lua require"config.bclose".close()<CR>')
@@ -156,8 +167,9 @@ map('n', '<leader>ga',  ':Git add %<CR>')
 map('n', '<leader>gS',  ':Git stage .<CR>')
 map('n', '<leader>gc',  ':Git commit<CR>')
 map('n', '<leader>gpp', ':Git push<CR>')
+map('n', '<leader>gpu', ':Git pull<CR>')
 map('n', '<leader>gpf', ':Git push --force<CR>')
-map('n', '<leader>gf',  ':Git pull<CR>')
+map('n', '<leader>gf',  ':Git fetch<CR>')
 
 -- Search highlighting
 map('n', 'n',  '<plug>(searchhi-n)')
@@ -195,7 +207,7 @@ map('n', '<C-l>', 'vsnip#available(1) ? "<plug>(vsnip-expand-or-jump)" : "<C-l>"
 -- Movements
 map('', '<C-j>', '}', { noremap = true })
 map('', '<C-k>', '{', { noremap = true })
-map('', '<C-5>', '<C-o>%', { noremap = true })
+map('i', '<C-5>', '<C-o>%', { noremap = true })
 
 map('', '<C-e>', '$')
 map('', '<C-b>', '^')
@@ -214,8 +226,8 @@ map('i', '<A-f>', '<C-o>w')
 -- map('', 'M', '2dWBhP')
 
 -- Move lines
-map('n', '<A-k>', ':m .-2<CR>==', silent)
-map('n', '<A-j>', ':m .+1<CR>==', silent)
+map('n', '<A-k>', ':m .-2<CR>', silent)
+map('n', '<A-j>', ':m .+1<CR>', silent)
 
 map('v', '<A-k>', ':m \'<-2<CR>gv', silent)
 map('v', '<A-j>', ':m \'>+1<CR>gv', silent)
@@ -296,15 +308,15 @@ map('', '<F10>', ':lua require"config.dbg".dap.step_over()<CR>' )
 map('', '<F11>', ':lua require"config.dbg".dap.step_into()<CR>' )
 map('', '<F12>', ':lua require"config.dbg".dap.step_out()<CR>' )
 
-    -- nnoremap <silent> <F5> :lua require'dap'.continue()<CR>
-    -- nnoremap <silent> <F10> :lua require'dap'.step_over()<CR>
-    -- nnoremap <silent> <F11> :lua require'dap'.step_into()<CR>
-    -- nnoremap <silent> <F12> :lua require'dap'.step_out()<CR>
-    -- nnoremap <silent> <leader>b :lua require'dap'.toggle_breakpoint()<CR>
-    -- nnoremap <silent> <leader>B :lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>
-    -- nnoremap <silent> <leader>lp :lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>
-    -- nnoremap <silent> <leader>dr :lua require'dap'.repl.open()<CR>
-    -- nnoremap <silent> <leader>dl :lua require'dap'.run_last()<CR>
+-- nnoremap <silent> <F5> :lua require'dap'.continue()<CR>
+-- nnoremap <silent> <F10> :lua require'dap'.step_over()<CR>
+-- nnoremap <silent> <F11> :lua require'dap'.step_into()<CR>
+-- nnoremap <silent> <F12> :lua require'dap'.step_out()<CR>
+-- nnoremap <silent> <leader>b :lua require'dap'.toggle_breakpoint()<CR>
+-- nnoremap <silent> <leader>B :lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>
+-- nnoremap <silent> <leader>lp :lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>
+-- nnoremap <silent> <leader>dr :lua require'dap'.repl.open()<CR>
+-- nnoremap <silent> <leader>dl :lua require'dap'.run_last()<CR>
 
 -- -- GDB
 -- map('n', '<leader>dr', ':Run<CR>')

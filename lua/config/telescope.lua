@@ -3,9 +3,10 @@ local actions = require'telescope.actions'
 local custom_actions = require'config.telescope_custom';
 
 require('telescope').setup{
-  defaults = vim.tbl_extend('force', {
+  defaults = require'telescope.themes'.get_dropdown {
     vimgrep_arguments = {
       'rg',
+      '--fixed-strings',
       '--color=never',
       '--no-heading',
       '--with-filename',
@@ -14,6 +15,7 @@ require('telescope').setup{
       '--smart-case'
     },
     prompt_prefix = "> ",
+    layout_config = { width = 0.5 },
     selection_caret = "> ",
     entry_prefix = "  ",
     initial_mode = "insert",
@@ -45,9 +47,10 @@ require('telescope').setup{
         -- Add up multiple actions
         ["<CR>"] = actions.select_default + actions.center,
         -- ["<C-s>"] = actions.file_tab,
+        -- ["<C-s>"] = custom_actions.file_drop,
+        ["<C-v>"] = actions.file_vsplit,
+        ["<C-h>"] = actions.file_split,
         ["<C-s>"] = custom_actions.file_drop,
-        ["<C-v>"] = custom_actions.file_vbuffer,
-        ["<C-h>"] = custom_actions.file_sbuffer,
         ["<C-d>"] = custom_actions.file_drop,
 
         -- You can perform as many actions in a row as you like
@@ -60,7 +63,7 @@ require('telescope').setup{
         -- ["<C-i>"] = my_cool_custom_action,
       }
     },
-  }, require'telescope.themes'.get_dropdown({ layout_config = { width = 0.5 }})),
+  },
   pickers = {
     buffers = {
       sort_lastused = true,
@@ -77,29 +80,30 @@ require('telescope').setup{
         }
       }
     },
-    find_files = {
-      -- mappings = {
-      --   i = {
-      --     -- ["<CR>"] = custom_actions.file_drop,
-      --   }
-      -- }
+    current_buffer_fuzzy_find = require'telescope.themes'.get_dropdown{
+      layout_config = { width = 0.7, height = 0.7 },
+    },
+    live_grep = require'telescope.themes'.get_dropdown{
+      layout_config = { width = 0.7, height = 0.7 },
+      mappings = {
+        i = {
+          -- ["<CR>"] = custom_actions.file_drop,
+        }
+      }
     },
     lsp_code_actions = {
       theme = 'cursor',
     }
   },
   extensions = {
-    fzf = {
-      fuzzy = true,                    -- false will only do exact matching
+    fzy_native = {
       override_generic_sorter = true, -- override the generic sorter
       override_file_sorter = true,     -- override the file sorter
-      case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
-      -- the default case_mode is "smart_case"
     }
   },
 }
 
-require('telescope').load_extension('fzf')
+require('telescope').load_extension('fzy_native')
 require('telescope').load_extension('dap')
 require'session-lens'.setup {}
 

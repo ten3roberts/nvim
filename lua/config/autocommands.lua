@@ -10,7 +10,7 @@ autocmd('BufWrite', '.dispatch.json', 'lua require"config.dispatch".load_config(
 
 autocmd('FileType', '*', 'lua require"config.dispatch".on_ft()')
 
-autocmd('BufNew,FileType', '*', 'setlocal foldmethod=expr | setlocal foldexpr=nvim_treesitter#foldexpr()')
+-- autocmd('BufNew,FileType', '*', 'setlocal foldmethod=expr | setlocal foldexpr=nvim_treesitter#foldexpr()')
 
 -- autocmd('BufWinEnter,TabEnter', '*', 'SaveSession')
 
@@ -59,7 +59,9 @@ autocmd('QuickFixCmdPre', '*', ':wa')
 autocmd('WinEnter', '*', 'lua if vim.o.buftype == "" and vim.fn.win_gettype(0) == "" then require"config.lsp".set_loc() end')
 
 autocmd('FileType', 'TelescopePrompt', 'let b:autopairs_enabled = 0')
+-- autocmd('BufWrite', '*', 'lua require"dd".flush()')
 
 -- autocmd('TabEnter', '*', 'if &buftype == "terminal" && &ft != "fzf" | :startinsert | endif')
 
 vim.cmd 'augroup END'
+

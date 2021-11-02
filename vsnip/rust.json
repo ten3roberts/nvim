@@ -65,5 +65,12 @@
       "    }",
       "}"
     ]
+  },
+  "timed_scope": {
+    "prefix": ["timed_scope"],
+    "body": [
+      "                let _scope =",
+      "                    TimedScope::new(|elapsed| eprintln!(\"${1} took {:.3?}\", elapsed));"
+    ]
   }
 }

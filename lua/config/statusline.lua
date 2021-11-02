@@ -36,15 +36,15 @@ local mode_map = {
   ['ic']  = { hl = '%#GreenInv#',  val = ' I '  },
   ['ix']  = { hl = '%#GreenInv#',  val = ' I '  },
 
-  ['R']   = { hl = '%#RedInv#',    val = ' R '  },
-  ['Rv']  = { hl = '%#RedInv#',    val = ' VR ' },
+  ['R']   = { hl = '%#OrangeInv#',    val = ' R '  },
+  ['Rv']  = { hl = '%#OrangeInv#',    val = ' VR ' },
   ['niR'] = { hl = '%#RedInv#',    val = ' VR ' },
 
   ['t']   = { hl = '%#OrangeInv#', val = ' T '  },
 
-  ['s']   = { hl = '%#YellowInv#', val = ' S '  },
-  ['S']   = { hl = '%#YellowInv#', val = ' SL ' },
-  ['^S']  = { hl = '%#YellowInv#', val = ' SB ' },
+  ['s']   = { hl = '%#RedInv#', val = ' S '  },
+  ['S']   = { hl = '%#RedInv#', val = ' SL ' },
+  ['^S']  = { hl = '%#RedInv#', val = ' SB ' },
   ['c']   = { hl = '%#YellowInv#', val = ' C '  },
   ['cv']  = { hl = '%#YellowInv#', val = ' E '  },
   ['ce']  = { hl = '%#YellowInv#', val = ' E '  },

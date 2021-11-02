@@ -3,11 +3,11 @@ local Rule    = require'nvim-autopairs.rule'
 local endwise = require('nvim-autopairs.ts-rule').endwise
 
 npairs.setup{
-  check_ts = true,
+  check_ts = false,
   autotag = {
     enable = true,
   },
-  ts_config = { lua = { "string" }}, -- it will not add pair on that treesitter node
+  -- ts_config = { lua = { "string" }}, -- it will not add pair on that treesitter node
   -- rust = { "type_parameters" },
   enable_check_bracket_line = true,
   fast_wrap = {
@@ -15,7 +15,7 @@ npairs.setup{
     highlight = 'HopNextKey',
     map = '<M-e>',
     chars = { '{', '[', '(', '"', "'", "<" , "{ ", "[ ", " ( " },
-    pattern = '[' .. table.concat { ' ', '%.', '%)', '%]', '%}', ',', '%"', '%;', '>' } .. ']',
+    pattern = '[' .. table.concat { ' ', '%.', '%)', '%]', '%}', ',', '%"', '%;', '>', '|' } .. ']',
     offset = -1,
     keys = 'qwertyuiopzxcvbnmasdfghjkl',
     check_comma = false,

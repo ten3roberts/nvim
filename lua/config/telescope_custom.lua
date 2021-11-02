@@ -68,13 +68,6 @@ local function select_default(prompt_bufnr, command)
   end
 end
 
-local  pre = function(prompt_bufnr)
-  action_state.get_current_history():append(
-    action_state.get_current_line(),
-    action_state.get_current_picker(prompt_bufnr)
-  )
-end
-
 local actions = transform_mod {
   -- select_default = select_default
   file_vbuffer = function(prompt_bufnr)

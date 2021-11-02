@@ -86,7 +86,13 @@ function M.get_command(name, silent)
   return command
 end
 
-function M.dispatch(name)
+function M.start(name)
+  M.dispatch(name, function(command) cmd("Start polytype[min.indices[0]].a]" .. command) end)
+end
+
+function M.dispatch(name, with)
+  cmd("wa");
+  with = with or function(command)  cmd('Dispatch ' .. command) end
 
   local command = M.get_command(name)
 
@@ -94,7 +100,7 @@ function M.dispatch(name)
 
   require'qf'.close'l'
 
-  cmd('Dispatch ' .. command)
+  with(command)
 end
 
 return M
