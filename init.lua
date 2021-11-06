@@ -6,14 +6,14 @@ require 'config.onlines'
 require 'config.autocommands'
 require 'config.aerial'
 require 'config.fzf'.setup()
-require 'config.completion'
 require 'config.treesitter'
 require 'config.commands'
 require 'config.clean_fold'
 require 'config.statusline'.setup()
-require 'config.pairs'
 require 'config.lsp'.setup()
 require 'config.dbg'
+require 'config.pairs'
+require 'config.completion'
 require'colorizer'.setup(
   { '*' },
   {

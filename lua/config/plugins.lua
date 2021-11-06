@@ -97,12 +97,12 @@ local paq = require 'paq-nvim' {
   'tpope/vim-unimpaired', -- Handy bracket mappings
   'windwp/nvim-autopairs',
   'windwp/nvim-ts-autotag',
-  -- 'wellle/targets.vim', -- Better handling and seeking for textobjects
+  'wellle/targets.vim', -- Better handling and seeking for textobjects
   { 'iamcco/markdown-preview.nvim', run = function() vim.fn['mkdp#util#install']() end }, -- Markdown previewing
   { url = 'https://gitlab.com/yorickpeterse/nvim-dd' },
   { url = 'https://gitlab.com/yorickpeterse/nvim-pqf' },
   {'junegunn/fzf', run = function() vim.fn['fzf#install']() end},
-  {'nvim-treesitter/nvim-treesitter', run = function() vim.fn.TSInstall('maintained') end }, -- Better syntax highlighting using treesitter parsing
+  'nvim-treesitter/nvim-treesitter',
 
   'rmagatti/auto-session', -- Remember last session for cwd
   }

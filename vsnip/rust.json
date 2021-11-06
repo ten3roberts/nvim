@@ -72,5 +72,17 @@
       "                let _scope =",
       "                    TimedScope::new(|elapsed| eprintln!(\"${1} took {:.3?}\", elapsed));"
     ]
+  },
+  "gizmo_line": {
+    "prefix": ["gizmo_line"],
+    "body": [
+      "                gizmos.push(Gizmo::Line {",
+      "                    origin: ${1},",
+      "                    color: ${2},",
+      "                    dir: ${3},",
+      "                    radius: todo${4},",
+      "                    corner_radius: ${5},",
+      "                });"
+    ]
   }
 }

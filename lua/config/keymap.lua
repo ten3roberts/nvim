@@ -44,6 +44,7 @@ map('n', '<leader>pp',       ':SearchSession<CR>')
 -- Harpoon
 map('n', '<leader>ha', ':lua require("harpoon.mark").add_file()<CR>')
 map('n', '<leader>ho', ':lua require("harpoon.ui").toggle_quick_menu()<CR>')
+map('n', '<leader>hh', ':lua require("harpoon.ui").toggle_quick_menu()<CR>')
 
 for i = 0, 9 do
   map('n', '<leader>h' .. i, string.format(':lua require("harpoon.ui").nav_file(%d)<CR>', i))
@@ -72,10 +73,10 @@ map('n', '[q', '<cmd>lua require"qf".above("visible")<CR>', silent) -- Go to pre
 
 map('v', 'gl', ':<c-u>lua require"config.onlines"()<CR>', silent)
 -- Dispatching
-map('n', '<leader>eb', '<cmd>lua require"config.dispatch".start("build")<CR>')
-map('n', '<leader>er', '<cmd>lua require"config.dispatch".start("run")<CR>')
-map('n', '<leader>et', '<cmd>lua require"config.dispatch".start("test")<CR>')
-map('n', '<leader>el', '<cmd>lua require"config.dispatch".start("lint")<CR>')
+map('n', '<leader>eb', '<cmd>lua require"config.dispatch".dispatch("build")<CR>')
+map('n', '<leader>er', '<cmd>lua require"config.dispatch".dispatch("run")<CR>')
+map('n', '<leader>et', '<cmd>lua require"config.dispatch".dispatch("test")<CR>')
+map('n', '<leader>el', '<cmd>lua require"config.dispatch".dispatch("lint")<CR>')
 map('n', '<leader>ec', '<cmd>lua require"config.dispatch".dispatch("check")<CR>')
 
 -- Barbar
@@ -148,7 +149,7 @@ map('n', '<leader>w<C-l>', '<C-w>l<C-w>q')
 map('n', '<leader>ww', ':WindowPick<CR>')
 map('n', '<leader>W',  ':WindowSwap<CR>')
 
-map('', '<C-p>', '"0p')
+-- map('', '<C-p>', '"0p')
 
 -- map('',  's',     ':HopChar1<CR>')
 -- map('',  'S',     ':HopWord<CR>')

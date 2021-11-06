@@ -35,11 +35,21 @@ local filetypes = {
   end
 }
 
+local command_methods = {
+  run = "term",
+}
+
 setmetatable(filetypes, filetypes)
 
 local M = {}
 
 local current_commands = {};
+
+local methods = {
+  quickfix = function(val) vim.cmd("Dispatch " .. val) end,
+  term = function(val) vim.cmd("Start " .. val) end,
+  multi_term = function(val) vim.cmd("Spawn " .. val) end,
+}
 
 function M.load_config(path, verbose)
   local file = io.open(path, 'r')
@@ -86,21 +96,29 @@ function M.get_command(name, silent)
   return command
 end
 
-function M.start(name)
-  M.dispatch(name, function(command) cmd("Start polytype[min.indices[0]].a]" .. command) end)
-end
-
-function M.dispatch(name, with)
-  cmd("wa");
-  with = with or function(command)  cmd('Dispatch ' .. command) end
+function M.dispatch(name)
+  cmd "wa"
 
   local command = M.get_command(name)
+  local method = command_methods[name] or "quickfix"
+
+  -- Override command method
+  if type(command) == "table" then
+    method = command.method or method
+    command = command.cmd
+  end
 
   if not command then return end
 
-  require'qf'.close'l'
+  -- require'qf'.close'l'
+  cmd "lclose"
 
-  with(command)
+  if methods[method] == nil then
+    api.nvim_err_writeln("Undefined method: ", method)
+    return;
+  end
+
+  methods[method](command)
 end
 
 return M

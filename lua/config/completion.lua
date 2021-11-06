@@ -1,7 +1,13 @@
 local cmp = require('cmp')
+local fn = vim.fn
 
 local t = function(str)
   return vim.api.nvim_replace_termcodes(str, true, true, true)
+end
+
+local check_back_space = function()
+  local col = vim.fn.col('.') - 1
+  return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') ~= nil
 end
 
 local function confirm(fallback)
@@ -10,9 +16,10 @@ local function confirm(fallback)
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
     }
-    print(vim.fn['vsnip#available'](1))
+  elseif check_back_space() then
+    fallback()
   elseif vim.fn['vsnip#available'](1) then
-    return t "<plug>(vsnip-expand-or-jump)"
+    fn.feedkeys(t "<Plug>(vsnip-jump-next)", "")
   else
     fallback()
   end
@@ -24,8 +31,10 @@ local function confirm_insert(fallback)
       behavior = cmp.ConfirmBehavior.Insert,
       select = true,
     }
-  elseif vim.fn['vsnip#available'](1) == 1 then
-    return t "<Plug>(vsnip-expand-or-jump)"
+  elseif check_back_space() then
+    fallback()
+  elseif vim.fn['vsnip#available'](1) then
+    fn.feedkeys(t "<Plug>(vsnip-jump-prev)", "")
   else
     fallback()
   end
@@ -48,8 +57,8 @@ cmp.setup {
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-y>'] = confirm_insert,
-    ['<TAB>'] = confirm,
-    ['<S-Tab>'] = confirm,
+    ['<tab>'] = confirm,
+    ['<s-tab>'] = confirm,
   },
   sources = {
     { name = 'vsnip' },
