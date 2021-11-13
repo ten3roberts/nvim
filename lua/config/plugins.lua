@@ -47,7 +47,7 @@ local paq = require 'paq-nvim' {
   'AndrewRadev/sideways.vim', -- Move arguments and elements in list around
   -- 'nvim-telescope/telescope-frecency.nvim',
   -- 'tami5/sqlite.lua',
-  -- 'numToStr/Comment.nvim',
+  'tpope/vim-rsi', -- Readline mappings in insert mode
   'David-Kunz/treesitter-unit',
   'RRethy/nvim-base16',
   'ThePrimeagen/harpoon',

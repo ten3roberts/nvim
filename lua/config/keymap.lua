@@ -6,7 +6,7 @@ local silent = { silent = true }
 
 vim.g.mapleader = ' '
 
-map('n', '<leader>pe',  ':Vaffle %<CR>')
+map('n', '<leader>f',  ':Vaffle %<CR>')
 map('n', '<leader>pE', ':Vaffle<CR>')
 map('n', '<leader>po', ':AerialOpen<CR>')
 
@@ -28,7 +28,7 @@ map('n', '<leader>po', ':AerialOpen<CR>')
 
 -- Telescope
 map('n',    '<leader><leader>', ':Telescope find_files<CR>')
-map('n',    '<leader>f',        ':Telescope file_browser<CR>')
+map('n',    '<leader>rf',       ':Telescope file_browser<CR>')
 map('n',    '<leader>ro',       ':Telescope oldfiles<CR>')
 map('n',    '<leader>,',        ':Telescope buffers<CR>')
 map('n',    '<leader>/',        ':Telescope current_buffer_fuzzy_find<CR>')
@@ -80,22 +80,6 @@ map('n', '<leader>et', '<cmd>lua require"config.dispatch".dispatch("test")<CR>')
 map('n', '<leader>el', '<cmd>lua require"config.dispatch".dispatch("lint")<CR>')
 map('n', '<leader>ec', '<cmd>lua require"config.dispatch".dispatch("check")<CR>')
 
--- Barbar
--- map('n', '<A-,>', ':BufferPrevious<CR>')
--- map('n', '<A-.>', ':BufferNext<CR>')
--- map('n', '<A-<>', ':BufferMovePrevious<CR>')
--- map('n', '<A->>', ':BufferMoveNext<CR>')
-
--- map('n', '<A-1>', ':BufferGoto 1<CR>')
--- map('n', '<A-2>', ':BufferGoto 2<CR>')
--- map('n', '<A-3>', ':BufferGoto 3<CR>')
--- map('n', '<A-4>', ':BufferGoto 4<CR>')
--- map('n', '<A-5>', ':BufferGoto 5<CR>')
--- map('n', '<A-6>', ':BufferGoto 6<CR>')
--- map('n', '<A-7>', ':BufferGoto 7<CR>')
--- map('n', '<A-8>', ':BufferGoto 8<CR>')
--- map('n', '<A-9>', ':BufferLast<CR>')
-
 -- Tabs
 map('n', '<leader>N', ':tabnew<CR>')
 map('n', '<leader>S', ':tab split<CR>')
@@ -119,48 +103,8 @@ map('n', '<leader>bk', ':lua require"config.bclose".close()<CR>')
 map('n', '<leader>bo', ':lua require"config.bclose".close_hidden()<CR>')
 map('n', '<leader>bp', '<C-^>')
 
--- Window mappings
--- map('n', '<leader>w=', '<C-w>=')
--- map('n', '<leader>wH', '<C-w>H')
--- map('n', '<leader>wJ', '<C-w>J')
--- map('n', '<leader>wK', '<C-w>K')
--- map('n', '<leader>wL', '<C-w>L')
--- map('n', '<leader>wR', '<C-w>R')
--- map('n', '<leader>w_', '<C-w>_')
--- map('n', '<leader>wh', '<C-w>h')
--- map('n', '<leader>wj', '<C-w>j')
--- map('n', '<leader>wk', '<C-w>k')
--- map('n', '<leader>wl', '<C-w>l')
--- map('n', '<leader>wo', '<C-w>o')
--- map('n', '<leader>wp', '<C-w>p')
--- map('n', '<leader>wq', '<C-w>q')
--- map('n', '<leader>wr', '<C-w>r')
--- map('n', '<leader>ws', '<C-w>s')
--- map('n', '<leader>wv', '<C-w>v')
--- map('n', '<leader>w|', '<C-w>|')
-
--- map('n', '<leader>w+', ':vertical resize +20 | :resize +20<CR>')
--- map('n', '<leader>w-', ':vertical resize -20 | :resize -20<CR>')
-
--- map('n', '<leader>w<C-h>', '<C-w>h<C-w>q')
--- map('n', '<leader>w<C-j>', '<C-w>j<C-w>q')
--- map('n', '<leader>w<C-k>', '<C-w>k<C-w>q')
--- map('n', '<leader>w<C-l>', '<C-w>l<C-w>q')
-
 map('n', '<leader>w', ':WindowPick<CR>')
 map('n', '<leader>W',  ':WindowSwap<CR>')
-
--- map('', '<C-p>', '"0p')
-
--- map('',  's',     ':HopChar1<CR>')
--- map('',  'S',     ':HopWord<CR>')
--- map('',  'S',     ':HopWord<CR>')
--- map('v', '<C-s>', ':HopWord<CR>')
--- map('',  '\\',    ':HopLines<CR>')
--- map('', 'f', ':HopChar1AC<CR>')
--- map('', 'F', ':HopChar1BC<CR>')
--- map('', 't', ':HopChar1AC<CR>')
--- map('', 'T', ':HopChar1AC<CR>')
 
 -- Git mappings
 map('n', '<leader>gg',  ':Ge :<CR>')
@@ -203,24 +147,10 @@ map('n', 'ga', '<plug>(EasyAlign)')
 map('i', '<C-l>', 'vsnip#available(1) ? "<plug>(vsnip-expand-or-jump)" : "<C-l>"', { expr = true})
 map('n', '<C-l>', 'vsnip#available(1) ? "<plug>(vsnip-expand-or-jump)" : "<C-l>"', { expr = true})
 
--- map('i', '<Tab>', 'vsnip#available(1) ? "<plug>(vsnip-expand-or-jump)" : "<Tab>"', { expr = true})
--- map('s', '<Tab>', 'vsnip#available(1) ? "<plug>(vsnip-expand-or-jump)" : "<Tab>"', { expr = true})
-
 -- Movements
 map('', '<C-j>', '}', { noremap = true })
 map('', '<C-k>', '{', { noremap = true })
 map('i', '<C-5>', '<C-o>%', { noremap = true })
-
-map('', '<C-e>', '$')
-map('', '<C-b>', '^')
-
--- Readline like
-map('i', '<C-e>', '<C-o>$')
-map('i', '<C-b>', '<C-o>^')
-map('i', '<C-a>', '<C-o>^')
-map('i', '<C-a>', '<C-o>^')
-map('i', '<A-b>', '<C-o>b')
-map('i', '<A-f>', '<C-o>w')
 
 -- Transpose word
 -- map('', 'L', 'daWWPB')
@@ -309,22 +239,3 @@ map('', '<F5>', ':lua require"config.dbg".dap.continue()<CR>' )
 map('', '<F10>', ':lua require"config.dbg".dap.step_over()<CR>' )
 map('', '<F11>', ':lua require"config.dbg".dap.step_into()<CR>' )
 map('', '<F12>', ':lua require"config.dbg".dap.step_out()<CR>' )
-
--- nnoremap <silent> <F5> :lua require'dap'.continue()<CR>
--- nnoremap <silent> <F10> :lua require'dap'.step_over()<CR>
--- nnoremap <silent> <F11> :lua require'dap'.step_into()<CR>
--- nnoremap <silent> <F12> :lua require'dap'.step_out()<CR>
--- nnoremap <silent> <leader>b :lua require'dap'.toggle_breakpoint()<CR>
--- nnoremap <silent> <leader>B :lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>
--- nnoremap <silent> <leader>lp :lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>
--- nnoremap <silent> <leader>dr :lua require'dap'.repl.open()<CR>
--- nnoremap <silent> <leader>dl :lua require'dap'.run_last()<CR>
-
--- -- GDB
--- map('n', '<leader>dr', ':Run<CR>')
--- map('n', '<leader>dn', ':Over<CR>')
--- map('n', '<leader>di', ':Step<CR>')
--- map('n', '<leader>db', ':Break<CR>')
--- map('n', '<leader>dB', ':Clear<CR>')
--- map('n', '<leader>df', ':Finish<CR>')
--- map('n', '<leader>dc', ':Continue<CR>')
