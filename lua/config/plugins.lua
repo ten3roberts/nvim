@@ -44,11 +44,15 @@ local paq = require 'paq-nvim' {
   { url = 'https://gitlab.com/yorickpeterse/nvim-grey' },
   'sainnhe/sonokai',
 
-  'hrsh7th/vim-vsnip-integ',
   'AndrewRadev/sideways.vim', -- Move arguments and elements in list around
+  -- 'nvim-telescope/telescope-frecency.nvim',
+  -- 'tami5/sqlite.lua',
+  -- 'numToStr/Comment.nvim',
   'David-Kunz/treesitter-unit',
+  'RRethy/nvim-base16',
   'ThePrimeagen/harpoon',
-  'airblade/vim-rooter', -- Change cwd to the git root
+  'ahmedkhalf/project.nvim',
+  'andymass/vim-matchup',
   'cocopon/vaffle.vim',
   'dkarter/bullets.vim', -- Markdown bullet management
   'gfanto/fzf-lsp.nvim',
@@ -59,6 +63,7 @@ local paq = require 'paq-nvim' {
   'hrsh7th/cmp-vsnip',
   'hrsh7th/nvim-cmp', -- Autocompletion plugin
   'hrsh7th/vim-vsnip',
+  'hrsh7th/vim-vsnip-integ',
   'junegunn/fzf.vim',
   'junegunn/vim-easy-align', -- Align text blocks
   'kabouzeid/nvim-lspinstall',
@@ -74,14 +79,15 @@ local paq = require 'paq-nvim' {
   'nvim-telescope/telescope-dap.nvim',
   'nvim-telescope/telescope-fzy-native.nvim',
   'nvim-telescope/telescope.nvim',
+  'nvim-treesitter/nvim-treesitter',
   'nvim-treesitter/playground',
   'phaazon/hop.nvim', -- Jump around in current buffer
   'qxxxb/vim-searchhi', -- Highlight current search match
   'rafamadriz/friendly-snippets', -- Preconfigured snippets
   'ray-x/lsp_signature.nvim', -- Show function signature help
   'rcarriga/nvim-dap-ui',
-  'rmagatti/session-lens',
   'saadparwaiz1/cmp_luasnip',
+  'simrat39/rust-tools.nvim',
   'steelsojka/pears.nvim',
   'stevearc/aerial.nvim', -- Symbol tree
   'stevearc/stickybuf.nvim',
@@ -95,15 +101,15 @@ local paq = require 'paq-nvim' {
   'tpope/vim-sleuth',
   'tpope/vim-surround', -- ( surround text )
   'tpope/vim-unimpaired', -- Handy bracket mappings
+  'wellle/targets.vim', -- Better handling and seeking for textobjects
   'windwp/nvim-autopairs',
   'windwp/nvim-ts-autotag',
-  'wellle/targets.vim', -- Better handling and seeking for textobjects
+  -- 'rmagatti/session-lens',
   { 'iamcco/markdown-preview.nvim', run = function() vim.fn['mkdp#util#install']() end }, -- Markdown previewing
   { url = 'https://gitlab.com/yorickpeterse/nvim-dd' },
   { url = 'https://gitlab.com/yorickpeterse/nvim-pqf' },
   {'junegunn/fzf', run = function() vim.fn['fzf#install']() end},
-  'nvim-treesitter/nvim-treesitter',
 
-  'rmagatti/auto-session', -- Remember last session for cwd
+  -- 'rmagatti/auto-session', -- Remember last session for cwd
   }
   paq:sync()

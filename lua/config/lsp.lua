@@ -59,6 +59,8 @@ function M.on_attach(client)
   buf_map(0, '', '[[',         '<cmd>AerialPrevUp<CR>')
   buf_map(0, '', ']]',         '<cmd>AerialNextUp<CR>')
 
+  local provider_cmds = cmd[provider]
+
   buf_map(0, "n", "<leader>cf",  "<cmd>lua vim.lsp.buf.formatting()<CR>")
   buf_map(0, 'n', '<leader>cwa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>')
   buf_map(0, 'n', '<leader>cwl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>')
@@ -66,23 +68,23 @@ function M.on_attach(client)
   buf_map(0, 'n', '<leader>e',   '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>')
   buf_map(0, 'n', '<leader>q',   '<cmd>lua require"config.lsp".set_loc()<CR>')
   buf_map(0, 'n', '<leader>rn',  '<cmd>lua vim.lsp.buf.rename()<CR>')
-  buf_map(0, 'n', '<leader>a',   '<cmd>lua vim.lsp.buf.code_action()<CR>', silent)
+  buf_map(0, 'n', '<leader>a',   provider_cmds.code_actions, silent)
   buf_map(0, 'n', 'K',           '<cmd>lua vim.lsp.buf.hover()<CR>')
   buf_map(0, 'n', '[d',          '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
   buf_map(0, 'n', ']d',          '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
-  buf_map(0, 'n', 'gD',          cmd[provider].declarations, silent)
-  buf_map(0, 'n', 'gd',          cmd[provider].definitions, silent)
+  buf_map(0, 'n', 'gD',          provider_cmds.declarations, silent)
+  buf_map(0, 'n', 'gd',          provider_cmds.definitions, silent)
   buf_map(0, 'n', 'gi',          '<cmd>lua vim.lsp.buf.implementation()<CR>')
-  -- buf_map(0, 'n', 'gr',          cmd[provider].references, silent)
+  -- buf_map(0, 'n', 'gr',          provider_cmds.references, silent)
   buf_map(0, 'n', 'gr',          '<cmd>lua vim.lsp.buf.references()<CR>', silent)
-  buf_map(0, 'n', 'gy',          cmd[provider].type_definitions, silent)
+  buf_map(0, 'n', 'gy',          provider_cmds.type_definitions, silent)
 end
 
 -- Sets the location list with predefined options. Does not focus list.
 function M.set_loc()
-  -- if vim.o.buftype ~= '' then
-  --   return
-  -- end
+  if vim.o.buftype ~= '' then
+    return
+  end
 
   diagnostic.setloclist({
     open = false
@@ -194,6 +196,7 @@ M.configs = {
   cssls = { on_attach = M.on_attach, capabilities = capabilities },
   rust_analyzer =
     {
+      auto_setup = false,
       on_attach = M.on_attach,
       capabilities = capabilities,
       settings = {
@@ -220,15 +223,25 @@ M.configs = {
 }
 
 function M.setup()
+  -- local winwidth = vim.fn.winwidth
   -- Config
   diagnostic.config {
-    virtual_text = false,
-    update_in_insert = true,
+    -- Only show virtual text if window is large enough
+    -- virtual_text = function()
+    --   return winwidth(0) >= 80
+    -- end,
+    virtual_text = {
+      spacing = 16,
+      prefix = '~',
+    },
+    update_in_insert = false,
     severity_sort = false,
   }
 
   for server, config in pairs(M.configs) do
-    nvim_lsp[server].setup(config)
+    if config.auto_setup ~= false then
+      nvim_lsp[server].setup(config)
+    end
   end
 
   -- local pid = vim.fn.getpid()
@@ -245,6 +258,7 @@ function M.setup()
 end
 
 -- require('dd').setup {
---   timeout = 100
+--   timeout = 50
 -- }
+
 return M

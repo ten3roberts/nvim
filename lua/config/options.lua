@@ -44,7 +44,7 @@ o.smartcase = true
 o.smartindent = true
 o.splitbelow = false -- Splits open on the bottom
 o.splitright = true -- Splits open on the right
-o.switchbuf = 'useopen,usetab'
+o.switchbuf = 'useopen'
 o.tabstop = 2
 o.termguicolors = true
 -- o.textwidth = 80
@@ -66,9 +66,6 @@ g.AutoPairsMultilineClose = 1
 g.AutoPairsShortcutToggle = ''
 
 g.yankstack_yank_keys = { 'y', 'd', 'c' }
-
--- Rooter
-g.rooter_patterns = { '.git' }
 
 -- Markdown preview
 g.mkdp_refresh_slow = true

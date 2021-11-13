@@ -1,8 +1,9 @@
 local actions = require'telescope.actions'
 
 local custom_actions = require'config.telescope_custom';
+local telescope = require"telescope"
 
-require('telescope').setup{
+telescope.setup{
   defaults = require'telescope.themes'.get_dropdown {
     vimgrep_arguments = {
       'rg',
@@ -30,7 +31,7 @@ require('telescope').setup{
     mappings = {
       i = {
         ["<C-c>"] = actions.close,
-        ["<Tab>"] = actions.toggle_selection,
+        ["<A-a>"] = actions.toggle_selection,
         ["<C-j>"] = actions.move_selection_next,
         ["<C-k>"] = actions.move_selection_previous,
         ["<C-n>"] = actions.move_selection_next,
@@ -46,6 +47,7 @@ require('telescope').setup{
 
         -- Add up multiple actions
         ["<CR>"] = actions.select_default + actions.center,
+        ["<Tab>"] = actions.select_default + actions.center,
         -- ["<C-s>"] = actions.file_tab,
         -- ["<C-s>"] = custom_actions.file_drop,
         ["<C-v>"] = actions.file_vsplit,
@@ -103,7 +105,7 @@ require('telescope').setup{
   },
 }
 
-require('telescope').load_extension('fzy_native')
-require('telescope').load_extension('dap')
-require'session-lens'.setup {}
-
+telescope.load_extension('fzy_native')
+telescope.load_extension('dap')
+-- telescope.load_extension("frecency")
+telescope.load_extension('projects')

@@ -37,6 +37,7 @@ local filetypes = {
 
 local command_methods = {
   run = "term",
+  test = "term",
 }
 
 setmetatable(filetypes, filetypes)

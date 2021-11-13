@@ -4,7 +4,7 @@ local opts = {
         autoSetHints = true,
 
         -- Whether to show hover actions inside the hover window
-        -- This overrides the default hover handler 
+        -- This overrides the default hover handler
         hover_with_actions = true,
 
         runnables = {
@@ -23,7 +23,6 @@ local opts = {
 
         -- These apply to the default RustSetInlayHints command
         inlay_hints = {
-
             -- Only show inlay hints for the current line
             only_current_line = true,
 
@@ -94,7 +93,7 @@ local opts = {
     -- all the opts to send to nvim-lspconfig
     -- these override the defaults set by rust-tools.nvim
     -- see https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#rust_analyzer
-    server = require'config.lsp'.configs.rust() -- rust-analyer options
+    server = require'config.lsp'.configs.rust_analyzer -- rust-analyer options
 }
 
 require('rust-tools').setup(opts)

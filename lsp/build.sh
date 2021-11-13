@@ -1,3 +1,4 @@
+# Build lua-language-server
 {
   cd lua-language-server
   git submodule update --init --recursive

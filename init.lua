@@ -1,16 +1,18 @@
 require 'config.keymap'
 require 'config.options'
+require 'config.palette'.setup();
 require 'config.telescope'
 require 'config.dev_utils'
 require 'config.onlines'
 require 'config.autocommands'
 require 'config.aerial'
-require 'config.fzf'.setup()
+-- require 'config.fzf'.setup()
 require 'config.treesitter'
 require 'config.commands'
 require 'config.clean_fold'
 require 'config.statusline'.setup()
 require 'config.lsp'.setup()
+require 'config.rust'
 require 'config.dbg'
 require 'config.pairs'
 require 'config.completion'
@@ -30,10 +32,10 @@ require'colorizer'.setup(
   }
 )
 
-require('auto-session').setup{
-  auto_session_suppress_dirs = {vim.env.HOME},
-  auto_save_enabled = true,
-}
+-- require('auto-session').setup{
+--   auto_session_suppress_dirs = {vim.env.HOME},
+--   auto_save_enabled = true,
+-- }
 
 require'gitsigns'.setup({
   current_line_blame = false,
@@ -105,3 +107,8 @@ require'nvim-web-devicons'.setup {
 
 require 'config.palette'.setup()
 require('pqf').setup()
+
+-- Configure project management
+require("project_nvim").setup {
+  patterns = { ".git", ".svn", "package.json" }
+}

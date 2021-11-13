@@ -18,7 +18,7 @@ autocommands( "CONFIG", {
 
   { events = 'FileType', cmd = 'lua require"config.dispatch".on_ft()' },
 
-  -- autocmd('BufNew,FileType', '*', 'setlocal foldmethod=expr | setlocal foldexpr=nvim_treesitter#foldexpr()')
+  { events = 'BufNew,FileType,BufWinEnter', cmd = 'setlocal foldmethod=expr | setlocal foldexpr=nvim_treesitter#foldexpr()' },
 
   -- autocmd('BufWinEnter,TabEnter', '*', 'SaveSession')
 
@@ -28,7 +28,7 @@ autocommands( "CONFIG", {
   -- autocmd('FileType', 'dap-repl', 'lua require(:dap.ext.autocompl").attach()');
 
   { events = 'StdinReadPre', cmd = 'let g:std_in=1' },
-  { events = 'VimEnter', cmd = 'if getcwd() == $HOME && argc() == 0 && !exists("g:std_in") | execute("SearchSession") | endif' },
+  -- { events = 'VimEnter', cmd = 'if getcwd() == $HOME && argc() == 0 && !exists("g:std_in") | execute("Telescope project") | endif' },
 
   { events = 'OptionSet', pat = 'errorformat', cmd = 'setlocal errorformat+=%f:%l:\\ %t%*[^:]:%m' },
 
@@ -38,7 +38,7 @@ autocommands( "CONFIG", {
   { events = 'ColorScheme', cmd = 'lua require "config.palette".setup()' },
 
   -- Restart language server when modifying Cargo.toml
-  { events = 'BufWritePost', pat = '*/Cargo.toml', cmd = 'echom "Restarting LSP" | LspRestart' },
+  -- { events = 'BufWritePost', pat = '*/Cargo.toml', cmd = 'echom "Restarting LSP" | LspRestart' },
 
   -- Make Esc work in terminal mode (I know, some programs make use of Esc, but that's rare for my use case)
   { events = 'TermEnter', cmd = 'if &filetype != "fzf" | tnoremap <buffer> <Esc> <C-\\><C-n> | endif' },

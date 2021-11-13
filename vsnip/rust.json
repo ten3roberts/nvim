@@ -84,5 +84,11 @@
       "                    corner_radius: ${5},",
       "                });"
     ]
+  },
+  "pub_use": {
+    "prefix": ["pubuse"],
+    "body": [
+      "pub use ${1}::*;"
+    ]
   }
 }
