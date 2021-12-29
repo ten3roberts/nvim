@@ -40,7 +40,7 @@ telescope.setup{
         -- To disable a keymap, put [map] = false
         -- So, to not map "<C-n>", just put
         -- ["<c-x>"] = false,
-        ["<Esc>"] = actions.close,
+        -- ["<Esc>"] = actions.close,
 
         -- Otherwise, just set the mapping to the function that you want it to be.
         -- ["<C-i>"] = actions.select_horizontal,
@@ -48,12 +48,10 @@ telescope.setup{
         -- Add up multiple actions
         ["<CR>"] = actions.select_default + actions.center,
         ["<Tab>"] = actions.select_default + actions.center,
-        -- ["<C-s>"] = actions.file_tab,
-        -- ["<C-s>"] = custom_actions.file_drop,
+        ["<C-s>"] = actions.file_tab,
         ["<C-v>"] = actions.file_vsplit,
         ["<C-h>"] = actions.file_split,
-        ["<C-s>"] = custom_actions.file_drop,
-        ["<C-d>"] = custom_actions.file_drop,
+        -- ["<C-s>"] = custom_actions.file_drop,
 
         -- You can perform as many actions in a row as you like
         -- ["<CR>"] = actions.select_default + actions.center + my_cool_custom_action,
@@ -82,10 +80,10 @@ telescope.setup{
         }
       }
     },
-    current_buffer_fuzzy_find = require'telescope.themes'.get_dropdown{
+    current_buffer_fuzzy_find = require'telescope.themes'.get_ivy{
       layout_config = { width = 0.7, height = 0.7 },
     },
-    live_grep = require'telescope.themes'.get_dropdown{
+    live_grep = require'telescope.themes'.get_ivy{
       layout_config = { width = 0.7, height = 0.7 },
       mappings = {
         i = {
@@ -97,15 +95,21 @@ telescope.setup{
       theme = 'cursor',
     }
   },
+
   extensions = {
     fzy_native = {
       override_generic_sorter = true, -- override the generic sorter
       override_file_sorter = true,     -- override the file sorter
+    },
+    file_browser = require 'telescope.themes'.get_dropdown {
+      -- theme = "ivy",
+      layout_config = { width = 0.5, height = 0.5 },
     }
   },
 }
 
-telescope.load_extension('fzy_native')
-telescope.load_extension('dap')
--- telescope.load_extension("frecency")
-telescope.load_extension('projects')
+telescope.load_extension 'fzy_native'
+telescope.load_extension 'dap'
+-- telescope.load_extension 'frecency'
+telescope.load_extension 'projects'
+telescope.load_extension 'file_browser'

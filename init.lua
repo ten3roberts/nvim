@@ -4,7 +4,6 @@ require 'config.palette'.setup();
 require 'config.telescope'
 require 'config.dev_utils'
 require 'config.onlines'
-require 'config.autocommands'
 require 'config.aerial'
 -- require 'config.fzf'.setup()
 require 'config.treesitter'
@@ -16,6 +15,7 @@ require 'config.rust'
 require 'config.dbg'
 require 'config.pairs'
 require 'config.completion'
+require 'config.autocommands'
 require'colorizer'.setup(
   { '*' },
   {
@@ -32,17 +32,12 @@ require'colorizer'.setup(
   }
 )
 
--- require('auto-session').setup{
---   auto_session_suppress_dirs = {vim.env.HOME},
---   auto_save_enabled = true,
--- }
-
 require'gitsigns'.setup({
   current_line_blame = false,
 })
 
 require'darken'.setup{
-  amount = 0.7,
+  amount = 0.5,
   filetypes = { 'term', 'vaffle', 'qf', 'help', 'aerial' }
 }
 
@@ -106,9 +101,19 @@ require'nvim-web-devicons'.setup {
 }
 
 require 'config.palette'.setup()
-require('pqf').setup()
+require'pqf'.setup()
 
 -- Configure project management
 require("project_nvim").setup {
-  patterns = { ".git", ".svn", "package.json" }
+  manual_mode = false,
+  detection_methods = { "pattern" },
+  patterns = { ".git", ".svn", "package.json" },
+  silent_chdir = false,
 }
+
+-- require'neoscroll'.setup {
+--   -- easing_function = "quadratic",
+--   use_local_scroll = true,
+-- }
+
+-- require'session'.setup { auto_restore = true }

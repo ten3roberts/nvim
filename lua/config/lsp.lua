@@ -191,7 +191,7 @@ local sumneko_binary = sumneko_root_path.."/bin/Linux/lua-language-server"
 
 M.configs = {
   sumneko_lua = vim.tbl_extend('force', require 'config.lua-lsp', {
-    cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"};
+    cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"}, on_attach = M.on_attach, capabilities = capabilities;
   }),
   cssls = { on_attach = M.on_attach, capabilities = capabilities },
   rust_analyzer =
@@ -234,8 +234,8 @@ function M.setup()
       spacing = 16,
       prefix = '~',
     },
-    update_in_insert = false,
-    severity_sort = false,
+    update_in_insert = true,
+    severity_sort = true,
   }
 
   for server, config in pairs(M.configs) do

@@ -8,17 +8,13 @@
       "}"
     ]
   },
-  "dbg": {
-    "prefix": "dbg",
-    "body": "dbg!(\"${1}: {:#?}\", ${2});"
-  },
   "debug": {
     "prefix": "debug",
-    "body": "log::debug!(\"${1}: {:#?}\", ${2});"
+    "body": "log::debug!(\"${1}\");"
   },
   "info": {
     "prefix": "info",
-    "body": "log::info!(\"${1}: {:#?}\", ${2});"
+    "body": "log::info!(\"${1}\");"
   },
   "static_send_sync": {
     "prefix": "static",
@@ -26,7 +22,7 @@
   },
   "derive_copy": {
     "prefix": "copy",
-    "body": "#[derive(Debug, Clone, Copy, PartialEq)]"
+    "body": "#[derive(Default, Debug, Clone, Copy, PartialEq)]"
   },
   "as_ref": {
     "prefix": "as_ref",
@@ -46,10 +42,10 @@
   },
   "error": {
     "prefix": "error",
-    "body": "#[error(${1})]\n${2}(#[from] ${3}),"
+    "body": "#[error(${1})]\n${2}(${3}),"
   },
   "map_err": {
-    "prefix": "map_err()",
+    "prefix": "map_err",
     "body": "map_err(|e| e.into())"
   },
   "LoadResource": {
@@ -89,6 +85,51 @@
     "prefix": ["pubuse"],
     "body": [
       "pub use ${1}::*;"
+    ]
+  },
+  "builder": {
+    "prefix": ["builder"],
+    "body": [
+      "let mut builder = EntityBuilder::new();"
+    ]
+  },
+
+  "cow": {
+    "prefix": ["cow"],
+    "body": [
+      "Cow<'static, str>"
+    ]
+  },
+  "query_one": {
+    "prefix": ["query_one"],
+    "body": [
+      "let mut query = world.try_query_one::<${1}>(${2})?;"
+    ]
+  },
+  "query": {
+    "prefix": ["query_one"],
+    "body": [
+      "let mut query = world.query::<${1}>()?;"
+    ]
+  },
+  "..Default": {
+    "prefix": [".."],
+    "body": [
+      "..Default::default()"
+    ]
+  },
+  "new": {
+    "prefix": ["fnnew"],
+    "body": [
+      "pub fn new(${1}) -> Self {",
+      "    ${2}",
+      "}"
+    ]
+  },
+  "doc_hidden": {
+    "prefix": ["doc_hidden"],
+    "body": [
+      "#[doc(hidden)]"
     ]
   }
 }

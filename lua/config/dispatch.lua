@@ -8,12 +8,14 @@ local current_dispatch;
 
 local filetypes = {
   rust = {
-    build = 'cargo build',
-    check = 'cargo check --examples',
-    clean = 'clean',
+    build = 'cargo build -q',
+    check = 'cargo check -q',
+    clippy = 'cargo clippy -q',
+    clean = 'clean -q',
     lint = 'cargo clean && cargo clippy',
     run = 'cargo run',
-    test = 'cargo test',
+    test = 'cargo test -q',
+    doc = 'cargo doc -q --open',
   },
   glsl = {
     check = 'glslangValidator -V %'
@@ -37,7 +39,6 @@ local filetypes = {
 
 local command_methods = {
   run = "term",
-  test = "term",
 }
 
 setmetatable(filetypes, filetypes)
@@ -52,8 +53,20 @@ local methods = {
   multi_term = function(val) vim.cmd("Spawn " .. val) end,
 }
 
+local cache = {}
+
 function M.load_config(path, verbose)
+  path = fn.fnamemodify(path, ":p")
+  -- print("Loading config from:", path)
+  M.set_commands({})
+
+  if cache[path] ~= nil then
+    -- print("Loading from cache:", path);
+    M.set_commands(cache[path])
+  end
+
   local file = io.open(path, 'r')
+
 
   if not file then
     if verbose == nil or verbose then
@@ -69,7 +82,9 @@ function M.load_config(path, verbose)
   end
 
   local cont = table.concat(lines, '\n')
-  M.set_commands(fn.json_decode(cont))
+  local commands = fn.json_decode(cont);
+  cache[path] = commands;
+  M.set_commands(commands)
 end
 
 function M.on_ft()

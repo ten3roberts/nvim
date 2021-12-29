@@ -11,10 +11,10 @@ o.confirm = true -- Disable 'no write'
 o.cursorline = true
 o.equalalways = true
 o.expandtab = true
-o.foldlevelstart = 2
+o.foldlevelstart = 4
 o.foldmethod = 'indent'
 -- o.foldminlines = 6
-o.foldnestmax = 3
+o.foldnestmax = 6
 o.foldtext = 'v:lua.clean_fold()'
 o.formatoptions = 'jcrqltn'
 o.grepformat='%f:%l:%c:%m,%f:%l:%m'
@@ -26,7 +26,7 @@ o.inccommand = 'split' -- Show effects of command as you type in a split
 o.incsearch = true -- Move cursor during search
 o.laststatus = 2
 o.linebreak = true
-o.mouse = 'nvc'
+o.mouse = ''
 o.number = false
 o.path = o.path .. '**'
 o.pumheight = 8
@@ -34,7 +34,7 @@ o.pumwidth = 20
 o.relativenumber = false
 o.runtimepath = o.runtimepath .. ",~/dev/nvim"
 o.scrolloff = 8 -- Lines from the cursor
-o.sessionoptions = 'tabpages,terminal,folds,help'
+-- o.sessionoptions = 'tabpages,terminal,folds,help'
 o.shiftwidth = 2
 o.shortmess = vim.o.shortmess .. 'c'
 o.showmatch = true -- Show matching brackets/parenthesis
@@ -44,7 +44,7 @@ o.smartcase = true
 o.smartindent = true
 o.splitbelow = false -- Splits open on the bottom
 o.splitright = true -- Splits open on the right
-o.switchbuf = 'useopen'
+o.switchbuf = 'useopen,usetab'
 o.tabstop = 2
 o.termguicolors = true
 -- o.textwidth = 80
@@ -60,10 +60,7 @@ g.termdebugger='rust-gdb'
 
 -- g.netrw_keepdir = 0
 
--- AutoPairs
-g.AutoPairsMapBS = 1
-g.AutoPairsMultilineClose = 1
-g.AutoPairsShortcutToggle = ''
+g.vaffle_auto_cd = 1
 
 g.yankstack_yank_keys = { 'y', 'd', 'c' }
 

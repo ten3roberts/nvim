@@ -13,22 +13,23 @@ local function autocommands(group, events)
 end
 
 autocommands( "CONFIG", {
+  -- { events = "BufEnter,BufReadPost,TabEnter", cmd = "++nested ProjectRoot" },
+
   { events = 'VimEnter,DirChanged', cmd = 'lua require"config.dispatch".load_config(".dispatch.json", false)' },
+
   { events = 'BufWrite', pat = '.dispatch.json', cmd = 'lua require"config.dispatch".load_config(".dispatch.json", false)' },
+
 
   { events = 'FileType', cmd = 'lua require"config.dispatch".on_ft()' },
 
-  { events = 'BufNew,FileType,BufWinEnter', cmd = 'setlocal foldmethod=expr | setlocal foldexpr=nvim_treesitter#foldexpr()' },
+  { events = 'BufRead,BufNewFile', pat = '*.gltf', cmd = 'set filetype=json' },
 
-  -- autocmd('BufWinEnter,TabEnter', '*', 'SaveSession')
+  -- { events = 'BufNew,FileType,BufWinEnter', cmd = 'setlocal foldmethod=expr | setlocal foldexpr=nvim_treesitter#foldexpr()' },
 
   -- Auto format on save using LSP
   { events = 'BufWritePre', cmd = 'lua vim.lsp.buf.formatting_sync()' },
 
-  -- autocmd('FileType', 'dap-repl', 'lua require(:dap.ext.autocompl").attach()');
-
   { events = 'StdinReadPre', cmd = 'let g:std_in=1' },
-  -- { events = 'VimEnter', cmd = 'if getcwd() == $HOME && argc() == 0 && !exists("g:std_in") | execute("Telescope project") | endif' },
 
   { events = 'OptionSet', pat = 'errorformat', cmd = 'setlocal errorformat+=%f:%l:\\ %t%*[^:]:%m' },
 
@@ -37,14 +38,10 @@ autocommands( "CONFIG", {
 
   { events = 'ColorScheme', cmd = 'lua require "config.palette".setup()' },
 
-  -- Restart language server when modifying Cargo.toml
-  -- { events = 'BufWritePost', pat = '*/Cargo.toml', cmd = 'echom "Restarting LSP" | LspRestart' },
-
   -- Make Esc work in terminal mode (I know, some programs make use of Esc, but that's rare for my use case)
   { events = 'TermEnter', cmd = 'if &filetype != "fzf" | tnoremap <buffer> <Esc> <C-\\><C-n> | endif' },
   { events = 'TermOpen,TermEnter', cmd = 'lua require"darken".force_darken()' },
-  { events = 'TermOpen', cmd = 'setlocal nonumber norelativenumber' },
-  { events = 'TermOpen', cmd = ':startinsert'},
+  { events = 'TermOpen', cmd = 'setlocal nonumber norelativenumber | startinsert' },
 
   { events = 'FileType', pat = 'fzf', cmd = 'tnoremap <A-q> <A-a><CR> | tmap  <C-q> <A-q>' },
 
@@ -65,8 +62,9 @@ autocommands( "CONFIG", {
   -- Save before grep,make etc
   { events = 'QuickFixCmdPre', cmd = ':wa' },
 
-  { events = 'WinEnter', cmd = 'lua if vim.o.buftype == "" and vim.fn.win_gettype(0) == "" then require"config.lsp".set_loc() end' },
+  -- { events = 'WinEnter', cmd = 'lua if vim.o.buftype == "" and vim.fn.win_gettype(0) == "" then require"config.lsp".set_loc() end' },
 
   { events = 'FileType', pat = 'TelescopePrompt', cmd = 'let b:autopairs_enabled = 0' },
-})
 
+  -- { events = "BufEnter", cmd = "lua require'config.lsp'.set_loc()"},
+})

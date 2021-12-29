@@ -1,6 +1,7 @@
 local fn = vim.fn
 
 local paq_dir = fn.stdpath('data') .. '/site/pack/paqs/start/'
+local local_dir = fn.stdpath('data') .. '/site/pack/local/start/'
 local paq_path = paq_dir .. 'paq-nvim'
 
 if fn.empty(fn.glob(paq_path)) > 0 then
@@ -9,12 +10,12 @@ if fn.empty(fn.glob(paq_path)) > 0 then
 end
 
 local function localpaq(path)
+  fn.mkdir(local_dir, 'p')
   path = fn.fnamemodify(path, ':p'):sub(1,-2)
 
   if fn.empty(fn.glob(path)) == 0 then
-    fn.system({'ln', '-sf', path, paq_dir})
-    -- print('ln', '-s', path, paq_dir)
-    --
+    fn.system({'ln', '-sf', path, local_dir})
+    print(path, '->', local_dir)
   end
 end
 
@@ -22,33 +23,31 @@ localpaq('~/dev/nvim/qf.nvim')
 localpaq('~/dev/nvim/darken.nvim')
 localpaq('~/dev/nvim/toggle.nvim')
 localpaq('~/dev/nvim/window-picker.nvim')
--- localpaq('~/dev/nvim/rust-tools.nvim')
--- localpaq('~/dev/nvim/nvim-autopairs')
+localpaq('~/dev/nvim/session.nvim')
 -- localpaq('~/dev/nvim/aerial.nvim')
 
-local paq = require 'paq-nvim' {
+local paq = require 'paq' {
   'savq/paq-nvim', -- Let Paq manage itself
 
   -- My plugins
-  'ten3roberts/toggle.nvim',
-  'ten3roberts/qf.nvim',
-  'ten3roberts/darken.nvim',
-  'ten3roberts/window-picker.nvim',
+  -- 'ten3roberts/toggle.nvim',
+  -- 'ten3roberts/qf.nvim',
+  -- 'ten3roberts/darken.nvim',
+  -- 'ten3roberts/window-picker.nvim',
 
   -- Colorschemes
   'arcticicestudio/nord-vim',
   'gruvbox-community/gruvbox',
-  -- 'chriskempson/base16-vim',
+  'kdheepak/monochrome.nvim',
   'rakr/vim-one',
   'romgrk/doom-one.vim',
-  { url = 'https://gitlab.com/yorickpeterse/nvim-grey' },
+  'rose-pine/neovim',
   'sainnhe/sonokai',
+  { url = 'https://gitlab.com/yorickpeterse/nvim-grey' },
 
   'AndrewRadev/sideways.vim', -- Move arguments and elements in list around
-  -- 'nvim-telescope/telescope-frecency.nvim',
-  -- 'tami5/sqlite.lua',
-  'tpope/vim-rsi', -- Readline mappings in insert mode
   'David-Kunz/treesitter-unit',
+  'McAuleyPenney/Tidy.nvim',
   'RRethy/nvim-base16',
   'ThePrimeagen/harpoon',
   'ahmedkhalf/project.nvim',
@@ -77,6 +76,7 @@ local paq = require 'paq-nvim' {
   'nvim-lua/plenary.nvim',
   'nvim-lua/popup.nvim',
   'nvim-telescope/telescope-dap.nvim',
+  -- 'nvim-telescope/telescope-frecency.nvim',
   'nvim-telescope/telescope-fzy-native.nvim',
   'nvim-telescope/telescope.nvim',
   'nvim-treesitter/nvim-treesitter',
@@ -91,6 +91,7 @@ local paq = require 'paq-nvim' {
   'steelsojka/pears.nvim',
   'stevearc/aerial.nvim', -- Symbol tree
   'stevearc/stickybuf.nvim',
+  -- 'tami5/sqlite.lua',
   'tikhomirov/vim-glsl', -- GLSL runtime files
   'tpope/vim-abolish', -- Change casing styles and provide smart search and replace
   'tpope/vim-commentary', -- Toggle comments
@@ -98,18 +99,17 @@ local paq = require 'paq-nvim' {
   'tpope/vim-eunuch',
   'tpope/vim-fugitive', -- Git management
   'tpope/vim-repeat', -- Repeat plugin commands with .
+  'tpope/vim-rsi', -- Readline mappings in insert mode
   'tpope/vim-sleuth',
   'tpope/vim-surround', -- ( surround text )
   'tpope/vim-unimpaired', -- Handy bracket mappings
   'wellle/targets.vim', -- Better handling and seeking for textobjects
   'windwp/nvim-autopairs',
   'windwp/nvim-ts-autotag',
-  -- 'rmagatti/session-lens',
+  -- { url = 'https://gitlab.com/yorickpeterse/nvim-dd' },
   { 'iamcco/markdown-preview.nvim', run = function() vim.fn['mkdp#util#install']() end }, -- Markdown previewing
-  { url = 'https://gitlab.com/yorickpeterse/nvim-dd' },
   { url = 'https://gitlab.com/yorickpeterse/nvim-pqf' },
   {'junegunn/fzf', run = function() vim.fn['fzf#install']() end},
-
-  -- 'rmagatti/auto-session', -- Remember last session for cwd
-  }
-  paq:sync()
+  'nvim-telescope/telescope-file-browser.nvim',
+}
+paq:sync()

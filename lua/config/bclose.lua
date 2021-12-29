@@ -39,7 +39,7 @@ function M.close(bufnr)
     end
   end
 
-  cmd('bdelete ' .. bufnr)
+  pcall(cmd, 'bdelete ' .. bufnr)
 
   cmd('redraw')
 end

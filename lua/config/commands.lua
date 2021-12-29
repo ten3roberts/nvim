@@ -3,7 +3,12 @@ vim.cmd "command! -nargs=* Dump :lua require'config.dev_utils'.dump_mod(<f-args>
 vim.cmd "command! -nargs=* Reload :lua require'config.dev_utils'.reload(<f-args>)"
 vim.cmd "command! Q :wa | :qa"
 vim.cmd "command! W :wa"
-vim.cmd "command! -nargs=* Cargo :Dispatch cargo <args>"
+vim.cmd "command! -nargs=* Cargo :Start cargo <args>"
+vim.cmd "command! CargoUpdateReadme :Start cargo readme > README.md"
+vim.cmd "command! CargoPublish :Start cargo publish"
+vim.cmd "command! CargoUpgrade :Start cargo upgrade --workspace"
+vim.cmd "command! -nargs=* CargoAdd execute('!cargo add ' .. '<args>') | :CargoReload"
+vim.cmd "command! -nargs=* CargoVersion :Start cargo workspaces version <args> && cargo publish"
 
 vim.cmd [[
 function! Redir(cmd, rng, start, end)
@@ -52,5 +57,3 @@ vim.cmd [[
 endfunction
 command! BCloseHidden silent call DeleteHiddenBuffers()
 ]]
-
-

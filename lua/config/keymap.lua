@@ -6,8 +6,8 @@ local silent = { silent = true }
 
 vim.g.mapleader = ' '
 
-map('n', '<leader>f',  ':Vaffle %<CR>')
-map('n', '<leader>pE', ':Vaffle<CR>')
+-- map('n', '<leader>f',  ':Vaffle %<CR>')
+map('n', '<leader>pe', ':call execute("Vaffle " . expand("%:p"))<CR>')
 map('n', '<leader>po', ':AerialOpen<CR>')
 
 -- Fzf
@@ -28,8 +28,10 @@ map('n', '<leader>po', ':AerialOpen<CR>')
 
 -- Telescope
 map('n',    '<leader><leader>', ':Telescope find_files<CR>')
-map('n',    '<leader>rf',       ':Telescope file_browser<CR>')
-map('n',    '<leader>ro',       ':Telescope oldfiles<CR>')
+map('n',    '<leader>f',        '<cmd>lua require "telescope".extensions.file_browser.file_browser { path="%:p:h" }<CR>')
+map('n',    '<leader>rf',       ':Telescope oldfiles<CR>')
+map('n',    '<M-x>',            ':Telescope command_history<CR>')
+-- map('n',    '<leader>ro',       ':Telescope oldfiles<CR>')
 map('n',    '<leader>,',        ':Telescope buffers<CR>')
 map('n',    '<leader>/',        ':Telescope current_buffer_fuzzy_find<CR>')
 map('n',    '<leader>/',        ':Telescope current_buffer_fuzzy_find<CR>')
@@ -39,13 +41,14 @@ map('n',    '<leader>gs',       ':Telescope git_status<CR>')
 map('n',    '<leader>o',        ':Telescope lsp_document_symbols<CR>')
 map('n',    '<leader>O',        ':Telescope lsp_dynamic_workspace_symbols<CR>')
 map('n',    '<leader>dd',       ':Telescope lsp_document_diagnostics<CR>')
-map('n',    '<leader>D',        ':Telescope lsp_workspace_diagnostics<CR>')
+map('n',    '<leader>D',        ':Telescope diagnostics<CR>')
 map('n',    '<leader>pp',       ':Telescope projects<CR>')
 
 -- Harpoon
 map('n', '<leader>ha', ':lua require("harpoon.mark").add_file()<CR>')
 map('n', '<leader>ho', ':lua require("harpoon.ui").toggle_quick_menu()<CR>')
 map('n', '<leader>hh', ':lua require("harpoon.ui").toggle_quick_menu()<CR>')
+map('n', '<leader>ht', ':lua require("harpoon.term").gotoTerminal(1)<CR>')
 
 for i = 0, 9 do
   map('n', '<leader>h' .. i, string.format(':lua require("harpoon.ui").nav_file(%d)<CR>', i))
@@ -67,18 +70,20 @@ map('n', '<leader>ct', ':Qtoggle true<CR>', silent) --Toggle quickfix list and s
 map('n', '<leader>j', ':Lbelow<CR>', silent) -- Go to next location list entry from cursor
 map('n', '<leader>k', ':Labove<CR>', silent) -- Go to previous location list entry from cursor
 
-map('n', '<leader>J', ':Qbelow<CR>', silent) -- Go to next quickfix entry from cursor
-map('n', '<leader>K', ':Qabove<CR>', silent) -- Go to previous quickfix entry from cursor
-map('n', ']q', '<cmd>lua require"qf".below("visible")<CR>', silent) -- Go to next quickfix entry from cursor
-map('n', '[q', '<cmd>lua require"qf".above("visible")<CR>', silent) -- Go to previous quickfix entry from cursor
+map('n', ']q', ':Qbelow<CR>', silent) -- Go to next quickfix entry from cursor
+map('n', '[q', ':Qabove<CR>', silent) -- Go to previous quickfix entry from cursor
+map('n', '<leader>J', '<cmd>lua require"qf".below("visible")<CR>', silent) -- Go to next quickfix entry from cursor
+map('n', '<leader>K', '<cmd>lua require"qf".above("visible")<CR>', silent) -- Go to previous quickfix entry from cursor
 
 map('v', 'gl', ':<c-u>lua require"config.onlines"()<CR>', silent)
 -- Dispatching
 map('n', '<leader>eb', '<cmd>lua require"config.dispatch".dispatch("build")<CR>')
 map('n', '<leader>er', '<cmd>lua require"config.dispatch".dispatch("run")<CR>')
 map('n', '<leader>et', '<cmd>lua require"config.dispatch".dispatch("test")<CR>')
+map('n', '<leader>ed', '<cmd>lua require"config.dispatch".dispatch("doc")<CR>')
 map('n', '<leader>el', '<cmd>lua require"config.dispatch".dispatch("lint")<CR>')
 map('n', '<leader>ec', '<cmd>lua require"config.dispatch".dispatch("check")<CR>')
+map('n', '<leader>eC', '<cmd>lua require"config.dispatch".dispatch("check")<CR>')
 
 -- Tabs
 map('n', '<leader>N', ':tabnew<CR>')
@@ -114,7 +119,7 @@ map('n', '<leader>gS',  ':Git stage .<CR>')
 map('n', '<leader>gc',  ':Git commit<CR>')
 map('n', '<leader>gpp', ':Git push<CR>')
 map('n', '<leader>gpu', ':Git pull<CR>')
-map('n', '<leader>gpf', ':Git push --force<CR>')
+-- map('n', '<leader>gpf', ':Git push --force<CR>')
 map('n', '<leader>gf',  ':Git fetch<CR>')
 
 -- Search highlighting
@@ -151,6 +156,9 @@ map('n', '<C-l>', 'vsnip#available(1) ? "<plug>(vsnip-expand-or-jump)" : "<C-l>"
 map('', '<C-j>', '}', { noremap = true })
 map('', '<C-k>', '{', { noremap = true })
 map('i', '<C-5>', '<C-o>%', { noremap = true })
+
+-- map('', '<C-a>', '^')
+map('', '<C-e>', '$')
 
 -- Transpose word
 -- map('', 'L', 'daWWPB')
@@ -208,9 +216,7 @@ map('n', '<leader>xx', '<cmd>lua require"config.dev_utils".save_and_exec()<CR>')
 
 map('n', '<leader><cr>', ':ToggleCheckbox<CR>')
 
--- Make Y behave like D and C
-map('n', 'Y', 'y$')
-
+-- DAP
 map('', '<leader>dn', ':lua require"config.dbg".dap.step_over()<CR>')
 map('', '<leader>dl', ':lua require"config.dbg".dap.step_into()<CR>')
 map('', '<leader>dh', ':lua require"config.dbg".dap.step_out()<CR>')
@@ -239,3 +245,9 @@ map('', '<F5>', ':lua require"config.dbg".dap.continue()<CR>' )
 map('', '<F10>', ':lua require"config.dbg".dap.step_over()<CR>' )
 map('', '<F11>', ':lua require"config.dbg".dap.step_into()<CR>' )
 map('', '<F12>', ':lua require"config.dbg".dap.step_out()<CR>' )
+
+-- Rust
+map('', '<leader>rr', ':RustRunnables<CR>')
+map('', '<leader>rd', ':RustDebuggables<CR>')
+map('', '<leader>ru', ':RustParentModule<CR>')
+map('', '<leader>ro', ':RustOpenCargo<CR>')

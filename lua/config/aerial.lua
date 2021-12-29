@@ -43,7 +43,7 @@ vim.g.aerial = {
   manage_folds = "auto",
 
   -- The maximum width of the aerial window
-  max_width = 20,
+  max_width = 30,
 
   -- The minimum width of the aerial window.
   -- To disable dynamic resizing, set this to be equal to max_width
