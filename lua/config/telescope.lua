@@ -1,6 +1,5 @@
 local actions = require'telescope.actions'
 
-local custom_actions = require'config.telescope_custom';
 local telescope = require"telescope"
 
 telescope.setup{
@@ -24,7 +23,7 @@ telescope.setup{
     file_sorter =  require'telescope.sorters'.get_fuzzy_file,
     file_ignore_patterns = {},
     generic_sorter =  require'telescope.sorters'.get_generic_fuzzy_sorter,
-    winblend = 0,
+    winblend = 10,
     border = {},
     borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' },
 
@@ -104,12 +103,18 @@ telescope.setup{
     file_browser = require 'telescope.themes'.get_dropdown {
       -- theme = "ivy",
       layout_config = { width = 0.5, height = 0.5 },
+    },
+    project = {
+      base_dirs = {
+        { path = '~/dev', max_depth = 4 },
+        { '~/.config/nvim' }
+      },
+      hidden_files = true -- default: false
     }
   },
 }
 
 telescope.load_extension 'fzy_native'
 telescope.load_extension 'dap'
--- telescope.load_extension 'frecency'
-telescope.load_extension 'projects'
 telescope.load_extension 'file_browser'
+telescope.load_extension 'project'

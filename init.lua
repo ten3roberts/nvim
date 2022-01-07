@@ -7,6 +7,7 @@ require 'config.onlines'
 require 'config.aerial'
 -- require 'config.fzf'.setup()
 require 'config.treesitter'
+require 'config.lir'
 require 'config.commands'
 require 'config.clean_fold'
 require 'config.statusline'.setup()
@@ -37,7 +38,7 @@ require'gitsigns'.setup({
 })
 
 require'darken'.setup{
-  amount = 0.5,
+  amount = 0.7,
   filetypes = { 'term', 'vaffle', 'qf', 'help', 'aerial' }
 }
 
@@ -102,18 +103,3 @@ require'nvim-web-devicons'.setup {
 
 require 'config.palette'.setup()
 require'pqf'.setup()
-
--- Configure project management
-require("project_nvim").setup {
-  manual_mode = false,
-  detection_methods = { "pattern" },
-  patterns = { ".git", ".svn", "package.json" },
-  silent_chdir = false,
-}
-
--- require'neoscroll'.setup {
---   -- easing_function = "quadratic",
---   use_local_scroll = true,
--- }
-
--- require'session'.setup { auto_restore = true }

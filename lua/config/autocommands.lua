@@ -13,18 +13,17 @@ local function autocommands(group, events)
 end
 
 autocommands( "CONFIG", {
-  -- { events = "BufEnter,BufReadPost,TabEnter", cmd = "++nested ProjectRoot" },
+  { events = 'VimEnter,DirChanged', cmd = 'lua require"config.dispatch".load_config()' },
 
-  { events = 'VimEnter,DirChanged', cmd = 'lua require"config.dispatch".load_config(".dispatch.json", false)' },
-
-  { events = 'BufWrite', pat = '.dispatch.json', cmd = 'lua require"config.dispatch".load_config(".dispatch.json", false)' },
+  { events = 'BufWritePost', pat = '.dispatch.json', cmd = 'lua require"config.dispatch".reload()' },
 
 
   { events = 'FileType', cmd = 'lua require"config.dispatch".on_ft()' },
+  -- { events = 'OptionSet', pat = "scrolloff", cmd = 'if (&buftype == "") | echoerr "Set scrolloff" | endif'},
 
   { events = 'BufRead,BufNewFile', pat = '*.gltf', cmd = 'set filetype=json' },
 
-  -- { events = 'BufNew,FileType,BufWinEnter', cmd = 'setlocal foldmethod=expr | setlocal foldexpr=nvim_treesitter#foldexpr()' },
+  { events = 'FileType', cmd = 'setlocal foldmethod=expr | setlocal foldexpr=nvim_treesitter#foldexpr()' },
 
   -- Auto format on save using LSP
   { events = 'BufWritePre', cmd = 'lua vim.lsp.buf.formatting_sync()' },

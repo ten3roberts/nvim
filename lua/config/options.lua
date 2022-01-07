@@ -26,7 +26,7 @@ o.inccommand = 'split' -- Show effects of command as you type in a split
 o.incsearch = true -- Move cursor during search
 o.laststatus = 2
 o.linebreak = true
-o.mouse = ''
+o.mouse = 'nvc'
 o.number = false
 o.path = o.path .. '**'
 o.pumheight = 8
@@ -58,6 +58,9 @@ o.wildmode = 'full' -- Command line completion mode
 g.termdebug_wide = 1
 g.termdebugger='rust-gdb'
 
+g.rooter_cd_cmd = 'tcd'
+g.rooter_patterns = { ".git", "Cargo.lock" }
+
 -- g.netrw_keepdir = 0
 
 g.vaffle_auto_cd = 1
@@ -81,6 +84,7 @@ g.nord_underline = 1
 -- Sonokai
 g.sonokai_enable_italic = 1
 g.sonokai_style = 'default'
+g.sonokai_style = 'andromeda'
 
 -- Set colorscheme from env var or default
 vim.cmd ( "colorscheme " .. ( vim.env.VIM_COLORSCHEME or 'nord' ) )

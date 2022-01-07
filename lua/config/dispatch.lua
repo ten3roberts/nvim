@@ -12,7 +12,7 @@ local filetypes = {
     check = 'cargo check -q',
     clippy = 'cargo clippy -q',
     clean = 'clean -q',
-    lint = 'cargo clean && cargo clippy',
+    lint = 'cargo clippy',
     run = 'cargo run',
     test = 'cargo test -q',
     doc = 'cargo doc -q --open',
@@ -55,7 +55,18 @@ local methods = {
 
 local cache = {}
 
+function M.clear_cache()
+  cache = {}
+end
+
+function M.reload(path)
+  print("Reloading dispatch")
+  M.clear_cache()
+  M.load_config(path)
+end
+
 function M.load_config(path, verbose)
+  path = path or ".dispatch.json"
   path = fn.fnamemodify(path, ":p")
   -- print("Loading config from:", path)
   M.set_commands({})
@@ -69,9 +80,10 @@ function M.load_config(path, verbose)
 
 
   if not file then
-    if verbose == nil or verbose then
+    if verbose == true then
       api.nvim_err_writeln(string.format("Config file %q does not exist", path))
     end
+
     return
   end
 

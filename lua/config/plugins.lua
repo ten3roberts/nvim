@@ -24,7 +24,6 @@ localpaq('~/dev/nvim/darken.nvim')
 localpaq('~/dev/nvim/toggle.nvim')
 localpaq('~/dev/nvim/window-picker.nvim')
 localpaq('~/dev/nvim/session.nvim')
--- localpaq('~/dev/nvim/aerial.nvim')
 
 local paq = require 'paq' {
   'savq/paq-nvim', -- Let Paq manage itself
@@ -50,9 +49,8 @@ local paq = require 'paq' {
   'McAuleyPenney/Tidy.nvim',
   'RRethy/nvim-base16',
   'ThePrimeagen/harpoon',
-  'ahmedkhalf/project.nvim',
+  'airblade/vim-rooter',
   'andymass/vim-matchup',
-  'cocopon/vaffle.vim',
   'dkarter/bullets.vim', -- Markdown bullet management
   'gfanto/fzf-lsp.nvim',
   'ggandor/lightspeed.nvim',
@@ -76,8 +74,9 @@ local paq = require 'paq' {
   'nvim-lua/plenary.nvim',
   'nvim-lua/popup.nvim',
   'nvim-telescope/telescope-dap.nvim',
-  -- 'nvim-telescope/telescope-frecency.nvim',
+  'nvim-telescope/telescope-file-browser.nvim',
   'nvim-telescope/telescope-fzy-native.nvim',
+  'nvim-telescope/telescope-project.nvim',
   'nvim-telescope/telescope.nvim',
   'nvim-treesitter/nvim-treesitter',
   'nvim-treesitter/playground',
@@ -91,7 +90,8 @@ local paq = require 'paq' {
   'steelsojka/pears.nvim',
   'stevearc/aerial.nvim', -- Symbol tree
   'stevearc/stickybuf.nvim',
-  -- 'tami5/sqlite.lua',
+  'tamago324/lir-git-status.nvim',
+  'tamago324/lir.nvim',
   'tikhomirov/vim-glsl', -- GLSL runtime files
   'tpope/vim-abolish', -- Change casing styles and provide smart search and replace
   'tpope/vim-commentary', -- Toggle comments
@@ -106,10 +106,14 @@ local paq = require 'paq' {
   'wellle/targets.vim', -- Better handling and seeking for textobjects
   'windwp/nvim-autopairs',
   'windwp/nvim-ts-autotag',
+  -- 'ahmedkhalf/project.nvim',
+  -- 'nvim-telescope/telescope-frecency.nvim',
+  -- 'nvim-telescope/telescope-project.nvim',
+  -- 'tami5/sqlite.lua',
   -- { url = 'https://gitlab.com/yorickpeterse/nvim-dd' },
   { 'iamcco/markdown-preview.nvim', run = function() vim.fn['mkdp#util#install']() end }, -- Markdown previewing
   { url = 'https://gitlab.com/yorickpeterse/nvim-pqf' },
   {'junegunn/fzf', run = function() vim.fn['fzf#install']() end},
-  'nvim-telescope/telescope-file-browser.nvim',
 }
+
 paq:sync()

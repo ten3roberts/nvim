@@ -14,9 +14,15 @@ function M.close_hidden()
 
   local closed = 0
   for bufnr=1,fn.bufnr('$') do
-    if fn.bufexists(bufnr) == 1 and fn.buflisted(bufnr) == 1 and visible[bufnr] ~= true then
-      closed = closed + 1
-      cmd('bdelete ' .. bufnr)
+    if fn.bufexists(bufnr) == 1 and
+      visible[bufnr] ~= true and
+      fn.buflisted(bufnr) == 1 and
+      api.nvim_buf_get_option(bufnr, 'buftype') == "" then
+
+      if pcall(cmd, 'bdelete ' .. bufnr) then
+        closed = closed + 1
+      end
+
     end
   end
   print('Closed ' .. closed .. ' buffers')

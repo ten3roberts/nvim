@@ -7,7 +7,8 @@ local silent = { silent = true }
 vim.g.mapleader = ' '
 
 -- map('n', '<leader>f',  ':Vaffle %<CR>')
-map('n', '<leader>pe', ':call execute("Vaffle " . expand("%:p"))<CR>')
+map('n', '<leader>pe', ':call execute("edit " . expand("%:p:h"))<CR>')
+map('n', '<leader>f', ':lua require"lir.float".init()<CR>')
 map('n', '<leader>po', ':AerialOpen<CR>')
 
 -- Fzf
@@ -28,7 +29,7 @@ map('n', '<leader>po', ':AerialOpen<CR>')
 
 -- Telescope
 map('n',    '<leader><leader>', ':Telescope find_files<CR>')
-map('n',    '<leader>f',        '<cmd>lua require "telescope".extensions.file_browser.file_browser { path="%:p:h" }<CR>')
+-- map('n',    '<leader>f',        '<cmd>lua require "telescope".extensions.file_browser.file_browser { path="%:p:h" }<CR>')
 map('n',    '<leader>rf',       ':Telescope oldfiles<CR>')
 map('n',    '<M-x>',            ':Telescope command_history<CR>')
 -- map('n',    '<leader>ro',       ':Telescope oldfiles<CR>')
@@ -42,7 +43,7 @@ map('n',    '<leader>o',        ':Telescope lsp_document_symbols<CR>')
 map('n',    '<leader>O',        ':Telescope lsp_dynamic_workspace_symbols<CR>')
 map('n',    '<leader>dd',       ':Telescope lsp_document_diagnostics<CR>')
 map('n',    '<leader>D',        ':Telescope diagnostics<CR>')
-map('n',    '<leader>pp',       ':Telescope projects<CR>')
+map('n',    '<leader>pp',       ":lua require'telescope'.extensions.project.project{ display_type = 'full' }<CR>")
 
 -- Harpoon
 map('n', '<leader>ha', ':lua require("harpoon.mark").add_file()<CR>')
@@ -51,7 +52,7 @@ map('n', '<leader>hh', ':lua require("harpoon.ui").toggle_quick_menu()<CR>')
 map('n', '<leader>ht', ':lua require("harpoon.term").gotoTerminal(1)<CR>')
 
 for i = 0, 9 do
-  map('n', '<leader>h' .. i, string.format(':lua require("harpoon.ui").nav_file(%d)<CR>', i))
+  map('n', '<leader>h' .. i, string.format(':lua require("harpoon.term").gotoTerminal(%d)<CR>', i))
 end
 
 -- Quickfix and location list

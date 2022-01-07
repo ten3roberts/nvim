@@ -8,4 +8,4 @@ This is my personal configuration of neovim
 - Telescope
 - Filetree
 - Nvim lua Development utils
-- Completion 
+- Completion
