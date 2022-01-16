@@ -1,5 +1,5 @@
-local function buf_map(buf, mod, lhs, rhs, opt)
-  vim.api.nvim_buf_set_keymap(buf, mod, lhs, rhs, opt or {})
+local function buf_map(buf, mod, lhs, rhs)
+  vim.keymap.set(mod, lhs, rhs, { silent = true, buffer = buf })
 end
 
 local stdpath = vim.fn.stdpath
@@ -61,22 +61,22 @@ function M.on_attach(client)
 
   local provider_cmds = cmd[provider]
 
-  buf_map(0, '', '<leader>cf',  '<cmd>lua vim.lsp.buf.formatting()<CR>')
-  buf_map(0, '', '<leader>cwa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>')
-  buf_map(0, '', '<leader>cwl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>')
-  buf_map(0, '', '<leader>cwr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>')
-  buf_map(0, '', '<leader>q',   '<cmd>lua require"config.lsp".set_loc()<CR>')
-  buf_map(0, '', '<leader>rn',  '<cmd>lua vim.lsp.buf.rename()<CR>')
-  buf_map(0, '', '<leader>a',   provider_cmds.code_actions, silent)
-  buf_map(0, '', 'K',           '<cmd>lua vim.lsp.buf.hover()<CR>')
-  buf_map(0, '', '[d',          '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
-  buf_map(0, '', ']d',          '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
-  buf_map(0, '', 'gD',          provider_cmds.declarations, silent)
-  buf_map(0, '', 'gd',          provider_cmds.definitions, silent)
-  buf_map(0, '', 'gi',          '<cmd>lua vim.lsp.buf.implementation()<CR>')
-  -- buf_map(0, 'n', 'gr',          provider_cmds.references, silent)
-  buf_map(0, '', 'gr',          '<cmd>lua vim.lsp.buf.references()<CR>', silent)
-  buf_map(0, '', 'gy',          provider_cmds.type_definitions, silent)
+  buf_map(0,    '',  '<leader>cf',  vim.lsp.buf.formatting)
+  buf_map(0,    '',  '<leader>cwa', vim.lsp.buf.add_workspace_folder)
+  buf_map(0,    '',  '<leader>cwl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end)
+  buf_map(0,    '',  '<leader>cwr', vim.lsp.buf.remove_workspace_folder)
+  buf_map(0,    '',  '<leader>q',   require"config.lsp".set_loc)
+  buf_map(0,    '',  '<leader>rn',  vim.lsp.buf.rename)
+  buf_map(0,    '',  '<leader>a',   provider_cmds.code_actions)
+  buf_map(0,    '',  'K',           vim.lsp.buf.hover)
+  buf_map(0,    '',  '[d',          vim.lsp.diagnostic.goto_prev)
+  buf_map(0,    '',  ']d',          vim.lsp.diagnostic.goto_next)
+  buf_map(0,    '',  'gD',          provider_cmds.declarations)
+  buf_map(0,    '',  'gd',          provider_cmds.definitions)
+  buf_map(0,    '',  'gi',          vim.lsp.buf.implementation)
+  buf_map(0,    'n', 'gr',          provider_cmds.references)
+  -- buf_map(0, '',  'gr',          vim.lsp.buf.references)
+  buf_map(0,    '',  'gy',          provider_cmds.type_definitions)
 end
 
 -- Sets the location list with predefined options. Does not focus list.

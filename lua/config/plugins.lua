@@ -20,6 +20,7 @@ local function localpaq(path)
 end
 
 localpaq('~/dev/nvim/qf.nvim')
+localpaq('~/dev/nvim/lir.nvim')
 localpaq('~/dev/nvim/darken.nvim')
 localpaq('~/dev/nvim/toggle.nvim')
 localpaq('~/dev/nvim/window-picker.nvim')
@@ -52,7 +53,6 @@ local paq = require 'paq' {
   'airblade/vim-rooter',
   'andymass/vim-matchup',
   'dkarter/bullets.vim', -- Markdown bullet management
-  'gfanto/fzf-lsp.nvim',
   'ggandor/lightspeed.nvim',
   'hrsh7th/cmp-buffer',
   'hrsh7th/cmp-nvim-lsp',
@@ -61,12 +61,10 @@ local paq = require 'paq' {
   'hrsh7th/nvim-cmp', -- Autocompletion plugin
   'hrsh7th/vim-vsnip',
   'hrsh7th/vim-vsnip-integ',
-  'junegunn/fzf.vim',
   'junegunn/vim-easy-align', -- Align text blocks
   'kabouzeid/nvim-lspinstall',
   'kyazdani42/nvim-web-devicons', -- File icons for barbar, nvim-tree and statusline
   'lewis6991/gitsigns.nvim', -- Show changed lines
-  'maxbrunsfeld/vim-yankstack', -- Easily use the registers
   'mbbill/undotree',
   'mfussenegger/nvim-dap',
   'neovim/nvim-lspconfig', -- LSP configurations
@@ -74,29 +72,27 @@ local paq = require 'paq' {
   'nvim-lua/plenary.nvim',
   'nvim-lua/popup.nvim',
   'nvim-telescope/telescope-dap.nvim',
-  'nvim-telescope/telescope-file-browser.nvim',
+  -- 'nvim-telescope/telescope-file-browser.nvim',
   'nvim-telescope/telescope-fzy-native.nvim',
   'nvim-telescope/telescope-project.nvim',
   'nvim-telescope/telescope.nvim',
   'nvim-treesitter/nvim-treesitter',
-  'nvim-treesitter/playground',
   'phaazon/hop.nvim', -- Jump around in current buffer
   'qxxxb/vim-searchhi', -- Highlight current search match
   'rafamadriz/friendly-snippets', -- Preconfigured snippets
   'ray-x/lsp_signature.nvim', -- Show function signature help
   'rcarriga/nvim-dap-ui',
-  'saadparwaiz1/cmp_luasnip',
   'simrat39/rust-tools.nvim',
-  'steelsojka/pears.nvim',
   'stevearc/aerial.nvim', -- Symbol tree
   'stevearc/stickybuf.nvim',
   'tamago324/lir-git-status.nvim',
-  'tamago324/lir.nvim',
+  -- 'tamago324/lir.nvim',
   'tikhomirov/vim-glsl', -- GLSL runtime files
   'tpope/vim-abolish', -- Change casing styles and provide smart search and replace
   'tpope/vim-commentary', -- Toggle comments
   'tpope/vim-dispatch', -- Async build and command dispatch
   'tpope/vim-eunuch',
+  'bfredl/nvim-miniyank',
   'tpope/vim-fugitive', -- Git management
   'tpope/vim-repeat', -- Repeat plugin commands with .
   'tpope/vim-rsi', -- Readline mappings in insert mode
@@ -106,14 +102,8 @@ local paq = require 'paq' {
   'wellle/targets.vim', -- Better handling and seeking for textobjects
   'windwp/nvim-autopairs',
   'windwp/nvim-ts-autotag',
-  -- 'ahmedkhalf/project.nvim',
-  -- 'nvim-telescope/telescope-frecency.nvim',
-  -- 'nvim-telescope/telescope-project.nvim',
-  -- 'tami5/sqlite.lua',
-  -- { url = 'https://gitlab.com/yorickpeterse/nvim-dd' },
   { 'iamcco/markdown-preview.nvim', run = function() vim.fn['mkdp#util#install']() end }, -- Markdown previewing
   { url = 'https://gitlab.com/yorickpeterse/nvim-pqf' },
-  {'junegunn/fzf', run = function() vim.fn['fzf#install']() end},
 }
 
 paq:sync()

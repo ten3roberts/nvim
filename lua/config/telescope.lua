@@ -109,12 +109,11 @@ telescope.setup{
         { path = '~/dev', max_depth = 4 },
         { '~/.config/nvim' }
       },
-      hidden_files = true -- default: false
+      hidden_files = false -- default: false
     }
   },
 }
 
 telescope.load_extension 'fzy_native'
 telescope.load_extension 'dap'
-telescope.load_extension 'file_browser'
 telescope.load_extension 'project'

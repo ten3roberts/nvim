@@ -23,7 +23,7 @@ autocommands( "CONFIG", {
 
   { events = 'BufRead,BufNewFile', pat = '*.gltf', cmd = 'set filetype=json' },
 
-  { events = 'FileType', cmd = 'setlocal foldmethod=expr | setlocal foldexpr=nvim_treesitter#foldexpr()' },
+  -- { events = 'FileType', cmd = 'setlocal foldmethod=expr | setlocal foldexpr=nvim_treesitter#foldexpr()' },
 
   -- Auto format on save using LSP
   { events = 'BufWritePre', cmd = 'lua vim.lsp.buf.formatting_sync()' },

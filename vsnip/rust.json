@@ -1,12 +1,12 @@
 {
-  "getter": {
-    "prefix": "getter",
+  "fn": {
+    "prefix": "fn",
     "body": [
-      "// Returns a reference the ${1}'s ${2}.",
-      "pub fn ${2}(&self) -> &${3} {",
-      "    &self.${4}",
+      "fn ${1:name}(&self) -> ${4:RetType} {",
+      "    ${5:todo!();}",
       "}"
-    ]
+    ],
+    "description": "fn …(…) { … }"
   },
   "debug": {
     "prefix": "debug",
@@ -90,7 +90,7 @@
   "builder": {
     "prefix": ["builder"],
     "body": [
-      "let mut builder = EntityBuilder::new();"
+      "let mut builder = EntityBuilderClone::new();"
     ]
   },
 

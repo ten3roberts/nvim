@@ -1,5 +1,5 @@
-local function map(mod, lhs, rhs, opt)
-  vim.api.nvim_set_keymap(mod, lhs, rhs, opt or {})
+local function map(mode, lhs, rhs, opts)
+  vim.keymap.set(mode, lhs, rhs, opts)
 end
 
 local silent = { silent = true }
@@ -8,7 +8,7 @@ vim.g.mapleader = ' '
 
 -- map('n', '<leader>f',  ':Vaffle %<CR>')
 map('n', '<leader>pe', ':call execute("edit " . expand("%:p:h"))<CR>')
-map('n', '<leader>f', ':lua require"lir.float".init()<CR>')
+map('n', '<leader>f', require"lir.float".init)
 map('n', '<leader>po', ':AerialOpen<CR>')
 
 -- Fzf
@@ -32,7 +32,6 @@ map('n',    '<leader><leader>', ':Telescope find_files<CR>')
 -- map('n',    '<leader>f',        '<cmd>lua require "telescope".extensions.file_browser.file_browser { path="%:p:h" }<CR>')
 map('n',    '<leader>rf',       ':Telescope oldfiles<CR>')
 map('n',    '<M-x>',            ':Telescope command_history<CR>')
--- map('n',    '<leader>ro',       ':Telescope oldfiles<CR>')
 map('n',    '<leader>,',        ':Telescope buffers<CR>')
 map('n',    '<leader>/',        ':Telescope current_buffer_fuzzy_find<CR>')
 map('n',    '<leader>/',        ':Telescope current_buffer_fuzzy_find<CR>')
@@ -46,13 +45,14 @@ map('n',    '<leader>D',        ':Telescope diagnostics<CR>')
 map('n',    '<leader>pp',       ":lua require'telescope'.extensions.project.project{ display_type = 'full' }<CR>")
 
 -- Harpoon
-map('n', '<leader>ha', ':lua require("harpoon.mark").add_file()<CR>')
-map('n', '<leader>ho', ':lua require("harpoon.ui").toggle_quick_menu()<CR>')
-map('n', '<leader>hh', ':lua require("harpoon.ui").toggle_quick_menu()<CR>')
-map('n', '<leader>ht', ':lua require("harpoon.term").gotoTerminal(1)<CR>')
+local harpoon_term = require("harpoon.term")
+map('n', '<leader>ha', require("harpoon.mark").add_file)
+map('n', '<leader>ho', require("harpoon.ui").toggle_quick_menu)
+map('n', '<leader>hh', require("harpoon.ui").toggle_quick_menu)
+map('n', '<leader>ht', function() harpoon_term.gotoTerminal(1) end)
 
 for i = 0, 9 do
-  map('n', '<leader>h' .. i, string.format(':lua require("harpoon.term").gotoTerminal(%d)<CR>', i))
+  map('n', '<leader>h' .. i, function() harpoon_term.gotoTerminal(i) end)
 end
 
 -- Quickfix and location list
@@ -77,14 +77,17 @@ map('n', '<leader>J', '<cmd>lua require"qf".below("visible")<CR>', silent) -- Go
 map('n', '<leader>K', '<cmd>lua require"qf".above("visible")<CR>', silent) -- Go to previous quickfix entry from cursor
 
 map('v', 'gl', ':<c-u>lua require"config.onlines"()<CR>', silent)
--- Dispatching
-map('n', '<leader>eb', '<cmd>lua require"config.dispatch".dispatch("build")<CR>')
-map('n', '<leader>er', '<cmd>lua require"config.dispatch".dispatch("run")<CR>')
-map('n', '<leader>et', '<cmd>lua require"config.dispatch".dispatch("test")<CR>')
-map('n', '<leader>ed', '<cmd>lua require"config.dispatch".dispatch("doc")<CR>')
-map('n', '<leader>el', '<cmd>lua require"config.dispatch".dispatch("lint")<CR>')
-map('n', '<leader>ec', '<cmd>lua require"config.dispatch".dispatch("check")<CR>')
-map('n', '<leader>eC', '<cmd>lua require"config.dispatch".dispatch("check")<CR>')
+
+--       Dispatching
+local dispatch = require("config.dispatch")
+
+map('n', '<leader>eb', function() dispatch.dispatch("build") end)
+map('n', '<leader>er', function() dispatch.dispatch("run")   end)
+map('n', '<leader>et', function() dispatch.dispatch("test")  end)
+map('n', '<leader>ed', function() dispatch.dispatch("doc")   end)
+map('n', '<leader>el', function() dispatch.dispatch("lint")  end)
+map('n', '<leader>ec', function() dispatch.dispatch("check") end)
+map('n', '<leader>eC', function() dispatch.dispatch("check") end)
 
 -- Tabs
 map('n', '<leader>N', ':tabnew<CR>')
@@ -110,7 +113,7 @@ map('n', '<leader>bo', ':lua require"config.bclose".close_hidden()<CR>')
 map('n', '<leader>bp', '<C-^>')
 
 map('n', '<leader>w', ':WindowPick<CR>')
-map('n', '<leader>W',  ':WindowSwap<CR>')
+map('n', '<leader>W', ':WindowSwap<CR>')
 
 -- Git mappings
 map('n', '<leader>gg',  ':Ge :<CR>')
@@ -158,6 +161,12 @@ map('', '<C-j>', '}', { noremap = true })
 map('', '<C-k>', '{', { noremap = true })
 map('i', '<C-5>', '<C-o>%', { noremap = true })
 
+-- Clipboard
+map('', 'p', '<Plug>(miniyank-autoput)')
+map('', 'P', '<Plug>(miniyank-autoPut)')
+map('', '<A-p>', '<Plug>(miniyank-cycle)')
+map('', '<A-P>', '<Plug>(miniyank-cycleback)')
+
 -- map('', '<C-a>', '^')
 map('', '<C-e>', '$')
 
@@ -203,7 +212,8 @@ map('n', 'gb', '<cmd>lua require"toggle".toggle()<CR>')
 
 -- Folding
 for i = 1, 9 do
-  map('n', 'z' .. i, ':set foldlevel='.. i ..'| echo "Foldlevel: " . &foldlevel<CR>', silent)
+  local o = vim.o
+  map('n', 'z' .. i, function() o.foldlevel = i-1 print("Foldlevel: ", o.foldlevel) end)
 end
 
 map('n', 'z-', ':set foldlevel-=1 | echo "Foldlevel: " . &foldlevel<CR>', silent)
