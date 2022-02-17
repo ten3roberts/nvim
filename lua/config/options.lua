@@ -34,7 +34,7 @@ o.pumwidth = 20
 o.relativenumber = false
 o.runtimepath = o.runtimepath .. ",~/dev/nvim"
 o.scrolloff = 8 -- Lines from the cursor
--- o.sessionoptions = 'tabpages,terminal,folds,help'
+o.sessionoptions = 'winsize,terminal,tabpages,terminal,folds,help'
 o.shiftwidth = 2
 o.shortmess = vim.o.shortmess .. 'c'
 o.showmatch = true -- Show matching brackets/parenthesis
@@ -47,7 +47,7 @@ o.splitright = true -- Splits open on the right
 o.switchbuf = 'useopen,usetab'
 o.tabstop = 2
 o.termguicolors = true
--- o.textwidth = 80
+o.textwidth = 80
 o.title = true
 o.titlestring="nvim %{fnamemodify(getcwd(), ':~')}"
 o.undofile = true
@@ -57,9 +57,12 @@ o.wildmode = 'full' -- Command line completion mode
 
 g.termdebug_wide = 1
 g.termdebugger='rust-gdb'
-
 g.rooter_cd_cmd = 'tcd'
+g.rooter_manual_only = 1
 g.rooter_patterns = { ".git", "Cargo.lock" }
+
+o.foldexpr = "nvim_treesitter#foldexpr()"
+o.foldmethod = "expr"
 
 -- g.netrw_keepdir = 0
 

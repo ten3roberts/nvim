@@ -16,6 +16,10 @@
     "prefix": "info",
     "body": "log::info!(\"${1}\");"
   },
+  "warn": {
+    "prefix": "warn",
+    "body": "log::warn!(\"${1}\");"
+  },
   "static_send_sync": {
     "prefix": "static",
     "body": "'static + Send + Sync "

@@ -7,8 +7,10 @@ vim.cmd "command! -nargs=* Cargo :Start cargo <args>"
 vim.cmd "command! CargoUpdateReadme :Start cargo readme > README.md"
 vim.cmd "command! -nargs=* CargoPublish :Start cargo workspaces publish <args>"
 vim.cmd "command! CargoUpgrade !cargo --color=never upgrade --workspace"
+vim.cmd "command! CargoClippy :Dispatch cargo clippy --examples --bins"
 vim.cmd "command! -nargs=* CargoAdd execute('!cargo add ' .. '<args>') | :CargoReload"
 vim.cmd "command! -nargs=* CargoVersion :Start cargo workspaces version <args>"
+vim.cmd "command! Clip let @+=@\""
 
 vim.cmd [[
 function! Redir(cmd, rng, start, end)

@@ -188,8 +188,6 @@ local function get_buffername(bufnr)
     return
   end
 
-  local modified = api.nvim_buf_get_option(bufnr, 'modified')
-
   local filename = fn.fnamemodify(fn.bufname(bufnr), ':t')
 
   if filename == '' then
@@ -213,7 +211,7 @@ local function get_buffername(bufnr)
     end
   end
   buffer_names[filename] = bufnr
-  buffer_ids[bufnr] = filename .. (modified and ' +' or '')
+  buffer_ids[bufnr] = filename
 end
 
 -- local function get_ft(bufnr, highlight)

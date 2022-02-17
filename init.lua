@@ -1,25 +1,27 @@
 require 'config.keymap'
+require 'config.devicons'
 require 'config.options'
 require 'config.palette'.setup();
 require 'config.telescope'
 require 'config.dev_utils'
 require 'config.onlines'
 require 'config.aerial'
+-- require 'config.sidebar'
 -- require 'config.fzf'.setup()
 require 'config.treesitter'
 require 'config.lir'
 require 'config.commands'
 require 'config.clean_fold'
 require 'config.statusline'.setup()
-require 'config.lsp'.setup()
-require 'config.rust'
+require 'config.lsp'
+-- require 'config.rust'
 require 'config.dbg'
 require 'config.pairs'
 require 'config.completion'
 require 'config.autocommands'
 require'colorizer'.setup(
-  { '*' },
-  {
+{ '*' },
+{
     RGB      = true,         -- #RGB hex codes
     RRGGBB   = true,         -- #RRGGBB hex codes
     names    = true,         -- "Name" codes like Blue
@@ -35,6 +37,36 @@ require'colorizer'.setup(
 
 require'gitsigns'.setup({
   current_line_blame = false,
+
+  on_attach = function(bufnr)
+    local gs = package.loaded.gitsigns
+
+    local function map(mode, l, r, opts)
+      opts = opts or {}
+      opts.buffer = bufnr
+      vim.keymap.set(mode, l, r, opts)
+    end
+
+    -- Navigation
+    map('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", {expr=true})
+    map('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", {expr=true})
+
+    -- Actions
+    map({'n', 'v'}, '<leader>hs', gs.stage_hunk)
+    map({'n', 'v'}, '<leader>hr', gs.reset_hunk)
+    map('n', '<leader>hS', gs.stage_buffer)
+    map('n', '<leader>hu', gs.undo_stage_hunk)
+    map('n', '<leader>hR', gs.reset_buffer)
+    map('n', '<leader>hp', gs.preview_hunk)
+    map('n', '<leader>hb', function() gs.blame_line{full=true} end)
+    map('n', '<leader>tb', gs.toggle_current_line_blame)
+    map('n', '<leader>hd', gs.diffthis)
+    map('n', '<leader>hD', function() gs.diffthis('~') end)
+    map('n', '<leader>td', gs.toggle_deleted)
+
+    -- Text object
+    map({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+  end
 })
 
 require'darken'.setup{
@@ -46,7 +78,7 @@ require'qf'.setup{
   -- Location list configuration
   ['l'] = {
     auto_close = false, -- Automatically close location/quickfix list if empty
-    auto_follow = 'prev', -- Follow current entry, possible values: prev,next,nearest
+    auto_follow = false, -- Follow current entry, possible values: prev,next,nearest
     follow_slow = false, -- Only follow on CursorHold
     auto_open = false, -- Automatically open location list on QuickFixCmdPost
     auto_resize = false, -- Auto resize and shrink location list if less than `max_height`
@@ -60,7 +92,7 @@ require'qf'.setup{
   -- Quickfix list configuration
   ['c'] = {
     auto_close = true, -- Automatically close location/quickfix list if empty
-    auto_follow = 'prev', -- Follow current entry, possible values: prev,next,nearest
+    auto_follow = false, -- Follow current entry, possible values: prev,next,nearest
     follow_slow = true, -- Only follow on CursorHold
     auto_open = false, -- Automatically open list on QuickFixCmdPost
     auto_resize = true, -- Auto resize and shrink location list if less than `max_height`
@@ -75,31 +107,24 @@ require'qf'.setup{
 
 require'toggle'.setup{
   sets = {
-    { 'true', 'false' },
-    { 'creator', 'destroyer' },
-    { 'on', 'off' },
-    { 'yes', 'no' },
-    { 'manual', 'auto' },
-    { 'always', 'never' },
-    { 'public', 'private' },
+  { 'true', 'false' },
+  { 'creator', 'destroyer' },
+  { 'on', 'off' },
+  { 'yes', 'no' },
+  { 'manual', 'auto' },
+  { 'always', 'never' },
+  { 'public', 'private' },
   },
   variants = true,
 }
 
-require'nvim-web-devicons'.setup {
-  -- your personnal icons can go here (to override)
-  -- DevIcon will be appended to `name`
-  override = {
-    cs = {
-      icon = "",
-      color = "#a70495",
-      name = "Cs"
-    }
-  };
-  -- globally enable default icons (default to false)
-  -- will get overriden by `get_icons` option
-  default = true;
-}
-
 require 'config.palette'.setup()
 require'pqf'.setup()
+require('auto-session').setup {
+  log_level = 'info',
+  auto_session_suppress_dirs = {'~/'}
+}
+
+require 'zen-mode'.setup()
+
+vim.cmd "packadd termdebug"

@@ -52,8 +52,8 @@ function M.on_attach(client)
   local silent = { silent = true }
 
   -- Jump forwards/backwards with '{' and '}'
-  buf_map(0, '', '{',         '<cmd>AerialPrev<CR>')
-  buf_map(0, '', '}',         '<cmd>AerialNext<CR>')
+  -- buf_map(0, '', '{',         '<cmd>AerialPrev<CR>')
+  -- buf_map(0, '', '}',         '<cmd>AerialNext<CR>')
 
   -- Jump forwards/backwards at the same tree level with '[[' and ']]'
   buf_map(0, '', '[[',         '<cmd>AerialPrevUp<CR>')
@@ -61,22 +61,21 @@ function M.on_attach(client)
 
   local provider_cmds = cmd[provider]
 
-  buf_map(0,    '',  '<leader>cf',  vim.lsp.buf.formatting)
-  buf_map(0,    '',  '<leader>cwa', vim.lsp.buf.add_workspace_folder)
-  buf_map(0,    '',  '<leader>cwl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end)
-  buf_map(0,    '',  '<leader>cwr', vim.lsp.buf.remove_workspace_folder)
-  buf_map(0,    '',  '<leader>q',   require"config.lsp".set_loc)
-  buf_map(0,    '',  '<leader>rn',  vim.lsp.buf.rename)
-  buf_map(0,    '',  '<leader>a',   provider_cmds.code_actions)
-  buf_map(0,    '',  'K',           vim.lsp.buf.hover)
-  buf_map(0,    '',  '[d',          vim.lsp.diagnostic.goto_prev)
-  buf_map(0,    '',  ']d',          vim.lsp.diagnostic.goto_next)
-  buf_map(0,    '',  'gD',          provider_cmds.declarations)
-  buf_map(0,    '',  'gd',          provider_cmds.definitions)
-  buf_map(0,    '',  'gi',          vim.lsp.buf.implementation)
-  buf_map(0,    'n', 'gr',          provider_cmds.references)
-  -- buf_map(0, '',  'gr',          vim.lsp.buf.references)
-  buf_map(0,    '',  'gy',          provider_cmds.type_definitions)
+  buf_map(0, '', '<leader>cf',  vim.lsp.buf.formatting)
+  buf_map(0, '', '<leader>cwa', vim.lsp.buf.add_workspace_folder)
+  buf_map(0, '', '<leader>cwl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end)
+  buf_map(0, '', '<leader>cwr', vim.lsp.buf.remove_workspace_folder)
+  buf_map(0, '', '<leader>q',   require"config.lsp".set_loc)
+  buf_map(0, '', '<leader>rn',  vim.lsp.buf.rename)
+  buf_map(0, '', '<leader>a',   vim.lsp.buf.code_action)
+  buf_map(0, '', 'K',           vim.lsp.buf.hover)
+  buf_map(0, '', '[d',          vim.lsp.diagnostic.goto_prev)
+  buf_map(0, '', ']d',          vim.lsp.diagnostic.goto_next)
+  buf_map(0, '', 'gD',          provider_cmds.declarations)
+  buf_map(0, '', 'gd',          provider_cmds.definitions)
+  buf_map(0, '', 'gi',          vim.lsp.buf.implementation)
+  buf_map(0, '', 'gr',          vim.lsp.buf.references)
+  buf_map(0, '', 'gy',          vim.lsp.buf.type_definition)
 end
 
 -- Sets the location list with predefined options. Does not focus list.
@@ -138,6 +137,7 @@ function M.clear_buffer_cache(bufnr)
   M.buffers[bufnr] = nil
   M.statusline_cache[bufnr] = nil
 end
+
 -- Returns a formatted statusline
 function M.statusline(bufnr, highlight)
   bufnr = bufnr or vim.fn.bufnr('%')
@@ -188,76 +188,110 @@ local default_config = {
 local sumneko_root_path = vim.fn.stdpath('config')..'/lsp/lua-language-server'
 local sumneko_binary = sumneko_root_path.."/bin/Linux/lua-language-server"
 
-M.configs = {
-  sumneko_lua = vim.tbl_extend('force', require 'config.lua-lsp', {
-    cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"}, on_attach = M.on_attach, capabilities = capabilities;
-  }),
-  cssls = { on_attach = M.on_attach, capabilities = capabilities },
-  rust_analyzer =
-    {
-      auto_setup = false,
-      on_attach = M.on_attach,
-      capabilities = capabilities,
-      settings = {
-        ['rust-analyzer'] = {
-          cargo = {
-            runBuildScripts = false,
-          } } } },
-  omnisharp =
-    {
-      on_attach = M.on_attach,
-      capabilities = capabilities,
-      root_dir = nvim_lsp.util.root_pattern("*.csproj","*.sln"),
-      cmd = { stdpath("config") .. "/lsp/omnisharp/run", "--languageserver" , "--hostPID", tostring(vim.fn.getpid()) },
-      settings = {
-        ["omnisharp.useGlobalMono"] = "always",
-        omnisharp = {
-          useGlobalMono = "always",
-        }
-      }
-    }
-  ,
-  denols = default_config,
-  html = default_config,
-}
+-- M.configs = {
+--   sumneko_lua = vim.tbl_extend('force', require 'config.lua-lsp', {
+--     cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"}, on_attach = M.on_attach, capabilities = capabilities;
+--   }),
+--   cssls = { on_attach = M.on_attach, capabilities = capabilities },
+--   rust_analyzer =
+--     {
+--       auto_setup = false,
+--       on_attach = M.on_attach,
+--       capabilities = capabilities,
+--       settings = {
+--         ['rust-analyzer'] = {
+--           cargo = {
+--             runBuildScripts = false,
+--           } } } },
+--   omnisharp =
+--     {
+--       on_attach = M.on_attach,
+--       capabilities = capabilities,
+--       root_dir = nvim_lsp.util.root_pattern("*.csproj","*.sln"),
+--       cmd = { stdpath("config") .. "/lsp/omnisharp/run", "--languageserver" , "--hostPID", tostring(vim.fn.getpid()) },
+--       settings = {
+--         ["omnisharp.useGlobalMono"] = "always",
+--         omnisharp = {
+--           useGlobalMono = "always",
+--         }
+--       }
+--     }
+--   ,
+--   denols = default_config,
+--   html = default_config,
+-- }
 
-function M.setup()
-  -- local winwidth = vim.fn.winwidth
-  -- Config
-  diagnostic.config {
-    -- Only show virtual text if window is large enough
-    -- virtual_text = function()
-    --   return winwidth(0) >= 80
-    -- end,
-    virtual_text = {
-      spacing = 16,
-      prefix = '~',
-    },
-    update_in_insert = true,
-    severity_sort = true,
-  }
+-- function M.setup()
+--   -- local winwidth = vim.fn.winwidth
+--   -- Config
+--   diagnostic.config {
+--     -- Only show virtual text if window is large enough
+--     -- virtual_text = function()
+--     --   return winwidth(0) >= 80
+--     -- end,
+--     virtual_text = {
+--       spacing = 16,
+--       prefix = '~',
+--     },
+--     update_in_insert = true,
+--     severity_sort = true,
+--   }
 
-  for server, config in pairs(M.configs) do
-    if config.auto_setup ~= false then
-      nvim_lsp[server].setup(config)
-    end
-  end
+--   for server, config in pairs(M.configs) do
+--     if config.auto_setup ~= false then
+--       nvim_lsp[server].setup(config)
+--     end
+--   end
 
-  -- local pid = vim.fn.getpid()
-  -- On linux/darwin if using a release build, otherwise under scripts/OmniSharp(.Core)(.cmd)
-  -- local omnisharp_bin = "/home/timmer/.local/share/omnisharp/run"
-  -- print("Setting up omnisharp at ", omnisharp_bin)
+--   -- local pid = vim.fn.getpid()
+--   -- On linux/darwin if using a release build, otherwise under scripts/OmniSharp(.Core)(.cmd)
+--   -- local omnisharp_bin = "/home/timmer/.local/share/omnisharp/run"
+--   -- print("Setting up omnisharp at ", omnisharp_bin)
 
-  -- nvim_lsp.omnisharp.setup{
-  --   cmd = { omnisharp_bin, "--languageserver" , "--hostPID", tostring(pid) };
-  -- root_dir = nvim_lsp.util.root_pattern("*.csproj","*.sln"),
-  -- on_attach = M.on_attach,
-  -- }
+--   -- nvim_lsp.omnisharp.setup{
+--   --   cmd = { omnisharp_bin, "--languageserver" , "--hostPID", tostring(pid) };
+--   -- root_dir = nvim_lsp.util.root_pattern("*.csproj","*.sln"),
+--   -- on_attach = M.on_attach,
+--   -- }
 
-end
+-- end
 
 -- require('dd').setup {
 --   timeout = 50
 -- }
+
+
+diagnostic.config {
+  -- Only show virtual text if window is large enough
+  -- virtual_text = function()
+  --   return winwidth(0) >= 80
+  -- end,
+  virtual_text = {
+    spacing = 16,
+    prefix = '~',
+  },
+  update_in_insert = true,
+  severity_sort = true,
+}
+
+local lsp_installer = require("nvim-lsp-installer")
+-- Register a handler that will be called for each installed server when it's ready (i.e. when installation is finished
+-- or if the server is already installed).
+lsp_installer.on_server_ready(function(server)
+  local opts = {
+    on_attach = M.on_attach,
+    capabilities = capabilities,
+  }
+
+  -- (optional) Customize the options passed to the server
+  -- if server.name == "tsserver" then
+  --     opts.root_dir = function() ... end
+  -- end
+
+  -- This setup() function will take the provided server configuration and decorate it with the necessary properties
+  -- before passing it onwards to lspconfig.
+  -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+  server:setup(opts)
+end)
 
 return M

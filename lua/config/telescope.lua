@@ -92,6 +92,11 @@ telescope.setup{
     },
     lsp_code_actions = {
       theme = 'cursor',
+    },
+    ["ui-select"] = {
+      require("telescope.themes").get_dropdown {
+        -- even more opts
+      }
     }
   },
 
@@ -105,9 +110,17 @@ telescope.setup{
       layout_config = { width = 0.5, height = 0.5 },
     },
     project = {
+      mappings = {
+        i = {
+          ["<c-e>"] = actions.file_edit,
+        },
+        n = {
+          ["<c-e>"] = actions.file_edit,
+        }
+      },
       base_dirs = {
-        { path = '~/dev', max_depth = 4 },
-        { '~/.config/nvim' }
+      { path = '~/dev', max_depth = 4 },
+      { '~/.config/nvim' }
       },
       hidden_files = false -- default: false
     }

@@ -18,6 +18,8 @@ autocommands( "CONFIG", {
   { events = 'BufWritePost', pat = '.dispatch.json', cmd = 'lua require"config.dispatch".reload()' },
 
 
+  -- { events = 'BufEnter', path = '*', cmd = 'lua if vim.o.buftype == "" then require"config.lsp".set_loc() end' },
+
   { events = 'FileType', cmd = 'lua require"config.dispatch".on_ft()' },
   -- { events = 'OptionSet', pat = "scrolloff", cmd = 'if (&buftype == "") | echoerr "Set scrolloff" | endif'},
 

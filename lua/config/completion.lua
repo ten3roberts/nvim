@@ -1,5 +1,6 @@
 local cmp = require('cmp')
 local fn = vim.fn
+local o = vim.o
 
 local t = function(str)
   return vim.api.nvim_replace_termcodes(str, true, true, true)
@@ -40,6 +41,11 @@ local function confirm_insert(fallback)
   end
 end
 
+local rel_ft = {
+  markdown = true,
+  tex = true,
+}
+
 cmp.setup {
   completion = {
     completeopt = "longest,noinsert,preview,noselect,shortest"
@@ -61,9 +67,23 @@ cmp.setup {
     ['<S-Tab>'] = confirm,
   },
   sources = {
-    { name = 'vsnip' },
-    { name = 'nvim_lsp' },
-    { name = "path" },
-    { name = 'buffer' },
+  { name = 'vsnip' },
+  { name = 'nvim_lsp' },
+  {
+      name = "path",
+      option = {
+        get_cwd = function()
+          if rel_ft[o.ft] == true then
+
+            return fn.expand("%:p:h")
+          else
+            return fn.getcwd()
+
+          end
+        end
+      }
+    },
+  { name = 'buffer' },
+    -- { name = 'rg' }
   },
 }

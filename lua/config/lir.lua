@@ -15,7 +15,6 @@ lir.setup {
 
     ['h']     = actions.up,
     ['q']     = actions.quit,
-    ['<Esc>'] = actions.quit,
 
     ['o']     = actions.mkdir,
     ['i']     = actions.newfile,
@@ -32,13 +31,9 @@ lir.setup {
     end,
 
     ['<C-o>'] = function()
-      local current = lir.get_context():current()
-      if string.match(current.value, '[^.]+$') == 'mp4' then
-        vim.fn.system('xdg-open ' .. current.fullpath)
-        return
-      end
-      actions.edit()
-    end,
+      local ctx = lir.get_context()
+        vim.fn.system('xdg-open ' .. ctx.dir)
+      end,
 
     ['c'] = clipboard_actions.copy,
     ['x'] = clipboard_actions.cut,
@@ -47,8 +42,8 @@ lir.setup {
   float = {
     winblend = 10,
     curdir_window = {
-      enable = false,
-      highlight_dirname = false
+      enable = true,
+      highlight_dirname = true
     },
 
     -- You can define a function that returns a table to be passed as the third
@@ -81,17 +76,7 @@ lir.setup {
     -- echo cwd
     vim.api.nvim_echo({ { vim.fn.expand("%:p"), "Normal" } }, false, {})
   end,
-  rename_default = false,
 }
-
--- custom folder icon
-require'nvim-web-devicons'.set_icon({
-  lir_folder_icon = {
-    icon = "",
-    color = "#7ebae4",
-    name = "LirFolderNode"
-  }
-})
 
 require'lir.git_status'.setup({
   show_ignored = false

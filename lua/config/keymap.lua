@@ -1,3 +1,4 @@
+local t = require("config.dev_utils").replace_termcodes
 local function map(mode, lhs, rhs, opts)
   vim.keymap.set(mode, lhs, rhs, opts)
 end
@@ -153,8 +154,8 @@ map('x', 'ga', '<plug>(EasyAlign)')
 map('n', 'ga', '<plug>(EasyAlign)')
 
 -- Snippet expansion
-map('i', '<C-l>', 'vsnip#available(1) ? "<plug>(vsnip-expand-or-jump)" : "<C-l>"', { expr = true})
-map('n', '<C-l>', 'vsnip#available(1) ? "<plug>(vsnip-expand-or-jump)" : "<C-l>"', { expr = true})
+map('i', '<C-l>', "vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : ''", { expr = true })
+map('n', '<C-l>', "vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : ''", { expr = true })
 
 -- Movements
 map('', '<C-j>', '}', { noremap = true })
@@ -162,8 +163,8 @@ map('', '<C-k>', '{', { noremap = true })
 map('i', '<C-5>', '<C-o>%', { noremap = true })
 
 -- Clipboard
-map('', 'p', '<Plug>(miniyank-autoput)')
-map('', 'P', '<Plug>(miniyank-autoPut)')
+map('', 'p',     '<Plug>(miniyank-autoput)')
+map('', 'P',     '<Plug>(miniyank-autoPut)')
 map('', '<A-p>', '<Plug>(miniyank-cycle)')
 map('', '<A-P>', '<Plug>(miniyank-cycleback)')
 
@@ -176,6 +177,11 @@ map('', '<C-e>', '$')
 -- map('', 'M', '2dWBhP')
 
 -- Move lines
+map('n', '<A-up>', ':m .-2<CR>', silent)
+map('n', '<A-down>', ':m .+1<CR>', silent)
+
+map('v', '<A-up>', ':m \'<-2<CR>gv', silent)
+map('v', '<A-down>', ':m \'>+1<CR>gv', silent)
 map('n', '<A-k>', ':m .-2<CR>', silent)
 map('n', '<A-j>', ':m .+1<CR>', silent)
 
@@ -200,9 +206,9 @@ map('x', 'i,', '<Plug>SidewaysArgumentTextobjI', silent)
 map('o', 'i,', '<Plug>SidewaysArgumentTextobjI', silent)
 map('x', 'i,', '<Plug>SidewaysArgumentTextobjI', silent)
 
-map('v', 'x', ':lua require"treesitter-unit".select()<CR>',      silent)
-map('o', 'x', ':<c-u>lua require"treesitter-unit".select()<CR>', silent)
-map('n', 'X', ':lua require"treesitter-unit".select()<CR>', silent)
+-- map('v', 'x', ':lua require"treesitter-unit".select()<CR>',      silent)
+-- map('o', 'x', ':<c-u>lua require"treesitter-unit".select()<CR>', silent)
+-- map('n', 'X', ':lua require"treesitter-unit".select()<CR>', silent)
 
 -- Select all
 map('', 'vA', 'ggVG');
@@ -252,10 +258,17 @@ map('', '<leader>dlb', ':Telescope dap list_breakpoints<CR>')
 map('', '<leader>dlf', ':Telescope dap frames<CR>')
 map('', '<leader>dlc', ':Telescope dap commands<CR>')
 
+map('', '<leader>dw', require('dap.ui.widgets').hover)
+
 map('', '<F5>', ':lua require"config.dbg".dap.continue()<CR>' )
 map('', '<F10>', ':lua require"config.dbg".dap.step_over()<CR>' )
 map('', '<F11>', ':lua require"config.dbg".dap.step_into()<CR>' )
 map('', '<F12>', ':lua require"config.dbg".dap.step_out()<CR>' )
+
+map('', '<leader>dn', ":Step<CR>")
+map('', '<leader>dc', ":Continue<CR>")
+map('', '<leader>db', ":Break<CR>")
+map('', '<leader>db', ":Break<CR>")
 
 -- Rust
 map('', '<leader>rr', ':RustRunnables<CR>')
