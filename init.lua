@@ -77,31 +77,31 @@ require'darken'.setup{
 require'qf'.setup{
   -- Location list configuration
   ['l'] = {
-    auto_close = false, -- Automatically close location/quickfix list if empty
-    auto_follow = false, -- Follow current entry, possible values: prev,next,nearest
-    follow_slow = false, -- Only follow on CursorHold
-    auto_open = false, -- Automatically open location list on QuickFixCmdPost
-    auto_resize = false, -- Auto resize and shrink location list if less than `max_height`
-    max_height = 5, -- Maximum height of location/quickfix list
-    min_height = 5, -- Minimum height of location/quickfix list
-    wide = false,
+    auto_close    = false, -- Automatically close location/quickfix list if empty
+    auto_follow   = "prev", -- Follow current entry, possible values: prev,next,nearest
+    follow_slow   = false, -- Only follow on CursorHold
+    auto_open     = true, -- Automatically open location list on QuickFixCmdPost
+    auto_resize   = false, -- Auto resize and shrink location list if less than `max_height`
+    max_height    = 5, -- Maximum height of location/quickfix list
+    min_height    = 5, -- Minimum height of location/quickfix list
+    wide          = false,
     unfocus_close = false,
-    focus_open = false,
-    close_other = true,
+    focus_open    = false,
+    close_other   = true,
   },
   -- Quickfix list configuration
   ['c'] = {
-    auto_close = true, -- Automatically close location/quickfix list if empty
-    auto_follow = false, -- Follow current entry, possible values: prev,next,nearest
-    follow_slow = true, -- Only follow on CursorHold
-    auto_open = false, -- Automatically open list on QuickFixCmdPost
-    auto_resize = true, -- Auto resize and shrink location list if less than `max_height`
-    max_height = 10, -- Maximum height of location/quickfix list
-    min_height = 5, -- Minumum height of location/quickfix list
-    wide = true,
+    auto_close    = true, -- Automatically close location/quickfix list if empty
+    auto_follow   = "prev", -- Follow current entry, possible values: prev,next,nearest
+    follow_slow   = true, -- Only follow on CursorHold
+    auto_open     = true, -- Automatically open list on QuickFixCmdPost
+    auto_resize   = true, -- Auto resize and shrink location list if less than `max_height`
+    max_height    = 10, -- Maximum height of location/quickfix list
+    min_height    = 5, -- Minumum height of location/quickfix list
+    wide          = true,
     unfocus_close = false,
-    focus_open = false,
-    close_other = true,
+    focus_open    = false,
+    close_other   = true,
   },
 }
 
@@ -126,5 +126,24 @@ require('auto-session').setup {
 }
 
 require 'zen-mode'.setup()
+
+require "window-picker".setup {
+  keys = "airesntmg"
+}
+
+local make_recipe = require("recipe.lib").make_recipe
+require "recipe".setup {
+  custom_recipes = {
+    rust = {
+      upgrade = make_recipe("cargo upgrade --workspace"),
+    },
+    global = {
+      open = make_recipe("xdg-open %:h"),
+      open_f = make_recipe("xdg-open <cfile>")
+    }
+  }
+}
+
+vim.notify = require("notify")
 
 vim.cmd "packadd termdebug"

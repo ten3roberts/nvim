@@ -78,7 +78,6 @@ function M.load_config(path, verbose)
 
   local file = io.open(path, 'r')
 
-
   if not file then
     if verbose == true then
       api.nvim_err_writeln(string.format("Config file %q does not exist", path))

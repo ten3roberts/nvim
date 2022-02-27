@@ -19,11 +19,11 @@ local function localpaq(path)
   end
 end
 
--- localpaq('~/dev/nvim/qf.nvim')
--- localpaq('~/dev/nvim/recipe.nvim')
--- localpaq('~/dev/nvim/darken.nvim')
--- localpaq('~/dev/nvim/toggle.nvim')
--- localpaq('~/dev/nvim/window-picker.nvim')
+localpaq('~/dev/nvim/qf.nvim')
+localpaq('~/dev/nvim/recipe.nvim')
+localpaq('~/dev/nvim/darken.nvim')
+localpaq('~/dev/nvim/toggle.nvim')
+localpaq('~/dev/nvim/window-picker.nvim')
 
 local paq = require 'paq' {
   'savq/paq-nvim', -- Let Paq manage itself
@@ -33,6 +33,7 @@ local paq = require 'paq' {
   'ten3roberts/qf.nvim',
   'ten3roberts/darken.nvim',
   'ten3roberts/window-picker.nvim',
+  'ten3roberts/recipe.nvim',
 
   -- Colorschemes
   'arcticicestudio/nord-vim',
@@ -51,6 +52,7 @@ local paq = require 'paq' {
   'dkarter/bullets.vim', -- Markdown bullet management
   'folke/zen-mode.nvim',
   'ggandor/lightspeed.nvim',
+  'rcarriga/nvim-notify',
   'hrsh7th/cmp-buffer',
   'hrsh7th/cmp-nvim-lsp',
   'hrsh7th/cmp-path',
@@ -83,12 +85,11 @@ local paq = require 'paq' {
   'simrat39/rust-tools.nvim',
   'stevearc/aerial.nvim', -- Symbol tree
   'stevearc/dressing.nvim',
-  'stevearc/stickybuf.nvim',
+  -- 'stevearc/stickybuf.nvim',
   'tamago324/lir-git-status.nvim',
   'tikhomirov/vim-glsl', -- GLSL runtime files
   'tpope/vim-abolish', -- Change casing styles and provide smart search and replace
   'tpope/vim-commentary', -- Toggle comments
-  'tpope/vim-dispatch', -- Async build and command dispatch
   'tpope/vim-eunuch',
   'tpope/vim-fugitive', -- Git management
   'tpope/vim-repeat', -- Repeat plugin commands with .
@@ -100,7 +101,7 @@ local paq = require 'paq' {
   'williamboman/nvim-lsp-installer',
   'windwp/nvim-autopairs',
   'windwp/nvim-ts-autotag',
-  -- 'McAuleyPenney/Tidy.nvim',
+  'McAuleyPenney/Tidy.nvim',
   -- 'nvim-telescope/telescope-file-browser.nvim',
   'tamago324/lir.nvim',
   { 'iamcco/markdown-preview.nvim', run = function() vim.fn['mkdp#util#install']() end }, -- Markdown previewing

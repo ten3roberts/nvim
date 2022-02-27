@@ -30,7 +30,7 @@ lir.setup {
       vim.cmd('normal! j')
     end,
 
-    ['<C-o>'] = function()
+    ['<C-x>'] = function()
       local ctx = lir.get_context()
         vim.fn.system('xdg-open ' .. ctx.dir)
       end,

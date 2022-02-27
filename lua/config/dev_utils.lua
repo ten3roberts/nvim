@@ -55,7 +55,7 @@ function M.save_and_exec()
 
   local mod = M.reload(module)
 
-  if type(mod) == 'table' and mod.setup then
+  if type(mod) == 'table' and type(mod.setup) == 'function' and mod.setup then
     mod.setup {}
   end
 end

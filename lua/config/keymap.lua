@@ -47,13 +47,14 @@ map('n',    '<leader>pp',       ":lua require'telescope'.extensions.project.proj
 
 -- Harpoon
 local harpoon_term = require("harpoon.term")
+local harpoon_ui = require("harpoon.ui")
 map('n', '<leader>ha', require("harpoon.mark").add_file)
-map('n', '<leader>ho', require("harpoon.ui").toggle_quick_menu)
-map('n', '<leader>hh', require("harpoon.ui").toggle_quick_menu)
+map('n', '<leader>ho', harpoon_ui.toggle_quick_menu)
+map('n', '<leader>hh', harpoon_ui.toggle_quick_menu)
 map('n', '<leader>ht', function() harpoon_term.gotoTerminal(1) end)
 
 for i = 0, 9 do
-  map('n', '<leader>h' .. i, function() harpoon_term.gotoTerminal(i) end)
+  map('n', '<leader>h' .. i, function() harpoon_ui.nav_file(i) end)
 end
 
 -- Quickfix and location list
@@ -72,23 +73,21 @@ map('n', '<leader>ct', ':Qtoggle true<CR>', silent) --Toggle quickfix list and s
 map('n', '<leader>j', ':Lbelow<CR>', silent) -- Go to next location list entry from cursor
 map('n', '<leader>k', ':Labove<CR>', silent) -- Go to previous location list entry from cursor
 
-map('n', ']q', ':Qbelow<CR>', silent) -- Go to next quickfix entry from cursor
-map('n', '[q', ':Qabove<CR>', silent) -- Go to previous quickfix entry from cursor
-map('n', '<leader>J', '<cmd>lua require"qf".below("visible")<CR>', silent) -- Go to next quickfix entry from cursor
-map('n', '<leader>K', '<cmd>lua require"qf".above("visible")<CR>', silent) -- Go to previous quickfix entry from cursor
+map('n', ']q', ':Vbelow<CR>', silent) -- Go to next quickfix entry from cursor
+map('n', '[q', ':Vabove<CR>', silent) -- Go to previous quickfix entry from cursor
+map('n', '<leader>J', 'Qbelow', silent) -- Go to next quickfix entry from cursor
+map('n', '<leader>K', 'Qabove', silent) -- Go to previous quickfix entry from cursor
 
 map('v', 'gl', ':<c-u>lua require"config.onlines"()<CR>', silent)
 
---       Dispatching
-local dispatch = require("config.dispatch")
+-- Dispatching
+local recipe = require "recipe"
 
-map('n', '<leader>eb', function() dispatch.dispatch("build") end)
-map('n', '<leader>er', function() dispatch.dispatch("run")   end)
-map('n', '<leader>et', function() dispatch.dispatch("test")  end)
-map('n', '<leader>ed', function() dispatch.dispatch("doc")   end)
-map('n', '<leader>el', function() dispatch.dispatch("lint")  end)
-map('n', '<leader>ec', function() dispatch.dispatch("check") end)
-map('n', '<leader>eC', function() dispatch.dispatch("check") end)
+map('n', '<leader>e', function() recipe.pick()        end)
+map('n', '<leader>Eb', function() recipe.bake("build") end)
+map('n', '<leader>Er', function() recipe.bake("run")   end)
+map('n', '<leader>Ec', function() recipe.bake("check") end)
+map('n', '`<CR>',      function() recipe.bake("check") end)
 
 -- Tabs
 map('n', '<leader>N', ':tabnew<CR>')

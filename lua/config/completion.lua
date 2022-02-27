@@ -67,8 +67,6 @@ cmp.setup {
     ['<S-Tab>'] = confirm,
   },
   sources = {
-  { name = 'vsnip' },
-  { name = 'nvim_lsp' },
   {
       name = "path",
       option = {
@@ -83,6 +81,8 @@ cmp.setup {
         end
       }
     },
+  { name = 'vsnip' },
+  { name = 'nvim_lsp' },
   { name = 'buffer' },
     -- { name = 'rg' }
   },

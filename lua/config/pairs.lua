@@ -54,6 +54,7 @@ require('nvim-ts-autotag').setup()
 
 npairs.add_rules {
   basic("|", "|", { "rust" }),
+  basic("*", "*", { "markdown" }),
   basic("$", "$", { "tex", "latex" }),
   Rule("|", "|",{"rust"}),
   Rule(' ', ' ')
@@ -90,8 +91,8 @@ npairs.add_rules {
   -- 'lua' is a filetype
   -- 'if_statement' is a treesitter name. set it = nil to skip check with treesitter
   endwise('then$', 'end', 'lua'),
-  endwise('do$', 'end', 'lua', 'for_loop'),
-  endwise('do', 'end', 'lua', 'while_loop'),
+  endwise('do$', 'end', 'lua'),
+  endwise('do$', 'end', 'lua'),
 }
 
 require('nvim-autopairs').remove_rule('\'')

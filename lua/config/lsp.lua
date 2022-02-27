@@ -283,6 +283,10 @@ lsp_installer.on_server_ready(function(server)
     capabilities = capabilities,
   }
 
+  if server.name == "sumneko_lua" then
+    opts = vim.tbl_extend("error", opts, require "config.lua-lsp")
+  end
+
   -- (optional) Customize the options passed to the server
   -- if server.name == "tsserver" then
   --     opts.root_dir = function() ... end

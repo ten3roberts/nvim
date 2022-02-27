@@ -5,6 +5,7 @@ local fn = vim.fn
 local cmd = vim.cmd
 
 local lsp = require'config.lsp'
+local recipe = require'recipe'
 local icons = require'nvim-web-devicons'
 
 local M = {}
@@ -255,11 +256,12 @@ function M.update()
   local path = get_path(true)
   local git = get_git(true)
   local diag = lsp.statusline(bufnr, true)
+  local rec  = recipe.statusline()
 
   local items = {
     '%#Normal# ', branch, git, path, readonly and ' ' or '',
     '%#StatusLine#%=%#Normal# ',
-    diag, '%#Purple#',
+    rec, diag, '%#Purple#',
     percent, string.format(' %s %2d:%-2d ', mode.hl, row, col)
   }
 

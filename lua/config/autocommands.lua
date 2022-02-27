@@ -13,14 +13,9 @@ local function autocommands(group, events)
 end
 
 autocommands( "CONFIG", {
-  { events = 'VimEnter,DirChanged', cmd = 'lua require"config.dispatch".load_config()' },
-
-  { events = 'BufWritePost', pat = '.dispatch.json', cmd = 'lua require"config.dispatch".reload()' },
-
 
   -- { events = 'BufEnter', path = '*', cmd = 'lua if vim.o.buftype == "" then require"config.lsp".set_loc() end' },
 
-  { events = 'FileType', cmd = 'lua require"config.dispatch".on_ft()' },
   -- { events = 'OptionSet', pat = "scrolloff", cmd = 'if (&buftype == "") | echoerr "Set scrolloff" | endif'},
 
   { events = 'BufRead,BufNewFile', pat = '*.gltf', cmd = 'set filetype=json' },
@@ -42,7 +37,7 @@ autocommands( "CONFIG", {
   -- Make Esc work in terminal mode (I know, some programs make use of Esc, but that's rare for my use case)
   { events = 'TermEnter', cmd = 'if &filetype != "fzf" | tnoremap <buffer> <Esc> <C-\\><C-n> | endif' },
   { events = 'TermOpen,TermEnter', cmd = 'lua require"darken".force_darken()' },
-  { events = 'TermOpen', cmd = 'setlocal nonumber norelativenumber | startinsert' },
+  -- { events = 'TermOpen', cmd = 'setlocal nonumber norelativenumber | startinsert' },
 
   { events = 'FileType', pat = 'fzf', cmd = 'tnoremap <A-q> <A-a><CR> | tmap  <C-q> <A-q>' },
 
@@ -60,8 +55,8 @@ autocommands( "CONFIG", {
   -- Clear cached statuslines and errors from deleted buffers
   { events = 'BufUnload,BufDelete',  pat = '*', cmd = 'lua require"config.lsp".clear_buffer_cache(vim.fn.expand("<abuf>"))' },
 
-  -- Save before grep,make etc
-  { events = 'QuickFixCmdPre', cmd = ':wa' },
+  -- -- Save before grep,make etc
+  -- { events = 'QuickFixCmdPre', cmd = ':wa' },
 
   -- { events = 'WinEnter', cmd = 'lua if vim.o.buftype == "" and vim.fn.win_gettype(0) == "" then require"config.lsp".set_loc() end' },
 
