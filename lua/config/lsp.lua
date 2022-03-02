@@ -49,12 +49,6 @@ function M.on_attach(client)
 
   -- Setup mappings
 
-  local silent = { silent = true }
-
-  -- Jump forwards/backwards with '{' and '}'
-  -- buf_map(0, '', '{',         '<cmd>AerialPrev<CR>')
-  -- buf_map(0, '', '}',         '<cmd>AerialNext<CR>')
-
   -- Jump forwards/backwards at the same tree level with '[[' and ']]'
   buf_map(0, '', '[[',         '<cmd>AerialPrevUp<CR>')
   buf_map(0, '', ']]',         '<cmd>AerialNextUp<CR>')
@@ -62,6 +56,8 @@ function M.on_attach(client)
   local provider_cmds = cmd[provider]
 
   buf_map(0, '', '<leader>cf',  vim.lsp.buf.formatting)
+  buf_map(0, '', '<leader>cf',  vim.lsp.buf.formatting)
+  buf_map(0, '', '<leader>de',  vim.diagnostic.open_float)
   buf_map(0, '', '<leader>cwa', vim.lsp.buf.add_workspace_folder)
   buf_map(0, '', '<leader>cwl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end)
   buf_map(0, '', '<leader>cwr', vim.lsp.buf.remove_workspace_folder)
@@ -76,6 +72,7 @@ function M.on_attach(client)
   buf_map(0, '', 'gi',          vim.lsp.buf.implementation)
   buf_map(0, '', 'gr',          vim.lsp.buf.references)
   buf_map(0, '', 'gy',          vim.lsp.buf.type_definition)
+
 end
 
 -- Sets the location list with predefined options. Does not focus list.
@@ -85,7 +82,8 @@ function M.set_loc()
   end
 
   diagnostic.setloclist({
-    open = false
+    open = false,
+    severity = { min = diagnostic.severity.WARN },
   })
 end
 

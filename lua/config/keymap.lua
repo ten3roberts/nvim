@@ -8,7 +8,7 @@ local silent = { silent = true }
 vim.g.mapleader = ' '
 
 -- map('n', '<leader>f',  ':Vaffle %<CR>')
-map('n', '<leader>pe', ':call execute("edit " . expand("%:p:h"))<CR>')
+map('n', '<leader>pe', function() require"lir.float".init(vim.fn.getcwd()) end)
 map('n', '<leader>f', require"lir.float".init)
 map('n', '<leader>po', ':AerialOpen<CR>')
 
@@ -116,12 +116,21 @@ map('n', '<leader>w', ':WindowPick<CR>')
 map('n', '<leader>W', ':WindowSwap<CR>')
 
 -- Git mappings
-map('n', '<leader>gg',  ':Ge :<CR>')
-map('n', '<leader>gd',  ':G difftool --name-status<CR>')
-map('n', '<leader>ga',  ':Git add %<CR>')
-map('n', '<leader>gS',  ':Git stage .<CR>')
-map('n', '<leader>gc',  ':Git commit<CR>')
-map('n', '<leader>gpp', ':Git push<CR>')
+-- map('n', '<leader>gg',  ':Ge :<CR>')
+-- map('n', '<leader>gd',  ':G difftool --name-status<CR>')
+-- map('n', '<leader>ga',  ':Git add %<CR>')
+-- map('n', '<leader>gS',  ':Git stage .<CR>')
+-- map('n', '<leader>gc',  ':Git commit<CR>')
+-- map('n', '<leader>gpp', ':Git push<CR>')
+-- map('n', '<leader>gpf', ':Git push --force-with-lease<CR>')
+
+-- Neogit
+map('', '<leader>gg', ':Neogit<CR>')
+map('', '<leader>gd', ':DiffviewOpen<CR>')
+map('', '<leader>gD', ':DiffviewOpen master<CR>')
+map('', '<leader>gl', ':Neogit log<CR>')
+map('', '<leader>gp', ':Neogit push<CR>')
+
 map('n', '<leader>gpu', ':Git pull<CR>')
 -- map('n', '<leader>gpf', ':Git push --force<CR>')
 map('n', '<leader>gf',  ':Git fetch<CR>')
@@ -153,8 +162,17 @@ map('x', 'ga', '<plug>(EasyAlign)')
 map('n', 'ga', '<plug>(EasyAlign)')
 
 -- Snippet expansion
+local fn = vim.fn
 map('i', '<C-l>', "vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : ''", { expr = true })
-map('n', '<C-l>', "vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : ''", { expr = true })
+
+local vsnip_next = function()
+  if fn['vsnip#available'](1) then
+    fn.feedkeys(t "<Plug>(vsnip-jump-next)", "")
+  end
+end
+
+map('i', '<C-l>', vsnip_next)
+map('n', '<C-l>', vsnip_next)
 
 -- Movements
 map('', '<C-j>', '}', { noremap = true })
@@ -264,13 +282,31 @@ map('', '<F10>', ':lua require"config.dbg".dap.step_over()<CR>' )
 map('', '<F11>', ':lua require"config.dbg".dap.step_into()<CR>' )
 map('', '<F12>', ':lua require"config.dbg".dap.step_out()<CR>' )
 
-map('', '<leader>dn', ":Step<CR>")
-map('', '<leader>dc', ":Continue<CR>")
-map('', '<leader>db', ":Break<CR>")
-map('', '<leader>db', ":Break<CR>")
+-- map('', '<leader>dn', ":Step<CR>")
+-- map('', '<leader>dc', ":Continue<CR>")
+-- map('', '<leader>db', ":Break<CR>")
+-- map('', '<leader>db', ":Break<CR>")
 
 -- Rust
 map('', '<leader>rr', ':RustRunnables<CR>')
 map('', '<leader>rd', ':RustDebuggables<CR>')
 map('', '<leader>ru', ':RustParentModule<CR>')
 map('', '<leader>ro', ':RustOpenCargo<CR>')
+
+
+map("n", "<C-a>",  require("dial.map").inc_normal(),  {noremap = true})
+map("n", "<C-x>",  require("dial.map").dec_normal(),  {noremap = true})
+map("v", "<C-a>",  require("dial.map").inc_visual(),  {noremap = true})
+map("v", "<C-x>",  require("dial.map").dec_visual(),  {noremap = true})
+map("v", "g<C-a>", require("dial.map").inc_gvisual(), {noremap = true})
+map("v", "g<C-x>", require("dial.map").dec_gvisual(), {noremap = true})
+
+-- Asterisk
+map('', '*',  '<Plug>(asterisk-z*)')
+map('', '#',  '<Plug>(asterisk-z#)')
+map('', 'g*', '<Plug>(asterisk-gz*)')
+map('', 'g#', '<Plug>(asterisk-gz#)')
+-- map *  <Plug>(asterisk-z*)
+-- map #  <Plug>(asterisk-z#)
+-- map g* <Plug>(asterisk-gz*)
+-- map g# <Plug>(asterisk-gz#)

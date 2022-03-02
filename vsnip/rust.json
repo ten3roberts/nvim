@@ -36,10 +36,6 @@
     "prefix": "Default",
     "body": "Default::default()"
   },
-  "collect": {
-    "prefix": "collect()",
-    "body": "collect::<Vec<_>>()"
-  },
   "collect_result": {
     "prefix": "collect_result",
     "body": "collect::<Result<Vec<_>>>()?"
@@ -53,7 +49,9 @@
     "body": "map_err(|e| e.into())"
   },
   "LoadResource": {
-    "prefix": ["LoadResource"],
+    "prefix": [
+      "LoadResource"
+    ],
     "body": [
       "impl LoadResource for ${0} {",
       "    type Info = ${0}Info;",
@@ -67,14 +65,18 @@
     ]
   },
   "timed_scope": {
-    "prefix": ["timed_scope"],
+    "prefix": [
+      "timed_scope"
+    ],
     "body": [
       "                let _scope =",
       "                    TimedScope::new(|elapsed| eprintln!(\"${1} took {:.3?}\", elapsed));"
     ]
   },
   "gizmo_line": {
-    "prefix": ["gizmo_line"],
+    "prefix": [
+      "gizmo_line"
+    ],
     "body": [
       "                gizmos.push(Gizmo::Line {",
       "                    origin: ${1},",
@@ -86,44 +88,57 @@
     ]
   },
   "pub_use": {
-    "prefix": ["pubuse"],
+    "prefix": [
+      "pubuse"
+    ],
     "body": [
       "pub use ${1}::*;"
     ]
   },
   "builder": {
-    "prefix": ["builder"],
+    "prefix": [
+      "builder"
+    ],
     "body": [
       "let mut builder = EntityBuilderClone::new();"
     ]
   },
-
   "cow": {
-    "prefix": ["cow"],
+    "prefix": [
+      "cow"
+    ],
     "body": [
       "Cow<'static, str>"
     ]
   },
   "query_one": {
-    "prefix": ["query_one"],
+    "prefix": [
+      "query_one"
+    ],
     "body": [
       "let mut query = world.try_query_one::<${1}>(${2})?;"
     ]
   },
   "query": {
-    "prefix": ["query_one"],
+    "prefix": [
+      "query_one"
+    ],
     "body": [
       "let mut query = world.query::<${1}>()?;"
     ]
   },
   "..Default": {
-    "prefix": [".."],
+    "prefix": [
+      ".."
+    ],
     "body": [
       "..Default::default()"
     ]
   },
   "new": {
-    "prefix": ["fnnew"],
+    "prefix": [
+      "fnnew"
+    ],
     "body": [
       "pub fn new(${1}) -> Self {",
       "    ${2}",
@@ -131,9 +146,31 @@
     ]
   },
   "doc_hidden": {
-    "prefix": ["doc_hidden"],
+    "prefix": [
+      "doc_hidden"
+    ],
     "body": [
       "#[doc(hidden)]"
+    ]
+  },
+  "pod": {
+    "prefix": [
+      "pod"
+    ],
+    "body": [
+      "#[derive(Copy, Clone, bytemuck::Pod, bytemuck::Zeroable, PartialEq)]",
+      "#repr(C)"
+    ]
+  },
+  "struct": {
+    "prefix": [
+      "struct"
+    ],
+    "body": [
+      "#[derive(Debug, Clone, PartialEq)]",
+      "pub struct ${1} {",
+      "    ${2}",
+      "}"
     ]
   }
 }

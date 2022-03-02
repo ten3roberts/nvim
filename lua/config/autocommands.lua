@@ -12,12 +12,28 @@ local function autocommands(group, events)
   api.nvim_exec(cmds, false)
 end
 
+
+local f = io.open(vim.fn.stdpath("config") .. "/scrollback.log", "w")
+_G.__debug_scrolloff = function()
+  local trace = debug.traceback()
+
+  if trace:find("nvim-cmp") then
+    return
+  end
+
+  vim.notify("Set scrolloff")
+
+  f:write(trace)
+  f:write("\n==================\n")
+  f:flush()
+end
 autocommands( "CONFIG", {
 
   -- { events = 'BufEnter', path = '*', cmd = 'lua if vim.o.buftype == "" then require"config.lsp".set_loc() end' },
 
   -- { events = 'OptionSet', pat = "scrolloff", cmd = 'if (&buftype == "") | echoerr "Set scrolloff" | endif'},
 
+  -- { events = "OptionSet", pat = "scrolloff", cmd = "v:lua.__debug_scrolloff"},
   { events = 'BufRead,BufNewFile', pat = '*.gltf', cmd = 'set filetype=json' },
 
   -- { events = 'FileType', cmd = 'setlocal foldmethod=expr | setlocal foldexpr=nvim_treesitter#foldexpr()' },
