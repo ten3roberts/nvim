@@ -15,11 +15,12 @@ local function localpaq(path)
 
   if fn.empty(fn.glob(path)) == 0 then
     fn.system({'ln', '-sf', path, local_dir})
-    print(path, '->', local_dir)
+    vim.notify(path .. ' -> ' .. local_dir)
   end
 end
 
 localpaq('~/dev/nvim/qf.nvim')
+localpaq('~/dev/nvim/lir.nvim')
 localpaq('~/dev/nvim/recipe.nvim')
 localpaq('~/dev/nvim/darken.nvim')
 localpaq('~/dev/nvim/toggle.nvim')
@@ -45,14 +46,18 @@ local paq = require 'paq' {
   { url = 'https://gitlab.com/yorickpeterse/nvim-grey' },
 
   'AndrewRadev/sideways.vim', -- Move arguments and elements in list around
+  'DingDean/wgsl.vim',
+  'McAuleyPenney/Tidy.nvim',
   'ThePrimeagen/harpoon',
+  'haya14busa/vim-asterisk',
   'airblade/vim-rooter',
   'andymass/vim-matchup',
+  'TimUntersberger/neogit',
+  'sindrets/diffview.nvim',
   'bfredl/nvim-miniyank',
   'dkarter/bullets.vim', -- Markdown bullet management
   'folke/zen-mode.nvim',
   'ggandor/lightspeed.nvim',
-  'rcarriga/nvim-notify',
   'hrsh7th/cmp-buffer',
   'hrsh7th/cmp-nvim-lsp',
   'hrsh7th/cmp-path',
@@ -62,11 +67,13 @@ local paq = require 'paq' {
   'hrsh7th/vim-vsnip-integ',
   'junegunn/vim-easy-align', -- Align text blocks
   'kabouzeid/nvim-lspinstall',
+  'karb94/neoscroll.nvim',
   'kyazdani42/nvim-web-devicons', -- File icons for barbar, nvim-tree and statusline
   'lervag/vimtex',
   'lewis6991/gitsigns.nvim', -- Show changed lines
   'mbbill/undotree',
   'mfussenegger/nvim-dap',
+  'monaqa/dial.nvim',
   'neovim/nvim-lspconfig', -- LSP configurations
   'norcalli/nvim-colorizer.lua', -- Highlight colorcodes
   'nvim-lua/plenary.nvim',
@@ -81,12 +88,14 @@ local paq = require 'paq' {
   'rafamadriz/friendly-snippets', -- Preconfigured snippets
   'ray-x/lsp_signature.nvim', -- Show function signature help
   'rcarriga/nvim-dap-ui',
+  'rcarriga/nvim-notify',
+  'rhysd/conflict-marker.vim',
   'rmagatti/auto-session',
   'simrat39/rust-tools.nvim',
   'stevearc/aerial.nvim', -- Symbol tree
   'stevearc/dressing.nvim',
-  -- 'stevearc/stickybuf.nvim',
   'tamago324/lir-git-status.nvim',
+  'tamago324/lir.nvim',
   'tikhomirov/vim-glsl', -- GLSL runtime files
   'tpope/vim-abolish', -- Change casing styles and provide smart search and replace
   'tpope/vim-commentary', -- Toggle comments
@@ -96,15 +105,13 @@ local paq = require 'paq' {
   'tpope/vim-rsi', -- Readline mappings in insert mode
   'tpope/vim-sleuth',
   'tpope/vim-surround', -- ( surround text )
-  'tpope/vim-unimpaired', -- Handy bracket mappings
-  'wellle/targets.vim', -- Better handling and seeking for textobjects
+  -- 'wellle/targets.vim', -- Better handling and seeking for textobjects
   'williamboman/nvim-lsp-installer',
   'windwp/nvim-autopairs',
   'windwp/nvim-ts-autotag',
-  'McAuleyPenney/Tidy.nvim',
   -- 'nvim-telescope/telescope-file-browser.nvim',
-  'tamago324/lir.nvim',
-  { 'iamcco/markdown-preview.nvim', run = function() vim.fn['mkdp#util#install']() end }, -- Markdown previewing
+  'stevearc/stickybuf.nvim',
+  -- { 'iamcco/markdown-preview.nvim', run = function() vim.fn['mkdp#util#install']() end }, -- Markdown previewing
   { url = 'https://gitlab.com/yorickpeterse/nvim-pqf' },
 }
 

@@ -19,6 +19,7 @@ require 'config.dbg'
 require 'config.pairs'
 require 'config.completion'
 require 'config.autocommands'
+require 'config.neogit'
 require'colorizer'.setup(
 { '*' },
 {
@@ -83,7 +84,7 @@ require'qf'.setup{
     auto_open     = true, -- Automatically open location list on QuickFixCmdPost
     auto_resize   = false, -- Auto resize and shrink location list if less than `max_height`
     max_height    = 5, -- Maximum height of location/quickfix list
-    min_height    = 5, -- Minimum height of location/quickfix list
+    min_height    = 2, -- Minimum height of location/quickfix list
     wide          = false,
     unfocus_close = false,
     focus_open    = false,
@@ -143,6 +144,8 @@ require "recipe".setup {
     }
   }
 }
+
+require "neoscroll".setup {}
 
 vim.notify = require("notify")
 

@@ -5,6 +5,8 @@ local function abolish(abbr, rep, opts)
 end
 
 abolish('dispath', 'dispatch')
+abolish('hiearcy', 'hiearchy')
+abolish('asyncronous', 'asynchronous')
 abolish('edn', 'end')
 abolish('requirment{,s}', 'requirement{,s}')
 abolish('rqeuire', 'require')

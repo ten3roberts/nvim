@@ -19,7 +19,7 @@ local function confirm(fallback)
     }
   elseif check_back_space() then
     fallback()
-  elseif vim.fn['vsnip#available'](1) then
+  elseif fn['vsnip#available'](1) then
     fn.feedkeys(t "<Plug>(vsnip-jump-next)", "")
   else
     fallback()

@@ -61,8 +61,8 @@ g.rooter_cd_cmd = 'tcd'
 g.rooter_manual_only = 1
 g.rooter_patterns = { ".git", "Cargo.lock" }
 
-o.foldexpr = "nvim_treesitter#foldexpr()"
-o.foldmethod = "expr"
+-- o.foldexpr = "nvim_treesitter#foldexpr()"
+-- o.foldmethod = "expr"
 
 -- g.netrw_keepdir = 0
 

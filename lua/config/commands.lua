@@ -58,3 +58,5 @@ vim.cmd [[
 endfunction
 command! BCloseHidden silent call DeleteHiddenBuffers()
 ]]
+
+-- command! GrepThis Te
