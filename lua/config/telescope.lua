@@ -82,6 +82,14 @@ telescope.setup{
     current_buffer_fuzzy_find = require'telescope.themes'.get_ivy{
       layout_config = { width = 0.7, height = 0.7 },
     },
+    diagnostics = require'telescope.themes'.get_ivy{
+      layout_config = { width = 0.7, height = 0.7 },
+      mappings = {
+        i = {
+          -- ["<CR>"] = custom_actions.file_drop,
+        }
+      }
+    },
     live_grep = require'telescope.themes'.get_ivy{
       layout_config = { width = 0.7, height = 0.7 },
       mappings = {

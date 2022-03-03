@@ -251,36 +251,42 @@ map('n', '<leader>xx', '<cmd>lua require"config.dev_utils".save_and_exec()<CR>')
 map('n', '<leader><cr>', ':ToggleCheckbox<CR>')
 
 -- DAP
-map('', '<leader>dn', ':lua require"config.dbg".dap.step_over()<CR>')
-map('', '<leader>dl', ':lua require"config.dbg".dap.step_into()<CR>')
-map('', '<leader>dh', ':lua require"config.dbg".dap.step_out()<CR>')
-map('', '<leader>dj', ':lua require"config.dbg".dap.down()<CR>')
-map('', '<leader>dk', ':lua require"config.dbg".dap.up()<CR>')
-map('', '<leader>ds', ':lua require"config.dbg".dap.pause()<CR>')
-map('', '<leader>dQ', ':lua require"config.dbg".dap.close()<CR>')
+local dap = require("dap")
+map('', '<leader>dn', dap.step_over)
+map('', '<leader>dl', dap.step_into)
+map('', '<leader>dh', dap.step_out)
+map('', '<leader>dd', dap.down)
+map('', '<leader>du', dap.up)
+map('', '<leader>ds', dap.pause)
+map('', '<leader>dQ', dap.pause)
 
-map('', '<leader>db', ':lua require"config.dbg".dap.toggle_breakpoint()<CR>')
-map('', '<leader>dB', ':lua require"config.dbg".dap.set_breakpoint(vim.fn.input("Breakpoint condition: "))()<CR>')
-map('', '<leader>deb', ':lua require"config.dbg".dap.set_exception_breakpoints()<CR>')
+map('', '<leader>db',dap.toggle_breakpoint)
+map('', '<leader>dB', function()
+  vim.ui.input( { prompt = "Condition" },
+    function(v) dap.set_breakpoint(v) end)
+end)
+
+map('', '<leader>dBe', dap.set_exception_breakpoints)
 
 
-map('', '<leader>dc', ':lua require"config.dbg".dap.continue()<CR>')
-map('', '<leader>dr', ':lua require"config.dbg".dap.run_last()<CR>')
-map('', '<leader>dg', ':lua require"config.dbg".dap.run_to_cursor()<CR>')
-map('', '<leader>dO', ':lua require"config.dbg".dap.repl_open()<CR>')
-map('', '<leader>do', ':lua require"config.dbg".ui.toggle()<CR>')
+local dap_ui = require("dapui")
+
+map('', '<leader>dc',  dap.continue)
+map('', '<leader>dr',  dap.run_last)
+map('', '<leader>dg',  dap.run_to_cursor)
+map('', '<leader>do',  dap_ui.toggle)
 
 map('', '<leader>dlv', ':Telescope dap variables<CR>')
 map('', '<leader>dlb', ':Telescope dap list_breakpoints<CR>')
 map('', '<leader>dlf', ':Telescope dap frames<CR>')
 map('', '<leader>dlc', ':Telescope dap commands<CR>')
 
-map('', '<leader>dw', require('dap.ui.widgets').hover)
+map('', '<leader>dw',  require('dap.ui.widgets').hover)
 
-map('', '<F5>', ':lua require"config.dbg".dap.continue()<CR>' )
-map('', '<F10>', ':lua require"config.dbg".dap.step_over()<CR>' )
-map('', '<F11>', ':lua require"config.dbg".dap.step_into()<CR>' )
-map('', '<F12>', ':lua require"config.dbg".dap.step_out()<CR>' )
+map('', '<F5>',        dap.continue )
+map('', '<F10>',       dap.step_over )
+map('', '<F11>',       dap.step_into )
+map('', '<F12>',       dap.step_out )
 
 -- map('', '<leader>dn', ":Step<CR>")
 -- map('', '<leader>dc', ":Continue<CR>")

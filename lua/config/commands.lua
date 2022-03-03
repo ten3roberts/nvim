@@ -3,12 +3,12 @@ vim.cmd "command! -nargs=* Dump :lua require'config.dev_utils'.dump_mod(<f-args>
 vim.cmd "command! -nargs=* Reload :lua require'config.dev_utils'.reload(<f-args>)"
 vim.cmd "command! Q :wa | :qa"
 vim.cmd "command! W :wa"
-vim.cmd "command! -nargs=* Cargo :Start cargo <args>"
-vim.cmd "command! CargoUpdateReadme :Start cargo readme > README.md"
-vim.cmd "command! -nargs=* CargoPublish :Start cargo workspaces publish <args>"
+vim.cmd "command! -nargs=* Cargo :Execute cargo <args>"
+vim.cmd "command! CargoUpdateReadme :Execute cargo readme > README.md"
+vim.cmd "command! -nargs=* CargoPublish :ExecuteInteractive cargo workspaces publish <args>"
 vim.cmd "command! CargoUpgrade !cargo --color=never upgrade --workspace"
 vim.cmd "command! -nargs=* CargoAdd execute('!cargo add ' .. '<args>') | :CargoReload"
-vim.cmd "command! -nargs=* CargoVersion :Start cargo workspaces version <args>"
+vim.cmd "command! -nargs=* CargoVersion :ExecuteInteractive cargo workspaces version <args>"
 vim.cmd "command! Clip let @+=@\""
 
 vim.cmd [[

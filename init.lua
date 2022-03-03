@@ -134,6 +134,9 @@ require "window-picker".setup {
 
 local make_recipe = require("recipe.lib").make_recipe
 require "recipe".setup {
+  term = {
+    type = "split"
+  },
   custom_recipes = {
     rust = {
       upgrade = make_recipe("cargo upgrade --workspace"),
