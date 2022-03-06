@@ -265,7 +265,6 @@ function M.update()
     percent, string.format(' %s %2d:%-2d ', mode.hl, row, col)
   }
 
-  -- print(vim.inspect(items))
   return table.concat(items)
 end
 
@@ -311,7 +310,7 @@ function M.update_tabline()
 
   for i=1,fn.tabpagenr('$') do
     -- select the highlighting
-    local highlight = '%#TabLineDim#'
+    local highlight = '%#TabLine#'
     if i == tabpagenr then
       highlight = '%#Normal#'
     end

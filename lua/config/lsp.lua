@@ -2,12 +2,10 @@ local function buf_map(buf, mod, lhs, rhs)
   vim.keymap.set(mod, lhs, rhs, { silent = true, buffer = buf })
 end
 
-local stdpath = vim.fn.stdpath
 local aerial = require'aerial'
 local diagnostic = vim.diagnostic
 local lsp_diagnostic = vim.lsp.diagnostic
 local lsp_signature = require'lsp_signature'
-local nvim_lsp = require 'lspconfig'
 local sev = diagnostic.severity
 
 local M = { buffers = {}, statusline_cache = {} }
@@ -75,9 +73,14 @@ function M.on_attach(client)
 
 end
 
+function M.deferred_loc()
+  vim.defer_fn(M.set_loc, 100)
+end
+
 -- Sets the location list with predefined options. Does not focus list.
 function M.set_loc()
-  if vim.o.buftype ~= '' then
+  local bufnr = vim.api.nvim_get_current_buf()
+  if vim.o.buftype ~= '' or M.buffers[bufnr] == nil then
     return
   end
 
@@ -178,87 +181,6 @@ end
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
-local default_config = {
-  on_attach = M.on_attach,
-  capabilities = capabilities,
-}
-
-local sumneko_root_path = vim.fn.stdpath('config')..'/lsp/lua-language-server'
-local sumneko_binary = sumneko_root_path.."/bin/Linux/lua-language-server"
-
--- M.configs = {
---   sumneko_lua = vim.tbl_extend('force', require 'config.lua-lsp', {
---     cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"}, on_attach = M.on_attach, capabilities = capabilities;
---   }),
---   cssls = { on_attach = M.on_attach, capabilities = capabilities },
---   rust_analyzer =
---     {
---       auto_setup = false,
---       on_attach = M.on_attach,
---       capabilities = capabilities,
---       settings = {
---         ['rust-analyzer'] = {
---           cargo = {
---             runBuildScripts = false,
---           } } } },
---   omnisharp =
---     {
---       on_attach = M.on_attach,
---       capabilities = capabilities,
---       root_dir = nvim_lsp.util.root_pattern("*.csproj","*.sln"),
---       cmd = { stdpath("config") .. "/lsp/omnisharp/run", "--languageserver" , "--hostPID", tostring(vim.fn.getpid()) },
---       settings = {
---         ["omnisharp.useGlobalMono"] = "always",
---         omnisharp = {
---           useGlobalMono = "always",
---         }
---       }
---     }
---   ,
---   denols = default_config,
---   html = default_config,
--- }
-
--- function M.setup()
---   -- local winwidth = vim.fn.winwidth
---   -- Config
---   diagnostic.config {
---     -- Only show virtual text if window is large enough
---     -- virtual_text = function()
---     --   return winwidth(0) >= 80
---     -- end,
---     virtual_text = {
---       spacing = 16,
---       prefix = '~',
---     },
---     update_in_insert = true,
---     severity_sort = true,
---   }
-
---   for server, config in pairs(M.configs) do
---     if config.auto_setup ~= false then
---       nvim_lsp[server].setup(config)
---     end
---   end
-
---   -- local pid = vim.fn.getpid()
---   -- On linux/darwin if using a release build, otherwise under scripts/OmniSharp(.Core)(.cmd)
---   -- local omnisharp_bin = "/home/timmer/.local/share/omnisharp/run"
---   -- print("Setting up omnisharp at ", omnisharp_bin)
-
---   -- nvim_lsp.omnisharp.setup{
---   --   cmd = { omnisharp_bin, "--languageserver" , "--hostPID", tostring(pid) };
---   -- root_dir = nvim_lsp.util.root_pattern("*.csproj","*.sln"),
---   -- on_attach = M.on_attach,
---   -- }
-
--- end
-
--- require('dd').setup {
---   timeout = 50
--- }
-
-
 diagnostic.config {
   -- Only show virtual text if window is large enough
   -- virtual_text = function()
@@ -279,21 +201,33 @@ lsp_installer.on_server_ready(function(server)
   local opts = {
     on_attach = M.on_attach,
     capabilities = capabilities,
+    standalone = false,
   }
 
   if server.name == "sumneko_lua" then
     opts = vim.tbl_extend("error", opts, require "config.lua-lsp")
+  elseif server.name == "rust_analyzer" then
+    opts = vim.tbl_deep_extend("error", opts, server._default_options)
+    print ("Setting up rust tools" .. vim.inspect(opts))
+    require("config.rust").setup( opts )
+    server:attach_buffers()
+    return
+    -- require("config.rust").setup {
+    --   on_attach = M.on_attach,
+    --   cmd = server._default_options.cmd
+    -- }
   end
+    -- (optional) Customize the options passed to the server
+    -- if server.name == "tsserver" then
+    --     opts.root_dir = function() ... end
+    -- end
 
-  -- (optional) Customize the options passed to the server
-  -- if server.name == "tsserver" then
-  --     opts.root_dir = function() ... end
-  -- end
-
-  -- This setup() function will take the provided server configuration and decorate it with the necessary properties
-  -- before passing it onwards to lspconfig.
-  -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-  server:setup(opts)
+    -- This setup() function will take the provided server configuration and decorate it with the necessary properties
+    -- before passing it onwards to lspconfig.
+    -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+    -- This setup() function is exactly the same as lspconfig's setup function.
+    -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/ADVANCED_README.md
+    server:setup(opts)
 end)
 
 return M

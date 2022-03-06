@@ -61,19 +61,9 @@ g.rooter_cd_cmd = 'tcd'
 g.rooter_manual_only = 1
 g.rooter_patterns = { ".git", "Cargo.lock" }
 
--- o.foldexpr = "nvim_treesitter#foldexpr()"
--- o.foldmethod = "expr"
-
--- g.netrw_keepdir = 0
-
-g.vaffle_auto_cd = 1
-
-g.yankstack_yank_keys = { 'y', 'd', 'c' }
-
 -- Markdown preview
 g.mkdp_refresh_slow = true
 g.mkdp_auto_close = false
-
 g.vim_markdown_fenced_languages = { 'rust', 'lua', 'python', 'sh', 'bash' }
 
 -- Nord
@@ -83,11 +73,11 @@ g.nord_italic = 1
 g.nord_uniform_diff_background = 1
 g.nord_italic_comments = 1
 g.nord_underline = 1
+g.nord_borders = true
 
 -- Sonokai
 g.sonokai_enable_italic = 1
 g.sonokai_style = 'default'
-g.sonokai_style = 'andromeda'
 
 -- Set colorscheme from env var or default
 vim.cmd ( "colorscheme " .. ( vim.env.VIM_COLORSCHEME or 'nord' ) )

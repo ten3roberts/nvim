@@ -126,8 +126,8 @@ map('n', '<leader>W', ':WindowSwap<CR>')
 
 -- Neogit
 map('', '<leader>gg', ':Neogit<CR>')
-map('', '<leader>gd', ':DiffviewOpen<CR>')
-map('', '<leader>gD', ':DiffviewOpen master<CR>')
+map('', '<leader>gd', ':DiffviewToggle<CR>')
+map('', '<leader>gD', ':DiffviewToggle master<CR>')
 map('', '<leader>gl', ':Neogit log<CR>')
 map('', '<leader>gp', ':Neogit push<CR>')
 
@@ -163,7 +163,6 @@ map('n', 'ga', '<plug>(EasyAlign)')
 
 -- Snippet expansion
 local fn = vim.fn
-map('i', '<C-l>', "vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : ''", { expr = true })
 
 local vsnip_next = function()
   if fn['vsnip#available'](1) then
@@ -172,7 +171,7 @@ local vsnip_next = function()
 end
 
 map('i', '<C-l>', vsnip_next)
-map('n', '<C-l>', vsnip_next)
+map('', '<C-l>', vsnip_next)
 
 -- Movements
 map('', '<C-j>', '}', { noremap = true })

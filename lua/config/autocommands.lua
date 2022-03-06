@@ -17,7 +17,7 @@ local f = io.open(vim.fn.stdpath("config") .. "/scrollback.log", "w")
 _G.__debug_scrolloff = function()
   local trace = debug.traceback()
 
-  if trace:find("nvim-cmp") then
+  if trace:find("nvim%-cmp") then
     return
   end
 
@@ -29,14 +29,11 @@ _G.__debug_scrolloff = function()
 end
 autocommands( "CONFIG", {
 
-  -- { events = 'BufEnter', path = '*', cmd = 'lua if vim.o.buftype == "" then require"config.lsp".set_loc() end' },
+   { events = 'BufEnter', cmd = 'lua require"config.lsp".deferred_loc()' },
 
-  -- { events = 'OptionSet', pat = "scrolloff", cmd = 'if (&buftype == "") | echoerr "Set scrolloff" | endif'},
-
-  -- { events = "OptionSet", pat = "scrolloff", cmd = "v:lua.__debug_scrolloff"},
+  { events = "OptionSet", pat = "scrolloff", cmd = "call v:lua.__debug_scrolloff()"},
   { events = 'BufRead,BufNewFile', pat = '*.gltf', cmd = 'set filetype=json' },
 
-  -- { events = 'FileType', cmd = 'setlocal foldmethod=expr | setlocal foldexpr=nvim_treesitter#foldexpr()' },
 
   -- Auto format on save using LSP
   { events = 'BufWritePre', cmd = 'lua vim.lsp.buf.formatting_sync()' },

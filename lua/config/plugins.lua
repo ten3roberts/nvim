@@ -38,12 +38,13 @@ local paq = require 'paq' {
 
   -- Colorschemes
   'arcticicestudio/nord-vim',
-  'navarasu/onedark.nvim',
-  'rakr/vim-one',
+{ url = 'https://github.com/catppuccin/nvim', as = "catppuccin" },
+{ url = 'https://github.com/shaunsingh/nord.nvim', as = "nord-nvim"},
+  -- "norcalli/nvim-base16.lua",
   -- 'romgrk/doom-one.vim',
   'rose-pine/neovim',
   'sainnhe/sonokai',
-  { url = 'https://gitlab.com/yorickpeterse/nvim-grey' },
+{ url = 'https://gitlab.com/yorickpeterse/nvim-grey' },
 
   'AndrewRadev/sideways.vim', -- Move arguments and elements in list around
   'DingDean/wgsl.vim',
@@ -112,7 +113,7 @@ local paq = require 'paq' {
   -- 'nvim-telescope/telescope-file-browser.nvim',
   'stevearc/stickybuf.nvim',
   -- { 'iamcco/markdown-preview.nvim', run = function() vim.fn['mkdp#util#install']() end }, -- Markdown previewing
-  { url = 'https://gitlab.com/yorickpeterse/nvim-pqf' },
+{ url = 'https://gitlab.com/yorickpeterse/nvim-pqf' },
 }
 
 
