@@ -3,19 +3,20 @@ ui.setup{
   icons = { expanded = "▾", collapsed = "▸" },
   mappings = {
     -- Use a table to apply multiple mappings
-    expand = { "<CR>", "<2-LeftMouse>" },
+    expand = { "<CR>", "<2-LeftMouse>", "<Tab>" },
     open = "o",
     remove = "d",
     edit = "e",
     repl = "r",
   },
   sidebar = {
-    open_on_start = false,
+    open_on_start = true,
     -- You can change the order of elements in the sidebar
     elements = {
       -- Provide as ID strings or tables with "id" and "size" keys
       { id = "breakpoints", size = 0.1 },
       { id = "watches", size = 0.2 },
+      { id = "stacks", size = 0.2 },
       { id = "scopes", size = 0.7 },
     },
     size = 40,

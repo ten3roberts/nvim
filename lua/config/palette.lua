@@ -158,10 +158,10 @@ function M.setup()
   link('GitSignsCurrentLineBlame', 'Comment')
   link('FocusedSymbol',            'GreenInv')
 
-  -- link('DiagnosticError', 'Red')
-  -- link('DiagnosticWarning', 'Orange')
-  -- link('DiagnosticInformation', 'Blue')
-  -- link('DiagnosticHint', 'Green')
+  link('DiagnosticError', 'Red')
+  link('DiagnosticWarning', 'Orange')
+  link('DiagnosticInformation', 'Blue')
+  link('DiagnosticHint', 'Green')
 
   -- highlight('DiagnosticUnderlineError', nil, nil, "undercurl", p.red)
   -- highlight('DiagnosticUnderlineWarn', nil, nil, "undercurl", p.orange)
@@ -172,7 +172,7 @@ function M.setup()
   -- link('TSWarning', 'DiagnosticUnderlineWarning')
 
   -- Less obtrusive folds
-  -- link('Folded', 'Comment')
+  link('Folded', 'Comment')
 
   -- highlight('debugPC', normal_bg, p.green)
   -- highlight('debugBreakpoint', p.red, normal_bg)
@@ -188,7 +188,7 @@ function M.setup()
   fn.sign_define( 'DiagnosticVirtualTextHint',        { text = '', texthl = 'DiagnosticSignHint' })
 
   highlight("DapBreakpoint",      { gui = "bold" })
-  highlight("DapStopped",         { guifg = p.green, guisp = p.green })
+  highlight("DapStopped",         { guibg = p.green, guifg = normal.bg })
 
   fn.sign_define('DapBreakpoint', {text='●', texthl='Red',   linehl='',           numhl=''})
   fn.sign_define('DapStopped',    {text='⯈', texthl='Green', linehl='DapStopped', numhl=''})

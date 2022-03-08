@@ -126,8 +126,9 @@ map('n', '<leader>W', ':WindowSwap<CR>')
 
 -- Neogit
 map('', '<leader>gg', ':Neogit<CR>')
-map('', '<leader>gd', ':DiffviewToggle<CR>')
-map('', '<leader>gD', ':DiffviewToggle master<CR>')
+map('', '<leader>gd', ':DiffviewOpen<CR>')
+map('', '<leader>gq', ':DiffviewClose<CR>')
+map('', '<leader>gD', ':DiffviewOpen master<CR>')
 map('', '<leader>gl', ':Neogit log<CR>')
 map('', '<leader>gp', ':Neogit push<CR>')
 
@@ -257,7 +258,7 @@ map('', '<leader>dh', dap.step_out)
 map('', '<leader>dd', dap.down)
 map('', '<leader>du', dap.up)
 map('', '<leader>ds', dap.pause)
-map('', '<leader>dQ', dap.pause)
+map('', '<leader>dQ', dap.close)
 
 map('', '<leader>db',dap.toggle_breakpoint)
 map('', '<leader>dB', function()

@@ -13,7 +13,7 @@ function M.setup(server)
 
                 -- padding from the left if max_len_align is true
                 max_len_align_padding = 1,
-                only_current_line = false,
+                only_current_line = true,
                 -- whether to align to the extreme right or not
                 right_align = false,
 
