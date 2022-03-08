@@ -153,13 +153,12 @@
       "#[doc(hidden)]"
     ]
   },
-  "pod": {
+  "common-derive": {
     "prefix": [
-      "pod"
+      "derives"
     ],
     "body": [
-      "#[derive(Copy, Clone, bytemuck::Pod, bytemuck::Zeroable, PartialEq)]",
-      "#repr(C)"
+      "#[derive(Debug, Clone, PartialEq)]"
     ]
   },
   "struct": {
