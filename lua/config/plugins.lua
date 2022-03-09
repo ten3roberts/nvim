@@ -39,7 +39,7 @@ local paq = require 'paq' {
   -- Colorschemes
   'arcticicestudio/nord-vim',
 { url = 'https://github.com/catppuccin/nvim', as = "catppuccin" },
-{ url = 'https://github.com/shaunsingh/nord.nvim', as = "nord-nvim"},
+-- { url = 'https://github.com/shaunsingh/nord.nvim', as = "nord-nvim"},
   -- "norcalli/nvim-base16.lua",
   -- 'romgrk/doom-one.vim',
   'rose-pine/neovim',
