@@ -86,7 +86,6 @@ function M.set_loc()
 
   diagnostic.setloclist({
     open = false,
-    severity = { min = diagnostic.severity.WARN },
   })
 end
 

@@ -44,12 +44,6 @@ dap.listeners.after.event_initialized['dapui_config'] = function() ui.open() end
 dap.listeners.before.event_terminated['dapui_config'] = function() ui.close() end
 dap.listeners.before.event_exited['dapui_config'] = function() ui.close() end
 
-dap.adapters.rust_lldb = {
-  type = 'executable',
-  command = 'rust-lldb', -- adjust as needed
-  name = "rust_lldb"
-}
-
 dap.configurations.rust = {
   name = "rust_lldb",
   type = "rust_lldb",
@@ -75,8 +69,9 @@ dap.configurations.rust = {
 
 dap.adapters.lldb = {
   type = 'executable',
-  command = '/usr/bin/lldb-vscode', -- adjust as needed
-  name = "lldb"
+  command = 'lldb-vscode', -- adjust as needed
+  name = "lldb",
+  env = {LLDB_LAUNCH_FLAG_LAUNCH_IN_TTY = "YES"}
 }
 
 dap.configurations.rust = { {

@@ -6,7 +6,7 @@ telescope.setup{
   defaults = require'telescope.themes'.get_dropdown {
     vimgrep_arguments = {
       'rg',
-      '--fixed-strings',
+      -- '--fixed-strings',
       '--color=never',
       '--no-heading',
       '--with-filename',
