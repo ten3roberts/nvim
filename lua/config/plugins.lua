@@ -21,6 +21,7 @@ end
 
 localpaq('~/dev/nvim/qf.nvim')
 localpaq('~/dev/nvim/lir.nvim')
+localpaq('~/dev/nvim/wgsl.vim')
 localpaq('~/dev/nvim/recipe.nvim')
 localpaq('~/dev/nvim/darken.nvim')
 localpaq('~/dev/nvim/toggle.nvim')
@@ -47,7 +48,6 @@ local paq = require 'paq' {
 { url = 'https://gitlab.com/yorickpeterse/nvim-grey' },
 
   'AndrewRadev/sideways.vim', -- Move arguments and elements in list around
-  'DingDean/wgsl.vim',
   'McAuleyPenney/Tidy.nvim',
   'ThePrimeagen/harpoon',
   'haya14busa/vim-asterisk',
