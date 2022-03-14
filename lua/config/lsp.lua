@@ -207,6 +207,15 @@ lsp_installer.on_server_ready(function(server)
     opts = vim.tbl_extend("error", opts, require "config.lua-lsp")
   elseif server.name == "rust_analyzer" then
     opts = vim.tbl_deep_extend("error", opts, server._default_options)
+
+    opts.settings = {
+      ["rust-analyzer"] = {
+        cargo = {
+          runBuildScripts=true
+        }
+      }
+    }
+
     print ("Setting up rust tools" .. vim.inspect(opts))
     require("config.rust").setup( opts )
     server:attach_buffers()
