@@ -45,7 +45,7 @@ telescope.setup{
         -- ["<C-i>"] = actions.select_horizontal,
 
         -- Add up multiple actions
-        ["<CR>"] = actions.select_default + actions.center,
+        -- ["<CR>"] = actions.select_default + actions.center,
         ["<Tab>"] = actions.select_default + actions.center,
         ["<C-s>"] = actions.file_tab,
         ["<C-v>"] = actions.file_vsplit,
