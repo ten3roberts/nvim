@@ -31,11 +31,11 @@ local paq = require 'paq' {
   'savq/paq-nvim', -- Let Paq manage itself
 
   -- My plugins
-  'ten3roberts/toggle.nvim',
-  'ten3roberts/qf.nvim',
-  'ten3roberts/darken.nvim',
-  'ten3roberts/window-picker.nvim',
-  'ten3roberts/recipe.nvim',
+  -- 'ten3roberts/toggle.nvim',
+  -- 'ten3roberts/qf.nvim',
+  -- 'ten3roberts/darken.nvim',
+  -- 'ten3roberts/window-picker.nvim',
+  -- 'ten3roberts/recipe.nvim',
 
   -- Colorschemes
   'arcticicestudio/nord-vim',
@@ -96,7 +96,6 @@ local paq = require 'paq' {
   'stevearc/aerial.nvim', -- Symbol tree
   'stevearc/dressing.nvim',
   'tamago324/lir-git-status.nvim',
-  'tamago324/lir.nvim',
   'tikhomirov/vim-glsl', -- GLSL runtime files
   'tpope/vim-abolish', -- Change casing styles and provide smart search and replace
   'tpope/vim-commentary', -- Toggle comments
