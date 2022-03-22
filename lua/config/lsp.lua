@@ -6,6 +6,7 @@ local aerial = require'aerial'
 local diagnostic = vim.diagnostic
 local lsp_diagnostic = vim.lsp.diagnostic
 local lsp_signature = require'lsp_signature'
+local qf = require "qf"
 local sev = diagnostic.severity
 
 local M = { buffers = {}, statusline_cache = {} }
@@ -28,6 +29,31 @@ local cmd = {
 }
 
 local provider = 'telescope'
+
+-- Sets the location list with predefined options. Does not focus list.
+function M.set_loc()
+  local bufnr = vim.api.nvim_get_current_buf()
+  if vim.o.buftype ~= '' or M.buffers[bufnr] == nil then
+    return
+  end
+
+  diagnostic.setloclist({
+    open = false,
+  })
+end
+
+function M.set_qf()
+  if vim.o.buftype ~= '' then
+    return
+  end
+
+  diagnostic.setqflist({
+    open = false,
+  })
+
+  qf.open "c"
+end
+
 
 function M.on_attach(client)
   -- Lsp signature
@@ -59,7 +85,7 @@ function M.on_attach(client)
   buf_map(0, '', '<leader>cwa', vim.lsp.buf.add_workspace_folder)
   buf_map(0, '', '<leader>cwl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end)
   buf_map(0, '', '<leader>cwr', vim.lsp.buf.remove_workspace_folder)
-  buf_map(0, '', '<leader>q',   require"config.lsp".set_loc)
+  buf_map(0, '', '<leader>q',   require"config.lsp".set_qf)
   buf_map(0, '', '<leader>rn',  vim.lsp.buf.rename)
   buf_map(0, '', '<leader>a',   vim.lsp.buf.code_action)
   buf_map(0, '', 'K',           vim.lsp.buf.hover)
@@ -75,18 +101,6 @@ end
 
 function M.deferred_loc()
   vim.defer_fn(M.set_loc, 100)
-end
-
--- Sets the location list with predefined options. Does not focus list.
-function M.set_loc()
-  local bufnr = vim.api.nvim_get_current_buf()
-  if vim.o.buftype ~= '' or M.buffers[bufnr] == nil then
-    return
-  end
-
-  diagnostic.setloclist({
-    open = false,
-  })
 end
 
 local diagnostic_severities = {

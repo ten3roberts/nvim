@@ -171,5 +171,14 @@
       "    ${2}",
       "}"
     ]
+  },
+  "pod": {
+    "prefix": [
+      "pod"
+    ],
+    "body": [
+      "#[derive(Debug, Clone, Copy, PartialEq, Pod, Zeroable)]",
+      "#[repr(C)]"
+    ]
   }
 }

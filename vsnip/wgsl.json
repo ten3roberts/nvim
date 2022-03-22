@@ -1,0 +1,11 @@
+{
+  "binding": {
+    "prefix": [
+      "binding"
+    ],
+    "body": [
+      "[[group(${1}), binding(${2})]]",
+      "${3}"
+    ]
+  }
+}
