@@ -129,18 +129,17 @@ require "window-picker".setup {
   keys = "airesntmg"
 }
 
-local make_recipe = require("recipe.lib").make_recipe
 require "recipe".setup {
   term = {
     type = "split"
   },
   custom_recipes = {
     rust = {
-      upgrade = make_recipe("cargo upgrade --workspace"),
+      upgrade = "cargo upgrade --workspace",
     },
     global = {
-      open = make_recipe("xdg-open %:h"),
-      open_f = make_recipe("xdg-open <cfile>")
+      open = "xdg-open %:h",
+      open_f = "xdg-open <cfile>"
     }
   }
 }

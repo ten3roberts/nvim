@@ -22,6 +22,8 @@ function M.dump_mod(module)
   M.dump(require(module))
 end
 
+_G.dump_mod = M.dump_mod
+
 -- The function is called `t` for `termcodes`.
 -- You don't have to call it that, but I find the terseness convenient
 function M.replace_termcodes(str)
