@@ -69,7 +69,7 @@ require'gitsigns'.setup({
 
 require'darken'.setup{
   amount = 0.7,
-  filetypes = { 'term', 'vaffle', 'qf', 'help', 'aerial' }
+  filetypes = { 'term', 'vaffle', 'qf', 'help', 'aerial', 'dap-repl' }
 }
 
 require'qf'.setup{

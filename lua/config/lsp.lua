@@ -80,8 +80,7 @@ function M.on_attach(client)
   local provider_cmds = cmd[provider]
 
   buf_map(0, '', '<leader>cf',  vim.lsp.buf.formatting)
-  buf_map(0, '', '<leader>cf',  vim.lsp.buf.formatting)
-  buf_map(0, '', '<leader>de',  vim.diagnostic.open_float)
+  buf_map(0, '', '<leader>ce',  vim.diagnostic.open_float)
   buf_map(0, '', '<leader>cwa', vim.lsp.buf.add_workspace_folder)
   buf_map(0, '', '<leader>cwl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end)
   buf_map(0, '', '<leader>cwr', vim.lsp.buf.remove_workspace_folder)

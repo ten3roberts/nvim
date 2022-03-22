@@ -182,10 +182,10 @@ map('', '<C-k>', '{', { noremap = true })
 map('i', '<C-5>', '<C-o>%', { noremap = true })
 
 -- Clipboard
-map('', 'p',     '<Plug>(miniyank-autoput)')
-map('', 'P',     '<Plug>(miniyank-autoPut)')
-map('', '<A-p>', '<Plug>(miniyank-cycle)')
-map('', '<A-P>', '<Plug>(miniyank-cycleback)')
+map('n', 'p',     '<Plug>(miniyank-autoput)')
+map('n', 'P',     '<Plug>(miniyank-autoPut)')
+map('n', '<A-p>', '<Plug>(miniyank-cycle)')
+map('n', '<A-P>', '<Plug>(miniyank-cycleback)')
 
 -- map('', '<C-a>', '^')
 map('', '<C-e>', '$')
@@ -253,6 +253,7 @@ map('n', '<leader>xx', '<cmd>lua require"config.dev_utils".save_and_exec()<CR>')
 map('n', '<leader><cr>', ':ToggleCheckbox<CR>')
 
 -- DAP
+local dbg = require "config.dbg"
 local dap = require("dap")
 map('', '<leader>dn', dap.step_over)
 map('', '<leader>dl', dap.step_into)
@@ -263,10 +264,7 @@ map('', '<leader>ds', dap.pause)
 map('', '<leader>dQ', dap.close)
 
 map('', '<leader>db',dap.toggle_breakpoint)
-map('', '<leader>dB', function()
-  vim.ui.input( { prompt = "Condition" },
-    function(v) dap.set_breakpoint(v) end)
-end)
+map('', '<leader>dB', dbg.conditioal_break)
 
 map('', '<leader>dBe', dap.set_exception_breakpoints)
 
@@ -276,12 +274,15 @@ local dap_ui = require("dapui")
 map('', '<leader>dc',  dap.continue)
 map('', '<leader>dr',  dap.run_last)
 map('', '<leader>dg',  dap.run_to_cursor)
-map('', '<leader>do',  dap_ui.toggle)
+map('', '<leader>dO',  dap_ui.toggle)
 
 map('', '<leader>dlv', ':Telescope dap variables<CR>')
 map('', '<leader>dlb', ':Telescope dap list_breakpoints<CR>')
 map('', '<leader>dlf', ':Telescope dap frames<CR>')
 map('', '<leader>dlc', ':Telescope dap commands<CR>')
+
+map('', '<leader>de', dap_ui.eval)
+map('', '<leader>do', dbg.float)
 
 map('', '<leader>dw',  require('dap.ui.widgets').hover)
 

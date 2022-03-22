@@ -110,7 +110,7 @@ local paq = require 'paq' {
   'windwp/nvim-autopairs',
   'windwp/nvim-ts-autotag',
   -- 'nvim-telescope/telescope-file-browser.nvim',
-  -- 'stevearc/stickybuf.nvim',
+  'stevearc/stickybuf.nvim',
   -- { 'iamcco/markdown-preview.nvim', run = function() vim.fn['mkdp#util#install']() end }, -- Markdown previewing
 { url = 'https://gitlab.com/yorickpeterse/nvim-pqf' },
 }
