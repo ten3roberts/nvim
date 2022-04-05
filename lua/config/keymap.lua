@@ -242,7 +242,7 @@ for i = 1, 9 do
 end
 
 map('n', 'z-', ':set foldlevel-=1 | echo "Foldlevel: " . &foldlevel<CR>', silent)
-map('n', 'z=', ':set foldlevel+=1 | echo "Foldlevel: " . &foldlevel<CR>', silent)
+map('n', 'z+', ':set foldlevel+=1 | echo "Foldlevel: " . &foldlevel<CR>', silent)
 
 -- Indent whole buffer
 map('n', '<leader>ci', 'mggg=G`g')

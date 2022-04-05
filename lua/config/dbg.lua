@@ -14,10 +14,9 @@ ui.setup{
     -- You can change the order of elements in the sidebar
     elements = {
       -- Provide as ID strings or tables with "id" and "size" keys
-    { id = "breakpoints", size = 0.2 },
-    { id = "watches", size = 0.2 },
-    { id = "stacks", size = 0.2 },
-    { id = "scopes", size = 0.2 },
+    { id = "breakpoints", size = 0.3 },
+    { id = "watches", size = 0.3 },
+    { id = "scopes", size = 0.4 },
     },
     size = 50,
     position = "right", -- Can be "left", "right", "top", "bottom"

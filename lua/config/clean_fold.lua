@@ -11,5 +11,5 @@ function _G.clean_fold()
 
     -- Pad with spaces to the end of line
     -- return line .. string.rep(' ', fn.winwidth(0) - #line - #postline) .. postline
-    return string.format('%s …%s', line, string.rep(' ', fn.winwidth(0) - #line))
+    return string.format('%s %s', line, string.rep('·', fn.winwidth(0) - #line))
 end

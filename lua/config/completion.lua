@@ -46,6 +46,27 @@ local rel_ft = {
   tex = true,
 }
 
+
+local default_sources = {
+
+{
+    name = "path",
+    option = {
+      get_cwd = function()
+        if rel_ft[o.ft] == true then
+
+          return fn.expand("%:p:h")
+        else
+          return fn.getcwd()
+
+        end
+      end
+    }
+  },
+{ name = 'vsnip' },
+{ name = 'nvim_lsp' },
+{ name = 'buffer' },
+}
 cmp.setup {
   completion = {
     completeopt = "longest,noinsert,preview,noselect,shortest"
@@ -66,24 +87,13 @@ cmp.setup {
     ['<Tab>'] = confirm,
     ['<S-Tab>'] = confirm,
   },
-  sources = {
-  {
-      name = "path",
-      option = {
-        get_cwd = function()
-          if rel_ft[o.ft] == true then
-
-            return fn.expand("%:p:h")
-          else
-            return fn.getcwd()
-
-          end
-        end
-      }
-    },
-  { name = 'vsnip' },
-  { name = 'nvim_lsp' },
-  { name = 'buffer' },
-    -- { name = 'rg' }
-  },
+  sources = cmp.config.sources(default_sources),
 }
+
+-- -- Set configuration for specific filetype.
+-- cmp.setup.filetype('tex', {
+--   sources = cmp.config.sources(
+--   { name = 'spell' },
+--     default_sources
+--   )
+-- })

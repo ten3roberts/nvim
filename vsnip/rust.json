@@ -180,5 +180,13 @@
       "#[derive(Debug, Clone, Copy, PartialEq, Pod, Zeroable)]",
       "#[repr(C)]"
     ]
+  },
+  "serde": {
+    "prefix": [
+      "serde"
+    ],
+    "body": [
+      "#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]"
+    ]
   }
 }
