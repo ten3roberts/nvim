@@ -163,3 +163,5 @@ require "neoscroll.config".set_mappings(t)
 vim.notify = require("notify")
 
 vim.cmd "packadd termdebug"
+
+require'leap'.set_default_keymaps()

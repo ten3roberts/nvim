@@ -58,7 +58,8 @@ local paq = require 'paq' {
   'bfredl/nvim-miniyank',
   'dkarter/bullets.vim', -- Markdown bullet management
   'folke/zen-mode.nvim',
-  'ggandor/lightspeed.nvim',
+  -- 'ggandor/lightspeed.nvim',
+  'ggandor/leap.nvim',
   'hrsh7th/cmp-buffer',
   'hrsh7th/cmp-nvim-lsp',
   'hrsh7th/cmp-path',
@@ -110,7 +111,7 @@ local paq = require 'paq' {
   'windwp/nvim-autopairs',
   'windwp/nvim-ts-autotag',
   -- 'nvim-telescope/telescope-file-browser.nvim',
-  'stevearc/stickybuf.nvim',
+  -- 'stevearc/stickybuf.nvim',
   -- { 'iamcco/markdown-preview.nvim', run = function() vim.fn['mkdp#util#install']() end }, -- Markdown previewing
 { url = 'https://gitlab.com/yorickpeterse/nvim-pqf' },
 }

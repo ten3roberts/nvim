@@ -64,6 +64,8 @@ map('n', '<leader>lc', ':Lclose<CR>', silent) -- Close location list
 map('n', '<leader>lt', ':Ltoggle true<CR>', silent) -- Toggle location list and stay in current window
 
 map('n', '<leader>co', ':Qopen<CR>', silent) -- Open quickfix list
+map('n', '<leader>cl', ':clast<CR>', silent) -- Open quickfix list
+map('n', '<leader>cf', ':cfirst<CR>', silent) -- Open quickfix list
 -- map('n', '<leader>co', '<cmd>lua require"qf".open("c")<CR>') -- Open quickfix list
 map('n', '<leader>cc', ':Qclose<CR>', silent) -- Close quickfix list
 map('n', '<leader>C', ':Qclose<CR>', silent) -- Close quickfix list

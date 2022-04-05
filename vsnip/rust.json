@@ -2,7 +2,7 @@
   "fn": {
     "prefix": "fn",
     "body": [
-      "fn ${1:name}(&self) -> ${4:RetType} {",
+      "fn ${1:name}(${2:name}) -> ${4:_} {",
       "    ${5:todo!();}",
       "}"
     ],
@@ -179,6 +179,18 @@
     "body": [
       "#[derive(Debug, Clone, Copy, PartialEq, Pod, Zeroable)]",
       "#[repr(C)]"
+    ]
+  },
+  "mod-test": {
+    "prefix": [
+      "mod-test"
+    ],
+    "body": [
+      "#[cfg(test)]",
+      "mod tests {",
+      "    use super::*;",
+      "    ${1}",
+      "}"
     ]
   }
 }
