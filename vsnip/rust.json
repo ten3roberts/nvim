@@ -3,8 +3,8 @@
     "prefix": "fn",
     "body": [
       "fn ${1:name}(${2:name}) -> ${4:_} {",
-      "    ${5:todo!();}",
-      "}"
+        "    ${5:todo!();}",
+        "}"
     ],
     "description": "fn …(…) { … }"
   },
@@ -54,14 +54,14 @@
     ],
     "body": [
       "impl LoadResource for ${0} {",
-      "    type Info = ${0}Info;",
-      "",
-      "    type Error = Error;",
-      "",
-      "    fn load(resources: &Resources, info: &Self::Info) -> Result<Self> {",
-      "        ${1}",
-      "    }",
-      "}"
+        "    type Info = ${0}Info;",
+        "",
+        "    type Error = Error;",
+        "",
+        "    fn load(resources: &Resources, info: &Self::Info) -> Result<Self> {",
+          "        ${1}",
+          "    }",
+          "}"
     ]
   },
   "timed_scope": {
@@ -79,12 +79,12 @@
     ],
     "body": [
       "                gizmos.push(Gizmo::Line {",
-      "                    origin: ${1},",
-      "                    color: ${2},",
-      "                    dir: ${3},",
-      "                    radius: todo${4},",
-      "                    corner_radius: ${5},",
-      "                });"
+        "                    origin: ${1},",
+        "                    color: ${2},",
+        "                    dir: ${3},",
+        "                    radius: todo${4},",
+        "                    corner_radius: ${5},",
+        "                });"
     ]
   },
   "pub_use": {
@@ -141,8 +141,8 @@
     ],
     "body": [
       "pub fn new(${1}) -> Self {",
-      "    ${2}",
-      "}"
+        "    ${2}",
+        "}"
     ]
   },
   "doc_hidden": {
@@ -168,8 +168,8 @@
     "body": [
       "#[derive(Debug, Clone, PartialEq)]",
       "pub struct ${1} {",
-      "    ${2}",
-      "}"
+        "    ${2}",
+        "}"
     ]
   },
   "pod": {
@@ -188,9 +188,16 @@
     "body": [
       "#[cfg(test)]",
       "mod tests {",
-      "    use super::*;",
-      "    ${1}",
-      "}"
+        "    use super::*;",
+        "    ${1}",
+        "}"
+  },
+  "serde": {
+    "prefix": [
+      "serde"
+    ],
+    "body": [
+      "#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]"
     ]
   }
 }

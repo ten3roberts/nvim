@@ -1,4 +1,5 @@
 local o = vim.o
+local opt = vim.opt
 local g = vim.g
 
 -- Vim Options
@@ -9,6 +10,7 @@ o.autoread = true
 o.cmdheight = 2
 o.confirm = true -- Disable 'no write'
 o.cursorline = true
+opt.spelllang = {"en_us"}
 o.equalalways = true
 o.expandtab = true
 o.foldlevelstart = 4

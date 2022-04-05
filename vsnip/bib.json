@@ -1,0 +1,15 @@
+{
+  "online": {
+    "prefix": [
+      "online"
+    ],
+    "body": [
+      "@online{ ${1:name},",
+      "  url = { ${2} },",
+      "  urldate = { ${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE} },",
+      "  author = { ${3} },",
+      "  title = { ${4} },",
+      "}"
+    ]
+  }
+}

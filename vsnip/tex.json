@@ -1,0 +1,39 @@
+{
+  "template-bib": {
+    "prefix": [
+      "template-bib"
+    ],
+    "body": [
+      "\\usepackage{csquotes}",
+      "\\usepackage[style=authoryear-ibid,backend=biber]{biblatex}",
+      "\\usepackage{biblatex}",
+      "\\addbibresource{refs.bib}",
+      "",
+      "\\printbibliography"
+    ]
+  },
+  "template-article": {
+    "prefix": [
+      "template-article"
+    ],
+    "body": [
+      "\\documentclass{article}",
+      "\\date{ ${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE} }",
+      "\\title{${1:title}}",
+      "\\author{${2}}",
+      "\\begin{document}",
+      "\\maketitle",
+      "${3}",
+      "\\end{document}"
+    ]
+  },
+  "cite": {
+    "prefix": [
+      "cite",
+      "parencite"
+    ],
+    "body": [
+      "\\parencite{$1}"
+    ]
+  }
+}

@@ -77,7 +77,7 @@ require'qf'.setup{
   ['l'] = {
     auto_close    = false, -- Automatically close location/quickfix list if empty
     auto_follow   = "prev", -- Follow current entry, possible values: prev,next,nearest
-    follow_slow   = false, -- Only follow on CursorHold
+    follow_slow   = true, -- Only follow on CursorHold
     auto_open     = true, -- Automatically open location list on QuickFixCmdPost
     auto_resize   = false, -- Auto resize and shrink location list if less than `max_height`
     max_height    = 5, -- Maximum height of location/quickfix list
