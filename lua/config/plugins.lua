@@ -58,13 +58,11 @@ local paq = require 'paq' {
   'bfredl/nvim-miniyank',
   'dkarter/bullets.vim', -- Markdown bullet management
   'folke/zen-mode.nvim',
-  -- 'ggandor/lightspeed.nvim',
   'ggandor/leap.nvim',
   'hrsh7th/cmp-buffer',
   'hrsh7th/cmp-nvim-lsp',
   'hrsh7th/cmp-path',
   'hrsh7th/cmp-vsnip',
-  -- 'f3fora/cmp-spell',
   'hrsh7th/nvim-cmp', -- Autocompletion plugin
   'hrsh7th/vim-vsnip',
   'hrsh7th/vim-vsnip-integ',
@@ -93,8 +91,8 @@ local paq = require 'paq' {
   'rcarriga/nvim-dap-ui',
   'rcarriga/nvim-notify',
   'rhysd/conflict-marker.vim',
-  'rmagatti/auto-session',
   'simrat39/rust-tools.nvim',
+  'folke/persistence.nvim',
   'stevearc/aerial.nvim', -- Symbol tree
   'stevearc/dressing.nvim',
   'tamago324/lir-git-status.nvim',
@@ -107,7 +105,7 @@ local paq = require 'paq' {
   'tpope/vim-rsi', -- Readline mappings in insert mode
   'tpope/vim-sleuth',
   'tpope/vim-surround', -- ( surround text )
-  -- 'wellle/targets.vim', -- Better handling and seeking for textobjects
+  'wellle/targets.vim', -- Better handling and seeking for textobjects
   'williamboman/nvim-lsp-installer',
   'windwp/nvim-autopairs',
   'windwp/nvim-ts-autotag',

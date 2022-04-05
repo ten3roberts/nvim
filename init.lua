@@ -118,10 +118,12 @@ require'toggle'.setup{
 
 require 'config.palette'.setup()
 require'pqf'.setup()
-require('auto-session').setup {
-  log_level = 'info',
-  auto_session_suppress_dirs = {'~/'}
-}
+-- require('auto-session').setup {
+--   log_level = 'info',
+--   auto_session_suppress_dirs = {'~/'}
+-- }
+
+require "persistence".setup {}
 
 require 'zen-mode'.setup()
 

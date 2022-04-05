@@ -1,15 +1,26 @@
+local a = vim.api
 vim.cmd "command! Sort norm! vip:'<,'>sort<CR>"
-vim.cmd "command! -nargs=* Dump :lua require'config.dev_utils'.dump_mod(<f-args>)"
-vim.cmd "command! -nargs=* Reload :lua require'config.dev_utils'.reload(<f-args>)"
-vim.cmd "command! Q :wa | :qa"
-vim.cmd "command! W :wa"
-vim.cmd "command! -nargs=* Cargo :Execute cargo <args>"
 vim.cmd "command! CargoUpdateReadme :Execute cargo readme > README.md"
 vim.cmd "command! -nargs=* CargoPublish :ExecuteInteractive cargo workspaces publish <args>"
 vim.cmd "command! CargoUpgrade !cargo --color=never upgrade --workspace"
-vim.cmd "command! -nargs=* CargoAdd execute('!cargo add ' .. '<args>') | :CargoReload"
-vim.cmd "command! -nargs=* CargoVersion :ExecuteInteractive cargo workspaces version <args>"
-vim.cmd "command! Clip let @+=@\""
+
+local recipe = require "recipe"
+a.nvim_add_user_command("Q", ":silent xa", {})
+a.nvim_add_user_command("W", ":silent wa", {})
+a.nvim_add_user_command("Reload", function(c) require "config.dev_utils".reload(c.args) end, { nargs = 1 })
+a.nvim_add_user_command("Dump", function(c) require "config.dev_utils".dump_mod(c.args) end, { nargs = 1 })
+a.nvim_add_user_command("Cargo", function(c) recipe.execute("cargo " .. c.args, true) end, { nargs = "*" })
+a.nvim_add_user_command("CargoUpgrade", function(c) recipe.execute("cargo upgrade --workspace", true) end, { ["nargs"] = "*" })
+a.nvim_add_user_command("CargoAdd", function(c) recipe.execute({ cmd = "cargo add " .. c.args, interactive = true, action = function() vim.cmd "CargoReload" end}) end, { nargs = "*" })
+a.nvim_add_user_command("CargoVersion", function(c) recipe.execute("cargo workspaces version " .. c.args, true) end, { ["nargs"] = "*" })
+a.nvim_add_user_command("Clip", "let @+=@\"", {})
+
+local p = require "persistence"
+a.nvim_add_user_command("PersistenceLoad", p.load, {})
+a.nvim_add_user_command("PersistenceLast", function ()
+	p.load { last = true }
+end, {})
+a.nvim_add_user_command("PersistenceLoad", p.stop, {})
 
 vim.cmd [[
 function! Redir(cmd, rng, start, end)
