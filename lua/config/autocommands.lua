@@ -43,7 +43,7 @@ au({ "BufWritePre"             }, { callback = vim.lsp.buf.formatting_sync })
 au({ "BufWritePre"             }, { callback = function() if vim.o.buftype == "" then fn.mkdir(fn.expand("<afile>:p:h"), "p") end end })
 au({ "TermEnter, TermOpen"     }, { callback = require "darken".force_darken })
 au({ "TermEnter"               }, { callback = function() vim.keymap.set("t", "<esc>", "<C-\\><C-n>", { buffer = true }) end})
-au({ "FileType"                }, { callback = function() vim.keymap.set("n", "<tab>", "=", { buffer = 0 }) end, pattern = "Fugitive" } )
+au({ "FileType"                }, { callback = function() vim.keymap.set("n", "<tab>", "=", { buffer = 0 }) end, pattern = "fugitive" } )
 au({ "BufReadPost"             }, { callback = function() local l = fn.line [['"]] if l > 1 and l < fn.line("$") then vim.cmd "normal! g'\"" end end } )
 au ({ "BufUnload", "BufDelete" }, { callback = function() lsp.clear_buffer_cache(fn.expand("<abuf>")) end})
 

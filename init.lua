@@ -123,7 +123,7 @@ require'pqf'.setup()
 --   auto_session_suppress_dirs = {'~/'}
 -- }
 
-require "persistence".setup {}
+require "persistence".setup()
 
 require 'zen-mode'.setup()
 

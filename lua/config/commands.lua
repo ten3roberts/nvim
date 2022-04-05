@@ -20,7 +20,7 @@ a.nvim_add_user_command("PersistenceLoad", p.load, {})
 a.nvim_add_user_command("PersistenceLast", function ()
 	p.load { last = true }
 end, {})
-a.nvim_add_user_command("PersistenceLoad", p.stop, {})
+a.nvim_add_user_command("PersistenceStop", p.stop, {})
 
 vim.cmd [[
 function! Redir(cmd, rng, start, end)
