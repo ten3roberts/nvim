@@ -85,7 +85,6 @@ require'qf'.setup{
     wide          = false,
     unfocus_close = false,
     focus_open    = false,
-    close_other   = true,
   },
   -- Quickfix list configuration
   ['c'] = {
@@ -99,8 +98,8 @@ require'qf'.setup{
     wide          = true,
     unfocus_close = false,
     focus_open    = false,
-    close_other   = true,
   },
+    close_other   = true,
 }
 
 require'toggle'.setup{

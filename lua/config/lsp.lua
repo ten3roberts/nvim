@@ -40,6 +40,7 @@ function M.set_loc()
   diagnostic.setloclist({
     open = false,
   })
+  qf.tally "l"
 end
 
 function M.set_qf()
@@ -52,6 +53,8 @@ function M.set_qf()
   })
 
   qf.open "c"
+
+  qf.tally "c"
 end
 
 

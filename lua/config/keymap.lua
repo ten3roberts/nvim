@@ -43,7 +43,7 @@ map('n',    '<leader>o',        ':Telescope lsp_document_symbols<CR>')
 map('n',    '<leader>O',        ':Telescope lsp_dynamic_workspace_symbols<CR>')
 map('n',    '<leader>dd',       ':Telescope lsp_document_diagnostics<CR>')
 map('n',    '<leader>D',        ':Telescope diagnostics<CR>')
-map('n',    '<leader>pp',       ":lua require'telescope'.extensions.project.project{ display_type = 'full' }<CR>")
+map('n',    '<leader>pp',       require "persistence".load)
 
 -- Harpoon
 local harpoon_term = require("harpoon.term")

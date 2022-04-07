@@ -1,0 +1,13 @@
+{
+  "basic-recipe": {
+    "prefix": [
+      "basic-recipe"
+    ],
+    "body": [
+      "  \"${1:name}\": {",
+      "    \"cmd\": \"${2:name}\"",
+      "  }",
+      "${3}"
+    ]
+  }
+}

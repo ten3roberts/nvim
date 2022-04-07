@@ -71,18 +71,18 @@ local function get_git(highlight)
 
   local total = added + changed + removed
   local rel_added, rel_changed, rel_removed =
-    math.ceil(added / total * 3), math.ceil(changed / total * 3), math.ceil(removed / total * 3)
+  math.ceil(added / total * 3), math.ceil(changed / total * 3), math.ceil(removed / total * 3)
 
   if highlight then
     return
-      (rel_added > 0 and ('%#Green#' .. string.rep('+', rel_added) .. ' ') or '') ..
-      (rel_changed > 0 and ('%#Blue#' .. string.rep('~', rel_changed) .. ' ') or '') ..
-      (rel_removed > 0 and ('%#Red#' .. string.rep('-', rel_removed) .. ' ') or '')
+    (rel_added > 0 and ('%#Green#' .. string.rep('+', rel_added) .. ' ') or '') ..
+    (rel_changed > 0 and ('%#Blue#' .. string.rep('~', rel_changed) .. ' ') or '') ..
+    (rel_removed > 0 and ('%#Red#' .. string.rep('-', rel_removed) .. ' ') or '')
   else
     return
-      (rel_added > 0 and (string.rep('+', rel_added) .. ' ') or '') ..
-      (rel_changed > 0 and (string.rep('~', rel_changed) .. ' ') or '') ..
-      (rel_removed > 0 and (string.rep('-', rel_removed) .. ' ') or '')
+    (rel_added > 0 and (string.rep('+', rel_added) .. ' ') or '') ..
+    (rel_changed > 0 and (string.rep('~', rel_changed) .. ' ') or '') ..
+    (rel_removed > 0 and (string.rep('-', rel_removed) .. ' ') or '')
   end
 
   -- if highlight then
@@ -117,7 +117,11 @@ local function get_path(highlight)
     if #info ~= 1 or info[1].quickfix ~= 1 then
       return ''
     end
-    return (info[1].variables.quickfix_title or 'Quickfix') .. ' '
+    if highlight then
+      return "%#Normal#" .. (info[1].variables.quickfix_title or 'Quickfix') .. ' '
+    else
+      return string.gsub(info[1].variables.quickfix_title or 'Quickfix', "%%#.-#", "") .. ' '
+    end
   end
 
   local path, filename, extension = fn.expand('%:~:.'), fn.expand('%:t'), fn.expand('%:e')
@@ -177,8 +181,8 @@ local function get_unique_name(a, b)
   end
 
   return
-    fn.join(subtbl(a_parts, common_divisor), separator),
-    fn.join(subtbl(b_parts, common_divisor), separator)
+  fn.join(subtbl(a_parts, common_divisor), separator),
+  fn.join(subtbl(b_parts, common_divisor), separator)
 end
 
 local buffer_names = {}
@@ -259,7 +263,7 @@ function M.update()
   local rec  = recipe.statusline()
 
   local items = {
-    '%#Normal# ', branch, git, path, readonly and ' ' or '',
+    '%#Normal# ', branch, git, path, readonly and '%#Purple# ' or '',
     '%#StatusLine#%=%#Normal# ',
     rec, diag, '%#Purple#',
     percent, string.format(' %s %2d:%-2d ', mode.hl, row, col)
