@@ -1,3 +1,4 @@
 luac.out
 # Install omnisharp manually
 lsp/omnisharp
+sessions/

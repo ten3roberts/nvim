@@ -80,7 +80,7 @@ map('n', '[q', ':Vabove<CR>', silent) -- Go to previous quickfix entry from curs
 map('n', '<leader>J', 'Qbelow', silent) -- Go to next quickfix entry from cursor
 map('n', '<leader>K', 'Qabove', silent) -- Go to previous quickfix entry from cursor
 
-map('v', 'gl', ':<c-u>lua require"config.onlines"()<CR>', silent)
+map('x', 'gl', ':<c-u>lua require"config.onlines"()<CR>', silent)
 
 -- Dispatching
 local recipe = require "recipe"
@@ -150,14 +150,14 @@ map('n', 'g#', '<plug>(searchhi-g#)')
 map('n', 'gd', '<plug>(searchhi-gd)')
 map('n', 'gD', '<plug>(searchhi-gD)')
 
-map('v', 'n',  '<plug>(searchhi-v-n)')
-map('v', 'N',  '<plug>(searchhi-v-N)')
-map('v', '*',  '<plug>(searchhi-v-*)')
-map('v', 'g*', '<plug>(searchhi-v-g*)')
-map('v', '#',  '<plug>(searchhi-v-#)')
-map('v', 'g#', '<plug>(searchhi-v-g#)')
-map('v', 'gd', '<plug>(searchhi-v-gd)')
-map('v', 'gD', '<plug>(searchhi-v-gD)')
+map('x', 'n',  '<plug>(searchhi-v-n)')
+map('x', 'N',  '<plug>(searchhi-v-N)')
+map('x', '*',  '<plug>(searchhi-v-*)')
+map('x', 'g*', '<plug>(searchhi-v-g*)')
+map('x', '#',  '<plug>(searchhi-v-#)')
+map('x', 'g#', '<plug>(searchhi-v-g#)')
+map('x', 'gd', '<plug>(searchhi-v-gd)')
+map('x', 'gD', '<plug>(searchhi-v-gD)')
 
 -- Clear search highlight
 map('n', '<Esc>', '<plug>(searchhi-clear-all)')
@@ -176,7 +176,7 @@ local vsnip_next = function()
 end
 
 map('i', '<C-l>', vsnip_next)
-map('', '<C-l>', vsnip_next)
+map('n', '<C-l>', vsnip_next)
 
 -- Movements
 map('', '<C-j>', '}', { noremap = true })
@@ -190,7 +190,7 @@ map('n', '<A-p>', '<Plug>(miniyank-cycle)')
 map('n', '<A-P>', '<Plug>(miniyank-cycleback)')
 
 -- map('', '<C-a>', '^')
-map('', '<C-e>', '$')
+-- map('', '<C-e>', '$')
 
 -- Transpose word
 -- map('', 'L', 'daWWPB')
@@ -201,38 +201,29 @@ map('', '<C-e>', '$')
 map('n', '<A-up>', ':m .-2<CR>', silent)
 map('n', '<A-down>', ':m .+1<CR>', silent)
 
-map('v', '<A-up>', ':m \'<-2<CR>gv', silent)
-map('v', '<A-down>', ':m \'>+1<CR>gv', silent)
+map('x', '<A-up>', ':m \'<-2<CR>gv', silent)
+map('x', '<A-down>', ':m \'>+1<CR>gv', silent)
 map('n', '<A-k>', ':m .-2<CR>', silent)
 map('n', '<A-j>', ':m .+1<CR>', silent)
 
-map('v', '<A-k>', ':m \'<-2<CR>gv', silent)
-map('v', '<A-j>', ':m \'>+1<CR>gv', silent)
+map('x', '<A-k>', ':m \'<-2<CR>gv', silent)
+map('x', '<A-j>', ':m \'>+1<CR>gv', silent)
 
 map('n', '<A-h>', ':SidewaysLeft<CR>', silent)
 map('n', '<A-l>', ':SidewaysRight<CR>', silent)
 
 -- Textobjects for inside and around arguments/lists,paramater constraints
-map('o', 'aa', '<Plug>SidewaysArgumentTextobjA', silent)
-map('x', 'aa', '<Plug>SidewaysArgumentTextobjA', silent)
-map('x', 'aa', '<Plug>SidewaysArgumentTextobjA', silent)
-map('o', 'a,', '<Plug>SidewaysArgumentTextobjA', silent)
-map('x', 'a,', '<Plug>SidewaysArgumentTextobjA', silent)
+map({ "x", "o" }, 'aa', '<Plug>SidewaysArgumentTextobjA', silent)
+map({ "x", "o" }, 'a,', '<Plug>SidewaysArgumentTextobjA', silent)
 
-map('o', 'ia', '<Plug>SidewaysArgumentTextobjI', silent)
-map('x', 'ia', '<Plug>SidewaysArgumentTextobjI', silent)
-map('o', 'i,', '<Plug>SidewaysArgumentTextobjI', silent)
-map('x', 'i,', '<Plug>SidewaysArgumentTextobjI', silent)
+map({ "x", "o" }, 'ia', '<Plug>SidewaysArgumentTextobjI', silent)
+map({ "x", "o" }, 'i,', '<Plug>SidewaysArgumentTextobjI', silent)
 
-map('o', 'i,', '<Plug>SidewaysArgumentTextobjI', silent)
-map('x', 'i,', '<Plug>SidewaysArgumentTextobjI', silent)
+map({ "x", "o" }, 'i,', '<Plug>SidewaysArgumentTextobjI', silent)
 
--- map('v', 'x', ':lua require"treesitter-unit".select()<CR>',      silent)
+-- map('x', 'x', ':lua require"treesitter-unit".select()<CR>',      silent)
 -- map('o', 'x', ':<c-u>lua require"treesitter-unit".select()<CR>', silent)
 -- map('n', 'X', ':lua require"treesitter-unit".select()<CR>', silent)
-
--- Select all
-map('', 'vA', 'ggVG');
 
 -- Toggle bool
 map('n', 'gb', '<cmd>lua require"toggle".toggle()<CR>')
@@ -257,41 +248,41 @@ map('n', '<leader><cr>', ':ToggleCheckbox<CR>')
 -- DAP
 local dbg = require "config.dbg"
 local dap = require("dap")
-map('', '<leader>dn', dap.step_over)
-map('', '<leader>dl', dap.step_into)
-map('', '<leader>dh', dap.step_out)
-map('', '<leader>dd', dap.down)
-map('', '<leader>du', dap.up)
-map('', '<leader>ds', dap.pause)
-map('', '<leader>dQ', dap.close)
+map('n', '<leader>dn', dap.step_over)
+map('n', '<leader>dl', dap.step_into)
+map('n', '<leader>dh', dap.step_out)
+map('n', '<leader>dd', dap.down)
+map('n', '<leader>du', dap.up)
+map('n', '<leader>ds', dap.pause)
+map('n', '<leader>dQ', dap.close)
 
-map('', '<leader>db',dap.toggle_breakpoint)
-map('', '<leader>dB', dbg.conditioal_break)
+map('n', '<leader>db',dap.toggle_breakpoint)
+map('n', '<leader>dB', dbg.conditioal_break)
 
-map('', '<leader>dBe', dap.set_exception_breakpoints)
+map('n', '<leader>dBe', dap.set_exception_breakpoints)
 
 
 local dap_ui = require("dapui")
 
-map('', '<leader>dc',  dap.continue)
-map('', '<leader>dr',  dap.run_last)
-map('', '<leader>dg',  dap.run_to_cursor)
-map('', '<leader>dO',  dap_ui.toggle)
+map('n', '<leader>dc',  dap.continue)
+map('n', '<leader>dr',  dap.run_last)
+map('n', '<leader>dg',  dap.run_to_cursor)
+map('n', '<leader>dO',  dap_ui.toggle)
 
-map('', '<leader>dlv', ':Telescope dap variables<CR>')
-map('', '<leader>dlb', ':Telescope dap list_breakpoints<CR>')
-map('', '<leader>dlf', ':Telescope dap frames<CR>')
-map('', '<leader>dlc', ':Telescope dap commands<CR>')
+map('n', '<leader>dlv', ':Telescope dap variables<CR>')
+map('n', '<leader>dlb', ':Telescope dap list_breakpoints<CR>')
+map('n', '<leader>dlf', ':Telescope dap frames<CR>')
+map('n', '<leader>dlc', ':Telescope dap commands<CR>')
 
-map('', '<leader>de', dap_ui.eval)
-map('', '<leader>do', dbg.float)
+map('n', '<leader>de', dap_ui.eval)
+map('n', '<leader>do', dbg.float)
 
-map('', '<leader>dw',  require('dap.ui.widgets').hover)
+map('n', '<leader>dw',  require('dap.ui.widgets').hover)
 
-map('', '<F5>',        dap.continue )
-map('', '<F10>',       dap.step_over )
-map('', '<F11>',       dap.step_into )
-map('', '<F12>',       dap.step_out )
+map('n', '<F5>',        dap.continue )
+map('n', '<F10>',       dap.step_over )
+map('n', '<F11>',       dap.step_into )
+map('n', '<F12>',       dap.step_out )
 
 -- map('', '<leader>dn', ":Step<CR>")
 -- map('', '<leader>dc', ":Continue<CR>")
@@ -299,10 +290,10 @@ map('', '<F12>',       dap.step_out )
 -- map('', '<leader>db', ":Break<CR>")
 
 -- Rust
-map('', '<leader>rr', ':RustRunnables<CR>')
-map('', '<leader>rd', ':RustDebuggables<CR>')
-map('', '<leader>ru', ':RustParentModule<CR>')
-map('', '<leader>ro', ':RustOpenCargo<CR>')
+map('n', '<leader>rr', ':RustRunnables<CR>')
+map('n', '<leader>rd', ':RustDebuggables<CR>')
+map('n', '<leader>ru', ':RustParentModule<CR>')
+map('n', '<leader>ro', ':RustOpenCargo<CR>')
 
 
 map("n", "<C-a>",  require("dial.map").inc_normal(),  {noremap = true})
@@ -313,10 +304,10 @@ map("v", "g<C-a>", require("dial.map").inc_gvisual(), {noremap = true})
 map("v", "g<C-x>", require("dial.map").dec_gvisual(), {noremap = true})
 
 -- Asterisk
-map('', '*',  '<Plug>(asterisk-z*)')
-map('', '#',  '<Plug>(asterisk-z#)')
-map('', 'g*', '<Plug>(asterisk-gz*)')
-map('', 'g#', '<Plug>(asterisk-gz#)')
+map('n', '*',  '<Plug>(asterisk-z*)')
+map('n', '#',  '<Plug>(asterisk-z#)')
+map('n', 'g*', '<Plug>(asterisk-gz*)')
+map('n', 'g#', '<Plug>(asterisk-gz#)')
 -- map *  <Plug>(asterisk-z*)
 -- map #  <Plug>(asterisk-z#)
 -- map g* <Plug>(asterisk-gz*)

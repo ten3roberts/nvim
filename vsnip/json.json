@@ -6,8 +6,26 @@
     "body": [
       "  \"${1:name}\": {",
       "    \"cmd\": \"${2:name}\"",
-      "  }",
-      "${3}"
+      "  }"
+    ]
+  },
+  "debug-recipe": {
+    "prefix": [
+      "debug-recipe"
+    ],
+    "body": [
+      "  \"debug-${1:name}\": {",
+      "    \"cmd\": \"${2:build}\",",
+      "    \"action\": [",
+      "      \"qf\",",
+      "      {",
+      "        \"name\": \"dap\",",
+      "        \"opts\": {",
+      "          \"program\": \"${3:program}\"",
+      "        }",
+      "      }",
+      "    ]",
+      "  },"
     ]
   }
 }

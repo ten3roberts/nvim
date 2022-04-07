@@ -235,10 +235,6 @@ lsp_installer.on_server_ready(function(server)
     require("config.rust").setup( opts )
     server:attach_buffers()
     return
-    -- require("config.rust").setup {
-    --   on_attach = M.on_attach,
-    --   cmd = server._default_options.cmd
-    -- }
   end
     -- (optional) Customize the options passed to the server
     -- if server.name == "tsserver" then

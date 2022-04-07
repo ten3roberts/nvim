@@ -5,7 +5,7 @@ vim.cmd "command! -nargs=* CargoPublish :ExecuteInteractive cargo workspaces pub
 vim.cmd "command! CargoUpgrade !cargo --color=never upgrade --workspace"
 
 local recipe = require "recipe"
-a.nvim_add_user_command("Q", ":silent xa", {})
+a.nvim_add_user_command("Q", ":silent wa | qa", {})
 a.nvim_add_user_command("W", ":silent wa", {})
 a.nvim_add_user_command("Reload", function(c) require "config.dev_utils".reload(c.args) end, { nargs = 1 })
 a.nvim_add_user_command("Dump", function(c) require "config.dev_utils".dump_mod(c.args) end, { nargs = 1 })
