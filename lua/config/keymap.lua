@@ -1,4 +1,3 @@
-local t = require("config.dev_utils").replace_termcodes
 local function map(mode, lhs, rhs, opts)
   vim.keymap.set(mode, lhs, rhs, opts)
 end
@@ -167,16 +166,8 @@ map('x', 'ga', '<plug>(EasyAlign)')
 map('n', 'ga', '<plug>(EasyAlign)')
 
 -- Snippet expansion
-local fn = vim.fn
-
-local vsnip_next = function()
-  if fn['vsnip#available'](1) then
-    fn.feedkeys(t "<Plug>(vsnip-jump-next)", "")
-  end
-end
-
-map('i', '<C-l>', vsnip_next)
-map('n', '<C-l>', vsnip_next)
+map('i', '<C-l>', "<Plug>(vsnip-jump-next)")
+map('n', '<C-l>', "<Plug>(vsnip-jump-next)")
 
 -- Movements
 map('', '<C-j>', '}', { noremap = true })

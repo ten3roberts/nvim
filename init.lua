@@ -116,14 +116,7 @@ require'toggle'.setup{
 }
 
 require 'config.palette'.setup()
-require'pqf'.setup()
--- require('auto-session').setup {
---   log_level = 'info',
---   auto_session_suppress_dirs = {'~/'}
--- }
-
 require "persistence".setup()
-
 require 'zen-mode'.setup()
 
 require "window-picker".setup {
@@ -166,3 +159,22 @@ vim.notify = require("notify")
 vim.cmd "packadd termdebug"
 
 require'leap'.set_default_keymaps()
+
+require "yanky".setup {
+  ring = {
+    history_length = 16,
+    storage = "shada",
+    sync_with_numbered_registers = true,
+  },
+  system_clipboard = {
+    sync_with_ring = true,
+  },
+  highlight = {
+    on_put = true,
+    on_yank = true,
+    timer = 200,
+  },
+  preserve_cursor_position = {
+    enabled = true,
+  },
+}
