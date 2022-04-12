@@ -11,13 +11,13 @@ a.nvim_create_user_command("Reload", function(c) require "config.dev_utils".relo
 a.nvim_create_user_command("Dump", function(c) require "config.dev_utils".dump_mod(c.args) end, { nargs = 1 })
 a.nvim_create_user_command("Cargo", function(c) recipe.execute("cargo " .. c.args, true) end, { nargs = "*" })
 a.nvim_create_user_command("CargoUpgrade", function(c) recipe.execute("cargo upgrade --workspace", true) end, { ["nargs"] = "*" })
-a.nvim_create_user_command("CargoAdd", function(c) recipe.execute({ cmd = "cargo add " .. c.args, interactive = true, action = function() vim.cmd "CargoReload" end}) end, { nargs = "*" })
+a.nvim_create_user_command("CargoAdd", function(c) recipe.execute({ cmd = "cargo add " .. c.args, interactive = true, action = function() vim.cmd "CargoReload" end }) end, { nargs = "*" })
 a.nvim_create_user_command("CargoVersion", function(c) recipe.execute("cargo workspaces version " .. c.args, true) end, { ["nargs"] = "*" })
 a.nvim_create_user_command("Clip", "let @+=@\"", {})
 
 local p = require "persistence"
 a.nvim_create_user_command("PersistenceLoad", p.load, {})
-a.nvim_create_user_command("PersistenceLast", function ()
+a.nvim_create_user_command("PersistenceLast", function()
 	p.load { last = true }
 end, {})
 a.nvim_create_user_command("PersistenceStop", p.stop, {})

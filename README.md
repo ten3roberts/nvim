@@ -6,6 +6,5 @@ This is my personal configuration of neovim
 - Neovim lsp
 - Treesitter
 - Telescope
-- Filetree
 - Nvim lua Development utils
 - Completion
