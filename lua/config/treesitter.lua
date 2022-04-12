@@ -1,5 +1,5 @@
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = "maintained",
+  ensure_installed = "all",
   autopairs = { enable = true },
   playground = { enable = true },
   matchup = { enable = true },
@@ -9,5 +9,3 @@ require'nvim-treesitter.configs'.setup {
   },
   indent = { enable = true, },
 }
-
-
