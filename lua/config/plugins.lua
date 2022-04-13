@@ -55,7 +55,8 @@ local paq = require 'paq' {
   'andymass/vim-matchup',
   'TimUntersberger/neogit',
   'sindrets/diffview.nvim',
-  'bfredl/nvim-miniyank',
+  'gbprod/yanky.nvim',
+  -- 'bfredl/nvim-miniyank',
   'dkarter/bullets.vim', -- Markdown bullet management
   'folke/zen-mode.nvim',
   'ggandor/leap.nvim',
@@ -88,6 +89,7 @@ local paq = require 'paq' {
   'qxxxb/vim-searchhi', -- Highlight current search match
   'rafamadriz/friendly-snippets', -- Preconfigured snippets
   'ray-x/lsp_signature.nvim', -- Show function signature help
+  'echasnovski/mini.nvim',
   'rcarriga/nvim-dap-ui',
   'rcarriga/nvim-notify',
   'rhysd/conflict-marker.vim',

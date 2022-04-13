@@ -8,12 +8,20 @@
       "require \"$1\""
     ]
   },
+  "param": {
+    "prefix": [
+      "param"
+    ],
+    "body": [
+      "---@param ${1:name} ${2:type}"
+    ]
+  },
   "field": {
     "prefix": [
       "field"
     ],
     "body": [
-      "--- @field ${1:name} ${2:type}"
+      "---@field ${1:name} ${2:type}"
     ]
   }
 }

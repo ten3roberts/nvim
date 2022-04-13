@@ -7,8 +7,8 @@ local silent = { silent = true }
 vim.g.mapleader = ' '
 
 -- map('n', '<leader>f',  ':Vaffle %<CR>')
-map('n', '<leader>pe', function() require"lir.float".init(vim.fn.getcwd()) end)
-map('n', '<leader>f', require"lir.float".init)
+map('n', '<leader>pe', function() require "lir.float".init(vim.fn.getcwd()) end)
+map('n', '<leader>f', require "lir.float".init)
 map('n', '<leader>po', ':AerialOpen<CR>')
 
 -- Fzf
@@ -28,21 +28,21 @@ map('n', '<leader>po', ':AerialOpen<CR>')
 -- map('n', '<leader>D',        ':DiagnosticsAll<CR>')
 
 -- Telescope
-map('n',    '<leader><leader>', ':Telescope find_files<CR>')
+map('n', '<leader><leader>', ':Telescope find_files<CR>')
 -- map('n',    '<leader>f',        '<cmd>lua require "telescope".extensions.file_browser.file_browser { path="%:p:h" }<CR>')
-map('n',    '<leader>rf',       ':Telescope oldfiles<CR>')
-map('n',    '<M-x>',            ':Telescope command_history<CR>')
-map('n',    '<leader>,',        ':Telescope buffers<CR>')
-map('n',    '<leader>/',        ':Telescope current_buffer_fuzzy_find<CR>')
-map('n',    '<leader>/',        ':Telescope current_buffer_fuzzy_find<CR>')
-map('n',    '<leader>rg',       ':Telescope live_grep<CR>')
-map('n',    '<leader>gl',       ':Telescope git_commits<CR>')
-map('n',    '<leader>gs',       ':Telescope git_status<CR>')
-map('n',    '<leader>o',        ':Telescope lsp_document_symbols<CR>')
-map('n',    '<leader>O',        ':Telescope lsp_dynamic_workspace_symbols<CR>')
-map('n',    '<leader>dd',       ':Telescope lsp_document_diagnostics<CR>')
-map('n',    '<leader>D',        ':Telescope diagnostics<CR>')
-map('n',    '<leader>pp',       require "persistence".load)
+map('n', '<leader>rf', ':Telescope oldfiles<CR>')
+map('n', '<M-x>', ':Telescope command_history<CR>')
+map('n', '<leader>,', ':Telescope buffers<CR>')
+map('n', '<leader>/', ':Telescope current_buffer_fuzzy_find<CR>')
+map('n', '<leader>/', ':Telescope current_buffer_fuzzy_find<CR>')
+map('n', '<leader>rg', ':Telescope live_grep<CR>')
+map('n', '<leader>gl', ':Telescope git_commits<CR>')
+map('n', '<leader>gs', ':Telescope git_status<CR>')
+map('n', '<leader>o', ':Telescope lsp_document_symbols<CR>')
+map('n', '<leader>O', ':Telescope lsp_dynamic_workspace_symbols<CR>')
+map('n', '<leader>dd', ':Telescope lsp_document_diagnostics<CR>')
+map('n', '<leader>D', ':Telescope diagnostics<CR>')
+map('n', '<leader>pp', require "persistence".load)
 
 -- Harpoon
 local harpoon_term = require("harpoon.term")
@@ -84,11 +84,11 @@ map('x', 'gl', ':<c-u>lua require"config.onlines"()<CR>', silent)
 -- Dispatching
 local recipe = require "recipe"
 
-map('n', '<leader>e', function() recipe.pick()        end)
+map('n', '<leader>e', function() recipe.pick() end)
 map('n', '<leader>Eb', function() recipe.bake("build") end)
-map('n', '<leader>Er', function() recipe.bake("run")   end)
+map('n', '<leader>Er', function() recipe.bake("run") end)
 map('n', '<leader>Ec', function() recipe.bake("check") end)
-map('n', '`<CR>',      function() recipe.bake("check") end)
+map('n', '`<CR>', function() recipe.bake("check") end)
 
 -- Tabs
 map('n', '<leader>N', ':tabnew<CR>')
@@ -96,8 +96,8 @@ map('n', '<leader>S', ':tab split<CR>')
 map('n', '<leader>Q', ':tabclose<CR>')
 map('n', '<leader>to', ':tabonly<CR>')
 
-for i = 0,9 do
-  map('n', '<leader>' .. i , i .. 'gt')
+for i = 0, 9 do
+  map('n', '<leader>' .. i, i .. 'gt')
   map('n', '<A-' .. i .. '>', i .. 'gt')
   map('!', '<A-' .. i .. '>', '<ESC>' .. i .. 'gt')
   map('t', '<A-' .. i .. '>', '<C-\\><C-n>' .. i .. 'gt')
@@ -117,15 +117,15 @@ map('n', '<leader>w', ':WindowPick<CR>')
 map('n', '<leader>W', ':WindowSwap<CR>')
 
 -- Git mappings
-map('n', '<leader>gg',  ':Ge :<CR>')
-map('n', '<leader>gd',  ':G difftool --name-status<CR>')
-map('n', '<leader>ga',  ':Git add %<CR>')
-map('n', '<leader>gS',  ':Git stage .<CR>')
-map('n', '<leader>gc',  ':Git commit<CR>')
+map('n', '<leader>gg', ':Ge :<CR>')
+map('n', '<leader>gd', ':G difftool --name-status<CR>')
+map('n', '<leader>ga', ':Git add %<CR>')
+map('n', '<leader>gS', ':Git stage .<CR>')
+map('n', '<leader>gc', ':Git commit<CR>')
 map('n', '<leader>gpp', ':Git push<CR>')
 map('n', '<leader>gpf', ':Git push --force-with-lease<CR>')
-map('n', '<leader>g2',  ':diffget //2<CR>')
-map('n', '<leader>g3',  ':diffget //3<CR>')
+map('n', '<leader>g2', ':diffget //2<CR>')
+map('n', '<leader>g3', ':diffget //3<CR>')
 
 -- -- Neogit
 -- map('', '<leader>gg', ':Neogit<CR>')
@@ -137,23 +137,23 @@ map('n', '<leader>g3',  ':diffget //3<CR>')
 
 map('n', '<leader>gpu', ':Git pull<CR>')
 -- map('n', '<leader>gpf', ':Git push --force<CR>')
-map('n', '<leader>gf',  ':Git fetch<CR>')
+map('n', '<leader>gf', ':Git fetch<CR>')
 
 -- Search highlighting
-map('n', 'n',  '<plug>(searchhi-n)')
-map('n', 'N',  '<plug>(searchhi-N)')
-map('n', '*',  '<plug>(searchhi-*)')
+map('n', 'n', '<plug>(searchhi-n)')
+map('n', 'N', '<plug>(searchhi-N)')
+map('n', '*', '<plug>(searchhi-*)')
 map('n', 'g*', '<plug>(searchhi-g*)')
-map('n', '#',  '<plug>(searchhi-#)')
+map('n', '#', '<plug>(searchhi-#)')
 map('n', 'g#', '<plug>(searchhi-g#)')
 map('n', 'gd', '<plug>(searchhi-gd)')
 map('n', 'gD', '<plug>(searchhi-gD)')
 
-map('x', 'n',  '<plug>(searchhi-v-n)')
-map('x', 'N',  '<plug>(searchhi-v-N)')
-map('x', '*',  '<plug>(searchhi-v-*)')
+map('x', 'n', '<plug>(searchhi-v-n)')
+map('x', 'N', '<plug>(searchhi-v-N)')
+map('x', '*', '<plug>(searchhi-v-*)')
 map('x', 'g*', '<plug>(searchhi-v-g*)')
-map('x', '#',  '<plug>(searchhi-v-#)')
+map('x', '#', '<plug>(searchhi-v-#)')
 map('x', 'g#', '<plug>(searchhi-v-g#)')
 map('x', 'gd', '<plug>(searchhi-v-gd)')
 map('x', 'gD', '<plug>(searchhi-v-gD)')
@@ -175,11 +175,21 @@ map('', '<C-k>', '{', { noremap = true })
 map('i', '<C-5>', '<C-o>%', { noremap = true })
 
 -- Clipboard
-map('n', 'p',     '<Plug>(miniyank-autoput)')
-map('n', 'P',     '<Plug>(miniyank-autoPut)')
-map('n', '<A-p>', '<Plug>(miniyank-cycle)')
-map('n', '<A-P>', '<Plug>(miniyank-cycleback)')
+-- map('n', 'p',     '<Plug>(miniyank-autoput)')
+-- map('n', 'P',     '<Plug>(miniyank-autoPut)')
+-- map('n', '<A-p>', '<Plug>(miniyank-cycle)')
+-- map('n', '<A-P>', '<Plug>(miniyank-cycleback)')
 
+map("n", "p", "<Plug>(YankyPutAfter)")
+map("n", "P", "<Plug>(YankyPutBefore)")
+map("x", "p", "<Plug>(YankyPutAfter)")
+map("x", "P", "<Plug>(YankyPutBefore)")
+map("n", "gp", "<Plug>(YankyGPutAfter)")
+map("n", "gP", "<Plug>(YankyGPutBefore)")
+map("x", "gp", "<Plug>(YankyGPutAfter)")
+map("x", "gP", "<Plug>(YankyGPutBefore)")
+map("n", "<A-n>", "<Plug>(YankyCycleForward)")
+map("n", "<A-p>", "<Plug>(YankyCycleBackward)")
 -- map('', '<C-a>', '^')
 -- map('', '<C-e>', '$')
 
@@ -222,7 +232,7 @@ map('n', 'gb', '<cmd>lua require"toggle".toggle()<CR>')
 -- Folding
 for i = 1, 9 do
   local o = vim.o
-  map('n', 'z' .. i, function() o.foldlevel = i-1 print("Foldlevel: ", o.foldlevel) end)
+  map('n', 'z' .. i, function() o.foldlevel = i - 1 print("Foldlevel: ", o.foldlevel) end)
 end
 
 map('n', 'z-', ':set foldlevel-=1 | echo "Foldlevel: " . &foldlevel<CR>', silent)
@@ -247,7 +257,7 @@ map('n', '<leader>du', dap.up)
 map('n', '<leader>ds', dap.pause)
 map('n', '<leader>dQ', dap.close)
 
-map('n', '<leader>db',dap.toggle_breakpoint)
+map('n', '<leader>db', dap.toggle_breakpoint)
 map('n', '<leader>dB', dbg.conditioal_break)
 
 map('n', '<leader>dBe', dap.set_exception_breakpoints)
@@ -255,10 +265,10 @@ map('n', '<leader>dBe', dap.set_exception_breakpoints)
 
 local dap_ui = require("dapui")
 
-map('n', '<leader>dc',  dap.continue)
-map('n', '<leader>dr',  dap.run_last)
-map('n', '<leader>dg',  dap.run_to_cursor)
-map('n', '<leader>dO',  dap_ui.toggle)
+map('n', '<leader>dc', dap.continue)
+map('n', '<leader>dr', dap.run_last)
+map('n', '<leader>dg', dap.run_to_cursor)
+map('n', '<leader>dO', dap_ui.toggle)
 
 map('n', '<leader>dlv', ':Telescope dap variables<CR>')
 map('n', '<leader>dlb', ':Telescope dap list_breakpoints<CR>')
@@ -268,12 +278,12 @@ map('n', '<leader>dlc', ':Telescope dap commands<CR>')
 map('n', '<leader>de', dap_ui.eval)
 map('n', '<leader>do', dbg.float)
 
-map('n', '<leader>dw',  require('dap.ui.widgets').hover)
+map('n', '<leader>dw', require('dap.ui.widgets').hover)
 
-map('n', '<F5>',        dap.continue )
-map('n', '<F10>',       dap.step_over )
-map('n', '<F11>',       dap.step_into )
-map('n', '<F12>',       dap.step_out )
+map('n', '<F5>', dap.continue)
+map('n', '<F10>', dap.step_over)
+map('n', '<F11>', dap.step_into)
+map('n', '<F12>', dap.step_out)
 
 -- map('', '<leader>dn', ":Step<CR>")
 -- map('', '<leader>dc', ":Continue<CR>")
@@ -287,16 +297,16 @@ map('n', '<leader>ru', ':RustParentModule<CR>')
 map('n', '<leader>ro', ':RustOpenCargo<CR>')
 
 
-map("n", "<C-a>",  require("dial.map").inc_normal(),  {noremap = true})
-map("n", "<C-x>",  require("dial.map").dec_normal(),  {noremap = true})
-map("v", "<C-a>",  require("dial.map").inc_visual(),  {noremap = true})
-map("v", "<C-x>",  require("dial.map").dec_visual(),  {noremap = true})
-map("v", "g<C-a>", require("dial.map").inc_gvisual(), {noremap = true})
-map("v", "g<C-x>", require("dial.map").dec_gvisual(), {noremap = true})
+map("n", "<C-a>", require("dial.map").inc_normal(), { noremap = true })
+map("n", "<C-x>", require("dial.map").dec_normal(), { noremap = true })
+map("v", "<C-a>", require("dial.map").inc_visual(), { noremap = true })
+map("v", "<C-x>", require("dial.map").dec_visual(), { noremap = true })
+map("v", "g<C-a>", require("dial.map").inc_gvisual(), { noremap = true })
+map("v", "g<C-x>", require("dial.map").dec_gvisual(), { noremap = true })
 
 -- Asterisk
-map('n', '*',  '<Plug>(asterisk-z*)')
-map('n', '#',  '<Plug>(asterisk-z#)')
+map('n', '*', '<Plug>(asterisk-z*)')
+map('n', '#', '<Plug>(asterisk-z#)')
 map('n', 'g*', '<Plug>(asterisk-gz*)')
 map('n', 'g#', '<Plug>(asterisk-gz#)')
 -- map *  <Plug>(asterisk-z*)

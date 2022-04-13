@@ -3,9 +3,9 @@ local cmd = vim.cmd
 local fn = vim.fn
 
 function M.highlight(name, opts)
-  local t = {"hi!", name}
-  for k,v in pairs(opts) do
-    t[#t+1] = string.format("%s=%s", k,v)
+  local t = { "hi!", name }
+  for k, v in pairs(opts) do
+    t[#t + 1] = string.format("%s=%s", k, v)
   end
 
   cmd(table.concat(t, " "))
@@ -42,16 +42,16 @@ local palettes = {
       black = '#1b2229',
       blue = '#51afef',
       cyan = '#46d9ff',
-      dark_blue= '#2257a0',
-      dark_cyan= '#5699af',
-      green= '#98be65',
+      dark_blue = '#2257a0',
+      dark_cyan = '#5699af',
+      green = '#98be65',
       grey = '#3f444a',
       purple = '#c678dd',
       orange = '#da8548',
-      red= '#ff6c6b',
+      red = '#ff6c6b',
       teal = '#4db5bd',
       violet = '#a9a1e1',
-      white= '#efefef',
+      white = '#efefef',
       yellow = '#ecbe7b',
     }
   end,
@@ -76,7 +76,7 @@ function M.generate_palette()
 end
 
 function M.link(dst, src)
-  cmd ('hi! link ' .. dst .. ' ' .. src)
+  cmd('hi! link ' .. dst .. ' ' .. src)
 end
 
 function M.get_hl(name)
@@ -86,9 +86,8 @@ function M.get_hl(name)
   local bg = fn.synIDattr(id, 'bg#')
   local gui = fn.synIDattr(id, 'gui#')
 
-  return {fg=fg, bg=bg, gui=gui}
+  return { fg = fg, bg = bg, gui = gui }
 end
-
 
 -- Creates highlights for:
 -- - Color names
@@ -107,13 +106,13 @@ function M.setup()
   local comment_fg = M.get_hl('Comment').fg
   local tabline_fill_bg = M.get_hl('TabLineFill').bg
 
-  highlight('Black',  { guifg = p.black  })
-  highlight('Blue',   { guifg = p.blue   })
-  highlight('Green',  { guifg = p.green  })
-  highlight('Grey',   { guifg = p.grey   })
+  highlight('Black', { guifg = p.black })
+  highlight('Blue', { guifg = p.blue })
+  highlight('Green', { guifg = p.green })
+  highlight('Grey', { guifg = p.grey })
   highlight('Orange', { guifg = p.orange })
   highlight('Purple', { guifg = p.purple })
-  highlight('Red',    { guifg = p.red    })
+  highlight('Red', { guifg = p.red })
   highlight('Yellow', { guifg = p.yellow })
 
   -- highlight('SL_Black',  p.black)
@@ -125,10 +124,10 @@ function M.setup()
   -- highlight('SL_Red',    p.red)
   -- highlight('SL_Yellow', p.yellow)
 
-  highlight('GreenBold',  { guifg = p.green,  gui = 'bold' })
+  highlight('GreenBold', { guifg = p.green, gui = 'bold' })
   highlight('OrangeBold', { guifg = p.orange, gui = 'bold' })
   highlight('PurpleBold', { guifg = p.purple, gui = 'bold' })
-  highlight('RedBold',    { guifg = p.red,    gui = 'bold' })
+  highlight('RedBold', { guifg = p.red, gui = 'bold' })
   highlight('YellowBold', { guifg = p.yellow, gui = 'bold' })
 
   -- highlight('LspDiagnosticsSignError',   p.red, signcolumn_bg)
@@ -141,22 +140,22 @@ function M.setup()
   -- highlight('LspDiagnosticsUnderlineInformation', nil, nil, 'undercurl', p.blue)
   -- highlight('LspDiagnosticsUnderlineHint',        nil, nil, 'undercurl', p.green)
 
-  highlight('BlackInv', {guifg = normal_bg, guibg = p.black,  gui = 'bold' })
-  highlight('BlueInv',  {guifg = normal_bg, guibg = p.blue,   gui = 'bold' })
-  highlight('GreenInv', {guifg = normal_bg, guibg = p.green,  gui = 'bold' })
-  highlight('GreyInv',  {guifg = normal_bg, guibg = p.grey,   gui = 'bold' })
-  highlight('OrangeInv',{guifg = normal_bg, guibg = p.orange, gui = 'bold' })
-  highlight('PurpleInv',{guifg = normal_bg, guibg = p.purple, gui = 'bold' })
-  highlight('RedInv',   {guifg = normal_bg, guibg = p.red,    gui = 'bold' })
-  highlight('YellowInv',{guifg = normal_bg, guibg = p.yellow, gui = 'bold' })
+  highlight('BlackInv', { guifg = normal_bg, guibg = p.black, gui = 'bold' })
+  highlight('BlueInv', { guifg = normal_bg, guibg = p.blue, gui = 'bold' })
+  highlight('GreenInv', { guifg = normal_bg, guibg = p.green, gui = 'bold' })
+  highlight('GreyInv', { guifg = normal_bg, guibg = p.grey, gui = 'bold' })
+  highlight('OrangeInv', { guifg = normal_bg, guibg = p.orange, gui = 'bold' })
+  highlight('PurpleInv', { guifg = normal_bg, guibg = p.purple, gui = 'bold' })
+  highlight('RedInv', { guifg = normal_bg, guibg = p.red, gui = 'bold' })
+  highlight('YellowInv', { guifg = normal_bg, guibg = p.yellow, gui = 'bold' })
 
-  link('STError',                  'Red')
-  link('InlayHint',                'Grey')
-  link('STWarning',                'Orange')
-  link('STInfo',                   'Blue')
-  link('STHint',                   'Green')
+  link('STError', 'Red')
+  link('InlayHint', 'Grey')
+  link('STWarning', 'Orange')
+  link('STInfo', 'Blue')
+  link('STHint', 'Green')
   link('GitSignsCurrentLineBlame', 'Comment')
-  link('FocusedSymbol',            'GreenInv')
+  link('FocusedSymbol', 'GreenInv')
 
   link('DiagnosticError', 'Red')
   link('DiagnosticWarning', 'Orange')
@@ -177,21 +176,21 @@ function M.setup()
   -- highlight('debugPC', normal_bg, p.green)
   -- highlight('debugBreakpoint', p.red, normal_bg)
 
-  fn.sign_define( 'DiagnosticSignError',       { text = '', texthl = 'DiagnosticError' })
-  fn.sign_define( 'DiagnosticSignWarn',        { text = '', texthl = 'DiagnosticWarn' })
-  fn.sign_define( 'DiagnosticSignInformation', { text = '', texthl = 'DiagnosticInformation' })
-  fn.sign_define( 'DiagnosticSignHint',        { text = '', texthl = 'DiagnosticHint' })
+  fn.sign_define('DiagnosticSignError', { text = '', texthl = 'DiagnosticSignError' })
+  fn.sign_define('DiagnosticSignWarn', { text = '', texthl = 'DiagnosticSignWarn' })
+  fn.sign_define('DiagnosticSignInformation', { text = '', texthl = 'DiagnosticSignInformation' })
+  fn.sign_define('DiagnosticSignHint', { text = '', texthl = 'DiagnosticSignHint' })
 
-  fn.sign_define( 'DiagnosticVirtualTextError',       { text = '', texthl = 'DiagnosticSignError' })
-  fn.sign_define( 'DiagnosticVirtualTextWarn',        { text = '', texthl = 'DiagnosticSignWarn' })
-  fn.sign_define( 'DiagnosticVirtualTextInformation', { text = '', texthl = 'DiagnosticSignInformation' })
-  fn.sign_define( 'DiagnosticVirtualTextHint',        { text = '', texthl = 'DiagnosticSignHint' })
+  fn.sign_define('DiagnosticVirtualTextError', { text = '', texthl = 'DiagnosticSignError' })
+  fn.sign_define('DiagnosticVirtualTextWarn', { text = '', texthl = 'DiagnosticSignWarn' })
+  fn.sign_define('DiagnosticVirtualTextInformation', { text = '', texthl = 'DiagnosticSignInformation' })
+  fn.sign_define('DiagnosticVirtualTextHint', { text = '', texthl = 'DiagnosticSignHint' })
 
-  highlight("DapBreakpoint",      { gui = "bold" })
-  highlight("DapStopped",         { guibg = p.green, guifg = normal.bg })
+  highlight("DapBreakpoint", { gui = "bold" })
+  highlight("DapStopped", { guibg = p.green, guifg = normal.bg })
 
-  fn.sign_define('DapBreakpoint', {text='●', texthl='Red',   linehl='',           numhl=''})
-  fn.sign_define('DapStopped',    {text='⯈', texthl='Green', linehl='DapStopped', numhl=''})
+  fn.sign_define('DapBreakpoint', { text = '●', texthl = 'Red', linehl = '', numhl = '' })
+  fn.sign_define('DapStopped', { text = '⯈', texthl = 'Green', linehl = 'DapStopped', numhl = '' })
 
 end
 
