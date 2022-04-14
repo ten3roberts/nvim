@@ -6,7 +6,6 @@ require 'config.palette'.setup();
 require 'config.telescope'
 require 'config.dev_utils'
 require 'config.onlines'
-require 'config.aerial'
 require 'config.treesitter'
 require 'config.lir'
 require 'config.commands'
@@ -14,10 +13,10 @@ require 'config.clean_fold'
 require 'config.statusline'.setup()
 require 'config.lsp'
 require 'config.dbg'
+require 'config.aerial'
 require 'config.pairs'
 require 'config.completion'
 require 'config.autocommands'
-require 'config.neogit'
 require 'colorizer'.setup(
   { '*' },
   {

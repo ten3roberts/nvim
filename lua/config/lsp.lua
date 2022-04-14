@@ -2,12 +2,18 @@ local function buf_map(buf, mod, lhs, rhs)
   vim.keymap.set(mod, lhs, rhs, { silent = true, buffer = buf })
 end
 
-local aerial = require'aerial'
+local aerial = require 'aerial'
 local diagnostic = vim.diagnostic
 local lsp_diagnostic = vim.lsp.diagnostic
-local lsp_signature = require'lsp_signature'
+local lsp_signature = require 'lsp_signature'
 local qf = require "qf"
 local sev = diagnostic.severity
+
+require('lspkind').init({
+  symbol_map = {
+    Function = "ﬦ"
+  }
+})
 
 local M = { buffers = {}, statusline_cache = {} }
 
@@ -57,7 +63,6 @@ function M.set_qf()
   qf.tally "c"
 end
 
-
 function M.on_attach(client)
   -- Lsp signature
   lsp_signature.on_attach({
@@ -68,7 +73,7 @@ function M.on_attach(client)
     -- hint_scheme = "String",
     zindex = 1,
     handler_opts = {
-      border = "single"   -- double, single, shadow, none
+      border = "single" -- double, single, shadow, none
     },
   })
 
@@ -77,27 +82,27 @@ function M.on_attach(client)
   -- Setup mappings
 
   -- Jump forwards/backwards at the same tree level with '[[' and ']]'
-  buf_map(0, '', '[[',         '<cmd>AerialPrevUp<CR>')
-  buf_map(0, '', ']]',         '<cmd>AerialNextUp<CR>')
+  buf_map(0, '', '[[', '<cmd>AerialPrevUp<CR>')
+  buf_map(0, '', ']]', '<cmd>AerialNextUp<CR>')
 
   local provider_cmds = cmd[provider]
 
-  buf_map(0, '', '<leader>cf',  vim.lsp.buf.formatting)
-  buf_map(0, '', '<leader>ce',  vim.diagnostic.open_float)
+  buf_map(0, '', '<leader>cf', vim.lsp.buf.formatting)
+  buf_map(0, '', '<leader>ce', vim.diagnostic.open_float)
   buf_map(0, '', '<leader>cwa', vim.lsp.buf.add_workspace_folder)
   buf_map(0, '', '<leader>cwl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end)
   buf_map(0, '', '<leader>cwr', vim.lsp.buf.remove_workspace_folder)
-  buf_map(0, '', '<leader>q',   require"config.lsp".set_qf)
-  buf_map(0, '', '<leader>rn',  vim.lsp.buf.rename)
-  buf_map(0, '', '<leader>a',   vim.lsp.buf.code_action)
-  buf_map(0, '', 'K',           vim.lsp.buf.hover)
-  buf_map(0, '', '[d',          vim.lsp.diagnostic.goto_prev)
-  buf_map(0, '', ']d',          vim.lsp.diagnostic.goto_next)
-  buf_map(0, '', 'gD',          provider_cmds.declarations)
-  buf_map(0, '', 'gd',          provider_cmds.definitions)
-  buf_map(0, '', 'gi',          vim.lsp.buf.implementation)
-  buf_map(0, '', 'gr',          vim.lsp.buf.references)
-  buf_map(0, '', 'gy',          vim.lsp.buf.type_definition)
+  buf_map(0, '', '<leader>q', require "config.lsp".set_qf)
+  buf_map(0, '', '<leader>rn', vim.lsp.buf.rename)
+  buf_map(0, '', '<leader>a', vim.lsp.buf.code_action)
+  buf_map(0, '', 'K', vim.lsp.buf.hover)
+  buf_map(0, '', '[d', vim.lsp.diagnostic.goto_prev)
+  buf_map(0, '', ']d', vim.lsp.diagnostic.goto_next)
+  buf_map(0, '', 'gD', provider_cmds.declarations)
+  buf_map(0, '', 'gd', provider_cmds.definitions)
+  buf_map(0, '', 'gi', vim.lsp.buf.implementation)
+  buf_map(0, '', 'gr', vim.lsp.buf.references)
+  buf_map(0, '', 'gy', vim.lsp.buf.type_definition)
 
 end
 
@@ -106,10 +111,10 @@ function M.deferred_loc()
 end
 
 local diagnostic_severities = {
-  [sev.ERROR] = { hl = '%#STError#',   type = 'E', kind = 'error',   sign = ''};
-  [sev.WARN]  = { hl = '%#STWarning#', type = 'W', kind = 'warning', sign = ''};
-  [sev.INFO]  = { hl = '%#STInfo#',    type = 'I', kind = 'info',    sign = ''};
-  [sev.HINT]  = { hl = '%#STHint#',    type = 'H', kind = 'hint',    sign = ''};
+  [sev.ERROR] = { hl = '%#STError#', type = 'E', kind = 'error', sign = '' };
+  [sev.WARN]  = { hl = '%#STWarning#', type = 'W', kind = 'warning', sign = '' };
+  [sev.INFO]  = { hl = '%#STInfo#', type = 'I', kind = 'info', sign = '' };
+  [sev.HINT]  = { hl = '%#STHint#', type = 'H', kind = 'hint', sign = '' };
 }
 
 -- function M.on_publish_diagnostics(err, method, result, client_id, _, _)
@@ -132,7 +137,7 @@ function M.on_publish_diagnostics(_, result, ctx, cfg)
     [sev.HINT] = 0,
   }
 
-  for _,v in ipairs(result.diagnostics) do
+  for _, v in ipairs(result.diagnostics) do
     local severity = v.severity
 
     diagnostic_count[severity] = diagnostic_count[severity] + 1
@@ -173,17 +178,17 @@ function M.statusline(bufnr, highlight)
   local t = {}
 
   if highlight then
-    for i,v in ipairs(diagnostics) do
+    for i, v in ipairs(diagnostics) do
       if v > 0 then
         local severity = diagnostic_severities[i]
-        t[#t+1] = severity.hl .. severity.sign .. ' ' .. v .. ' '
+        t[#t + 1] = severity.hl .. severity.sign .. ' ' .. v .. ' '
       end
     end
   else
-    for i,v in ipairs(diagnostics) do
+    for i, v in ipairs(diagnostics) do
       if v > 0 then
         local severity = diagnostic_severities[i]
-        t[#t+1] = severity.sign .. ' ' .. v .. ' '
+        t[#t + 1] = severity.sign .. ' ' .. v .. ' '
       end
     end
   end
@@ -227,26 +232,26 @@ lsp_installer.on_server_ready(function(server)
     opts.settings = {
       ["rust-analyzer"] = {
         cargo = {
-          runBuildScripts=true
+          runBuildScripts = true
         }
       }
     }
 
-    require("config.rust").setup( opts )
+    require("config.rust").setup(opts)
     server:attach_buffers()
     return
   end
-    -- (optional) Customize the options passed to the server
-    -- if server.name == "tsserver" then
-    --     opts.root_dir = function() ... end
-    -- end
+  -- (optional) Customize the options passed to the server
+  -- if server.name == "tsserver" then
+  --     opts.root_dir = function() ... end
+  -- end
 
-    -- This setup() function will take the provided server configuration and decorate it with the necessary properties
-    -- before passing it onwards to lspconfig.
-    -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-    -- This setup() function is exactly the same as lspconfig's setup function.
-    -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/ADVANCED_README.md
-    server:setup(opts)
+  -- This setup() function will take the provided server configuration and decorate it with the necessary properties
+  -- before passing it onwards to lspconfig.
+  -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+  -- This setup() function is exactly the same as lspconfig's setup function.
+  -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/ADVANCED_README.md
+  server:setup(opts)
 end)
 
 return M

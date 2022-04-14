@@ -15,10 +15,6 @@ require("aerial").setup({
   -- Set to false to disable
   highlight_on_jump = 300,
 
-  icons = {
-    Function = "ﬦ"
-  },
-
   -- When you fold code with za, zo, or zc, update the aerial tree as well.
   -- Only works when manage_folds = true
   link_folds_to_tree = false,

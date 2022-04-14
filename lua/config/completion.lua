@@ -1,4 +1,5 @@
 local cmp = require('cmp')
+local lspkind = require "lspkind"
 local fn = vim.fn
 local o = vim.o
 
@@ -49,7 +50,7 @@ local rel_ft = {
 
 local default_sources = {
 
-{
+  {
     name = "path",
     option = {
       get_cwd = function()
@@ -63,14 +64,22 @@ local default_sources = {
       end
     }
   },
-{ name = 'vsnip' },
-{ name = 'nvim_lsp' },
-{ name = 'buffer' },
+  { name = 'nvim_lsp' },
+  { name = 'treesitter' },
+  { name = 'vsnip' },
+  { name = 'buffer' },
 }
+
 cmp.setup {
   completion = {
     completeopt = "longest,noinsert,preview,noselect,shortest"
   },
+  -- formatting = {
+  --   format = lspkind.cmp_format({
+  --     mode = 'symbol', -- show only symbol annotations
+  --     maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+  --   })
+  -- },
   snippet = {
     expand = function(args)
       vim.fn["vsnip#anonymous"](args.body)

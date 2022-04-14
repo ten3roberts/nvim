@@ -166,8 +166,10 @@ map('x', 'ga', '<plug>(EasyAlign)')
 map('n', 'ga', '<plug>(EasyAlign)')
 
 -- Snippet expansion
-map('i', '<C-l>', "<Plug>(vsnip-jump-next)")
-map('n', '<C-l>', "<Plug>(vsnip-jump-next)")
+map('i', '<C-l>', "<Plug>(vsnip-expand-or-jump)")
+map('n', '<C-l>', "<Plug>(vsnip-expand-or-jump)")
+map('i', '<C-h>', "<Plug>(vsnip-jump-prev)")
+map('n', '<C-h>', "<Plug>(vsnip-jump-prev)")
 
 -- Movements
 map('', '<C-j>', '}', { noremap = true })
@@ -199,16 +201,11 @@ map("n", "<A-p>", "<Plug>(YankyCycleBackward)")
 -- map('', 'M', '2dWBhP')
 
 -- Move lines
-map('n', '<A-up>', ':m .-2<CR>', silent)
-map('n', '<A-down>', ':m .+1<CR>', silent)
 
-map('x', '<A-up>', ':m \'<-2<CR>gv', silent)
-map('x', '<A-down>', ':m \'>+1<CR>gv', silent)
-map('n', '<A-k>', ':m .-2<CR>', silent)
-map('n', '<A-j>', ':m .+1<CR>', silent)
-
-map('x', '<A-k>', ':m \'<-2<CR>gv', silent)
-map('x', '<A-j>', ':m \'>+1<CR>gv', silent)
+map('n', '<A-k>', ":m .-2<CR>==", silent)
+map('n', '<A-j>', ":m .+1<CR>==", silent)
+map('x', '<A-k>', ":m '<-2<CR>gv=gv", silent)
+map('x', '<A-j>', ":m '>+1<CR>gv=gv", silent)
 
 map('n', '<A-h>', ':SidewaysLeft<CR>', silent)
 map('n', '<A-l>', ':SidewaysRight<CR>', silent)

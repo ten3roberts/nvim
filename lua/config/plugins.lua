@@ -49,17 +49,17 @@ local paq = require 'paq' {
 
   'AndrewRadev/sideways.vim', -- Move arguments and elements in list around
   'McAuleyPenney/Tidy.nvim',
+  'RRethy/nvim-treesitter-textsubjects',
   'ThePrimeagen/harpoon',
-  'haya14busa/vim-asterisk',
   'airblade/vim-rooter',
   'andymass/vim-matchup',
-  'TimUntersberger/neogit',
-  'sindrets/diffview.nvim',
-  'gbprod/yanky.nvim',
-  -- 'bfredl/nvim-miniyank',
   'dkarter/bullets.vim', -- Markdown bullet management
+  'echasnovski/mini.nvim',
+  'folke/persistence.nvim',
   'folke/zen-mode.nvim',
+  'gbprod/yanky.nvim',
   'ggandor/leap.nvim',
+  'haya14busa/vim-asterisk',
   'hrsh7th/cmp-buffer',
   'hrsh7th/cmp-nvim-lsp',
   'hrsh7th/cmp-path',
@@ -85,18 +85,20 @@ local paq = require 'paq' {
   'nvim-telescope/telescope-project.nvim',
   'nvim-telescope/telescope.nvim',
   'nvim-treesitter/nvim-treesitter',
+  'onsails/lspkind-nvim',
   'phaazon/hop.nvim', -- Jump around in current buffer
   'qxxxb/vim-searchhi', -- Highlight current search match
   'rafamadriz/friendly-snippets', -- Preconfigured snippets
+  'ray-x/cmp-treesitter',
   'ray-x/lsp_signature.nvim', -- Show function signature help
-  'echasnovski/mini.nvim',
   'rcarriga/nvim-dap-ui',
   'rcarriga/nvim-notify',
   'rhysd/conflict-marker.vim',
   'simrat39/rust-tools.nvim',
-  'folke/persistence.nvim',
+  'sindrets/diffview.nvim',
   'stevearc/aerial.nvim', -- Symbol tree
   'stevearc/dressing.nvim',
+  'stevearc/stickybuf.nvim',
   'tamago324/lir-git-status.nvim',
   'tikhomirov/vim-glsl', -- GLSL runtime files
   'tpope/vim-abolish', -- Change casing styles and provide smart search and replace
@@ -111,7 +113,7 @@ local paq = require 'paq' {
   'williamboman/nvim-lsp-installer',
   'windwp/nvim-autopairs',
   'windwp/nvim-ts-autotag',
-  'stevearc/stickybuf.nvim',
+  -- 'bfredl/nvim-miniyank',
 }
 
 

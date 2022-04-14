@@ -1,9 +1,9 @@
-local npairs  = require'nvim-autopairs'
-local Rule    = require'nvim-autopairs.rule'
+local npairs  = require 'nvim-autopairs'
+local Rule    = require 'nvim-autopairs.rule'
 local endwise = require('nvim-autopairs.ts-rule').endwise
-local cond = require('nvim-autopairs.conds')
+local cond    = require('nvim-autopairs.conds')
 
-npairs.setup{
+npairs.setup {
   check_ts = false,
   autotag = {
     enable = true,
@@ -14,7 +14,7 @@ npairs.setup{
   fast_wrap = {
     end_key = 'L',
     map = '<M-e>',
-    chars = { '{', '[', '(', '"', "'", "<" , "{ ", "[ ", " ( ", "$" },
+    chars = { '{', '[', '(', '"', "'", "<", "{ ", "[ ", " ( ", "$" },
     pattern = '[' .. table.concat { ' ', '%.', '%)', '%]', '%}', ',', '%"', '%;', '>', '|' } .. ']',
     offset = -1,
     keys = 'qwertyuiopzxcvbnmasdfghjkl',
@@ -27,8 +27,8 @@ local opt = npairs.config
 local basic = function(...)
   local move_func = opt.enable_moveright and cond.move_right or cond.none
   local rule = Rule(...)
-  :with_move(function(opts) return opts.next_char == opts.char end)
-  :with_pair(cond.not_add_quote_inside_quote())
+      :with_move(function(opts) return opts.next_char == opts.char end)
+      :with_pair(cond.not_add_quote_inside_quote())
 
   if #opt.ignored_next_char > 1 then
     rule:with_pair(cond.not_after_regex(opt.ignored_next_char))
@@ -40,7 +40,7 @@ end
 local bracket = function(...)
   if opt.enable_check_bracket_line == true then
     return basic(...)
-    :with_pair(cond.is_bracket_line())
+        :with_pair(cond.is_bracket_line())
   end
   return basic(...)
 end
@@ -55,19 +55,19 @@ npairs.add_rules {
   basic("|", "|", { "rust" }),
   basic("*", "*", { "markdown" }),
   basic("$", "$", { "tex", "latex" }),
-  Rule("|", "|",{"rust"}),
+  Rule("|", "|", { "rust" }),
   Rule(' ', ' ')
-    :with_pair(function (opts)
-      local pair = opts.line:sub(opts.col - 1, opts.col)
-      return vim.tbl_contains({ '()', '[]', '{}' }, pair)
-    end),
+      :with_pair(function(opts)
+        local pair = opts.line:sub(opts.col - 1, opts.col)
+        return vim.tbl_contains({ '()', '[]', '{}' }, pair)
+      end),
 
   Rule('<', '>')
-    :with_pair(function() return false end)
-    :with_move(function(opts)
-      return opts.prev_char:match('.%)') ~= nil
-    end)
-    :use_key('>'),
+      :with_pair(function() return false end)
+      :with_move(function(opts)
+        return opts.prev_char:match('.%)') ~= nil
+      end)
+      :use_key('>'),
   -- Rule('{ ', ' }')
   --   :with_pair(function() return false end)
   --   :with_move(function(opts)
@@ -97,11 +97,11 @@ npairs.add_rules {
 require('nvim-autopairs').remove_rule('\'')
 
 function _G.pairs_enter()
-  if vim.fn.pumvisible() ~= 0  then
+  if vim.fn.pumvisible() ~= 0 then
     return npairs.esc("<CR>")
   else
     return npairs.autopairs_cr()
   end
 end
 
-vim.api.nvim_set_keymap('i' , '<CR>','v:lua.pairs_enter()', { expr = true , noremap = true })
+vim.api.nvim_set_keymap('i', '<CR>', 'v:lua.pairs_enter()', { expr = true, noremap = true })
