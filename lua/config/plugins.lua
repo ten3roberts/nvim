@@ -21,6 +21,7 @@ end
 
 localpaq('~/dev/nvim/qf.nvim')
 localpaq('~/dev/nvim/lir.nvim')
+localpaq('~/dev/nvim/graphene.nvim')
 localpaq('~/dev/nvim/wgsl.vim')
 localpaq('~/dev/nvim/recipe.nvim')
 localpaq('~/dev/nvim/darken.nvim')
@@ -99,7 +100,7 @@ local paq = require 'paq' {
   'stevearc/aerial.nvim', -- Symbol tree
   'stevearc/dressing.nvim',
   'stevearc/stickybuf.nvim',
-  'tamago324/lir-git-status.nvim',
+  -- 'tamago324/lir-git-status.nvim',
   'tikhomirov/vim-glsl', -- GLSL runtime files
   'tpope/vim-abolish', -- Change casing styles and provide smart search and replace
   'tpope/vim-commentary', -- Toggle comments

@@ -154,6 +154,11 @@ t["zb"]    = { "zb", { "250" } }
 require "neoscroll".setup {}
 require "neoscroll.config".set_mappings(t)
 
+require "notify".setup {
+  timeout = 2000,
+  render = "minimal",
+  max_width = 60,
+}
 vim.notify = require("notify")
 
 vim.cmd "packadd termdebug"
