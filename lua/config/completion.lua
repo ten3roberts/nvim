@@ -18,6 +18,8 @@ local function confirm(fallback)
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
     }
+  elseif check_back_space then
+    fallback()
   elseif fn['vsnip#available'](1) then
     fn.feedkeys(t "<Plug>(vsnip-jump-next)", "")
   else
