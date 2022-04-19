@@ -247,8 +247,10 @@ map('n', '<leader><cr>', ':ToggleCheckbox<CR>')
 local dbg = require "config.dbg"
 local dap = require("dap")
 map('n', '<leader>dn', dap.step_over)
-map('n', '<leader>dl', dap.step_into)
-map('n', '<leader>dh', dap.step_out)
+map('n', '<leader>]d', dap.step_over)
+map('n', '<leader>[d', dap.step_back)
+map('n', '<leader>di', dap.step_into)
+map('n', '<leader>do', dap.step_out)
 map('n', '<leader>dd', dap.down)
 map('n', '<leader>du', dap.up)
 map('n', '<leader>ds', dap.pause)
@@ -273,7 +275,7 @@ map('n', '<leader>dlf', ':Telescope dap frames<CR>')
 map('n', '<leader>dlc', ':Telescope dap commands<CR>')
 
 map('n', '<leader>de', dap_ui.eval)
-map('n', '<leader>do', dbg.float)
+map('n', '<leader>d.', dbg.float)
 
 map('n', '<leader>dw', require('dap.ui.widgets').hover)
 

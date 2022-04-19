@@ -18,8 +18,6 @@ local function confirm(fallback)
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
     }
-  elseif check_back_space() then
-    fallback()
   elseif fn['vsnip#available'](1) then
     fn.feedkeys(t "<Plug>(vsnip-jump-next)", "")
   else
@@ -33,8 +31,6 @@ local function confirm_insert(fallback)
       behavior = cmp.ConfirmBehavior.Insert,
       select = true,
     }
-  elseif check_back_space() then
-    fallback()
   elseif vim.fn['vsnip#available'](1) then
     fn.feedkeys(t "<Plug>(vsnip-jump-prev)", "")
   else
@@ -74,22 +70,24 @@ cmp.setup {
   completion = {
     completeopt = "longest,noinsert,preview,noselect,shortest"
   },
-  -- formatting = {
-  --   format = lspkind.cmp_format({
-  --     mode = 'symbol', -- show only symbol annotations
-  --     maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-  --   })
-  -- },
+  formatting = {
+    format = lspkind.cmp_format({
+      mode = 'symbol', -- show only symbol annotations
+      maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+    })
+  },
   snippet = {
     expand = function(args)
       vim.fn["vsnip#anonymous"](args.body)
     end
   },
+  experimental = {
+    ghost_text = false
+  },
   mapping = {
     ['<C-p>'] = cmp.mapping.select_prev_item(),
     ['<C-n>'] = cmp.mapping.select_next_item(),
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-e>'] = cmp.config.disable,
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-y>'] = confirm_insert,

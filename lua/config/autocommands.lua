@@ -11,7 +11,7 @@ local lsp = require "config.lsp"
 
 au({ "BufEnter" }, { callback = lsp.deferred_loc })
 au({ "VimResized" }, { callback = function() vim.cmd "wincmd =" end })
-au({ "OptionSet" }, { callback = require "config.palette".setup, pattern = "ColorScheme" })
+au({ "ColorScheme" }, { callback = require "config.palette".setup })
 au({ "BufRead", "BufNewFile" }, { callback = function() vim.o.ft = "json" end, pattern = ".gltf" })
 au({ "BufWritePre" }, { callback = vim.lsp.buf.formatting_sync })
 au({ "BufWritePre" }, { callback = function() if vim.o.buftype == "" then fn.mkdir(fn.expand("<afile>:p:h"), "p") end end })

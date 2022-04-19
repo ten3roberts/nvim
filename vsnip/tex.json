@@ -35,5 +35,21 @@
     "body": [
       "\\parencite{$1}"
     ]
+  },
+  "table": {
+    "prefix": [
+      "table"
+    ],
+    "body": [
+      "\\begin{table}[h!]",
+      "\\center",
+      "  \\begin{tabular}{$1}",
+      "    \\hline",
+      "    $3",
+      "    \\hline",
+      "  \\end{tabular}",
+      "  \\caption{$2}",
+      "\\end{table}"
+    ]
   }
 }

@@ -15,8 +15,8 @@ require 'config.lsp'
 require 'config.dbg'
 require 'config.aerial'
 require 'config.pairs'
-require 'config.completion'
 require 'config.autocommands'
+require 'config.completion'
 require 'colorizer'.setup(
   { '*' },
   {

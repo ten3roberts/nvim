@@ -40,15 +40,14 @@ local paq = require 'paq' {
 
   -- Colorschemes
   'arcticicestudio/nord-vim',
-  { url = 'https://github.com/catppuccin/nvim', as = "catppuccin" },
-  -- { url = 'https://github.com/shaunsingh/nord.nvim', as = "nord-nvim"},
-  -- "norcalli/nvim-base16.lua",
-  -- 'romgrk/doom-one.vim',
-  'rose-pine/neovim',
+  { 'catppuccin/nvim', as = "catppuccin" },
+  'rakr/vim-one',
   'sainnhe/sonokai',
-  { url = 'https://gitlab.com/yorickpeterse/nvim-grey' },
 
   'AndrewRadev/sideways.vim', -- Move arguments and elements in list around
+  -- { 'ms-jpq/coq_nvim',                        branch="coq" },
+  -- { 'ms-jpq/coq.artifacts',                   branch="artifacts" },
+  -- { 'ms-jpq/coq.thirdparty',                  branch="3p" },
   'McAuleyPenney/Tidy.nvim',
   'RRethy/nvim-treesitter-textsubjects',
   'ThePrimeagen/harpoon',

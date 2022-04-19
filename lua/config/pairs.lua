@@ -15,7 +15,7 @@ npairs.setup {
     end_key = 'L',
     map = '<M-e>',
     chars = { '{', '[', '(', '"', "'", "<", "{ ", "[ ", " ( ", "$" },
-    pattern = '[' .. table.concat { ' ', '%.', '%)', '%]', '%}', ',', '%"', '%;', '>', '|' } .. ']',
+    pattern = '[' .. table.concat { ' ', '%.', '%)', '%]', '%}', ',', '%"', '%;', '>', '|', '$' } .. ']',
     offset = -1,
     keys = 'qwertyuiopzxcvbnmasdfghjkl',
     check_comma = false,
