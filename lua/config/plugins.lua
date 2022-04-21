@@ -40,8 +40,7 @@ local paq = require 'paq' {
 
   -- Colorschemes
   'arcticicestudio/nord-vim',
-  { 'catppuccin/nvim', as = "catppuccin" },
-  'rakr/vim-one',
+  'RRethy/nvim-base16',
   'sainnhe/sonokai',
 
   'AndrewRadev/sideways.vim', -- Move arguments and elements in list around
@@ -86,7 +85,6 @@ local paq = require 'paq' {
   'nvim-telescope/telescope.nvim',
   'nvim-treesitter/nvim-treesitter',
   'onsails/lspkind-nvim',
-  'phaazon/hop.nvim', -- Jump around in current buffer
   'qxxxb/vim-searchhi', -- Highlight current search match
   'rafamadriz/friendly-snippets', -- Preconfigured snippets
   'ray-x/cmp-treesitter',

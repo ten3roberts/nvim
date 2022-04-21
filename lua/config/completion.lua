@@ -62,9 +62,9 @@ local default_sources = {
       end
     }
   },
+  { name = 'vsnip' },
   { name = 'nvim_lsp' },
   { name = 'treesitter' },
-  { name = 'vsnip' },
   { name = 'buffer' },
 }
 
