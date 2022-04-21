@@ -124,9 +124,6 @@ require "window-picker".setup {
 }
 
 require "recipe".setup {
-  term = {
-    type = "split"
-  },
   custom_recipes = {
     rust = {
       upgrade = "cargo upgrade --workspace",
@@ -184,21 +181,23 @@ require "yanky".setup {
   },
 }
 
--- require('base16-colorscheme').setup({ -- modified base16-isotope theme
---   base00 = "#000000",
---   base01 = "#444444",
---   base02 = "#666666",
---   base03 = "#888888",
---   base04 = "#cccccc",
---   base05 = "#dddddd",
---   base06 = "#eeeeee",
---   base07 = "#ffffff",
---   base08 = "#ff0000",
---   base09 = "#ff9900",
---   base0A = "#cc00ff",
---   base0B = "#33ff00",
---   base0C = "#00ffff",
---   base0D = "#0066ff",
---   base0E = "#ff0099",
---   base0F = "#3300ff",
--- })
+local augend = require("dial.augend")
+require("dial.config").augends:register_group {
+  default = {
+    augend.integer.alias.decimal_int,
+    augend.hexcolor.new {
+      case = "upper",
+    },
+    augend.hexcolor.new {
+      case = "lower",
+    },
+    augend.integer.alias.hex,
+    augend.constant.alias.bool,
+    augend.semver.alias.semver,
+    augend.date.alias["%Y/%m/%d"],
+    augend.date.alias["%Y-%m-%d"],
+    augend.date.alias["%m/%d"],
+    augend.date.alias["%H:%M"],
+    augend.constant.alias.ja_weekday_full,
+  },
+}

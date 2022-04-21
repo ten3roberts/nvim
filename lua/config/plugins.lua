@@ -40,7 +40,7 @@ local paq = require 'paq' {
 
   -- Colorschemes
   'arcticicestudio/nord-vim',
-  'RRethy/nvim-base16',
+  'rakr/vim-one',
   'sainnhe/sonokai',
 
   'AndrewRadev/sideways.vim', -- Move arguments and elements in list around
@@ -49,6 +49,7 @@ local paq = require 'paq' {
   -- { 'ms-jpq/coq.thirdparty',                  branch="3p" },
   'McAuleyPenney/Tidy.nvim',
   'RRethy/nvim-treesitter-textsubjects',
+  'tpope/vim-unimpaired',
   'ThePrimeagen/harpoon',
   'airblade/vim-rooter',
   'andymass/vim-matchup',
