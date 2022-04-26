@@ -44,18 +44,15 @@ local paq = require 'paq' {
   'sainnhe/sonokai',
 
   'AndrewRadev/sideways.vim', -- Move arguments and elements in list around
-  -- { 'ms-jpq/coq_nvim',                        branch="coq" },
-  -- { 'ms-jpq/coq.artifacts',                   branch="artifacts" },
-  -- { 'ms-jpq/coq.thirdparty',                  branch="3p" },
   'McAuleyPenney/Tidy.nvim',
   'RRethy/nvim-treesitter-textsubjects',
-  'tpope/vim-unimpaired',
   'ThePrimeagen/harpoon',
   'airblade/vim-rooter',
   'andymass/vim-matchup',
   'dkarter/bullets.vim', -- Markdown bullet management
   'echasnovski/mini.nvim',
-  'folke/persistence.nvim',
+  -- 'folke/persistence.nvim',
+  'olimorris/persisted.nvim',
   'folke/zen-mode.nvim',
   'gbprod/yanky.nvim',
   'ggandor/leap.nvim',
@@ -98,7 +95,7 @@ local paq = require 'paq' {
   'stevearc/aerial.nvim', -- Symbol tree
   'stevearc/dressing.nvim',
   'stevearc/stickybuf.nvim',
-  -- 'tamago324/lir-git-status.nvim',
+  'nvim-telescope/telescope-file-browser.nvim',
   'tikhomirov/vim-glsl', -- GLSL runtime files
   'tpope/vim-abolish', -- Change casing styles and provide smart search and replace
   'tpope/vim-commentary', -- Toggle comments
@@ -108,11 +105,15 @@ local paq = require 'paq' {
   'tpope/vim-rsi', -- Readline mappings in insert mode
   'tpope/vim-sleuth',
   'tpope/vim-surround', -- ( surround text )
+  'tpope/vim-unimpaired',
   'wellle/targets.vim', -- Better handling and seeking for textobjects
   'williamboman/nvim-lsp-installer',
   'windwp/nvim-autopairs',
   'windwp/nvim-ts-autotag',
-  -- 'bfredl/nvim-miniyank',
+  -- 'tamago324/lir-git-status.nvim',
+  -- { 'ms-jpq/coq.artifacts',                   branch="artifacts" },
+  -- { 'ms-jpq/coq.thirdparty',                  branch="3p" },
+  -- { 'ms-jpq/coq_nvim',                        branch="coq" },
 }
 
 

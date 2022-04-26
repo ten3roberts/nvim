@@ -15,13 +15,6 @@ a.nvim_create_user_command("CargoAdd", function(c) recipe.execute({ cmd = "cargo
 a.nvim_create_user_command("CargoVersion", function(c) recipe.execute("cargo workspaces version " .. c.args, true) end, { ["nargs"] = "*" })
 a.nvim_create_user_command("Clip", "let @+=@\"", {})
 
-local p = require "persistence"
-a.nvim_create_user_command("PersistenceLoad", p.load, {})
-a.nvim_create_user_command("PersistenceLast", function()
-	p.load { last = true }
-end, {})
-a.nvim_create_user_command("PersistenceStop", p.stop, {})
-
 vim.cmd [[
 function! Redir(cmd, rng, start, end)
 	for win in range(1, winnr('$'))

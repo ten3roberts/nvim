@@ -1,9 +1,9 @@
-local actions = require'telescope.actions'
+local actions = require 'telescope.actions'
 
-local telescope = require"telescope"
+local telescope = require "telescope"
 
-telescope.setup{
-  defaults = require'telescope.themes'.get_dropdown {
+telescope.setup {
+  defaults = require 'telescope.themes'.get_dropdown {
     vimgrep_arguments = {
       'rg',
       -- '--fixed-strings',
@@ -20,9 +20,9 @@ telescope.setup{
     entry_prefix = "  ",
     initial_mode = "insert",
     selection_strategy = "reset",
-    file_sorter =  require'telescope.sorters'.get_fuzzy_file,
+    file_sorter = require 'telescope.sorters'.get_fuzzy_file,
     file_ignore_patterns = {},
-    generic_sorter =  require'telescope.sorters'.get_generic_fuzzy_sorter,
+    generic_sorter = require 'telescope.sorters'.get_generic_fuzzy_sorter,
     winblend = 10,
     border = {},
     borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' },
@@ -79,10 +79,10 @@ telescope.setup{
         }
       }
     },
-    current_buffer_fuzzy_find = require'telescope.themes'.get_ivy{
+    current_buffer_fuzzy_find = require 'telescope.themes'.get_ivy {
       layout_config = { width = 0.7, height = 0.7 },
     },
-    diagnostics = require'telescope.themes'.get_ivy{
+    diagnostics = require 'telescope.themes'.get_ivy {
       layout_config = { width = 0.7, height = 0.7 },
       mappings = {
         i = {
@@ -90,7 +90,7 @@ telescope.setup{
         }
       }
     },
-    live_grep = require'telescope.themes'.get_ivy{
+    live_grep = require 'telescope.themes'.get_ivy {
       layout_config = { width = 0.7, height = 0.7 },
       mappings = {
         i = {
@@ -111,11 +111,10 @@ telescope.setup{
   extensions = {
     fzy_native = {
       override_generic_sorter = true, -- override the generic sorter
-      override_file_sorter = true,     -- override the file sorter
+      override_file_sorter = true, -- override the file sorter
     },
-    file_browser = require 'telescope.themes'.get_dropdown {
-      -- theme = "ivy",
-      layout_config = { width = 0.5, height = 0.5 },
+    file_browser = {
+      path = "%:p:h",
     },
     project = {
       mappings = {
@@ -127,8 +126,8 @@ telescope.setup{
         }
       },
       base_dirs = {
-      { path = '~/dev', max_depth = 4 },
-      { '~/.config/nvim' }
+        { path = '~/dev', max_depth = 4 },
+        { '~/.config/nvim' }
       },
       hidden_files = false -- default: false
     }
@@ -139,3 +138,4 @@ telescope.load_extension 'fzy_native'
 telescope.load_extension 'dap'
 telescope.load_extension 'project'
 telescope.load_extension('harpoon')
+telescope.load_extension "file_browser"
