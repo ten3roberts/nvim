@@ -6,44 +6,6 @@ local silent = { silent = true }
 
 vim.g.mapleader = ' '
 
--- map('n', '<leader>f',  ':Vaffle %<CR>')
-map('n', '<leader>pe', function() require "lir.float".init(vim.fn.getcwd()) end)
-map('n', '<leader>f', require "lir.float".init)
-map('n', '<leader>po', ':AerialOpen<CR>')
-
--- Fzf
--- map('n', '<leader><leader>', ':Files<CR>')
--- map('n', '<leader>,',        ':Buffers<CR>')
--- map('n', '<leader>/',        ':BLines<CR>')
--- map('n', '<leader>?',        ':BLines<CR>')
--- map('n', '<leader>rg',       ':Rg<CR>')
--- map('n', '<leader>o',        ':Files<CR>')
--- map('n', '<leader>O',        ':Files<CR>')
--- map('n', '<leader>gl',       ':Commits<CR>')
--- map('n', '<leader>gs',       ':GFiles?<CR>')
--- map('n', '<leader>a',        ':CodeActions<CR>')
--- map('n', '<leader>o',        ':DocumentSymbols<CR>')
--- map('n', '<leader>O',        ':WorkspaceSymbols<CR>')
--- map('n', '<leader>dd',       ':Diagnostics<CR>')
--- map('n', '<leader>D',        ':DiagnosticsAll<CR>')
-
--- Telescope
-map('n', '<leader><leader>', ':Telescope find_files<CR>')
--- map('n',    '<leader>f',        '<cmd>lua require "telescope".extensions.file_browser.file_browser { path="%:p:h" }<CR>')
-map('n', '<leader>rf', ':Telescope oldfiles<CR>')
-map('n', '<M-x>', ':Telescope command_history<CR>')
-map('n', '<leader>,', ':Telescope buffers<CR>')
-map('n', '<leader>/', ':Telescope current_buffer_fuzzy_find<CR>')
-map('n', '<leader>/', ':Telescope current_buffer_fuzzy_find<CR>')
-map('n', '<leader>rg', ':Telescope live_grep<CR>')
-map('n', '<leader>gl', ':Telescope git_commits<CR>')
-map('n', '<leader>gs', ':Telescope git_status<CR>')
-map('n', '<leader>o', ':Telescope lsp_document_symbols<CR>')
-map('n', '<leader>O', ':Telescope lsp_dynamic_workspace_symbols<CR>')
-map('n', '<leader>dd', ':Telescope lsp_document_diagnostics<CR>')
-map('n', '<leader>D', ':Telescope diagnostics<CR>')
-map('n', '<leader>pp', ":SessionLoad<CR>")
-
 -- Harpoon
 local harpoon_term = require("harpoon.term")
 local harpoon_ui = require("harpoon.ui")
@@ -244,51 +206,6 @@ map('n', '<leader>xx', '<cmd>lua require"config.dev_utils".save_and_exec()<CR>')
 map('n', '<leader><cr>', ':ToggleCheckbox<CR>')
 
 -- DAP
-local dbg = require "config.dbg"
-local dap = require("dap")
-map('n', '<leader>dn', dap.step_over)
-map('n', '<leader>]d', dap.step_over)
-map('n', '<leader>[d', dap.step_back)
-map('n', '<leader>di', dap.step_into)
-map('n', '<leader>do', dap.step_out)
-map('n', '<leader>dd', dap.down)
-map('n', '<leader>du', dap.up)
-map('n', '<leader>ds', dap.pause)
-map('n', '<leader>dQ', dap.close)
-
-map('n', '<leader>db', dap.toggle_breakpoint)
-map('n', '<leader>dB', dbg.conditioal_break)
-
-map('n', '<leader>dBe', dap.set_exception_breakpoints)
-
-
-local dap_ui = require("dapui")
-
-map('n', '<leader>dc', dap.continue)
-map('n', '<leader>dr', dap.run_last)
-map('n', '<leader>dg', dap.run_to_cursor)
-map('n', '<leader>dO', dap_ui.toggle)
-
-map('n', '<leader>dlv', ':Telescope dap variables<CR>')
-map('n', '<leader>dlb', ':Telescope dap list_breakpoints<CR>')
-map('n', '<leader>dlf', ':Telescope dap frames<CR>')
-map('n', '<leader>dlc', ':Telescope dap commands<CR>')
-
-map('n', '<leader>de', dap_ui.eval)
-map('n', '<leader>d.', dbg.float)
-
-map('n', '<leader>dw', require('dap.ui.widgets').hover)
-
-map('n', '<F5>', dap.continue)
-map('n', '<F10>', dap.step_over)
-map('n', '<F11>', dap.step_into)
-map('n', '<F12>', dap.step_out)
-
--- map('', '<leader>dn', ":Step<CR>")
--- map('', '<leader>dc', ":Continue<CR>")
--- map('', '<leader>db', ":Break<CR>")
--- map('', '<leader>db', ":Break<CR>")
-
 -- Rust
 map('n', '<leader>rr', ':RustRunnables<CR>')
 map('n', '<leader>rd', ':RustDebuggables<CR>')

@@ -219,17 +219,21 @@ require("nvim-lsp-installer").setup {
   automatic_installation = true
 }
 
-lspconfig.sumneko_lua.setup(vim.tbl_extend("error", require "config.lua-lsp", { on_attach = M.on_attach }))
+M.server_conf = {
+  on_attach = M.on_attach,
+  capabilities = capabilities,
+}
+
+lspconfig.sumneko_lua.setup(vim.tbl_extend("error", require "config.lua-lsp", M.server_conf))
 -- lspconfig.rust_analyzer.setup {}
-require "config.rust".setup({ on_attach = M.on_attach })
-lspconfig.gopls.setup { on_attach = M.on_attach }
-lspconfig.sqls.setup { on_attach = M.on_attach }
-lspconfig.svelte.setup { on_attach = M.on_attach }
-lspconfig.tailwindcss.setup { on_attach = M.on_attach }
-lspconfig.clangd.setup { on_attach = M.on_attach }
-lspconfig.omnisharp.setup { on_attach = M.on_attach }
-lspconfig.cssls.setup { on_attach = M.on_attach }
-lspconfig.jsonls.setup { on_attach = M.on_attach }
-lspconfig.taplo.setup { on_attach = M.on_attach }
+lspconfig.gopls.setup(M.server_conf)
+lspconfig.sqls.setup(M.server_conf)
+lspconfig.svelte.setup(M.server_conf)
+lspconfig.tailwindcss.setup(M.server_conf)
+lspconfig.clangd.setup(M.server_conf)
+lspconfig.omnisharp.setup(M.server_conf)
+lspconfig.cssls.setup(M.server_conf)
+lspconfig.jsonls.setup(M.server_conf)
+lspconfig.taplo.setup(M.server_conf)
 
 return M

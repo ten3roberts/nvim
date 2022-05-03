@@ -123,4 +123,44 @@ function M.conditioal_break()
     function(v) dap.set_breakpoint(v) end)
 end
 
+local function map(mode, lhs, rhs, opts)
+  vim.keymap.set(mode, lhs, rhs, opts)
+end
+
+map('n', '<leader>dn', dap.step_over)
+map('n', '<leader>]d', dap.step_over)
+map('n', '<leader>[d', dap.step_back)
+map('n', '<leader>di', dap.step_into)
+map('n', '<leader>do', dap.step_out)
+map('n', '<leader>dd', dap.down)
+map('n', '<leader>du', dap.up)
+map('n', '<leader>ds', dap.pause)
+map('n', '<leader>dQ', dap.close)
+
+map('n', '<leader>db', dap.toggle_breakpoint)
+map('n', '<leader>dB', M.conditioal_break)
+
+map('n', '<leader>dBe', dap.set_exception_breakpoints)
+
+
+map('n', '<leader>dc', dap.continue)
+map('n', '<leader>dr', dap.run_last)
+map('n', '<leader>dg', dap.run_to_cursor)
+map('n', '<leader>dO', ui.toggle)
+
+map('n', '<leader>dlv', ':Telescope dap variables<CR>')
+map('n', '<leader>dlb', ':Telescope dap list_breakpoints<CR>')
+map('n', '<leader>dlf', ':Telescope dap frames<CR>')
+map('n', '<leader>dlc', ':Telescope dap commands<CR>')
+
+map('n', '<leader>de', ui.eval)
+map('n', '<leader>d.', M.float)
+
+map('n', '<leader>dw', require('dap.ui.widgets').hover)
+
+map('n', '<F5>', dap.continue)
+map('n', '<F10>', dap.step_over)
+map('n', '<F11>', dap.step_into)
+map('n', '<F12>', dap.step_out)
+
 return M

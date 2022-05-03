@@ -148,3 +148,25 @@ telescope.setup {
 telescope.load_extension 'fzy_native'
 telescope.load_extension 'dap'
 telescope.load_extension('harpoon')
+
+
+local function map(mode, lhs, rhs, opts)
+  vim.keymap.set(mode, lhs, rhs, opts)
+end
+
+-- Telescope
+map('n', '<leader><leader>', ':Telescope find_files<CR>')
+-- map('n',    '<leader>f',        '<cmd>lua require "telescope".extensions.file_browser.file_browser { path="%:p:h" }<CR>')
+map('n', '<leader>rf', ':Telescope oldfiles<CR>')
+map('n', '<M-x>', ':Telescope command_history<CR>')
+map('n', '<leader>,', ':Telescope buffers<CR>')
+map('n', '<leader>/', ':Telescope current_buffer_fuzzy_find<CR>')
+map('n', '<leader>/', ':Telescope current_buffer_fuzzy_find<CR>')
+map('n', '<leader>rg', ':Telescope live_grep<CR>')
+map('n', '<leader>gl', ':Telescope git_commits<CR>')
+map('n', '<leader>gs', ':Telescope git_status<CR>')
+map('n', '<leader>o', ':Telescope lsp_document_symbols<CR>')
+map('n', '<leader>O', ':Telescope lsp_dynamic_workspace_symbols<CR>')
+map('n', '<leader>dd', ':Telescope lsp_document_diagnostics<CR>')
+map('n', '<leader>D', ':Telescope diagnostics<CR>')
+map('n', '<leader>pp', ":SessionLoad<CR>")

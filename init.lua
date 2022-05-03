@@ -1,20 +1,14 @@
+require 'config.plugins'
 require 'config.keymap'
 require 'config.devicons'
 require 'config.mini'
 require 'config.options'
 require 'config.palette'.setup();
-require 'config.telescope'
 require 'config.dev_utils'
-require 'config.treesitter'
 require 'config.commands'
 require 'config.clean_fold'
 require 'config.statusline'.setup()
-require 'config.lsp'
-require 'config.dbg'
-require 'config.aerial'
-require 'config.pairs'
 require 'config.autocommands'
-require 'config.completion'
 require 'colorizer'.setup(
   { '*' },
   {
@@ -114,23 +108,11 @@ require 'toggle'.setup {
 }
 
 require 'config.palette'.setup()
-require("persisted").setup({
-  save_dir = vim.fn.expand(vim.fn.stdpath("data") .. "/sessions/"), -- directory where session files are saved
-  command = "VimLeavePre", -- the autocommand for which the session is saved
-  use_git_branch = true, -- create session files based on the branch of the git enabled repository
-  autosave = true, -- automatically save session files when exiting Neovim
-  autoload = false, -- automatically load the session for the cwd on Neovim startup
-  allowed_dirs = nil, -- table of dirs that the plugin will auto-save and auto-load from
-  ignored_dirs = nil, -- table of dirs that are ignored when auto-saving and auto-loading
-})
-
-require 'zen-mode'.setup()
 
 require "window-picker".setup {
   keys = "airesntmg"
 }
 
-require('git-conflict').setup {}
 
 require "neogit".setup {}
 
@@ -147,10 +129,10 @@ require "recipe".setup {
 }
 
 local t    = {}
-t["<C-u>"] = { "scroll", { "-vim.wo.scroll", "true", "200", "quadratic" } }
-t["<C-d>"] = { "scroll", { "vim.wo.scroll", "true", "200", "quadratic" } }
-t["<C-b>"] = { "scroll", { "-vim.api.nvim_win_get_height(0)", "true", "450" } }
-t["<C-f>"] = { "scroll", { "vim.api.nvim_win_get_height(0)", "true", "450" } }
+t["<C-u>"] = { "scroll", { "-vim.wo.scroll", "true", "100", "quadratic" } }
+t["<C-d>"] = { "scroll", { "vim.wo.scroll", "true", "100", "quadratic" } }
+t["<C-b>"] = { "scroll", { "-vim.api.nvim_win_get_height(0)", "true", "250" } }
+t["<C-f>"] = { "scroll", { "vim.api.nvim_win_get_height(0)", "true", "250" } }
 t["<C-y>"] = { "scroll", { "-0.10", "false", "100" } }
 t["<C-e>"] = { "scroll", { "0.10", "false", "100" } }
 t["zt"]    = { "zt", { "250" } }

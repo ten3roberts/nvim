@@ -1,114 +1,140 @@
 local fn = vim.fn
 
-local paq_dir = fn.stdpath('data') .. '/site/pack/paqs/start/'
-local local_dir = fn.stdpath('data') .. '/site/pack/local/start/'
-local paq_path = paq_dir .. 'paq-nvim'
+local paq_dir = fn.stdpath('data') .. '/site/pack/packer/start/'
+local packer_path = paq_dir .. 'packer.nvim'
 
-if fn.empty(fn.glob(paq_path)) > 0 then
-  print 'Downloading paq-nvim'
-  fn.system({ 'git', 'clone', 'https://github.com/savq/paq-nvim', paq_path })
+if fn.empty(fn.glob(packer_path)) > 0 then
+  print 'Downloading packer'
+  fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', packer_path })
 end
 
-local function localpaq(path)
-  fn.mkdir(local_dir, 'p')
-  path = fn.fnamemodify(path, ':p'):sub(1, -2)
+vim.cmd [[packadd packer.nvim]]
+require('packer').startup(function(use)
+  -- Packer can manage itself
+  use 'wbthomason/packer.nvim'
 
-  if fn.empty(fn.glob(path)) == 0 then
-    fn.system({ 'ln', '-sf', path, local_dir })
-    vim.notify(path .. ' -> ' .. local_dir)
-  end
-end
 
-localpaq('~/dev/nvim/qf.nvim')
-localpaq('~/dev/nvim/lir.nvim')
-localpaq('~/dev/nvim/graphene.nvim')
-localpaq('~/dev/nvim/wgsl.vim')
-localpaq('~/dev/nvim/recipe.nvim')
-localpaq('~/dev/nvim/darken.nvim')
-localpaq('~/dev/nvim/toggle.nvim')
-localpaq('~/dev/nvim/window-picker.nvim')
-
-local paq = require 'paq' {
-  'savq/paq-nvim', -- Let Paq manage itself
-
-  -- My plugins
-  -- 'ten3roberts/toggle.nvim',
-  -- 'ten3roberts/qf.nvim',
-  -- 'ten3roberts/darken.nvim',
-  -- 'ten3roberts/window-picker.nvim',
-  -- 'ten3roberts/recipe.nvim',
-
+  use('~/dev/nvim/qf.nvim')
+  use('~/dev/nvim/lir.nvim')
+  -- use ('~/dev/nvim/graphene.nvim')
+  -- use ('~/dev/nvim/wgsl.vim')
+  use('~/dev/nvim/recipe.nvim')
+  use('~/dev/nvim/darken.nvim')
+  use('~/dev/nvim/toggle.nvim')
+  use('~/dev/nvim/window-picker.nvim')
   -- Colorschemes
-  'arcticicestudio/nord-vim',
-  'rakr/vim-one',
-  'sainnhe/sonokai',
+  use 'arcticicestudio/nord-vim'
+  use 'rakr/vim-one'
+  use 'sainnhe/sonokai'
 
-  'AndrewRadev/sideways.vim', -- Move arguments and elements in list around
-  'McAuleyPenney/Tidy.nvim',
-  'RRethy/nvim-treesitter-textsubjects',
-   'ThePrimeagen/harpoon',
-   'TimUntersberger/neogit',
-  'airblade/vim-rooter',
-  'akinsho/git-conflict.nvim',
-  'andymass/vim-matchup',
-  'dkarter/bullets.vim', -- Markdown bullet management
-  'echasnovski/mini.nvim',
-  'folke/zen-mode.nvim',
-  'gbprod/yanky.nvim',
-  'ggandor/leap.nvim',
-  'haya14busa/vim-asterisk',
-  'hrsh7th/cmp-buffer',
-  'hrsh7th/cmp-nvim-lsp',
-  'hrsh7th/cmp-path',
-  'hrsh7th/cmp-vsnip',
-  'hrsh7th/nvim-cmp', -- Autocompletion plugin
-  'hrsh7th/vim-vsnip',
-  'hrsh7th/vim-vsnip-integ',
-  'junegunn/vim-easy-align', -- Align text blocks
-  'kabouzeid/nvim-lspinstall',
-  'karb94/neoscroll.nvim',
-  'kyazdani42/nvim-web-devicons', -- File icons for barbar, nvim-tree and statusline
-  'lervag/vimtex',
-  'lewis6991/gitsigns.nvim', -- Show changed lines
-  'mbbill/undotree',
-  'mfussenegger/nvim-dap',
-  'monaqa/dial.nvim',
-  'neovim/nvim-lspconfig', -- LSP configurations
-  'norcalli/nvim-colorizer.lua', -- Highlight colorcodes
-  'nvim-lua/plenary.nvim',
-  'nvim-lua/popup.nvim',
-  'nvim-telescope/telescope-dap.nvim',
-  'nvim-telescope/telescope-fzy-native.nvim',
-  'nvim-telescope/telescope.nvim',
-  'nvim-treesitter/nvim-treesitter',
-  'olimorris/persisted.nvim',
-  'onsails/lspkind-nvim',
-  'qxxxb/vim-searchhi', -- Highlight current search match
-  'rafamadriz/friendly-snippets', -- Preconfigured snippets
-  'ray-x/cmp-treesitter',
-  'ray-x/lsp_signature.nvim', -- Show function signature help
-  'rcarriga/nvim-dap-ui',
-  'rcarriga/nvim-notify',
-  'simrat39/rust-tools.nvim',
-  'sindrets/diffview.nvim',
-  'stevearc/aerial.nvim', -- Symbol tree
-  'stevearc/dressing.nvim',
-  -- 'stevearc/stickybuf.nvim',
-  'tikhomirov/vim-glsl', -- GLSL runtime files
-  'tpope/vim-abolish', -- Change casing styles and provide smart search and replace
-  'tpope/vim-commentary', -- Toggle comments
-  'tpope/vim-eunuch',
-  'tpope/vim-fugitive', -- Git management
-  'tpope/vim-repeat', -- Repeat plugin commands with .
-  'tpope/vim-rsi', -- Readline mappings in insert mode
-  'tpope/vim-sleuth',
-  'tpope/vim-surround', -- ( surround text )
-  'tpope/vim-unimpaired',
-  'wellle/targets.vim', -- Better handling and seeking for textobjects
-  'williamboman/nvim-lsp-installer',
-  'windwp/nvim-autopairs',
-  'windwp/nvim-ts-autotag',
-}
+  -- Move arguments and elements in list around
+  use 'AndrewRadev/sideways.vim'
+  use 'ThePrimeagen/harpoon'
+  use 'TimUntersberger/neogit'
+  use 'airblade/vim-rooter'
 
+  use { 'akinsho/git-conflict.nvim', config = function()
+    require('git-conflict').setup {}
+  end
+  }
 
-paq:sync()
+  use { 'andymass/vim-matchup', event = "BufEnter" }
+  -- Markdown bullet management
+  use 'dkarter/bullets.vim'
+  use 'echasnovski/mini.nvim'
+  use { 'folke/zen-mode.nvim', config = function()
+    require "zen-mode".setup {}
+  end }
+  use 'gbprod/yanky.nvim'
+  use 'ggandor/leap.nvim'
+  use 'haya14busa/vim-asterisk'
+  -- Autocompletion plugin
+  use { 'hrsh7th/nvim-cmp',
+    requires = { 'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/vim-vsnip',
+      'hrsh7th/vim-vsnip-integ',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-vsnip',
+      'ray-x/cmp-treesitter'
+    },
+    config = function()
+      require "config.completion"
+    end
+  }
+  use 'junegunn/vim-easy-align' -- Align text blocks
+  use 'karb94/neoscroll.nvim'
+  use 'kyazdani42/nvim-web-devicons' -- File icons for barbar, nvim-tree and statusline
+  use 'lervag/vimtex'
+  -- Show changed lines
+  use { 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' } }
+  use 'mbbill/undotree'
+
+  use { 'mfussenegger/nvim-dap', requires = { "rcarriga/nvim-dap-ui" }, config = function()
+    require "config.dbg"
+  end }
+
+  use 'monaqa/dial.nvim'
+
+  -- LSP configurations
+  use { 'neovim/nvim-lspconfig', requires = "williamboman/nvim-lsp-installer", config = function()
+    require "config.lsp"
+  end }
+
+  use 'norcalli/nvim-colorizer.lua' -- Highlight colorcodes
+
+  use { 'nvim-telescope/telescope.nvim',
+    requires = { 'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope-dap.nvim',
+      'nvim-telescope/telescope-fzy-native.nvim'
+    },
+    config = function()
+      require "config.telescope"
+    end
+  }
+
+  use { 'nvim-treesitter/nvim-treesitter',
+    requires = { 'RRethy/nvim-treesitter-textsubjects' },
+    config = function()
+      require 'config.treesitter'
+    end
+  }
+
+  use { 'olimorris/persisted.nvim', config = function()
+    require("persisted").setup({
+      save_dir = vim.fn.expand(vim.fn.stdpath("data") .. "/sessions/"), -- directory where session files are saved
+      command = "VimLeavePre", -- the autocommand for which the session is saved
+      use_git_branch = true, -- create session files based on the branch of the git enabled repository
+      autosave = true, -- automatically save session files when exiting Neovim
+      autoload = false, -- automatically load the session for the cwd on Neovim startup
+    })
+
+  end }
+  use { 'onsails/lspkind-nvim' }
+  use 'qxxxb/vim-searchhi' -- Highlight current search match
+  use 'rafamadriz/friendly-snippets' -- Preconfigured snippets
+  use 'ray-x/lsp_signature.nvim' -- Show function signature help
+  use 'rcarriga/nvim-dap-ui'
+  use 'rcarriga/nvim-notify'
+  use { 'simrat39/rust-tools.nvim', config = function() require "config.rust" end }
+  use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
+  use { 'stevearc/aerial.nvim', config = function() require "config.aerial" end } -- Symbol tree
+  use 'stevearc/dressing.nvim'
+  -- use 'stevearc/stickybuf.nvim'
+  use 'tikhomirov/vim-glsl' -- GLSL runtime files
+
+  use 'tpope/vim-abolish' -- Change casing styles and provide smart search and replace
+  use 'tpope/vim-commentary' -- Toggle comments
+  use 'tpope/vim-eunuch'
+  use 'tpope/vim-fugitive' -- Git management
+  use 'tpope/vim-repeat' -- Repeat plugin commands with .
+  use 'tpope/vim-rsi' -- Readline mappings in insert mode
+  use 'tpope/vim-sleuth'
+  use 'tpope/vim-surround' -- ( surround text )
+  use 'tpope/vim-unimpaired'
+
+  use 'wellle/targets.vim' -- Better handling and seeking for textobjects
+  use { 'windwp/nvim-autopairs', requires = 'windwp/nvim-ts-autotag', config = function()
+    require "config.pairs"
+  end }
+end)
