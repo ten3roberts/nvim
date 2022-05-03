@@ -149,6 +149,10 @@ function M.setup()
   highlight('RedInv', { guifg = normal_bg, guibg = p.red, gui = 'bold' })
   highlight('YellowInv', { guifg = normal_bg, guibg = p.yellow, gui = 'bold' })
 
+  link("TelescopeNormal", "DarkenedBg")
+  link("TelescopePromptNormal", "Normal")
+  link("TelescopePreviewNormal", "Normal")
+
   link('STError', 'Red')
   link('InlayHint', 'Grey')
   link('STWarning', 'Orange')

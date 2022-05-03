@@ -5,9 +5,7 @@ require 'config.options'
 require 'config.palette'.setup();
 require 'config.telescope'
 require 'config.dev_utils'
-require 'config.onlines'
 require 'config.treesitter'
-require 'config.lir'
 require 'config.commands'
 require 'config.clean_fold'
 require 'config.statusline'.setup()
@@ -20,17 +18,17 @@ require 'config.completion'
 require 'colorizer'.setup(
   { '*' },
   {
-    RGB      = true, -- #RGB hex codes
-    RRGGBB   = true, -- #RRGGBB hex codes
-    names    = true, -- "Name" codes like Blue
-    RRGGBBAA = true, -- #RRGGBBAA hex codes
-    rgb_fn   = false, -- CSS rgb() and rgba() functions
-    hsl_fn   = false, -- CSS hsl() and hsla() functions
-    css      = false, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
-    css_fn   = false, -- Enable all CSS *functions*: rgb_fn, hsl_fn
-    -- Available mod,s: foreground, background
-    mode     = 'foreground', -- Set the display mode.
-  }
+  RGB      = true, -- #RGB hex codes
+  RRGGBB   = true, -- #RRGGBB hex codes
+  names    = true, -- "Name" codes like Blue
+  RRGGBBAA = true, -- #RRGGBBAA hex codes
+  rgb_fn   = false, -- CSS rgb() and rgba() functions
+  hsl_fn   = false, -- CSS hsl() and hsla() functions
+  css      = false, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
+  css_fn   = false, -- Enable all CSS *functions*: rgb_fn, hsl_fn
+  -- Available mod,s: foreground, background
+  mode     = 'foreground', -- Set the display mode.
+}
 )
 
 require 'gitsigns'.setup({
@@ -124,12 +122,6 @@ require("persisted").setup({
   autoload = false, -- automatically load the session for the cwd on Neovim startup
   allowed_dirs = nil, -- table of dirs that the plugin will auto-save and auto-load from
   ignored_dirs = nil, -- table of dirs that are ignored when auto-saving and auto-loading
-  before_save = function() end, -- function to run before the session is saved to disk
-  after_save = function() end, -- function to run after the session is saved to disk
-  telescope = { -- options for the telescope extension
-    before_source = function(session) end, -- function to run before the session is sourced via telescope
-    after_source = function(session) end, -- function to run after the session is sourced via telescope
-  },
 })
 
 require 'zen-mode'.setup()
@@ -137,6 +129,10 @@ require 'zen-mode'.setup()
 require "window-picker".setup {
   keys = "airesntmg"
 }
+
+require('git-conflict').setup {}
+
+require "neogit".setup {}
 
 require "recipe".setup {
   custom_recipes = {
@@ -172,8 +168,6 @@ require "notify".setup {
   max_width = 60,
 }
 vim.notify = require("notify")
-
-vim.cmd "packadd termdebug"
 
 require 'leap'.set_default_keymaps()
 
@@ -216,3 +210,5 @@ require("dial.config").augends:register_group {
     augend.constant.alias.ja_weekday_full,
   },
 }
+
+require "dressing".setup {}

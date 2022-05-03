@@ -46,13 +46,13 @@ local paq = require 'paq' {
   'AndrewRadev/sideways.vim', -- Move arguments and elements in list around
   'McAuleyPenney/Tidy.nvim',
   'RRethy/nvim-treesitter-textsubjects',
-  'ThePrimeagen/harpoon',
+   'ThePrimeagen/harpoon',
+   'TimUntersberger/neogit',
   'airblade/vim-rooter',
+  'akinsho/git-conflict.nvim',
   'andymass/vim-matchup',
   'dkarter/bullets.vim', -- Markdown bullet management
   'echasnovski/mini.nvim',
-  -- 'folke/persistence.nvim',
-  'olimorris/persisted.nvim',
   'folke/zen-mode.nvim',
   'gbprod/yanky.nvim',
   'ggandor/leap.nvim',
@@ -79,9 +79,9 @@ local paq = require 'paq' {
   'nvim-lua/popup.nvim',
   'nvim-telescope/telescope-dap.nvim',
   'nvim-telescope/telescope-fzy-native.nvim',
-  'nvim-telescope/telescope-project.nvim',
   'nvim-telescope/telescope.nvim',
   'nvim-treesitter/nvim-treesitter',
+  'olimorris/persisted.nvim',
   'onsails/lspkind-nvim',
   'qxxxb/vim-searchhi', -- Highlight current search match
   'rafamadriz/friendly-snippets', -- Preconfigured snippets
@@ -89,13 +89,11 @@ local paq = require 'paq' {
   'ray-x/lsp_signature.nvim', -- Show function signature help
   'rcarriga/nvim-dap-ui',
   'rcarriga/nvim-notify',
-  'rhysd/conflict-marker.vim',
   'simrat39/rust-tools.nvim',
   'sindrets/diffview.nvim',
   'stevearc/aerial.nvim', -- Symbol tree
   'stevearc/dressing.nvim',
-  'stevearc/stickybuf.nvim',
-  'nvim-telescope/telescope-file-browser.nvim',
+  -- 'stevearc/stickybuf.nvim',
   'tikhomirov/vim-glsl', -- GLSL runtime files
   'tpope/vim-abolish', -- Change casing styles and provide smart search and replace
   'tpope/vim-commentary', -- Toggle comments
@@ -110,10 +108,6 @@ local paq = require 'paq' {
   'williamboman/nvim-lsp-installer',
   'windwp/nvim-autopairs',
   'windwp/nvim-ts-autotag',
-  -- 'tamago324/lir-git-status.nvim',
-  -- { 'ms-jpq/coq.artifacts',                   branch="artifacts" },
-  -- { 'ms-jpq/coq.thirdparty',                  branch="3p" },
-  -- { 'ms-jpq/coq_nvim',                        branch="coq" },
 }
 
 

@@ -5,6 +5,7 @@ end
 local aerial = require 'aerial'
 local diagnostic = vim.diagnostic
 local lsp_diagnostic = vim.lsp.diagnostic
+local lspconfig = require "lspconfig"
 local lsp_signature = require 'lsp_signature'
 local qf = require "qf"
 local sev = diagnostic.severity
@@ -214,44 +215,21 @@ diagnostic.config {
   severity_sort = true,
 }
 
-local lsp_installer = require("nvim-lsp-installer")
--- Register a handler that will be called for each installed server when it's ready (i.e. when installation is finished
--- or if the server is already installed).
-lsp_installer.on_server_ready(function(server)
-  local opts = {
-    on_attach = M.on_attach,
-    capabilities = capabilities,
-    standalone = false,
-  }
+require("nvim-lsp-installer").setup {
+  automatic_installation = true
+}
 
-  if server.name == "sumneko_lua" then
-    opts = vim.tbl_extend("error", opts, require "config.lua-lsp")
-  elseif server.name == "rust_analyzer" then
-    opts = vim.tbl_deep_extend("error", opts, server._default_options)
-
-    opts.settings = {
-      ["rust-analyzer"] = {
-        cargo = {
-          runBuildScripts = true
-        }
-      }
-    }
-
-    require("config.rust").setup(opts)
-    server:attach_buffers()
-    return
-  end
-  -- (optional) Customize the options passed to the server
-  -- if server.name == "tsserver" then
-  --     opts.root_dir = function() ... end
-  -- end
-
-  -- This setup() function will take the provided server configuration and decorate it with the necessary properties
-  -- before passing it onwards to lspconfig.
-  -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-  -- This setup() function is exactly the same as lspconfig's setup function.
-  -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/ADVANCED_README.md
-  server:setup(opts)
-end)
+lspconfig.sumneko_lua.setup(vim.tbl_extend("error", require "config.lua-lsp", { on_attach = M.on_attach }))
+-- lspconfig.rust_analyzer.setup {}
+require "config.rust".setup({ on_attach = M.on_attach })
+lspconfig.gopls.setup { on_attach = M.on_attach }
+lspconfig.sqls.setup { on_attach = M.on_attach }
+lspconfig.svelte.setup { on_attach = M.on_attach }
+lspconfig.tailwindcss.setup { on_attach = M.on_attach }
+lspconfig.clangd.setup { on_attach = M.on_attach }
+lspconfig.omnisharp.setup { on_attach = M.on_attach }
+lspconfig.cssls.setup { on_attach = M.on_attach }
+lspconfig.jsonls.setup { on_attach = M.on_attach }
+lspconfig.taplo.setup { on_attach = M.on_attach }
 
 return M

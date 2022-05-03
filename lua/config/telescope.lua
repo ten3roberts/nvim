@@ -14,19 +14,32 @@ telescope.setup {
       '--column',
       '--smart-case'
     },
-    prompt_prefix = "> ",
-    layout_config = { width = 0.5 },
-    selection_caret = "> ",
-    entry_prefix = "  ",
+    layout_config = {
+      horizontal = {
+        prompt_position = "top",
+        preview_width = 0.55,
+        results_width = 0.8,
+      },
+      vertical = {
+        mirror = false,
+      },
+      width = 80,
+      height = 0.3,
+      preview_cutoff = 120,
+    },
     initial_mode = "insert",
-    selection_strategy = "reset",
-    file_sorter = require 'telescope.sorters'.get_fuzzy_file,
+    -- selection_strategy = "reset",
+    -- file_sorter = require 'telescope.sorters'.get_fuzzy_file,
     file_ignore_patterns = {},
     generic_sorter = require 'telescope.sorters'.get_generic_fuzzy_sorter,
-    winblend = 10,
-    border = {},
-    borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' },
-
+    border = false,
+    path_display = { "truncate" },
+    prompt_prefix = "   ",
+    selection_caret = "  ",
+    entry_prefix = "  ",
+    file_previewer = require("telescope.previewers").vim_buffer_cat.new,
+    grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
+    qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
     mappings = {
       i = {
         ["<C-c>"] = actions.close,
@@ -80,10 +93,12 @@ telescope.setup {
       }
     },
     current_buffer_fuzzy_find = require 'telescope.themes'.get_ivy {
+      border = false,
       layout_config = { width = 0.7, height = 0.7 },
     },
     diagnostics = require 'telescope.themes'.get_ivy {
       layout_config = { width = 0.7, height = 0.7 },
+      border = false,
       mappings = {
         i = {
           -- ["<CR>"] = custom_actions.file_drop,
@@ -92,6 +107,7 @@ telescope.setup {
     },
     live_grep = require 'telescope.themes'.get_ivy {
       layout_config = { width = 0.7, height = 0.7 },
+      border = false,
       mappings = {
         i = {
           -- ["<CR>"] = custom_actions.file_drop,
@@ -101,11 +117,6 @@ telescope.setup {
     lsp_code_actions = {
       theme = 'cursor',
     },
-    ["ui-select"] = {
-      require("telescope.themes").get_dropdown {
-        -- even more opts
-      }
-    }
   },
 
   extensions = {
@@ -136,6 +147,4 @@ telescope.setup {
 
 telescope.load_extension 'fzy_native'
 telescope.load_extension 'dap'
-telescope.load_extension 'project'
 telescope.load_extension('harpoon')
-telescope.load_extension "file_browser"
