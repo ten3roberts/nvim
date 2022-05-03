@@ -6,6 +6,9 @@ local silent = { silent = true }
 
 vim.g.mapleader = ' '
 
+map("n", "<leader>f", ":Graphene", silent)
+map("n", "<leader>pe", ":Graphene .", silent)
+
 -- Harpoon
 local harpoon_term = require("harpoon.term")
 local harpoon_ui = require("harpoon.ui")

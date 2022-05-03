@@ -13,15 +13,20 @@ require('packer').startup(function(use)
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
 
+  use '~/dev/nvim/qf.nvim'
+  use { '~/dev/nvim/graphene.nvim', opt = false, config = function()
+    local graphene = require "graphene"
+    graphene.setup {}
 
-  use('~/dev/nvim/qf.nvim')
-  use('~/dev/nvim/lir.nvim')
-  -- use ('~/dev/nvim/graphene.nvim')
-  -- use ('~/dev/nvim/wgsl.vim')
-  use('~/dev/nvim/recipe.nvim')
-  use('~/dev/nvim/darken.nvim')
-  use('~/dev/nvim/toggle.nvim')
-  use('~/dev/nvim/window-picker.nvim')
+    vim.keymap.set("n", "<leader>f", graphene.init, {})
+    vim.keymap.set("n", "<leader>pe", function() graphene.init(".") end, {})
+  end }
+  use { '~/dev/nvim/wgsl.vim', opt = false }
+  use '~/dev/nvim/recipe.nvim'
+  use '~/dev/nvim/darken.nvim'
+  use '~/dev/nvim/toggle.nvim'
+  use '~/dev/nvim/window-picker.nvim'
+
   -- Colorschemes
   use 'arcticicestudio/nord-vim'
   use 'rakr/vim-one'
@@ -109,7 +114,10 @@ require('packer').startup(function(use)
   }
 
   use { 'nvim-treesitter/nvim-treesitter',
-    requires = { 'RRethy/nvim-treesitter-textsubjects' },
+    requires = {
+      'RRethy/nvim-treesitter-textsubjects',
+      'nvim-treesitter/nvim-treesitter-refactor'
+    },
     config = function()
       require 'config.treesitter'
     end
