@@ -128,22 +128,6 @@ require "recipe".setup {
   }
 }
 
-local t    = {}
-t["<C-u>"] = { "scroll", { "-vim.wo.scroll", "true", "100", "quadratic" } }
-t["<C-d>"] = { "scroll", { "vim.wo.scroll", "true", "100", "quadratic" } }
-t["<C-b>"] = { "scroll", { "-vim.api.nvim_win_get_height(0)", "true", "250" } }
-t["<C-f>"] = { "scroll", { "vim.api.nvim_win_get_height(0)", "true", "250" } }
-t["<C-y>"] = { "scroll", { "-0.10", "false", "100" } }
-t["<C-e>"] = { "scroll", { "0.10", "false", "100" } }
-t["zt"]    = { "zt", { "250" } }
-t["zz"]    = { "zz", { "250" } }
-t["zb"]    = { "zb", { "250" } }
--- t["G"]     = { "G",  { "100", "quadratic" } }
--- t["gg"]    = { "gg", { "100", "quadratic" } }
-
-require "neoscroll".setup {}
-require "neoscroll.config".set_mappings(t)
-
 require "notify".setup {
   timeout = 2000,
   render = "minimal",
@@ -192,5 +176,3 @@ require("dial.config").augends:register_group {
     augend.constant.alias.ja_weekday_full,
   },
 }
-
-require "dressing".setup {}

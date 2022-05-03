@@ -38,7 +38,7 @@ require('packer').startup(function(use)
   end
   }
 
-  use { 'andymass/vim-matchup', event = "BufEnter" }
+  use { 'andymass/vim-matchup' }
   -- Markdown bullet management
   use 'dkarter/bullets.vim'
   use 'echasnovski/mini.nvim'
@@ -63,7 +63,22 @@ require('packer').startup(function(use)
     end
   }
   use 'junegunn/vim-easy-align' -- Align text blocks
-  use 'karb94/neoscroll.nvim'
+  use { 'karb94/neoscroll.nvim', config = function()
+    local t    = {}
+    t["<C-u>"] = { "scroll", { "-vim.wo.scroll", "true", "100", "quadratic" } }
+    t["<C-d>"] = { "scroll", { "vim.wo.scroll", "true", "100", "quadratic" } }
+    t["<C-b>"] = { "scroll", { "-vim.api.nvim_win_get_height(0)", "true", "250" } }
+    t["<C-f>"] = { "scroll", { "vim.api.nvim_win_get_height(0)", "true", "250" } }
+    t["<C-y>"] = { "scroll", { "-0.10", "false", "100" } }
+    t["<C-e>"] = { "scroll", { "0.10", "false", "100" } }
+    t["zt"]    = { "zt", { "250" } }
+    t["zz"]    = { "zz", { "250" } }
+    t["zb"]    = { "zb", { "250" } }
+
+    require "neoscroll".setup {}
+    require "neoscroll.config".set_mappings(t)
+  end
+  }
   use 'kyazdani42/nvim-web-devicons' -- File icons for barbar, nvim-tree and statusline
   use 'lervag/vimtex'
   -- Show changed lines
@@ -119,7 +134,15 @@ require('packer').startup(function(use)
   use { 'simrat39/rust-tools.nvim', config = function() require "config.rust" end }
   use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
   use { 'stevearc/aerial.nvim', config = function() require "config.aerial" end } -- Symbol tree
-  use 'stevearc/dressing.nvim'
+  use { 'stevearc/dressing.nvim', requires = { "telescope.nvim" }, config = function()
+    require "dressing".setup {
+      select = {
+        telescope = require "telescope.themes".get_dropdown {
+          border = false,
+        }
+      }
+    }
+  end }
   -- use 'stevearc/stickybuf.nvim'
   use 'tikhomirov/vim-glsl' -- GLSL runtime files
 

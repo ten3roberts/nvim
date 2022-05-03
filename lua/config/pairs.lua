@@ -94,8 +94,6 @@ npairs.add_rules {
   endwise('do$', 'end', 'lua'),
 }
 
-require('nvim-autopairs').remove_rule('\'')
-
 function _G.pairs_enter()
   if vim.fn.pumvisible() ~= 0 then
     return npairs.esc("<CR>")

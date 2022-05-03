@@ -20,4 +20,4 @@ au({ "FileType" }, { callback = function() vim.keymap.set("n", "<tab>", "=", { b
 au({ "BufReadPost" }, { callback = function() local l = fn.line [['"]] if l > 1 and l < fn.line("$") then vim.cmd "normal! g'\"" end end })
 au({ "BufUnload", "BufDelete" }, { callback = function() lsp.clear_buffer_cache(fn.expand("<abuf>")) end })
 
-au({ "BufWritePost" }, { callback = function() vim.notify("Compiling packer") require "packer".compile() end, pattern = "lua/config/plugins.lua" })
+au({ "BufWritePost" }, { callback = function() vim.notify("Compiling packer") vim.cmd "source %" require "packer".compile() end, pattern = "lua/config/plugins.lua" })
