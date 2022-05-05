@@ -41,7 +41,31 @@ require('packer').startup(function(use)
     'TimUntersberger/neogit',
     requires = { "nvim-lua/plenary.nvim" },
     config = function()
-      require "neogit".setup {}
+      require "neogit".setup {
+        sections = {
+          untracked = {
+            folded = false
+          },
+          unstaged = {
+            folded = false
+          },
+          staged = {
+            folded = false
+          },
+          stashes = {
+            folded = true
+          },
+          unpulled = {
+            folded = true
+          },
+          unmerged = {
+            folded = false
+          },
+          recent = {
+            folded = false
+          },
+        },
+      }
     end
   }
 
@@ -242,24 +266,26 @@ require('packer').startup(function(use)
     end
   }
 
+  use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+
   use {
     'nvim-telescope/telescope.nvim',
     requires = { 'nvim-lua/plenary.nvim',
       'nvim-telescope/telescope-dap.nvim',
-      'nvim-telescope/telescope-fzy-native.nvim'
+      'nvim-telescope/telescope-fzf-native.nvim',
     },
     config = function()
       require "config.telescope"
     end
   }
 
-  use {
-    "nvim-telescope/telescope-frecency.nvim",
-    config = function()
-      require "telescope".load_extension("frecency")
-    end,
-    requires = { "tami5/sqlite.lua" }
-  }
+  -- use {
+  --   "nvim-telescope/telescope-frecency.nvim",
+  --   config = function()
+  --     require "telescope".load_extension("frecency")
+  --   end,
+  --   requires = { "tami5/sqlite.lua" }
+  -- }
 
   use {
     'nvim-treesitter/nvim-treesitter',
@@ -296,7 +322,7 @@ require('packer').startup(function(use)
       require "notify".setup {
         timeout = 2000,
         render = "minimal",
-        max_width = 60,
+        max_width = 80,
       }
 
       vim.notify = require("notify")

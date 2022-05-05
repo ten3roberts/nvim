@@ -3,7 +3,7 @@ local actions = require 'telescope.actions'
 local telescope = require "telescope"
 
 telescope.setup {
-  defaults = require 'telescope.themes'.get_dropdown {
+  defaults = {
     vimgrep_arguments = {
       'rg',
       -- '--fixed-strings',
@@ -16,30 +16,18 @@ telescope.setup {
     },
     layout_config = {
       horizontal = {
-        prompt_position = "top",
-        preview_width = 0.55,
-        results_width = 0.8,
+        prompt_position = "top"
       },
-      vertical = {
-        mirror = false,
-      },
-      width = 80,
-      height = 0.3,
-      preview_cutoff = 50,
+      width = function(_, cols, _)
+        return math.min(120, cols * 0.75)
+      end,
+      height = 0.5
     },
-    initial_mode = "insert",
-    -- selection_strategy = "reset",
-    -- file_sorter = require 'telescope.sorters'.get_fuzzy_file,
-    file_ignore_patterns = {},
-    generic_sorter = require 'telescope.sorters'.get_generic_fuzzy_sorter,
+    sorting_strategy = "ascending",
     border = false,
+    -- borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
     path_display = { "smart" },
     prompt_prefix = "   ",
-    selection_caret = "  ",
-    entry_prefix = "  ",
-    file_previewer = require("telescope.previewers").vim_buffer_cat.new,
-    grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
-    qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
     mappings = {
       i = {
         ["<C-c>"] = actions.close,
@@ -69,8 +57,6 @@ telescope.setup {
         -- ["<CR>"] = actions.select_default + actions.center + my_cool_custom_action,
       },
       n = {
-        ["<C-j>"] = actions.move_selection_next,
-        ["<C-k>"] = actions.move_selection_previous,
         ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist
         -- ["<C-i>"] = my_cool_custom_action,
       }
@@ -114,15 +100,14 @@ telescope.setup {
         }
       }
     },
-    lsp_code_actions = require "telescope.themes".get_cursor {
-      border = false,
-    },
   },
 
   extensions = {
-    fzy_native = {
-      override_generic_sorter = true, -- override the generic sorter
-      override_file_sorter = true, -- override the file sorter
+    fzf = {
+      fuzzy = true,
+      override_generic_sorter = true,
+      override_file_sorter = true,
+      case_mode = "smart_case",
     },
     file_browser = {
       path = "%:p:h",
@@ -145,7 +130,7 @@ telescope.setup {
   },
 }
 
-telescope.load_extension 'fzy_native'
+telescope.load_extension 'fzf'
 telescope.load_extension 'dap'
 telescope.load_extension('harpoon')
 
@@ -169,4 +154,5 @@ map('n', '<leader>o', ':Telescope lsp_document_symbols<CR>')
 map('n', '<leader>O', ':Telescope lsp_dynamic_workspace_symbols<CR>')
 map('n', '<leader>dd', ':Telescope lsp_document_diagnostics<CR>')
 map('n', '<leader>D', ':Telescope diagnostics<CR>')
+map('n', '<leader>pp', ":SessionLoad<CR>")
 map('n', '<leader>pp', ":SessionLoad<CR>")
