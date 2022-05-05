@@ -40,5 +40,5 @@ au({ "BufWritePost" }, {
     vim.cmd("source " .. opts.file)
     require "packer".compile()
   end,
-  pattern = "lua/config/plugins.lua"
+  pattern = "*/plugins.lua"
 })

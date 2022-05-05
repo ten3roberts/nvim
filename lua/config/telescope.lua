@@ -25,7 +25,7 @@ telescope.setup {
       },
       width = 80,
       height = 0.3,
-      preview_cutoff = 120,
+      preview_cutoff = 50,
     },
     initial_mode = "insert",
     -- selection_strategy = "reset",
@@ -33,7 +33,7 @@ telescope.setup {
     file_ignore_patterns = {},
     generic_sorter = require 'telescope.sorters'.get_generic_fuzzy_sorter,
     border = false,
-    path_display = { "truncate" },
+    path_display = { "smart" },
     prompt_prefix = "   ",
     selection_caret = "  ",
     entry_prefix = "  ",
@@ -114,8 +114,8 @@ telescope.setup {
         }
       }
     },
-    lsp_code_actions = {
-      theme = 'cursor',
+    lsp_code_actions = require "telescope.themes".get_cursor {
+      border = false,
     },
   },
 

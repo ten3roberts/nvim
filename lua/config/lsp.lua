@@ -227,7 +227,7 @@ M.server_conf = {
 lspconfig.sumneko_lua.setup(vim.tbl_extend("error", require "config.lua-lsp", M.server_conf))
 -- lspconfig.rust_analyzer.setup {}
 lspconfig.gopls.setup(M.server_conf)
-lspconfig.sqls.setup(M.server_conf)
+lspconfig.sqlls.setup(M.server_conf)
 lspconfig.svelte.setup(M.server_conf)
 lspconfig.tailwindcss.setup(M.server_conf)
 lspconfig.clangd.setup(M.server_conf)
@@ -235,5 +235,6 @@ lspconfig.omnisharp.setup(M.server_conf)
 lspconfig.cssls.setup(M.server_conf)
 lspconfig.jsonls.setup(M.server_conf)
 lspconfig.taplo.setup(M.server_conf)
+lspconfig.tsserver.setup(M.server_conf)
 
 return M
