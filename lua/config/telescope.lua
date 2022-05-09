@@ -26,7 +26,7 @@ telescope.setup {
     sorting_strategy = "ascending",
     border = false,
     -- borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
-    path_display = { "smart" },
+    path_display = { "truncate" },
     prompt_prefix = "   ",
     mappings = {
       i = {

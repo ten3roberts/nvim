@@ -329,6 +329,14 @@ require('packer').startup(function(use)
     end
   }
 
+  use {
+    'kyazdani42/nvim-tree.lua',
+
+    config = function()
+      require "nvim-tree".setup {}
+    end
+  }
+
   use { 'simrat39/rust-tools.nvim', config = function() require "config.rust" end }
   use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
   use { 'stevearc/aerial.nvim', config = function() require "config.aerial" end } -- Symbol tree

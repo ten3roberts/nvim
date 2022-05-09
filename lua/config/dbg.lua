@@ -128,8 +128,8 @@ local function map(mode, lhs, rhs, opts)
 end
 
 map('n', '<leader>dn', dap.step_over)
-map('n', '<leader>]d', dap.step_over)
-map('n', '<leader>[d', dap.step_back)
+map('n', ']d', dap.step_over)
+map('n', '[d', dap.step_back)
 map('n', '<leader>di', dap.step_into)
 map('n', '<leader>do', dap.step_out)
 map('n', '<leader>dd', dap.down)
