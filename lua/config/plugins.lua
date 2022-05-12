@@ -9,6 +9,7 @@ if fn.empty(fn.glob(packer_path)) > 0 then
 end
 
 vim.cmd [[packadd packer.nvim]]
+
 require('packer').startup(function(use)
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
@@ -23,23 +24,23 @@ require('packer').startup(function(use)
       vim.keymap.set("n", "<leader>pe", function() graphene.init(".") end, {})
     end
   }
-  use { '~/dev/nvim/wgsl.vim', opt = false }
-  use '~/dev/nvim/recipe.nvim'
-  use '~/dev/nvim/darken.nvim'
-  use '~/dev/nvim/toggle.nvim'
-  use '~/dev/nvim/window-picker.nvim'
+  use { "~/dev/nvim/wgsl.vim", opt = false }
+  use "~/dev/nvim/recipe.nvim"
+  use "~/dev/nvim/darken.nvim"
+  use "~/dev/nvim/toggle.nvim"
+  use "~/dev/nvim/window-picker.nvim"
 
   -- Colorschemes
-  use 'arcticicestudio/nord-vim'
-  use 'rakr/vim-one'
-  use 'sainnhe/sonokai'
+  use "arcticicestudio/nord-vim"
+  use "rakr/vim-one"
+  use "sainnhe/sonokai"
 
   -- Move arguments and elements in list around
-  use 'AndrewRadev/sideways.vim'
-  use 'ThePrimeagen/harpoon'
+  use "AndrewRadev/sideways.vim"
+  use "ThePrimeagen/harpoon"
   use {
-    'TimUntersberger/neogit',
-    requires = { "nvim-lua/plenary.nvim" },
+    "TimUntersberger/neogit",
+    requires = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim" },
     config = function()
       require "neogit".setup {
         sections = {
@@ -122,24 +123,28 @@ require('packer').startup(function(use)
 
   -- Autocompletion plugin
   use {
-    'hrsh7th/nvim-cmp',
+    "hrsh7th/nvim-cmp",
     requires = {
-      'hrsh7th/cmp-buffer',
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/vim-vsnip',
-      'hrsh7th/vim-vsnip-integ',
-      'hrsh7th/cmp-path',
-      'hrsh7th/cmp-vsnip',
-      'ray-x/cmp-treesitter'
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-nvim-lua",
+      "hrsh7th/vim-vsnip",
+      "hrsh7th/vim-vsnip-integ",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-vsnip",
+      "hrsh7th/cmp-nvim-lsp-signature-help",
+      "hrsh7th/cmp-nvim-lsp-document-symbol",
+      "hrsh7th/cmp-cmdline",
+      "ray-x/cmp-treesitter"
     },
     config = function()
       require "config.completion"
     end
   }
 
-  use 'junegunn/vim-easy-align' -- Align text blocks
+  use "junegunn/vim-easy-align" -- Align text blocks
   use {
-    'karb94/neoscroll.nvim',
+    "karb94/neoscroll.nvim",
     config = function()
       local t    = {}
       t["<C-u>"] = { "scroll", { "-vim.wo.scroll", "true", "100", "quadratic" } }
@@ -157,14 +162,14 @@ require('packer').startup(function(use)
       require "neoscroll.config".set_mappings(t)
     end
   }
-  use 'kyazdani42/nvim-web-devicons' -- File icons
-  use 'lervag/vimtex'
+  use "kyazdani42/nvim-web-devicons" -- File icons
+  use "lervag/vimtex"
   -- Show changed lines
   use {
-    'lewis6991/gitsigns.nvim',
-    requires = { 'nvim-lua/plenary.nvim' },
+    "lewis6991/gitsigns.nvim",
+    requires = { "nvim-lua/plenary.nvim" },
     config = function()
-      require 'gitsigns'.setup({
+      require "gitsigns".setup({
         current_line_blame = false,
 
         on_attach = function(bufnr)
@@ -338,7 +343,7 @@ require('packer').startup(function(use)
   }
 
   use { 'simrat39/rust-tools.nvim', config = function() require "config.rust" end }
-  use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
+  use { 'sindrets/diffview.nvim', requires = { 'nvim-lua/plenary.nvim' } }
   use { 'stevearc/aerial.nvim', config = function() require "config.aerial" end } -- Symbol tree
   use {
     'stevearc/dressing.nvim',
@@ -375,5 +380,13 @@ require('packer').startup(function(use)
     config = function()
       require "config.pairs"
     end
+  }
+
+  use {
+    "davidgranstrom/nvim-markdown-preview",
+    config = function()
+      vim.g.nvim_markdown_preview_format = "gfm"
+      vim.g.nvim_markdown_preview_theme = "github"
+    end,
   }
 end)
