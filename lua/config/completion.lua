@@ -73,6 +73,7 @@ local default_sources = {
 cmp.setup {
   completion = {
     completeopt = "longest,noinsert,preview,noselect,shortest",
+    keyword_length = 2,
   },
   formatting = {
     fields = { "kind", "abbr", "menu" },
