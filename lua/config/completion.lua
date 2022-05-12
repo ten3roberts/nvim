@@ -62,17 +62,20 @@ local default_sources = {
       end
     }
   },
+  { name = "nvim_lsp_signature_help" },
   { name = 'vsnip' },
   { name = 'nvim_lsp' },
+  { name = 'nvim_lua' },
   { name = 'treesitter' },
   { name = 'buffer' },
 }
 
 cmp.setup {
   completion = {
-    completeopt = "longest,noinsert,preview,noselect,shortest"
+    completeopt = "longest,noinsert,preview,noselect,shortest",
   },
   formatting = {
+    fields = { "kind", "abbr", "menu" },
     format = lspkind.cmp_format({
       mode = 'symbol', -- show only symbol annotations
       maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
@@ -96,13 +99,21 @@ cmp.setup {
     ['<Tab>'] = confirm,
     ['<S-Tab>'] = confirm,
   },
-  sources = cmp.config.sources(default_sources),
+  sources = default_sources,
 }
 
--- -- Set configuration for specific filetype.
--- cmp.setup.filetype('tex', {
---   sources = cmp.config.sources(
---   { name = 'spell' },
---     default_sources
---   )
--- })
+cmp.setup.cmdline("/", {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = {
+    { name = "buffer" },
+  },
+})
+
+cmp.setup.cmdline(":", {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({
+    { name = "path" },
+  }, {
+    { name = "cmdline" },
+  }),
+})

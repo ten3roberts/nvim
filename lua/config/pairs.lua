@@ -55,7 +55,7 @@ npairs.add_rules {
   basic("|", "|", { "rust" }),
   basic("*", "*", { "markdown" }),
   basic("$", "$", { "tex", "latex" }),
-  Rule("|", "|", { "rust" }),
+  -- Rule("|", "|", { "rust" }),
   Rule(' ', ' ')
       :with_pair(function(opts)
         local pair = opts.line:sub(opts.col - 1, opts.col)
