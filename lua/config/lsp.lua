@@ -48,6 +48,7 @@ function M.set_loc()
     open = false,
   })
   qf.tally "l"
+  qf.open("l", true, true)
 end
 
 function M.set_qf()
@@ -59,9 +60,9 @@ function M.set_qf()
     open = false,
   })
 
-  qf.open "c"
 
   qf.tally "c"
+  qf.open("c", false, true, true)
 end
 
 function M.on_attach(client)

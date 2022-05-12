@@ -13,7 +13,7 @@ end
 
 local palettes = {
   sonokai = function()
-    local p = vim.fn['sonokai#get_palette'](vim.g.sonokai_style)
+    local p = vim.fn['sonokai#get_palette'](vim.g.sonokai_style, { a = 1 })
     return {
       black  = p.black[1],
       blue   = p.blue[1],
