@@ -28,7 +28,7 @@ require("aerial").setup({
   manage_folds = false,
 
   -- The maximum width of the aerial window
-  max_width = { 20, 0.2 },
+  max_width = { 30, 0.2 },
 
   -- The minimum width of the aerial window.
   -- To disable dynamic resizing, set this to be equal to max_width

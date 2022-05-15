@@ -19,7 +19,7 @@ telescope.setup {
         prompt_position = "top"
       },
       width = function(_, cols, _)
-        return math.min(120, cols * 0.75)
+        return math.min(120, math.floor(cols * 0.75))
       end,
       height = 0.5
     },

@@ -1,3 +1,24 @@
+require 'nvim-treesitter'.define_modules {
+  auto_folding = {
+    attach = function(_, _)
+      -- Do cool stuff here
+      vim.wo.foldmethod = "expr"
+      vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
+      vim.notify("Enabling treesitter folding")
+    end,
+    detach = function(_)
+      vim.bo.foldmethod = "indent"
+    end,
+    is_supported = function(lang)
+      -- local supported = {
+      --   rust = true,
+      --   lua = true
+      -- }
+
+      return true
+    end
+  }
+}
 require "nvim-treesitter.configs".setup {
   ensure_installed = "all",
   autopairs = { enable = true },
@@ -49,5 +70,6 @@ require "nvim-treesitter.configs".setup {
       ['i;'] = 'textsubjects-container-inner',
     },
   },
-  indent = { enable = true, },
+  indent = { enable = true },
+  auto_folding = { enable = true },
 }
