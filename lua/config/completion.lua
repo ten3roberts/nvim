@@ -63,10 +63,10 @@ local default_sources = {
     }
   },
   { name = "nvim_lsp_signature_help" },
-  { name = 'vsnip' },
   { name = 'nvim_lsp' },
-  { name = 'nvim_lua' },
+  { name = 'vsnip' },
   { name = 'treesitter' },
+  { name = 'nvim_lua' },
   { name = 'buffer' },
 }
 

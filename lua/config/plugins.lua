@@ -38,37 +38,37 @@ require('packer').startup(function(use)
   -- Move arguments and elements in list around
   use "AndrewRadev/sideways.vim"
   use "ThePrimeagen/harpoon"
-  use {
-    "TimUntersberger/neogit",
-    requires = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim" },
-    config = function()
-      require "neogit".setup {
-        sections = {
-          untracked = {
-            folded = false
-          },
-          unstaged = {
-            folded = false
-          },
-          staged = {
-            folded = false
-          },
-          stashes = {
-            folded = true
-          },
-          unpulled = {
-            folded = true
-          },
-          unmerged = {
-            folded = false
-          },
-          recent = {
-            folded = false
-          },
-        },
-      }
-    end
-  }
+  -- use {
+  --   "TimUntersberger/neogit",
+  --   requires = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim" },
+  --   config = function()
+  --     require "neogit".setup {
+  --       sections = {
+  --         untracked = {
+  --           folded = false
+  --         },
+  --         unstaged = {
+  --           folded = false
+  --         },
+  --         staged = {
+  --           folded = false
+  --         },
+  --         stashes = {
+  --           folded = true
+  --         },
+  --         unpulled = {
+  --           folded = true
+  --         },
+  --         unmerged = {
+  --           folded = false
+  --         },
+  --         recent = {
+  --           folded = false
+  --         },
+  --       },
+  --     }
+  --   end
+  -- }
 
   use 'airblade/vim-rooter'
 
