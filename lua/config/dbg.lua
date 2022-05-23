@@ -30,6 +30,7 @@ ui.setup {
   floating = {
     max_height = nil, -- These can be integers or a float between 0 and 1.
     max_width = nil, -- Floats will be treated as percentage of your screen.
+    border = "none",
     mappings = {
       close = { "q", "<Esc>" },
     },
@@ -39,7 +40,7 @@ ui.setup {
 
 local dap = require 'dap'
 
-dap.defaults.fallback.terminal_win_cmd = '20split new'
+dap.defaults.fallback.terminal_win_cmd = '10split new'
 
 dap.listeners.after.event_initialized["dapui_config"] = function() ui.open() end
 dap.listeners.before.event_terminated["dapui_config"] = function() ui.close() end
@@ -117,7 +118,7 @@ end
 
 function M.eval_input()
   vim.ui.input({ prompt = "Expr: " },
-    function(input) if input then ui.eval(input) end end)
+    function(input) if input then ui.eval(input, { enter = true }) end end)
 end
 
 function M.conditioal_break()
@@ -155,7 +156,7 @@ map('n', '<leader>dlb', ':Telescope dap list_breakpoints<CR>')
 map('n', '<leader>dlf', ':Telescope dap frames<CR>')
 map('n', '<leader>dlc', ':Telescope dap commands<CR>')
 
-map('n', '<leader>de', ui.eval)
+map('n', '<leader>de', function() ui.eval(nil, { enter = true }) end)
 map('n', '<leader>dE', M.eval_input)
 map('n', '<leader>d.', M.float)
 

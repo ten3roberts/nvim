@@ -76,14 +76,7 @@ require('packer').startup(function(use)
   --   end
   -- }
 
-  -- use 'airblade/vim-rooter'
-
-  use {
-    "ahmedkhalf/project.nvim",
-    config = function()
-      require "project_nvim".setup {}
-    end
-  }
+  use 'airblade/vim-rooter'
 
   use {
     'akinsho/git-conflict.nvim',

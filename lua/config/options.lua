@@ -62,7 +62,7 @@ o.wildmode = 'full' -- Command line completion mode
 g.termdebug_wide = 1
 g.termdebugger = 'rust-gdb'
 g.rooter_cd_cmd = 'tcd'
-g.rooter_manual_only = 1
+g.rooter_manual_only = 0
 g.rooter_patterns = { ".git", "Cargo.lock" }
 
 -- Markdown preview
