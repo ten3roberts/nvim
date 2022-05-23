@@ -69,5 +69,5 @@ require "nvim-treesitter.configs".setup {
       ['i;'] = 'textsubjects-container-inner',
     },
   },
-  indent = { enable = true },
+  -- indent = { enable = true },
 }

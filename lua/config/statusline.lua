@@ -1,19 +1,21 @@
-
 local api = vim.api
 local g = vim.g
 local fn = vim.fn
 local cmd = vim.cmd
 
-local lsp = require'config.lsp'
-local recipe = require'recipe'
-local icons = require'nvim-web-devicons'
+local lsp = require 'config.lsp'
+local recipe = require 'recipe'
+local icons = require 'nvim-web-devicons'
 
 local M = {}
 
+local graphene = require "graphene"
+
 local special_map = {
-  vaffle = { function() return '%#Blue#  Files %#Normal#' .. fn.fnamemodify(vim.b.vaffle.dir, ':p:.') end, function() return '  Files ' .. fn.fnamemodify(vim.b.vaffle.dir,':p:.') end },
-  Outline = { '%#Purple#  Outline ', '  Outline '  },
-  aerial = { '%#Purple# λ Aerial ', ' λ Aerial '  }
+  vaffle = { function() return '%#Blue#  Files %#Normal#' .. fn.fnamemodify(vim.b.vaffle.dir, ':p:.') end, function() return '  Files ' .. fn.fnamemodify(vim.b.vaffle.dir, ':p:.') end },
+  Outline = { '%#Purple#  Outline ', '  Outline ' },
+  aerial = { '%#Purple# λ Aerial ', ' λ Aerial ' },
+  graphene = { graphene.make_statusline({ icon = true }), graphene.make_statusline({ icon = true, hl = false }) },
 }
 
 local tab_hide = {
@@ -24,65 +26,63 @@ local tab_hide = {
 }
 
 local mode_map = {
-  ['n']   = { hl = '%#BlueInv#',   val = ' N '  },
-  ['no']  = { hl = '%#BlueInv#',   val = ' NO ' },
-  ['niI'] = { hl = '%#BlueInv#',   val = ' NI ' },
+  ['n']   = { hl = '%#BlueInv#', val = ' N ' },
+  ['no']  = { hl = '%#BlueInv#', val = ' NO ' },
+  ['niI'] = { hl = '%#BlueInv#', val = ' NI ' },
 
-  ['v']   = { hl = '%#PurpleInv#', val = ' V '  },
+  ['v']   = { hl = '%#PurpleInv#', val = ' V ' },
   ['V']   = { hl = '%#PurpleInv#', val = ' VL ' },
   ['niV'] = { hl = '%#PurpleInv#', val = ' VL ' },
   ['\22'] = { hl = '%#PurpleInv#', val = ' VB ' },
 
-  ['i']   = { hl = '%#GreenInv#',  val = ' I '  },
-  ['ic']  = { hl = '%#GreenInv#',  val = ' I '  },
-  ['ix']  = { hl = '%#GreenInv#',  val = ' I '  },
+  ['i']  = { hl = '%#GreenInv#', val = ' I ' },
+  ['ic'] = { hl = '%#GreenInv#', val = ' I ' },
+  ['ix'] = { hl = '%#GreenInv#', val = ' I ' },
 
-  ['R']   = { hl = '%#OrangeInv#',    val = ' R '  },
-  ['Rv']  = { hl = '%#OrangeInv#',    val = ' VR ' },
-  ['niR'] = { hl = '%#RedInv#',    val = ' VR ' },
+  ['R']   = { hl = '%#OrangeInv#', val = ' R ' },
+  ['Rv']  = { hl = '%#OrangeInv#', val = ' VR ' },
+  ['niR'] = { hl = '%#RedInv#', val = ' VR ' },
 
-  ['t']   = { hl = '%#OrangeInv#', val = ' T '  },
+  ['t'] = { hl = '%#OrangeInv#', val = ' T ' },
 
-  ['s']   = { hl = '%#RedInv#', val = ' S '  },
-  ['S']   = { hl = '%#RedInv#', val = ' SL ' },
-  ['^S']  = { hl = '%#RedInv#', val = ' SB ' },
-  ['c']   = { hl = '%#YellowInv#', val = ' C '  },
-  ['cv']  = { hl = '%#YellowInv#', val = ' E '  },
-  ['ce']  = { hl = '%#YellowInv#', val = ' E '  },
-  ['r']   = { hl = '%#YellowInv#', val = ' P '  },
-  ['rm']  = { hl = '%#YellowInv#', val = ' M '  },
-  ['r?']  = { hl = '%#YellowInv#', val = ' C '  },
-  ['!']   = { hl = '%#YellowInv#', val = ' SH ' },
+  ['s']  = { hl = '%#RedInv#', val = ' S ' },
+  ['S']  = { hl = '%#RedInv#', val = ' SL ' },
+  ['^S'] = { hl = '%#RedInv#', val = ' SB ' },
+  ['c']  = { hl = '%#YellowInv#', val = ' C ' },
+  ['cv'] = { hl = '%#YellowInv#', val = ' E ' },
+  ['ce'] = { hl = '%#YellowInv#', val = ' E ' },
+  ['r']  = { hl = '%#YellowInv#', val = ' P ' },
+  ['rm'] = { hl = '%#YellowInv#', val = ' M ' },
+  ['r?'] = { hl = '%#YellowInv#', val = ' C ' },
+  ['!']  = { hl = '%#YellowInv#', val = ' SH ' },
 }
 
 local function get_mode()
   local mode = api.nvim_get_mode().mode
-  return mode_map[mode] or mode_map[mode:sub(1,1)] or { val = mode, hl = '%#Red#' }
+  return mode_map[mode] or mode_map[mode:sub(1, 1)] or { val = mode, hl = '%#Red#' }
 end
 
 local function get_git(highlight)
   local signs = vim.b.gitsigns_status_dict
 
   if not signs then
-    return '',''
+    return '', ''
   end
 
-  local added,changed,removed = signs.added or 0, signs.changed or 0, signs.removed or 0
+  local added, changed, removed = signs.added or 0, signs.changed or 0, signs.removed or 0
 
   local total = added + changed + removed
   local rel_added, rel_changed, rel_removed =
   math.ceil(added / total * 3), math.ceil(changed / total * 3), math.ceil(removed / total * 3)
 
   if highlight then
-    return
-    (rel_added > 0 and ('%#Green#' .. string.rep('+', rel_added) .. ' ') or '') ..
-    (rel_changed > 0 and ('%#Blue#' .. string.rep('~', rel_changed) .. ' ') or '') ..
-    (rel_removed > 0 and ('%#Red#' .. string.rep('-', rel_removed) .. ' ') or '')
+    return (rel_added > 0 and ('%#Green#' .. string.rep('+', rel_added) .. ' ') or '') ..
+        (rel_changed > 0 and ('%#Blue#' .. string.rep('~', rel_changed) .. ' ') or '') ..
+        (rel_removed > 0 and ('%#Red#' .. string.rep('-', rel_removed) .. ' ') or '')
   else
-    return
-    (rel_added > 0 and (string.rep('+', rel_added) .. ' ') or '') ..
-    (rel_changed > 0 and (string.rep('~', rel_changed) .. ' ') or '') ..
-    (rel_removed > 0 and (string.rep('-', rel_removed) .. ' ') or '')
+    return (rel_added > 0 and (string.rep('+', rel_added) .. ' ') or '') ..
+        (rel_changed > 0 and (string.rep('~', rel_changed) .. ' ') or '') ..
+        (rel_removed > 0 and (string.rep('-', rel_removed) .. ' ') or '')
   end
 
   -- if highlight then
@@ -156,7 +156,7 @@ local function subtbl(tbl, first, last)
   local sliced = {}
 
   for i = first or 1, last or #tbl do
-    sliced[#sliced+1] = tbl[i]
+    sliced[#sliced + 1] = tbl[i]
   end
 
   return sliced
@@ -170,7 +170,7 @@ local function get_unique_name(a, b)
 
   -- Find the last index of the common divisors
   local common_divisor = 1
-  for i = 1,shortest do
+  for i = 1, shortest do
     local a_part = a_parts[i]
     local b_part = b_parts[i]
 
@@ -180,9 +180,8 @@ local function get_unique_name(a, b)
     end
   end
 
-  return
-  fn.join(subtbl(a_parts, common_divisor), separator),
-  fn.join(subtbl(b_parts, common_divisor), separator)
+  return fn.join(subtbl(a_parts, common_divisor), separator),
+      fn.join(subtbl(b_parts, common_divisor), separator)
 end
 
 local buffer_names = {}
@@ -258,7 +257,7 @@ function M.update()
 
   local mode = get_mode()
   local path = get_path(true)
-  local git = get_git(true)
+  local git  = get_git(true)
   local diag = lsp.statusline(bufnr, true)
   local rec  = recipe.statusline()
 
@@ -306,13 +305,13 @@ function M.update_tabline()
   buffer_names = {}
   buffer_ids = {}
 
-  for bufnr=1,fn.bufnr('$') do
+  for bufnr = 1, fn.bufnr('$') do
     if fn.bufloaded(bufnr) == 1 then
       get_buffername(bufnr)
     end
   end
 
-  for i=1,fn.tabpagenr('$') do
+  for i = 1, fn.tabpagenr('$') do
     -- select the highlighting
     local highlight = '%#TabLine#'
     if i == tabpagenr then
@@ -329,7 +328,7 @@ function M.update_tabline()
       end
     end
 
-    t[#t + 1] = highlight .. '  %' .. i  .. 'T' .. i .. table.concat(windows, '·')
+    t[#t + 1] = highlight .. '  %' .. i .. 'T' .. i .. table.concat(windows, '·')
   end
 
   -- after the last tab fill with TabLineFill and reset tab page nr

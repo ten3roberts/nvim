@@ -10,11 +10,6 @@ require 'config.clean_fold'
 require 'config.statusline'.setup()
 require 'config.autocommands'
 
-require 'darken'.setup {
-  amount = 0.7,
-  filetypes = { 'term', 'vaffle', 'qf', 'help', 'aerial', 'dap-repl' }
-}
-
 require 'qf'.setup {
   -- Location list configuration
   ['l'] = {

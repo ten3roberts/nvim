@@ -132,7 +132,6 @@ telescope.setup {
 
 telescope.load_extension 'fzf'
 telescope.load_extension 'dap'
-telescope.load_extension('harpoon')
 
 
 local function map(mode, lhs, rhs, opts)

@@ -13,7 +13,7 @@ a.nvim_create_user_command("Cargo", function(c) recipe.execute({ cmd = "cargo " 
 a.nvim_create_user_command("CargoUpgrade", function(c) recipe.execute({ "cargo upgrade --workspace", interactive = true, keep_open = true }) end, { nargs = "*" })
 a.nvim_create_user_command("CargoAdd", function(c) recipe.execute({ cmd = "cargo add " .. c.args, interactive = true, action = function() vim.cmd "CargoReload" end }) end, { nargs = "*" })
 a.nvim_create_user_command("CargoVersion", function(c) recipe.execute({ cmd = "cargo workspaces version " .. c.args, keep_open = true, interactive = true }) end, { nargs = "*" })
-a.nvim_create_user_command("CargoTest", function(c) recipe.execute({ cmd = string.format("cargo test %s -- --nocapture", c.args), interactive = true, restart = true }) end, { nargs = "*" })
+a.nvim_create_user_command("CargoTest", function(c) recipe.execute({ cmd = string.format("cargo test %s -- --nocapture", c.args), interactive = true, restart = true, keep_open = true }) end, { nargs = "*" })
 a.nvim_create_user_command("Clip", "let @+=@\"", {})
 
 vim.cmd [[

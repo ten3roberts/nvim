@@ -26,7 +26,12 @@ require('packer').startup(function(use)
   }
   use { "~/dev/nvim/wgsl.vim", opt = false }
   use "~/dev/nvim/recipe.nvim"
-  use "~/dev/nvim/darken.nvim"
+  use {
+    "~/dev/nvim/darken.nvim",
+    config = function()
+      require 'darken'.setup {}
+    end
+  }
   use "~/dev/nvim/toggle.nvim"
   use "~/dev/nvim/window-picker.nvim"
 
@@ -34,10 +39,11 @@ require('packer').startup(function(use)
   use "arcticicestudio/nord-vim"
   use "rakr/vim-one"
   use "sainnhe/sonokai"
+  use "rmehri01/onenord.nvim"
+  use "navarasu/onedark.nvim"
 
   -- Move arguments and elements in list around
   use "AndrewRadev/sideways.vim"
-  use "ThePrimeagen/harpoon"
   -- use {
   --   "TimUntersberger/neogit",
   --   requires = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim" },
@@ -70,7 +76,14 @@ require('packer').startup(function(use)
   --   end
   -- }
 
-  use 'airblade/vim-rooter'
+  -- use 'airblade/vim-rooter'
+
+  use {
+    "ahmedkhalf/project.nvim",
+    config = function()
+      require "project_nvim".setup {}
+    end
+  }
 
   use {
     'akinsho/git-conflict.nvim',
@@ -303,18 +316,30 @@ require('packer').startup(function(use)
     end
   }
 
-  use {
-    'olimorris/persisted.nvim',
-    config = function()
-      require("persisted").setup({
-        save_dir = vim.fn.expand(vim.fn.stdpath("data") .. "/sessions/"), -- directory where session files are saved
-        command = "VimLeavePre", -- the autocommand for which the session is saved
-        use_git_branch = true, -- create session files based on the branch of the git enabled repository
-        autosave = true, -- automatically save session files when exiting Neovim
-        autoload = false, -- automatically load the session for the cwd on Neovim startup
-      })
+  -- use {
+  --   'olimorris/persisted.nvim',
+  --   after = "nvim-treesitter",
+  --   config = function()
+  --     require("persisted").setup({
+  --       save_dir = vim.fn.expand(vim.fn.stdpath("config") .. "/sessions/"), -- directory where session files are saved
+  --       command = "VimLeavePre", -- the autocommand for which the session is saved
+  --       use_git_branch = true, -- create session files based on the branch of the git enabled repository
+  --       autosave = true, -- automatically save session files when exiting Neovim
+  --       autoload = false, -- automatically load the session for the cwd on Neovim startup
+  --       telescope = {
+  --       }
+  --     })
 
-    end }
+  --   end }
+
+  use {
+    "rmagatti/auto-session",
+    config = function()
+      require "auto-session".setup {
+
+      }
+    end
+  }
 
   use 'onsails/lspkind-nvim'
   use 'qxxxb/vim-searchhi' -- Highlight current search match

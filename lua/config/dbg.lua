@@ -18,11 +18,11 @@ ui.setup {
       { id = "watches", size = 0.3 },
       { id = "scopes", size = 0.4 },
     },
-    size = 50,
+    size = 36,
     position = "right", -- Can be "left", "right", "top", "bottom"
   },
   tray = {
-    open_on_start = false,
+    open_on_start = true,
     elements = {},
     size = 10,
     position = "bottom", -- Can be "left", "right", "top", "bottom"
@@ -38,6 +38,8 @@ ui.setup {
 }
 
 local dap = require 'dap'
+
+dap.defaults.fallback.terminal_win_cmd = '20split new'
 
 dap.listeners.after.event_initialized["dapui_config"] = function() ui.open() end
 dap.listeners.before.event_terminated["dapui_config"] = function() ui.close() end
@@ -154,6 +156,7 @@ map('n', '<leader>dlf', ':Telescope dap frames<CR>')
 map('n', '<leader>dlc', ':Telescope dap commands<CR>')
 
 map('n', '<leader>de', ui.eval)
+map('n', '<leader>dE', M.eval_input)
 map('n', '<leader>d.', M.float)
 
 map('n', '<leader>dw', require('dap.ui.widgets').hover)

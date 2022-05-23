@@ -18,10 +18,10 @@ local function confirm(fallback)
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
     }
+  elseif fn['vsnip#jumpable'](1) == 1 then
+    fn.feedkeys(t "<Plug>(vsnip-jump-next)", "")
   elseif check_back_space then
     fallback()
-  elseif fn['vsnip#available'](1) then
-    fn.feedkeys(t "<Plug>(vsnip-jump-next)", "")
   else
     fallback()
   end
@@ -33,7 +33,7 @@ local function confirm_insert(fallback)
       behavior = cmp.ConfirmBehavior.Insert,
       select = true,
     }
-  elseif vim.fn['vsnip#available'](1) then
+  elseif vim.fn['vsnip#jumpable'](1) then
     fn.feedkeys(t "<Plug>(vsnip-jump-prev)", "")
   else
     fallback()
@@ -73,7 +73,6 @@ local default_sources = {
 cmp.setup {
   completion = {
     completeopt = "longest,noinsert,preview,noselect,shortest",
-    keyword_length = 2,
   },
   formatting = {
     fields = { "kind", "abbr", "menu" },
@@ -111,6 +110,9 @@ cmp.setup.cmdline("/", {
 })
 
 cmp.setup.cmdline(":", {
+  completion = {
+    keyword_length = 2,
+  },
   mapping = cmp.mapping.preset.cmdline(),
   sources = cmp.config.sources({
     { name = "path" },

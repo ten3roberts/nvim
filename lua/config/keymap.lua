@@ -9,18 +9,6 @@ vim.g.mapleader = ' '
 map("n", "<leader>f", ":Graphene", silent)
 map("n", "<leader>pe", ":Graphene .", silent)
 
--- Harpoon
-local harpoon_term = require("harpoon.term")
-local harpoon_ui = require("harpoon.ui")
-map('n', '<leader>ha', require("harpoon.mark").add_file)
-map('n', '<leader>ho', harpoon_ui.toggle_quick_menu)
-map('n', '<leader>hh', harpoon_ui.toggle_quick_menu)
-map('n', '<leader>ht', function() harpoon_term.gotoTerminal(1) end)
-
-for i = 0, 9 do
-  map('n', '<leader>h' .. i, function() harpoon_ui.nav_file(i) end)
-end
-
 -- Quickfix and location list
 map('n', '<leader>ll', ':Lopen<CR>', silent) -- Open location list
 map('n', '<leader>lo', ':Lopen true<CR>', silent) -- Open location list
@@ -54,6 +42,8 @@ map('n', '<leader>Eb', function() recipe.bake("build") end)
 map('n', '<leader>Er', function() recipe.bake("run") end)
 map('n', '<leader>Ec', function() recipe.bake("check") end)
 map('n', '`<CR>', function() recipe.bake("check") end)
+
+map("n", "<leader>ht", function() recipe.execute({ cmd = vim.env.SHELL, keep_open = true, interactive = true }) end)
 
 -- Tabs
 map('n', '<leader>N', ':tabnew<CR>')
@@ -157,6 +147,9 @@ map("x", "gp", "<Plug>(YankyGPutAfter)")
 map("x", "gP", "<Plug>(YankyGPutBefore)")
 map("n", "<A-n>", "<Plug>(YankyCycleForward)")
 map("n", "<A-p>", "<Plug>(YankyCycleBackward)")
+
+map("n", "y", "<Plug>(YankyYank)")
+map("x", "y", "<Plug>(YankyYank)")
 -- map('', '<C-a>', '^')
 -- map('', '<C-e>', '$')
 

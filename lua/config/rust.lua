@@ -20,6 +20,9 @@ local opts = {
             highlight = "InlayHint",
         },
     },
+    dap = {
+        adapter = require "recipe.adapters".codelldb,
+    },
 
     -- all the opts to send to nvim-lspconfig
     -- these override the defaults set by rust-tools.nvim
