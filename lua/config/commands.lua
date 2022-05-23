@@ -5,15 +5,19 @@ vim.cmd "command! -nargs=* CargoPublish :ExecuteInteractive cargo workspaces pub
 vim.cmd "command! CargoUpgrade !cargo --color=never upgrade --workspace"
 
 local recipe = require "recipe"
+local function cargo(cmd, actions)
+	recipe.execute({ cmd = "cargo " .. cmd, interactive = true, stay = true, cwd = vim.fn.expand("%:p:h"), actions = actions })
+end
+
 a.nvim_create_user_command("Q", ":silent wa | qa", {})
 a.nvim_create_user_command("W", ":silent wa", {})
 a.nvim_create_user_command("Reload", function(c) require "config.dev_utils".reload(c.args) end, { nargs = 1 })
 a.nvim_create_user_command("Dump", function(c) require "config.dev_utils".dump_mod(c.args) end, { nargs = 1 })
-a.nvim_create_user_command("Cargo", function(c) recipe.execute({ cmd = "cargo " .. c.args, interactive = true, stay = true }) end, { nargs = "*" })
-a.nvim_create_user_command("CargoUpgrade", function(c) recipe.execute({ "cargo upgrade --workspace", interactive = true, keep_open = true }) end, { nargs = "*" })
-a.nvim_create_user_command("CargoAdd", function(c) recipe.execute({ cmd = "cargo add " .. c.args, interactive = true, action = function() vim.cmd "CargoReload" end }) end, { nargs = "*" })
-a.nvim_create_user_command("CargoVersion", function(c) recipe.execute({ cmd = "cargo workspaces version " .. c.args, keep_open = true, interactive = true }) end, { nargs = "*" })
-a.nvim_create_user_command("CargoTest", function(c) recipe.execute({ cmd = string.format("cargo test %s -- --nocapture", c.args), interactive = true, restart = true, keep_open = true }) end, { nargs = "*" })
+a.nvim_create_user_command("Cargo", function(c) cargo(c.args) end, { nargs = "*" })
+a.nvim_create_user_command("CargoUpgrade", function() cargo("upgrade --workspace") end, { nargs = "*" })
+a.nvim_create_user_command("CargoAdd", function(c) cargo("add " .. c.args) end, { nargs = "*" })
+a.nvim_create_user_command("CargoVersion", function(c) cargo("workspaces version" .. c.args, function() vim.cmd "CargoReload" end) end, { nargs = "*" })
+a.nvim_create_user_command("CargoTest", function(c) cargo(string.format("cargo test %s -- --nocapture", c.args)) end, { nargs = "*" })
 a.nvim_create_user_command("Clip", "let @+=@\"", {})
 
 vim.cmd [[

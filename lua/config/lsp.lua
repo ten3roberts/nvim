@@ -216,7 +216,7 @@ diagnostic.config {
 }
 
 require("nvim-lsp-installer").setup {
-  automatic_installation = true
+  automatic_installation = false
 }
 
 M.server_conf = {
