@@ -5,8 +5,8 @@ vim.cmd "command! -nargs=* CargoPublish :ExecuteInteractive cargo workspaces pub
 vim.cmd "command! CargoUpgrade !cargo --color=never upgrade --workspace"
 
 local recipe = require "recipe"
-local function cargo(cmd, actions)
-	recipe.execute({ cmd = "cargo " .. cmd, interactive = true, stay = true, cwd = vim.fn.expand("%:p:h"), actions = actions })
+local function cargo(cmd, action)
+	recipe.execute({ cmd = "cargo " .. cmd, interactive = true, stay = true, cwd = vim.fn.expand("%:p:h"), action = action })
 end
 
 a.nvim_create_user_command("Q", ":silent wa | qa", {})
