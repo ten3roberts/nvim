@@ -17,7 +17,7 @@ a.nvim_create_user_command("Cargo", function(c) cargo(c.args) end, { nargs = "*"
 a.nvim_create_user_command("CargoUpgrade", function() cargo("upgrade --workspace") end, { nargs = "*" })
 a.nvim_create_user_command("CargoAdd", function(c) cargo("add " .. c.args) end, { nargs = "*" })
 a.nvim_create_user_command("CargoVersion", function(c) cargo("workspaces version" .. c.args, function() vim.cmd "CargoReload" end) end, { nargs = "*" })
-a.nvim_create_user_command("CargoTest", function(c) cargo(string.format("cargo test %s -- --nocapture", c.args)) end, { nargs = "*" })
+a.nvim_create_user_command("CargoTest", function(c) cargo(string.format("test %s -- --nocapture", c.args)) end, { nargs = "*" })
 a.nvim_create_user_command("Clip", "let @+=@\"", {})
 
 vim.cmd [[
