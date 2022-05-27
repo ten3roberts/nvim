@@ -263,17 +263,17 @@ require('packer').startup(function(use)
       require 'colorizer'.setup(
         { '*' },
         {
-          RGB      = true, -- #RGB hex codes
-          RRGGBB   = true, -- #RRGGBB hex codes
-          names    = true, -- "Name" codes like Blue
-          RRGGBBAA = true, -- #RRGGBBAA hex codes
-          rgb_fn   = false, -- CSS rgb() and rgba() functions
-          hsl_fn   = false, -- CSS hsl() and hsla() functions
-          css      = false, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
-          css_fn   = false, -- Enable all CSS *functions*: rgb_fn, hsl_fn
-          -- Available mod,s: foreground, background
-          mode     = 'foreground', -- Set the display mode.
-        })
+        RGB      = true, -- #RGB hex codes
+        RRGGBB   = true, -- #RRGGBB hex codes
+        names    = true, -- "Name" codes like Blue
+        RRGGBBAA = true, -- #RRGGBBAA hex codes
+        rgb_fn   = false, -- CSS rgb() and rgba() functions
+        hsl_fn   = false, -- CSS hsl() and hsla() functions
+        css      = false, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
+        css_fn   = false, -- Enable all CSS *functions*: rgb_fn, hsl_fn
+        -- Available mod,s: foreground, background
+        mode     = 'foreground', -- Set the display mode.
+      })
     end
   }
 
@@ -290,17 +290,10 @@ require('packer').startup(function(use)
     end
   }
 
-  -- use {
-  --   "nvim-telescope/telescope-frecency.nvim",
-  --   config = function()
-  --     require "telescope".load_extension("frecency")
-  --   end,
-  --   requires = { "tami5/sqlite.lua" }
-  -- }
-
   use {
     'nvim-treesitter/nvim-treesitter',
     requires = {
+      'nvim-treesitter/playground',
       'RRethy/nvim-treesitter-textsubjects',
       'nvim-treesitter/nvim-treesitter-refactor'
     },
@@ -377,12 +370,19 @@ require('packer').startup(function(use)
     end
   }
 
+  use {
+    "numToStr/Comment.nvim",
+    config = function()
+      require "Comment".setup {
+
+      }
+    end
+  }
 
   use 'stevearc/stickybuf.nvim'
   use 'tikhomirov/vim-glsl' -- GLSL runtime files
 
   use 'tpope/vim-abolish' -- Change casing styles and provide smart search and replace
-  use 'tpope/vim-commentary' -- Toggle comments
   use 'tpope/vim-eunuch'
   use 'tpope/vim-fugitive' -- Git management
   use 'tpope/vim-repeat' -- Repeat plugin commands with .
