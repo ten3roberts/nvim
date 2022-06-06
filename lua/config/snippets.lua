@@ -6,7 +6,6 @@ local t = ls.text_node
 local f = ls.function_node
 local types = require("luasnip.util.types")
 local fmt = require "luasnip.extras.fmt".fmt
-local conds = require("luasnip.extras.expand_conditions")
 local c = ls.choice_node
 
 ls.config.set_config({
@@ -52,9 +51,22 @@ ls.add_snippets("lua", {
   })),
 })
 
-local rust_vis = c(2, { t "pub ", t "", t "pub(crate) " });
+local function rust_vis(pos) return c(pos, { t "pub ", t "", t "pub(crate) " }) end
 
-ls.add_snippets("lua", {
+require("luasnip.loaders.from_vscode").lazy_load()
+
+ls.add_snippets("all", {
+  s("date", {
+    c(1, {
+      f(function() return os.date("%Y-%d-%d") end),
+      f(function() return os.date("%Y-%m-%dT%H:%M:%s") end),
+      f(function() return os.date("%b %d %Y") end),
+    })
+  })
+})
+
+
+ls.add_snippets("rust", {
   s("modtest", fmt([[
   mod test {{
     {}
@@ -75,7 +87,7 @@ ls.add_snippets("lua", {
       {}
     }}
   ]], {
-    rust_vis,
+    rust_vis(1),
     i(2, "name"),
     i(3),
     c(4, { t "", sn(1, { t " -> ", i(1, "_") }), sn(1, { t " -> Result<", i(1, "_"), t ">" }) }),
@@ -89,8 +101,8 @@ ls.add_snippets("lua", {
     }}
     ]], {
     c(1, { t "Debug, Clone", t "Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash" }),
-    rust_vis,
-    i(3, "name"),
+    rust_vis(2),
+    i(3, "Name"),
     i(4, "")
   })),
 
@@ -101,8 +113,8 @@ ls.add_snippets("lua", {
     }}
     ]], {
     c(1, { t "Debug, Clone", t "Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash" }),
-    rust_vis,
-    i(3, "name"),
+    rust_vis(2),
+    i(3, "Name"),
     i(4, "")
   })),
 
@@ -112,7 +124,7 @@ ls.add_snippets("lua", {
     }}
   ]], {
     i(1),
-    i(2, "type"),
+    i(2, "Type"),
     i(3),
   })),
 
@@ -122,10 +134,12 @@ ls.add_snippets("lua", {
     }}
   ]], {
     i(1),
-    i(2, "trait"),
-    i(3, "type"),
+    i(2, "Trait"),
+    i(3, "Type"),
     i(4),
-  }))
+  })),
+
+  s("default", t "Default::default()"),
 })
 
 vim.keymap.set({ "i", "s" }, "<c-k>", function()
