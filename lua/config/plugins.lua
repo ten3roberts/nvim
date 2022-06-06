@@ -127,17 +127,22 @@ require('packer').startup(function(use)
 
   use 'haya14busa/vim-asterisk'
 
+  use {
+    "L3MON4D3/LuaSnip",
+    config = function()
+      require "config.snippets"
+    end
+  }
+
   -- Autocompletion plugin
   use {
     "hrsh7th/nvim-cmp",
     requires = {
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-nvim-lsp",
+      "saadparwaiz1/cmp_luasnip",
       "hrsh7th/cmp-nvim-lua",
-      "hrsh7th/vim-vsnip",
-      "hrsh7th/vim-vsnip-integ",
       "hrsh7th/cmp-path",
-      "hrsh7th/cmp-vsnip",
       "hrsh7th/cmp-nvim-lsp-signature-help",
       "hrsh7th/cmp-nvim-lsp-document-symbol",
       "hrsh7th/cmp-cmdline",
@@ -263,17 +268,17 @@ require('packer').startup(function(use)
       require 'colorizer'.setup(
         { '*' },
         {
-        RGB      = true, -- #RGB hex codes
-        RRGGBB   = true, -- #RRGGBB hex codes
-        names    = true, -- "Name" codes like Blue
-        RRGGBBAA = true, -- #RRGGBBAA hex codes
-        rgb_fn   = false, -- CSS rgb() and rgba() functions
-        hsl_fn   = false, -- CSS hsl() and hsla() functions
-        css      = false, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
-        css_fn   = false, -- Enable all CSS *functions*: rgb_fn, hsl_fn
-        -- Available mod,s: foreground, background
-        mode     = 'foreground', -- Set the display mode.
-      })
+          RGB      = true, -- #RGB hex codes
+          RRGGBB   = true, -- #RRGGBB hex codes
+          names    = true, -- "Name" codes like Blue
+          RRGGBBAA = true, -- #RRGGBBAA hex codes
+          rgb_fn   = false, -- CSS rgb() and rgba() functions
+          hsl_fn   = false, -- CSS hsl() and hsla() functions
+          css      = false, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
+          css_fn   = false, -- Enable all CSS *functions*: rgb_fn, hsl_fn
+          -- Available mod,s: foreground, background
+          mode     = 'foreground', -- Set the display mode.
+        })
     end
   }
 
@@ -374,7 +379,18 @@ require('packer').startup(function(use)
     "numToStr/Comment.nvim",
     config = function()
       require "Comment".setup {
-
+        mappings = {
+          ---Operator-pending mapping
+          ---Includes `gcc`, `gbc`, `gc[count]{motion}` and `gb[count]{motion}`
+          ---NOTE: These mappings can be changed individually by `opleader` and `toggler` config
+          basic = true,
+          ---Extra mapping
+          ---Includes `gco`, `gcO`, `gcA`
+          extra = true,
+          ---Extended mapping
+          ---Includes `g>`, `g<`, `g>[count]{motion}` and `g<[count]{motion}`
+          extended = true,
+        },
       }
     end
   }

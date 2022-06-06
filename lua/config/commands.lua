@@ -15,10 +15,11 @@ a.nvim_create_user_command("Reload", function(c) require "config.dev_utils".relo
 a.nvim_create_user_command("Dump", function(c) require "config.dev_utils".dump_mod(c.args) end, { nargs = 1 })
 a.nvim_create_user_command("Cargo", function(c) cargo(c.args) end, { nargs = "*" })
 a.nvim_create_user_command("CargoUpgrade", function() cargo("upgrade --workspace") end, { nargs = "*" })
-a.nvim_create_user_command("CargoAdd", function(c) cargo("add " .. c.args) end, { nargs = "*" })
-a.nvim_create_user_command("CargoVersion", function(c) cargo("workspaces version" .. c.args, function() vim.cmd "CargoReload" end) end, { nargs = "*" })
+a.nvim_create_user_command("CargoAdd", function(c) cargo("add " .. c.args, function() vim.cmd "CargoReload" end) end, { nargs = "*" })
+a.nvim_create_user_command("CargoVersion", function(c) cargo("workspaces version" .. c.args) end, { nargs = "*" })
 a.nvim_create_user_command("CargoTest", function(c) cargo(string.format("test %s -- --nocapture", c.args)) end, { nargs = "*" })
 a.nvim_create_user_command("Clip", "let @+=@\"", {})
+a.nvim_create_user_command("CargoSyncReadme", function(_) cargo("sync-readme") end, {})
 
 vim.cmd [[
 function! Redir(cmd, rng, start, end)

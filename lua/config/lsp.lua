@@ -236,5 +236,6 @@ lspconfig.cssls.setup(M.server_conf)
 lspconfig.jsonls.setup(M.server_conf)
 lspconfig.taplo.setup(M.server_conf)
 lspconfig.tsserver.setup(M.server_conf)
+lspconfig.yamlls.setup(M.server_conf)
 
 return M

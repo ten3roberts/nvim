@@ -120,12 +120,6 @@ map('n', '<Esc>', '<plug>(searchhi-clear-all)')
 map('x', 'ga', '<plug>(EasyAlign)')
 map('n', 'ga', '<plug>(EasyAlign)')
 
--- Snippet expansion
-map('i', '<C-l>', "<Plug>(vsnip-expand-or-jump)")
-map('n', '<C-l>', "<Plug>(vsnip-expand-or-jump)")
-map('i', '<C-h>', "<Plug>(vsnip-jump-prev)")
-map('n', '<C-h>', "<Plug>(vsnip-jump-prev)")
-
 -- Movements
 map('', '<C-j>', '}', { noremap = true })
 map('', '<C-k>', '{', { noremap = true })

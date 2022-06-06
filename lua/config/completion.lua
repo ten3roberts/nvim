@@ -7,37 +7,28 @@ local t = function(str)
   return vim.api.nvim_replace_termcodes(str, true, true, true)
 end
 
-local check_back_space = function()
-  local col = vim.fn.col('.') - 1
-  return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') ~= nil
+local ls = require "luasnip"
+
+local has_words_before = function()
+  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
-local function confirm(fallback)
-  if cmp.visible() then
-    cmp.confirm {
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
-    }
-  elseif fn['vsnip#jumpable'](1) == 1 then
-    fn.feedkeys(t "<Plug>(vsnip-jump-next)", "")
-  elseif check_back_space then
-    fallback()
-  else
-    fallback()
-  end
-end
-
-local function confirm_insert(fallback)
-  if cmp.visible() then
-    cmp.confirm {
-      behavior = cmp.ConfirmBehavior.Insert,
-      select = true,
-    }
-  elseif vim.fn['vsnip#jumpable'](1) then
-    fn.feedkeys(t "<Plug>(vsnip-jump-prev)", "")
-  else
-    fallback()
-  end
+local function confirm(behavior)
+  return cmp.mapping(function(fallback)
+    if cmp.visible() then
+      cmp.confirm {
+        behavior = behavior,
+        select = true,
+      }
+    elseif ls.expand_or_jumpable() then
+      ls.expand_or_jump()
+    elseif has_words_before() then
+      cmp.complete()
+    else
+      fallback()
+    end
+  end)
 end
 
 local rel_ft = {
@@ -62,12 +53,12 @@ local default_sources = {
       end
     }
   },
-  { name = "nvim_lsp_signature_help" },
   { name = 'nvim_lsp' },
-  { name = 'vsnip' },
-  { name = 'treesitter' },
   { name = 'nvim_lua' },
+  { name = 'luasnip' },
+  { name = 'treesitter' },
   { name = 'buffer' },
+  { name = "nvim_lsp_signature_help" },
 }
 
 cmp.setup {
@@ -83,7 +74,7 @@ cmp.setup {
   },
   snippet = {
     expand = function(args)
-      vim.fn["vsnip#anonymous"](args.body)
+      ls.lsp_expand(args.body)
     end
   },
   experimental = {
@@ -95,9 +86,8 @@ cmp.setup {
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-y>'] = confirm_insert,
-    ['<Tab>'] = confirm,
-    ['<S-Tab>'] = confirm,
+    ['<C-y>'] = confirm(cmp.ConfirmBehavior.Insert),
+    ['<Tab>'] = confirm(cmp.ConfirmBehavior.Replace),
   },
   sources = default_sources,
 }

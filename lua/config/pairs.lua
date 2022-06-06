@@ -42,7 +42,7 @@ end
 npairs.add_rules {
   Rule("|", "|", { "rust", "lua" }):with_pair(cond.none()):with_move(move()),
   Rule("<", ">", { "rust" }):with_pair(cond.none()):with_move(move()),
-  Rule("$", "$", { "rust" }):with_pair(cond.none()):with_move(move()),
+  Rule("$", "$", { "latex" }):with_pair(cond.none()):with_move(move()),
   md_pair("**", "**"),
 
   md_pair("*", "*"),
