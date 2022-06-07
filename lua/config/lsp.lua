@@ -215,7 +215,9 @@ diagnostic.config {
   severity_sort = true,
 }
 
-require("nvim-lsp-installer").setup {
+local installer = require "nvim-lsp-installer"
+
+installer.setup {
   automatic_installation = false
 }
 
@@ -224,7 +226,17 @@ local server_conf = {
   capabilities = capabilities,
 }
 
-require "nlua.lsp.nvim".setup(lspconfig, server_conf)
+local ok, lua_server = installer.get_server "sumneko_lua"
+if ok and lua_server:is_installed() then
+  local c = lua_server:get_default_options()
+  c.cmd = {
+    vim.fn.stdpath("data") .. "/lsp_servers/sumneko_lua/extension/server/bin/lua-language-server",
+    "-E",
+    vim.fn.stdpath("data") .. "/lsp_servers/sumneko_lua/extension/server/main.lua"
+  }
+  require "nlua.lsp.nvim".setup(lspconfig, vim.tbl_deep_extend("keep", server_conf, c))
+end
+
 -- lspconfig.sumneko_lua.setup(vim.tbl_extend("error", require "config.lua-lsp", server_conf))
 require "config.rust".setup(server_conf)
 lspconfig.gopls.setup(server_conf)
