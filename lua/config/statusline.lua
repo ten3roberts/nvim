@@ -263,7 +263,7 @@ function M.update()
 
   local items = {
     '%#Normal# ', branch, git, path, readonly and '%#Purple# ' or '',
-    '%#StatusLine#%=%#Normal# ',
+    '%#Normal#%=%#Normal# ',
     rec, diag, '%#Purple#',
     percent, string.format(' %s %2d:%-2d ', mode.hl, row, col)
   }

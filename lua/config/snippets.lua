@@ -40,7 +40,7 @@ ls.add_snippets("lua", {
     end{}
   ]], { i(1), i(2), i(3), i(0) })),
 
-  s("req", fmt([[ {}require "{}" ]], {
+  s("req", fmt([[{}require "{}"]], {
     c(1, {
       f(function(args)
         local name = string.match(args[1][1], "[^./]*$");

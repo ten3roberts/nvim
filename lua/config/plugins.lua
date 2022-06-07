@@ -255,7 +255,7 @@ require('packer').startup(function(use)
   -- LSP configurations
   use {
     'neovim/nvim-lspconfig',
-    requires = { "williamboman/nvim-lsp-installer", "hrsh7th/nvim-cmp" },
+    requires = { "williamboman/nvim-lsp-installer", "hrsh7th/nvim-cmp", "tjdevries/nlua.nvim" },
     config = function()
       require "config.lsp"
     end
@@ -299,7 +299,7 @@ require('packer').startup(function(use)
     'nvim-treesitter/nvim-treesitter',
     requires = {
       'nvim-treesitter/playground',
-      'RRethy/nvim-treesitter-textsubjects',
+      "nvim-treesitter/nvim-treesitter-textobjects",
       'nvim-treesitter/nvim-treesitter-refactor'
     },
     config = function()
@@ -358,7 +358,7 @@ require('packer').startup(function(use)
     end
   }
 
-  use { 'simrat39/rust-tools.nvim', config = function() require "config.rust" end }
+  use { 'simrat39/rust-tools.nvim' }
   use { 'sindrets/diffview.nvim', requires = { 'nvim-lua/plenary.nvim' } }
   use { 'stevearc/aerial.nvim', config = function() require "config.aerial" end } -- Symbol tree
   use {
