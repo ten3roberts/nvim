@@ -1,27 +1,27 @@
-local actions = require 'telescope.actions'
+local actions = require "telescope.actions"
 
 local telescope = require "telescope"
 
 telescope.setup {
   defaults = {
     vimgrep_arguments = {
-      'rg',
+      "rg",
       -- '--fixed-strings',
-      '--color=never',
-      '--no-heading',
-      '--with-filename',
-      '--line-number',
-      '--column',
-      '--smart-case'
+      "--color=never",
+      "--no-heading",
+      "--with-filename",
+      "--line-number",
+      "--column",
+      "--smart-case",
     },
     layout_config = {
       horizontal = {
-        prompt_position = "top"
+        prompt_position = "top",
       },
       width = function(_, cols, _)
         return math.min(120, math.floor(cols * 0.75))
       end,
-      height = 0.5
+      height = 0.5,
     },
     sorting_strategy = "ascending",
     border = false,
@@ -57,9 +57,9 @@ telescope.setup {
         -- ["<CR>"] = actions.select_default + actions.center + my_cool_custom_action,
       },
       n = {
-        ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist
+        ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
         -- ["<C-i>"] = my_cool_custom_action,
-      }
+      },
     },
   },
   pickers = {
@@ -75,30 +75,30 @@ telescope.setup {
         },
         n = {
           ["<c-d>"] = require("telescope.actions").delete_buffer,
-        }
-      }
+        },
+      },
     },
-    current_buffer_fuzzy_find = require 'telescope.themes'.get_ivy {
+    current_buffer_fuzzy_find = require("telescope.themes").get_ivy {
       border = false,
       layout_config = { width = 0.7, height = 0.7 },
     },
-    diagnostics = require 'telescope.themes'.get_ivy {
-      layout_config = { width = 0.7, height = 0.7 },
-      border = false,
-      mappings = {
-        i = {
-          -- ["<CR>"] = custom_actions.file_drop,
-        }
-      }
-    },
-    live_grep = require 'telescope.themes'.get_ivy {
+    diagnostics = require("telescope.themes").get_ivy {
       layout_config = { width = 0.7, height = 0.7 },
       border = false,
       mappings = {
         i = {
           -- ["<CR>"] = custom_actions.file_drop,
-        }
-      }
+        },
+      },
+    },
+    live_grep = require("telescope.themes").get_ivy {
+      layout_config = { width = 0.7, height = 0.7 },
+      border = false,
+      mappings = {
+        i = {
+          -- ["<CR>"] = custom_actions.file_drop,
+        },
+      },
     },
   },
 
@@ -119,39 +119,36 @@ telescope.setup {
         },
         n = {
           ["<c-e>"] = actions.file_edit,
-        }
+        },
       },
       base_dirs = {
-        { path = '~/dev', max_depth = 4 },
-        { '~/.config/nvim' }
+        { path = "~/dev", max_depth = 4 },
+        { "~/.config/nvim" },
       },
-      hidden_files = false -- default: false
-    }
+      hidden_files = false, -- default: false
+    },
   },
 }
 
-telescope.load_extension 'fzf'
-telescope.load_extension 'dap'
-
+telescope.load_extension "fzf"
+telescope.load_extension "dap"
 
 local function map(mode, lhs, rhs, opts)
   vim.keymap.set(mode, lhs, rhs, opts)
 end
 
+local builtin = require "telescope.builtin"
+
 -- Telescope
-map('n', '<leader><leader>', ':Telescope find_files<CR>')
+map("n", "<leader><leader>", builtin.find_files)
 -- map('n',    '<leader>f',        '<cmd>lua require "telescope".extensions.file_browser.file_browser { path="%:p:h" }<CR>')
-map('n', '<leader>rf', ':Telescope oldfiles<CR>')
-map('n', '<M-x>', ':Telescope command_history<CR>')
-map('n', '<leader>,', ':Telescope buffers<CR>')
-map('n', '<leader>/', ':Telescope current_buffer_fuzzy_find<CR>')
-map('n', '<leader>/', ':Telescope current_buffer_fuzzy_find<CR>')
-map('n', '<leader>rg', ':Telescope live_grep<CR>')
-map('n', '<leader>gl', ':Telescope git_commits<CR>')
-map('n', '<leader>gs', ':Telescope git_status<CR>')
-map('n', '<leader>o', ':Telescope lsp_document_symbols<CR>')
-map('n', '<leader>O', ':Telescope lsp_dynamic_workspace_symbols<CR>')
-map('n', '<leader>dd', ':Telescope lsp_document_diagnostics<CR>')
-map('n', '<leader>D', ':Telescope diagnostics<CR>')
-map('n', '<leader>pp', ":SessionLoad<CR>")
-map('n', '<leader>pp', ":SessionLoad<CR>")
+map("n", "<leader>rf", builtin.oldfiles)
+map("n", "<M-x>", builtin.command_history)
+map("n", "<leader>,", builtin.buffers)
+map("n", "<leader>/", builtin.current_buffer_fuzzy_find)
+map("n", "<leader>rg", builtin.live_grep)
+map("n", "<leader>gl", builtin.git_commits)
+map("n", "<leader>gs", builtin.git_status)
+map("n", "<leader>o", builtin.lsp_document_symbols)
+map("n", "<leader>O", builtin.lsp_dynamic_workspace_symbols)
+map("n", "<leader>D", builtin.diagnostics)

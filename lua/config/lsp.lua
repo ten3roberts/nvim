@@ -57,7 +57,7 @@ function M.set_qf()
 
   diagnostic.setqflist {
     open = false,
-    severity_sort = true,
+    severity = diagnostic.severity.WARN,
   }
 
   qf.tally "c"
@@ -89,8 +89,6 @@ function M.on_attach(client)
   -- Jump forwards/backwards at the same tree level with '[[' and ']]'
   buf_map(0, "n", "[[", "<cmd>AerialPrevUp<CR>")
   buf_map(0, "n", "]]", "<cmd>AerialNextUp<CR>")
-
-  local provider_cmds = cmd[provider]
 
   local builtin = require "telescope.builtin"
 

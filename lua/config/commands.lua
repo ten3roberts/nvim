@@ -6,20 +6,60 @@ vim.cmd "command! CargoUpgrade !cargo --color=never upgrade --workspace"
 
 local recipe = require "recipe"
 local function cargo(cmd, action)
-	recipe.execute({ cmd = "cargo " .. cmd, interactive = true, stay = true, cwd = vim.fn.expand("%:p:h"), action = action, keep_open = true })
+  recipe.execute {
+    cmd = "cargo " .. cmd,
+    interactive = true,
+    stay = true,
+    cwd = vim.fn.expand "%:p:h",
+    action = action,
+    keep_open = true,
+  }
 end
 
 a.nvim_create_user_command("Q", ":silent wa | qa", {})
 a.nvim_create_user_command("W", ":silent wa", {})
-a.nvim_create_user_command("Reload", function(c) require "config.dev_utils".reload(c.args) end, { nargs = 1 })
-a.nvim_create_user_command("Dump", function(c) require "config.dev_utils".dump_mod(c.args) end, { nargs = 1 })
-a.nvim_create_user_command("Cargo", function(c) cargo(c.args) end, { nargs = "*" })
-a.nvim_create_user_command("CargoUpgrade", function() cargo("upgrade --workspace") end, { nargs = "*" })
-a.nvim_create_user_command("CargoAdd", function(c) cargo("add " .. c.args, function() vim.cmd "CargoReload" end) end, { nargs = "*" })
-a.nvim_create_user_command("CargoVersion", function(c) cargo("workspaces version" .. c.args) end, { nargs = "*" })
-a.nvim_create_user_command("CargoTest", function(c) cargo(string.format("test %s -- --nocapture", c.args)) end, { nargs = "*" })
-a.nvim_create_user_command("Clip", "let @+=@\"", {})
-a.nvim_create_user_command("CargoSyncReadme", function(_) cargo("sync-readme") end, {})
+
+a.nvim_create_user_command("Reload", function(c)
+  require("config.dev_utils").reload(c.args)
+end, { nargs = 1 })
+
+a.nvim_create_user_command("Dump", function(c)
+  require("config.dev_utils").dump_mod(c.args)
+end, { nargs = 1 })
+
+a.nvim_create_user_command("Cargo", function(c)
+  recipe.execute { cmd = "cargo" .. c.args, interactive = true }
+end, { nargs = "*" })
+
+a.nvim_create_user_command("CargoUpgrade", function(c)
+  recipe.execute { cmd = "cargo upgrade" .. c.args, interactive = true }
+end, { nargs = "*" })
+
+a.nvim_create_user_command("CargoAdd", function(c)
+  recipe.execute {
+    cmd = "cargo add " .. c.args,
+    interactive = true,
+    action = {
+      function()
+        vim.cmd "CargoReload"
+      end,
+    },
+  }
+end, { nargs = "*" })
+
+a.nvim_create_user_command("CargoVersion", function(c)
+  recipe.execute { cmd = "cargo workspaces version " .. c.args, interactive = true }
+end, { nargs = "*" })
+
+a.nvim_create_user_command("CargoTest", function(c)
+  recipe.execute { cmd = string.format("cargo test %s -- --nocapture", c.args), interactive = true }
+end, { nargs = "*" })
+
+a.nvim_create_user_command("Clip", 'let @+=@"', {})
+
+a.nvim_create_user_command("CargoSyncReadme", function(c)
+  recipe.execute { cmd = "cargo sync-readme " .. c.args, interactive = true }
+end, {})
 
 vim.cmd [[
 function! Redir(cmd, rng, start, end)
