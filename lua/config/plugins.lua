@@ -1,36 +1,40 @@
 local fn = vim.fn
 
-local paq_dir = fn.stdpath('data') .. '/site/pack/packer/start/'
-local packer_path = paq_dir .. 'packer.nvim'
+local paq_dir = fn.stdpath "data" .. "/site/pack/packer/start/"
+local packer_path = paq_dir .. "packer.nvim"
 
 if fn.empty(fn.glob(packer_path)) > 0 then
-  print 'Downloading packer'
-  fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', packer_path })
+  print "Downloading packer"
+  fn.system { "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", packer_path }
 end
 
 vim.cmd [[packadd packer.nvim]]
 
-require('packer').startup(function(use)
+require("packer").startup(function(use)
   -- Packer can manage itself
-  use 'wbthomason/packer.nvim'
+  use "wbthomason/packer.nvim"
 
-  use '~/dev/nvim/qf.nvim'
+  use "~/dev/nvim/qf.nvim"
   use {
-    '~/dev/nvim/graphene.nvim', opt = false, config = function()
+    "~/dev/nvim/graphene.nvim",
+    opt = false,
+    config = function()
       local graphene = require "graphene"
       graphene.setup {}
 
       vim.keymap.set("n", "<leader>f", graphene.init, {})
-      vim.keymap.set("n", "<leader>pe", function() graphene.init(".") end, {})
-    end
+      vim.keymap.set("n", "<leader>pe", function()
+        graphene.init "."
+      end, {})
+    end,
   }
   use { "~/dev/nvim/wgsl.vim", opt = false }
   use "~/dev/nvim/recipe.nvim"
   use {
     "~/dev/nvim/darken.nvim",
     config = function()
-      require 'darken'.setup {}
-    end
+      require("darken").setup {}
+    end,
   }
   use "~/dev/nvim/toggle.nvim"
   use "~/dev/nvim/window-picker.nvim"
@@ -80,36 +84,34 @@ require('packer').startup(function(use)
   use {
     "https://github.com/ahmedkhalf/project.nvim",
     config = function()
-      require "project_nvim".setup {
-
-      }
-    end
+      require("project_nvim").setup {}
+    end,
   }
 
   use {
-    'akinsho/git-conflict.nvim',
+    "akinsho/git-conflict.nvim",
     config = function()
-      require('git-conflict').setup {}
-    end
+      require("git-conflict").setup {}
+    end,
   }
 
-  use { 'andymass/vim-matchup' }
+  use { "andymass/vim-matchup" }
   -- Markdown bullet management
-  use 'dkarter/bullets.vim'
-  use 'echasnovski/mini.nvim'
+  use "dkarter/bullets.vim"
+  use "echasnovski/mini.nvim"
   use {
-    'folke/zen-mode.nvim',
+    "folke/zen-mode.nvim",
     config = function()
-      require "zen-mode".setup {}
-    end
+      require("zen-mode").setup {}
+    end,
   }
 
   use {
-    'gbprod/yanky.nvim',
+    "gbprod/yanky.nvim",
     config = function()
-      require "yanky".setup {
+      require("yanky").setup {
         ring = {
-          history_length = 16,
+          history_length = 32,
           storage = "shada",
           sync_with_numbered_registers = true,
         },
@@ -125,21 +127,23 @@ require('packer').startup(function(use)
           enabled = true,
         },
       }
-    end
+    end,
   }
 
   use {
-    'ggandor/leap.nvim',
-    config = function() require "leap".set_default_keymaps() end
+    "ggandor/leap.nvim",
+    config = function()
+      require("leap").set_default_keymaps()
+    end,
   }
 
-  use 'haya14busa/vim-asterisk'
+  use "haya14busa/vim-asterisk"
 
   use {
     "L3MON4D3/LuaSnip",
     config = function()
       require "config.snippets"
-    end
+    end,
   }
 
   -- Autocompletion plugin
@@ -154,18 +158,18 @@ require('packer').startup(function(use)
       "hrsh7th/cmp-nvim-lsp-signature-help",
       "hrsh7th/cmp-nvim-lsp-document-symbol",
       "hrsh7th/cmp-cmdline",
-      "ray-x/cmp-treesitter"
+      "ray-x/cmp-treesitter",
     },
     config = function()
       require "config.completion"
-    end
+    end,
   }
 
   use "junegunn/vim-easy-align" -- Align text blocks
   use {
     "karb94/neoscroll.nvim",
     config = function()
-      local t    = {}
+      local t = {}
       t["<C-u>"] = { "scroll", { "-vim.wo.scroll", "true", "100", "quadratic" } }
       t["<C-d>"] = { "scroll", { "vim.wo.scroll", "true", "100", "quadratic" } }
       t["<C-b>"] = { "scroll", { "-vim.api.nvim_win_get_height(0)", "true", "250" } }
@@ -173,13 +177,13 @@ require('packer').startup(function(use)
 
       t["<C-y>"] = { "scroll", { "-0.10", "false", "100" } }
       t["<C-e>"] = { "scroll", { "0.10", "false", "100" } }
-      t["zt"]    = { "zt", { "250" } }
-      t["zz"]    = { "zz", { "250" } }
-      t["zb"]    = { "zb", { "250" } }
+      t["zt"] = { "zt", { "250" } }
+      t["zz"] = { "zz", { "250" } }
+      t["zb"] = { "zb", { "250" } }
 
-      require "neoscroll".setup {}
-      require "neoscroll.config".set_mappings(t)
-    end
+      require("neoscroll").setup {}
+      require("neoscroll.config").set_mappings(t)
+    end,
   }
   use "kyazdani42/nvim-web-devicons" -- File icons
   use "lervag/vimtex"
@@ -188,7 +192,7 @@ require('packer').startup(function(use)
     "lewis6991/gitsigns.nvim",
     requires = { "nvim-lua/plenary.nvim" },
     config = function()
-      require "gitsigns".setup({
+      require("gitsigns").setup {
         current_line_blame = false,
 
         on_attach = function(bufnr)
@@ -201,55 +205,58 @@ require('packer').startup(function(use)
           end
 
           -- Navigation
-          map('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", { expr = true })
-          map('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", { expr = true })
+          map("n", "]c", "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", { expr = true })
+          map("n", "[c", "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", { expr = true })
 
           -- Actions
-          map({ 'n', 'v' }, '<leader>hs', gs.stage_hunk)
-          map({ 'n', 'v' }, '<leader>hr', gs.reset_hunk)
-          map('n', '<leader>hS', gs.stage_buffer)
-          map('n', '<leader>hu', gs.undo_stage_hunk)
-          map('n', '<leader>hR', gs.reset_buffer)
-          map('n', '<leader>hp', gs.preview_hunk)
-          map('n', '<leader>hb', function() gs.blame_line { full = true } end)
-          map('n', '<leader>tb', gs.toggle_current_line_blame)
-          map('n', '<leader>hd', gs.diffthis)
-          map('n', '<leader>hD', function() gs.diffthis('~') end)
-          map('n', '<leader>td', gs.toggle_deleted)
+          map({ "n", "v" }, "<leader>hs", gs.stage_hunk)
+          map({ "n", "v" }, "<leader>hr", gs.reset_hunk)
+          map("n", "<leader>hS", gs.stage_buffer)
+          map("n", "<leader>hu", gs.undo_stage_hunk)
+          map("n", "<leader>hR", gs.reset_buffer)
+          map("n", "<leader>hp", gs.preview_hunk)
+          map("n", "<leader>hb", function()
+            gs.blame_line { full = true }
+          end)
+          map("n", "<leader>tb", gs.toggle_current_line_blame)
+          map("n", "<leader>hd", gs.diffthis)
+          map("n", "<leader>hD", function()
+            gs.diffthis "~"
+          end)
+          map("n", "<leader>td", gs.toggle_deleted)
 
           -- Text object
-          map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
-        end
-      })
-    end
+          map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>")
+        end,
+      }
+    end,
   }
 
-  use 'mbbill/undotree'
+  use "mbbill/undotree"
 
   use {
-    'ThePrimeagen/harpoon',
+    "ThePrimeagen/harpoon",
     config = function()
       local ui = require "harpoon.ui"
       local mark = require "harpoon.mark"
       vim.keymap.set("n", "<leader>ha", mark.add_file, {})
       vim.keymap.set("n", "<leader>ho", ui.toggle_quick_menu, {})
       vim.keymap.set("n", "<leader>hh", ui.toggle_quick_menu, {})
-
-    end
+    end,
   }
 
   use {
-    'mfussenegger/nvim-dap',
+    "mfussenegger/nvim-dap",
     requires = { "rcarriga/nvim-dap-ui" },
     config = function()
       require "config.dbg"
-    end
+    end,
   }
 
   use {
-    'monaqa/dial.nvim',
+    "monaqa/dial.nvim",
     config = function()
-      local augend = require("dial.augend")
+      local augend = require "dial.augend"
       require("dial.config").augends:register_group {
         default = {
           augend.integer.alias.decimal_int,
@@ -269,62 +276,69 @@ require('packer').startup(function(use)
           augend.constant.alias.ja_weekday_full,
         },
       }
-    end
+    end,
   }
 
   -- LSP configurations
   use {
-    'neovim/nvim-lspconfig',
+    "neovim/nvim-lspconfig",
     requires = { "williamboman/nvim-lsp-installer", "hrsh7th/nvim-cmp", "tjdevries/nlua.nvim" },
     config = function()
       require "config.lsp"
-    end
+    end,
+  }
+
+  use {
+    "jose-elias-alvarez/null-ls.nvim",
+    after = "nvim-lspconfig",
+    config = function()
+      require "config.null"
+    end,
   }
 
   -- Highlight colorcodes
   use {
-    'norcalli/nvim-colorizer.lua',
+    "norcalli/nvim-colorizer.lua",
     config = function()
-      require 'colorizer'.setup(
-        { '*' },
-        {
-          RGB      = true, -- #RGB hex codes
-          RRGGBB   = true, -- #RRGGBB hex codes
-          names    = true, -- "Name" codes like Blue
-          RRGGBBAA = true, -- #RRGGBBAA hex codes
-          rgb_fn   = false, -- CSS rgb() and rgba() functions
-          hsl_fn   = false, -- CSS hsl() and hsla() functions
-          css      = false, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
-          css_fn   = false, -- Enable all CSS *functions*: rgb_fn, hsl_fn
-          -- Available mod,s: foreground, background
-          mode     = 'foreground', -- Set the display mode.
-        })
-    end
+      require("colorizer").setup({ "*" }, {
+        RGB = true, -- #RGB hex codes
+        RRGGBB = true, -- #RRGGBB hex codes
+        names = true, -- "Name" codes like Blue
+        RRGGBBAA = true, -- #RRGGBBAA hex codes
+        rgb_fn = false, -- CSS rgb() and rgba() functions
+        hsl_fn = false, -- CSS hsl() and hsla() functions
+        css = false, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
+        css_fn = false, -- Enable all CSS *functions*: rgb_fn, hsl_fn
+        -- Available mod,s: foreground, background
+        mode = "foreground", -- Set the display mode.
+      })
+    end,
   }
 
-  use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+  use { "nvim-telescope/telescope-fzf-native.nvim", run = "make" }
 
   use {
-    'nvim-telescope/telescope.nvim',
-    requires = { 'nvim-lua/plenary.nvim',
-      'nvim-telescope/telescope-dap.nvim',
-      'nvim-telescope/telescope-fzf-native.nvim',
+    "nvim-telescope/telescope.nvim",
+    requires = {
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope-dap.nvim",
+      "nvim-telescope/telescope-fzf-native.nvim",
     },
     config = function()
       require "config.telescope"
-    end
+    end,
   }
 
   use {
-    'nvim-treesitter/nvim-treesitter',
+    "nvim-treesitter/nvim-treesitter",
     requires = {
-      'nvim-treesitter/playground',
+      "nvim-treesitter/playground",
       "nvim-treesitter/nvim-treesitter-textobjects",
-      'nvim-treesitter/nvim-treesitter-refactor'
+      "nvim-treesitter/nvim-treesitter-refactor",
     },
     config = function()
-      require 'config.treesitter'
-    end
+      require "config.treesitter"
+    end,
   }
 
   -- use {
@@ -346,60 +360,65 @@ require('packer').startup(function(use)
   use {
     "rmagatti/auto-session",
     config = function()
-      require "auto-session".setup {
+      require("auto-session").setup {
         log_level = "error",
       }
-    end
+    end,
   }
 
-  use 'rhysd/rust-doc.vim'
-  use 'onsails/lspkind-nvim'
-  use 'qxxxb/vim-searchhi' -- Highlight current search match
-  use 'rafamadriz/friendly-snippets' -- Preconfigured snippets
-  use 'ray-x/lsp_signature.nvim' -- Show function signature help
-  use 'rcarriga/nvim-dap-ui'
+  use "rhysd/rust-doc.vim"
+  use "onsails/lspkind-nvim"
+  use "qxxxb/vim-searchhi" -- Highlight current search match
+  use "rafamadriz/friendly-snippets" -- Preconfigured snippets
+  use "ray-x/lsp_signature.nvim" -- Show function signature help
+  use "rcarriga/nvim-dap-ui"
   use {
-    'rcarriga/nvim-notify',
+    "rcarriga/nvim-notify",
     config = function()
-      require "notify".setup {
+      require("notify").setup {
         timeout = 2000,
         render = "minimal",
         max_width = 80,
       }
 
-      vim.notify = require("notify")
-    end
+      vim.notify = require "notify"
+    end,
   }
 
   use {
-    'kyazdani42/nvim-tree.lua',
+    "kyazdani42/nvim-tree.lua",
 
     config = function()
-      require "nvim-tree".setup {}
-    end
+      require("nvim-tree").setup {}
+    end,
   }
 
-  use { 'simrat39/rust-tools.nvim' }
-  use { 'sindrets/diffview.nvim', requires = { 'nvim-lua/plenary.nvim' } }
-  use { 'stevearc/aerial.nvim', config = function() require "config.aerial" end } -- Symbol tree
+  use { "simrat39/rust-tools.nvim" }
+  use { "sindrets/diffview.nvim", requires = { "nvim-lua/plenary.nvim" } }
   use {
-    'stevearc/dressing.nvim',
+    "stevearc/aerial.nvim",
+    config = function()
+      require "config.aerial"
+    end,
+  } -- Symbol tree
+  use {
+    "stevearc/dressing.nvim",
     requires = { "telescope.nvim" },
     config = function()
-      require "dressing".setup {
+      require("dressing").setup {
         select = {
-          telescope = require "telescope.themes".get_dropdown {
+          telescope = require("telescope.themes").get_dropdown {
             border = false,
-          }
-        }
+          },
+        },
       }
-    end
+    end,
   }
 
   use {
     "numToStr/Comment.nvim",
     config = function()
-      require "Comment".setup {
+      require("Comment").setup {
         mappings = {
           ---Operator-pending mapping
           ---Includes `gcc`, `gbc`, `gc[count]{motion}` and `gb[count]{motion}`
@@ -413,27 +432,27 @@ require('packer').startup(function(use)
           extended = true,
         },
       }
-    end
+    end,
   }
 
-  use 'stevearc/stickybuf.nvim'
-  use 'tikhomirov/vim-glsl' -- GLSL runtime files
+  use "stevearc/stickybuf.nvim"
+  use "tikhomirov/vim-glsl" -- GLSL runtime files
 
-  use 'tpope/vim-abolish' -- Change casing styles and provide smart search and replace
-  use 'tpope/vim-fugitive' -- Git management
-  use 'tpope/vim-repeat' -- Repeat plugin commands with .
-  use 'tpope/vim-rsi' -- Readline mappings in insert mode
-  use 'tpope/vim-sleuth'
-  use 'tpope/vim-surround' -- ( surround text )
-  use 'tpope/vim-unimpaired'
+  use "tpope/vim-abolish" -- Change casing styles and provide smart search and replace
+  use "tpope/vim-fugitive" -- Git management
+  use "tpope/vim-repeat" -- Repeat plugin commands with .
+  use "tpope/vim-rsi" -- Readline mappings in insert mode
+  -- use "tpope/vim-sleuth"
+  use "tpope/vim-surround" -- ( surround text )
+  use "tpope/vim-unimpaired"
 
-  use 'wellle/targets.vim' -- Better handling and seeking for textobjects
+  use "wellle/targets.vim" -- Better handling and seeking for textobjects
   use {
-    'windwp/nvim-autopairs',
-    requires = 'windwp/nvim-ts-autotag',
+    "windwp/nvim-autopairs",
+    requires = "windwp/nvim-ts-autotag",
     config = function()
       require "config.pairs"
-    end
+    end,
   }
 
   use {

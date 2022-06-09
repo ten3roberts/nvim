@@ -2,63 +2,63 @@ local function buf_map(buf, mod, lhs, rhs)
   vim.keymap.set(mod, lhs, rhs, { silent = true, buffer = buf })
 end
 
-local aerial = require 'aerial'
+local aerial = require "aerial"
 local diagnostic = vim.diagnostic
 local lsp_diagnostic = vim.lsp.diagnostic
 local lspconfig = require "lspconfig"
-local lsp_signature = require 'lsp_signature'
+local lsp_signature = require "lsp_signature"
 local qf = require "qf"
 local sev = diagnostic.severity
 
-require('lspkind').init({
+require("lspkind").init {
   symbol_map = {
-    Function = "ﬦ"
-  }
-})
+    Function = "ﬦ",
+  },
+}
 
 local M = { buffers = {}, statusline_cache = {} }
 
 local cmd = {
   fzf = {
-    references = ':References<CR>',
-    type_definitions = ':TypeDefinitions<CR>',
-    definitions = ':Definitions<CR>',
-    declarations = ':Declarations<CR>',
+    references = ":References<CR>",
+    type_definitions = ":TypeDefinitions<CR>",
+    definitions = ":Definitions<CR>",
+    declarations = ":Declarations<CR>",
     code_actions = ":CodeActions<CR>",
   },
   telescope = {
-    references = ':Telescope lsp_references<CR>',
-    type_definitions = ':Telescope lsp_type_definitions<CR>',
-    definitions = ':Telescope lsp_definitions<CR>',
-    declarations = ':Telescope lsp_declarations<CR>',
-    code_actions = ':Telescope lsp_code_actions<CR>',
-  }
+    references = ":Telescope lsp_references<CR>",
+    type_definitions = ":Telescope lsp_type_definitions<CR>",
+    definitions = ":Telescope lsp_definitions<CR>",
+    declarations = ":Telescope lsp_declarations<CR>",
+    code_actions = ":Telescope lsp_code_actions<CR>",
+  },
 }
 
-local provider = 'telescope'
+local provider = "telescope"
 
 -- Sets the location list with predefined options. Does not focus list.
 function M.set_loc()
   local bufnr = vim.api.nvim_get_current_buf()
-  if vim.o.buftype ~= '' or M.buffers[bufnr] == nil then
+  if vim.o.buftype ~= "" or M.buffers[bufnr] == nil then
     return
   end
 
-  diagnostic.setloclist({
+  diagnostic.setloclist {
     open = false,
-  })
+  }
   qf.tally "l"
 end
 
 function M.set_qf()
-  if vim.o.buftype ~= '' then
+  if vim.o.buftype ~= "" then
     return
   end
 
-  diagnostic.setqflist({
+  diagnostic.setqflist {
     open = false,
-  })
-
+    severity_sort = true,
+  }
 
   qf.tally "c"
   qf.open("c", false, true)
@@ -66,7 +66,11 @@ end
 
 function M.on_attach(client)
   -- Lsp signature
-  lsp_signature.on_attach({
+  if client.name == "sumneko_lua" then
+    client.server_capabilities.documentFormattingProvider = false -- 0.8 and later
+  end
+
+  lsp_signature.on_attach {
     bind = true,
     max_height = 5,
     max_width = 20,
@@ -74,39 +78,40 @@ function M.on_attach(client)
     -- hint_scheme = "String",
     zindex = 1,
     handler_opts = {
-      border = "single" -- double, single, shadow, none
+      border = "single", -- double, single, shadow, none
     },
-  })
+  }
 
   aerial.on_attach(client)
 
   -- Setup mappings
 
   -- Jump forwards/backwards at the same tree level with '[[' and ']]'
-  buf_map(0, 'n', '[[', '<cmd>AerialPrevUp<CR>')
-  buf_map(0, 'n', ']]', '<cmd>AerialNextUp<CR>')
+  buf_map(0, "n", "[[", "<cmd>AerialPrevUp<CR>")
+  buf_map(0, "n", "]]", "<cmd>AerialNextUp<CR>")
 
   local provider_cmds = cmd[provider]
 
   local builtin = require "telescope.builtin"
 
-  buf_map(0, '', '<leader>cf', vim.lsp.buf.formatting)
-  buf_map(0, '', '<leader>ce', vim.diagnostic.open_float)
-  buf_map(0, '', '<leader>cwa', vim.lsp.buf.add_workspace_folder)
-  buf_map(0, '', '<leader>cwl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end)
-  buf_map(0, '', '<leader>cwr', vim.lsp.buf.remove_workspace_folder)
-  buf_map(0, '', '<leader>q', require "config.lsp".set_qf)
-  buf_map(0, '', '<leader>rn', vim.lsp.buf.rename)
-  buf_map(0, '', '<leader>a', vim.lsp.buf.code_action)
-  buf_map(0, '', 'K', vim.lsp.buf.hover)
+  buf_map(0, "", "<leader>cf", vim.lsp.buf.formatting)
+  buf_map(0, "", "<leader>ce", vim.diagnostic.open_float)
+  buf_map(0, "", "<leader>cwa", vim.lsp.buf.add_workspace_folder)
+  buf_map(0, "", "<leader>cwl", function()
+    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+  end)
+  buf_map(0, "", "<leader>cwr", vim.lsp.buf.remove_workspace_folder)
+  buf_map(0, "", "<leader>q", require("config.lsp").set_qf)
+  buf_map(0, "", "<leader>rn", vim.lsp.buf.rename)
+  buf_map(0, "", "<leader>a", vim.lsp.buf.code_action)
+  buf_map(0, "", "K", vim.lsp.buf.hover)
   -- buf_map(0, '', '[d', vim.lsp.diagnostic.goto_prev)
   -- buf_map(0, '', ']d', vim.lsp.diagnostic.goto_next)
-  buf_map(0, '', 'gD', vim.lsp.buf.declaration)
-  buf_map(0, '', 'gd', builtin.lsp_definitions)
-  buf_map(0, '', 'gi', builtin.lsp_implementations)
-  buf_map(0, '', 'gr', builtin.lsp_references)
-  buf_map(0, '', 'gy', builtin.lsp_type_definitions)
-
+  buf_map(0, "", "gD", vim.lsp.buf.declaration)
+  buf_map(0, "", "gd", builtin.lsp_definitions)
+  buf_map(0, "", "gi", builtin.lsp_implementations)
+  buf_map(0, "", "gr", builtin.lsp_references)
+  buf_map(0, "", "gy", builtin.lsp_type_definitions)
 end
 
 function M.deferred_loc()
@@ -114,10 +119,10 @@ function M.deferred_loc()
 end
 
 local diagnostic_severities = {
-  [sev.ERROR] = { hl = '%#STError#', type = 'E', kind = 'error', sign = '' };
-  [sev.WARN]  = { hl = '%#STWarning#', type = 'W', kind = 'warning', sign = '' };
-  [sev.INFO]  = { hl = '%#STInfo#', type = 'I', kind = 'info', sign = '' };
-  [sev.HINT]  = { hl = '%#STHint#', type = 'H', kind = 'hint', sign = '' };
+  [sev.ERROR] = { hl = "%#STError#", type = "E", kind = "error", sign = "" },
+  [sev.WARN] = { hl = "%#STWarning#", type = "W", kind = "warning", sign = "" },
+  [sev.INFO] = { hl = "%#STInfo#", type = "I", kind = "info", sign = "" },
+  [sev.HINT] = { hl = "%#STHint#", type = "H", kind = "hint", sign = "" },
 }
 
 -- function M.on_publish_diagnostics(err, method, result, client_id, _, _)
@@ -164,7 +169,7 @@ end
 
 -- Returns a formatted statusline
 function M.statusline(bufnr, highlight)
-  bufnr = bufnr or vim.fn.bufnr('%')
+  bufnr = bufnr or vim.fn.bufnr "%"
 
   local cache = M.statusline_cache[bufnr]
 
@@ -175,7 +180,7 @@ function M.statusline(bufnr, highlight)
   local diagnostics = M.buffers[bufnr]
 
   if diagnostics == nil then
-    return ''
+    return ""
   end
 
   local t = {}
@@ -184,14 +189,14 @@ function M.statusline(bufnr, highlight)
     for i, v in ipairs(diagnostics) do
       if v > 0 then
         local severity = diagnostic_severities[i]
-        t[#t + 1] = severity.hl .. severity.sign .. ' ' .. v .. ' '
+        t[#t + 1] = severity.hl .. severity.sign .. " " .. v .. " "
       end
     end
   else
     for i, v in ipairs(diagnostics) do
       if v > 0 then
         local severity = diagnostic_severities[i]
-        t[#t + 1] = severity.sign .. ' ' .. v .. ' '
+        t[#t + 1] = severity.sign .. " " .. v .. " "
       end
     end
   end
@@ -202,7 +207,7 @@ function M.statusline(bufnr, highlight)
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 
 diagnostic.config {
   -- Only show virtual text if window is large enough
@@ -211,7 +216,7 @@ diagnostic.config {
   -- end,
   virtual_text = {
     spacing = 16,
-    prefix = '~',
+    prefix = "~",
   },
   update_in_insert = true,
   severity_sort = true,
@@ -220,7 +225,7 @@ diagnostic.config {
 local installer = require "nvim-lsp-installer"
 
 installer.setup {
-  automatic_installation = false
+  automatic_installation = false,
 }
 
 local server_conf = {
@@ -236,29 +241,29 @@ local server_conf = {
       cargo = {
         loadOutDirsFromCheck = true,
         buildScripts = {
-          enable = true
-        }
+          enable = true,
+        },
       },
       procMacro = {
-        enable = true
-      }
-    }
-  }
+        enable = true,
+      },
+    },
+  },
 }
 
 local ok, lua_server = installer.get_server "sumneko_lua"
 if ok and lua_server:is_installed() then
   local c = lua_server:get_default_options()
   c.cmd = {
-    vim.fn.stdpath("data") .. "/lsp_servers/sumneko_lua/extension/server/bin/lua-language-server",
+    vim.fn.stdpath "data" .. "/lsp_servers/sumneko_lua/extension/server/bin/lua-language-server",
     "-E",
-    vim.fn.stdpath("data") .. "/lsp_servers/sumneko_lua/extension/server/main.lua"
+    vim.fn.stdpath "data" .. "/lsp_servers/sumneko_lua/extension/server/main.lua",
   }
-  require "nlua.lsp.nvim".setup(lspconfig, vim.tbl_deep_extend("keep", server_conf, c))
+  require("nlua.lsp.nvim").setup(lspconfig, vim.tbl_deep_extend("keep", server_conf, c))
 end
 
 -- lspconfig.sumneko_lua.setup(vim.tbl_extend("error", require "config.lua-lsp", server_conf))
-require "config.rust".setup(server_conf)
+require("config.rust").setup(server_conf)
 lspconfig.gopls.setup(server_conf)
 lspconfig.sqlls.setup(server_conf)
 lspconfig.svelte.setup(server_conf)

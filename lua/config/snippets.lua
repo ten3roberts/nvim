@@ -46,7 +46,7 @@ ls.add_snippets("lua", {
 
   s("lreq", fmt([[{}require "{}"]], {
     f(function(args)
-      local name = string.match(args[1][1], "[^./]*$");
+      local name = string.match(args[1][1], "[^./]*$"):gsub("-", "_");
       return string.format("local %s = ", name or "")
     end, { 1 }),
     i(1),
