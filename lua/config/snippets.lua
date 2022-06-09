@@ -34,7 +34,7 @@ ls.add_snippets("lua", {
       function{}({})
         {}
       end{}
-    ]],
+    ]] ,
       { i(1), i(2), i(3), i(0) }
     )
   ),
@@ -46,7 +46,7 @@ ls.add_snippets("lua", {
     local function{}({})
       {}
     end{}
-  ]],
+  ]]   ,
       { i(1), i(2), i(3), i(0) }
     )
   ),
@@ -101,7 +101,7 @@ ls.add_snippets("json", {
     "cmd": {},
     {}
   }}
-  ]],
+  ]]   ,
       {
         i(1),
         i(2),
@@ -120,7 +120,7 @@ ls.add_snippets("json", {
         }}
       }}
     ]
-  ]],
+  ]]           ,
               { i(1) }
             )
           ),
@@ -140,7 +140,7 @@ ls.add_snippets("rust", {
 
     {}
   }}
-  ]],
+  ]]   ,
       { c(1, { t "", t "use super::*", t "use crate::*" }), i(0) }
     )
   ),
@@ -153,7 +153,7 @@ ls.add_snippets("rust", {
     fn {}() {{
       {}
     }}{}
-  ]],
+  ]]   ,
       { i(1), i(2), i(0) }
     )
   ),
@@ -184,7 +184,7 @@ ls.add_snippets("rust", {
       {}struct {} {{
           {}
       }}
-    ]],
+    ]] ,
       {
         c(1, { t "Debug, Clone", t "Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash" }),
         rust_vis(2),
@@ -202,7 +202,7 @@ ls.add_snippets("rust", {
       {}enum {} {{
           {}
       }}
-    ]],
+    ]] ,
       {
         c(1, { t "Debug, Clone", t "Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash" }),
         rust_vis(2),
@@ -219,7 +219,7 @@ ls.add_snippets("rust", {
       impl<{}> {} {{
           {}
       }}
-  ]],
+  ]]   ,
       {
         i(1),
         i(2, "Type"),
@@ -232,15 +232,14 @@ ls.add_snippets("rust", {
     "impl-trait",
     fmt(
       [[
-      impl<{}> {} for {} {{
+      impl {} for {} {{
           {}
       }}
-  ]],
+  ]]   ,
       {
-        i(1),
-        i(2, "Trait"),
-        i(3, "Type"),
-        i(4),
+        i(1, "Trait"),
+        i(2, "Type"),
+        i(3),
       }
     )
   ),
@@ -252,7 +251,7 @@ ls.add_snippets("rust", {
     fmt(
       [[
       let mut buf = {}::new();
-  ]],
+  ]]   ,
       { c(1, { t "Vec", t "String" }) }
     )
   ),
@@ -262,7 +261,7 @@ ls.add_snippets("rust", {
     fmt(
       [[
       #[derive({})]
-  ]],
+  ]]   ,
       {
         c(1, { t "", t "Debug, Clone", t "Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash" }),
       }
