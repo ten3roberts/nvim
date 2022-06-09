@@ -88,6 +88,8 @@ function M.on_attach(client)
 
   local provider_cmds = cmd[provider]
 
+  local builtin = require "telescope.builtin"
+
   buf_map(0, '', '<leader>cf', vim.lsp.buf.formatting)
   buf_map(0, '', '<leader>ce', vim.diagnostic.open_float)
   buf_map(0, '', '<leader>cwa', vim.lsp.buf.add_workspace_folder)
@@ -99,11 +101,11 @@ function M.on_attach(client)
   buf_map(0, '', 'K', vim.lsp.buf.hover)
   -- buf_map(0, '', '[d', vim.lsp.diagnostic.goto_prev)
   -- buf_map(0, '', ']d', vim.lsp.diagnostic.goto_next)
-  buf_map(0, '', 'gD', provider_cmds.declarations)
-  buf_map(0, '', 'gd', provider_cmds.definitions)
-  buf_map(0, '', 'gi', vim.lsp.buf.implementation)
-  buf_map(0, '', 'gr', vim.lsp.buf.references)
-  buf_map(0, '', 'gy', vim.lsp.buf.type_definition)
+  buf_map(0, '', 'gD', vim.lsp.buf.declaration)
+  buf_map(0, '', 'gd', builtin.lsp_definitions)
+  buf_map(0, '', 'gi', builtin.lsp_implementations)
+  buf_map(0, '', 'gr', builtin.lsp_references)
+  buf_map(0, '', 'gy', builtin.lsp_type_definitions)
 
 end
 
@@ -224,6 +226,24 @@ installer.setup {
 local server_conf = {
   on_attach = M.on_attach,
   capabilities = capabilities,
+  settings = {
+    ["rust-analyzer"] = {
+      diagnostics = {
+        enable = true,
+        disabled = { "unresolved-proc-macro" },
+        enableExperimental = true,
+      },
+      cargo = {
+        loadOutDirsFromCheck = true,
+        buildScripts = {
+          enable = true
+        }
+      },
+      procMacro = {
+        enable = true
+      }
+    }
+  }
 }
 
 local ok, lua_server = installer.get_server "sumneko_lua"

@@ -76,7 +76,15 @@ require('packer').startup(function(use)
   --   end
   -- }
 
-  use 'airblade/vim-rooter'
+  -- use 'airblade/vim-rooter'
+  use {
+    "https://github.com/ahmedkhalf/project.nvim",
+    config = function()
+      require "project_nvim".setup {
+
+      }
+    end
+  }
 
   use {
     'akinsho/git-conflict.nvim',
@@ -219,6 +227,18 @@ require('packer').startup(function(use)
   use 'mbbill/undotree'
 
   use {
+    'ThePrimeagen/harpoon',
+    config = function()
+      local ui = require "harpoon.ui"
+      local mark = require "harpoon.mark"
+      vim.keymap.set("n", "<leader>ha", mark.add_file, {})
+      vim.keymap.set("n", "<leader>ho", ui.toggle_quick_menu, {})
+      vim.keymap.set("n", "<leader>hh", ui.toggle_quick_menu, {})
+
+    end
+  }
+
+  use {
     'mfussenegger/nvim-dap',
     requires = { "rcarriga/nvim-dap-ui" },
     config = function()
@@ -332,6 +352,7 @@ require('packer').startup(function(use)
     end
   }
 
+  use 'rhysd/rust-doc.vim'
   use 'onsails/lspkind-nvim'
   use 'qxxxb/vim-searchhi' -- Highlight current search match
   use 'rafamadriz/friendly-snippets' -- Preconfigured snippets
@@ -399,7 +420,6 @@ require('packer').startup(function(use)
   use 'tikhomirov/vim-glsl' -- GLSL runtime files
 
   use 'tpope/vim-abolish' -- Change casing styles and provide smart search and replace
-  use 'tpope/vim-eunuch'
   use 'tpope/vim-fugitive' -- Git management
   use 'tpope/vim-repeat' -- Repeat plugin commands with .
   use 'tpope/vim-rsi' -- Readline mappings in insert mode

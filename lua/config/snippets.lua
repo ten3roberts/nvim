@@ -15,7 +15,7 @@ ls.config.set_config({
   ext_opts = {
     [types.choiceNode] = {
       active = {
-        virt_text = { { "choiceNode", "Comment" } },
+        virt_text = { { "<<-", "String" } },
       },
     },
   },
@@ -67,6 +67,27 @@ ls.add_snippets("all", {
   })
 })
 
+
+ls.add_snippets("json", {
+  s("recipe-basic", fmt([[
+  "{}": {{
+    "cmd": {},
+    {}
+  }}
+  ]], { i(1), i(2), c(3, { t '"interactive": true',
+    sn(1, fmt([[
+    "action": [
+      "qf",
+      {{
+        "name": "dap",
+        "opts": {{
+          "program": "{}"
+        }}
+      }}
+    ]
+  ]] , { i(1) })) })
+  }))
+})
 
 ls.add_snippets("rust", {
   s("modtest", fmt([[
@@ -142,6 +163,16 @@ ls.add_snippets("rust", {
   })),
 
   s("default", t "Default::default()"),
+
+  s("buf", fmt([[
+    let mut buf = {}::new();
+  ]], { c(1, { t "Vec", t "String" }) })),
+
+  s("derive", fmt([[
+    #[derive({})]
+  ]], {
+    c(1, { t "", t "Debug, Clone", t "Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash" })
+  }))
 })
 
 vim.keymap.set({ "i", "s" }, "<c-k>", function()
