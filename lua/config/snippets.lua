@@ -9,7 +9,7 @@ local fmt = require("luasnip.extras.fmt").fmt
 local c = ls.choice_node
 
 ls.config.set_config {
-  history = true,
+  history = false,
   -- Update more often, :h events for more info.
   updateevents = "TextChanged,TextChangedI",
   ext_opts = {
@@ -34,7 +34,7 @@ ls.add_snippets("lua", {
       function{}({})
         {}
       end{}
-    ]] ,
+    ]],
       { i(1), i(2), i(3), i(0) }
     )
   ),
@@ -46,7 +46,7 @@ ls.add_snippets("lua", {
     local function{}({})
       {}
     end{}
-  ]]   ,
+  ]],
       { i(1), i(2), i(3), i(0) }
     )
   ),
@@ -74,8 +74,6 @@ local function rust_vis(pos)
   return c(pos, { t "pub ", t "", t "pub(crate) " })
 end
 
-require("luasnip.loaders.from_vscode").lazy_load()
-
 ls.add_snippets("all", {
   s("date", {
     c(1, {
@@ -101,7 +99,7 @@ ls.add_snippets("json", {
     "cmd": {},
     {}
   }}
-  ]]   ,
+  ]],
       {
         i(1),
         i(2),
@@ -120,7 +118,7 @@ ls.add_snippets("json", {
         }}
       }}
     ]
-  ]]           ,
+  ]],
               { i(1) }
             )
           ),
@@ -140,7 +138,7 @@ ls.add_snippets("rust", {
 
     {}
   }}
-  ]]   ,
+  ]],
       { c(1, { t "", t "use super::*", t "use crate::*" }), i(0) }
     )
   ),
@@ -153,7 +151,7 @@ ls.add_snippets("rust", {
     fn {}() {{
       {}
     }}{}
-  ]]   ,
+  ]],
       { i(1), i(2), i(0) }
     )
   ),
@@ -184,7 +182,7 @@ ls.add_snippets("rust", {
       {}struct {} {{
           {}
       }}
-    ]] ,
+    ]],
       {
         c(1, { t "Debug, Clone", t "Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash" }),
         rust_vis(2),
@@ -202,7 +200,7 @@ ls.add_snippets("rust", {
       {}enum {} {{
           {}
       }}
-    ]] ,
+    ]],
       {
         c(1, { t "Debug, Clone", t "Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash" }),
         rust_vis(2),
@@ -219,7 +217,7 @@ ls.add_snippets("rust", {
       impl<{}> {} {{
           {}
       }}
-  ]]   ,
+  ]],
       {
         i(1),
         i(2, "Type"),
@@ -235,7 +233,7 @@ ls.add_snippets("rust", {
       impl {} for {} {{
           {}
       }}
-  ]]   ,
+  ]],
       {
         i(1, "Trait"),
         i(2, "Type"),
@@ -251,7 +249,7 @@ ls.add_snippets("rust", {
     fmt(
       [[
       let mut buf = {}::new();
-  ]]   ,
+  ]],
       { c(1, { t "Vec", t "String" }) }
     )
   ),
@@ -261,13 +259,29 @@ ls.add_snippets("rust", {
     fmt(
       [[
       #[derive({})]
-  ]]   ,
+  ]],
       {
         c(1, { t "", t "Debug, Clone", t "Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash" }),
       }
     )
   ),
 })
+
+ls.add_snippets("javascript", {
+  s(
+    "import",
+    fmt([[import {} from '{}']], {
+      f(function(args)
+        local name = string.match(args[1][1], "[^/]*."):gsub(".", "")
+        return name
+      end, { 1 }),
+      i(1),
+    })
+  ),
+})
+
+ls.filetype_extend("svelte", { "javascript" })
+ls.filetype_extend("typescript", { "javascript" })
 
 vim.keymap.set({ "i", "s" }, "<c-k>", function()
   if ls.expand_or_jumpable() then
@@ -286,3 +300,5 @@ vim.keymap.set({ "i", "s" }, "<c-l>", function()
     ls.change_choice(1)
   end
 end)
+
+require("luasnip.loaders.from_vscode").lazy_load()

@@ -40,6 +40,8 @@ ui.setup {
 
 local dap = require "dap"
 
+require("nvim-dap-virtual-text").setup()
+
 dap.defaults.fallback.terminal_win_cmd = "10split new"
 
 dap.listeners.after.event_initialized["dapui_config"] = function()

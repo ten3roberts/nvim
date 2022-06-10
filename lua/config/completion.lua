@@ -1,4 +1,4 @@
-local cmp = require('cmp')
+local cmp = require "cmp"
 local lspkind = require "lspkind"
 local fn = vim.fn
 local o = vim.o
@@ -11,7 +11,7 @@ local ls = require "luasnip"
 
 local has_words_before = function()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match "%s" == nil
 end
 
 local function confirm(behavior)
@@ -36,28 +36,27 @@ local rel_ft = {
   tex = true,
 }
 
-
 local default_sources = {
 
   {
     name = "path",
     option = {
-      get_cwd = function()
-        if rel_ft[o.ft] == true then
-
-          return fn.expand("%:p:h")
-        else
-          return fn.getcwd()
-
-        end
-      end
-    }
+      -- get_cwd = function()
+      --   if rel_ft[o.ft] == true then
+      --
+      --     return fn.expand("%:p:h")
+      --   else
+      --     return fn.getcwd()
+      --
+      --   end
+      -- end
+    },
   },
-  { name = 'luasnip' },
-  { name = 'nvim_lsp' },
-  { name = 'nvim_lua' },
-  { name = 'treesitter' },
-  { name = 'buffer' },
+  { name = "luasnip" },
+  { name = "nvim_lsp" },
+  { name = "nvim_lua" },
+  { name = "treesitter" },
+  { name = "buffer" },
   { name = "nvim_lsp_signature_help" },
 }
 
@@ -67,27 +66,27 @@ cmp.setup {
   },
   formatting = {
     fields = { "kind", "abbr", "menu" },
-    format = lspkind.cmp_format({
-      mode = 'symbol', -- show only symbol annotations
+    format = lspkind.cmp_format {
+      mode = "symbol", -- show only symbol annotations
       maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-    })
+    },
   },
   snippet = {
     expand = function(args)
       ls.lsp_expand(args.body)
-    end
+    end,
   },
   experimental = {
-    ghost_text = false
+    ghost_text = false,
   },
   mapping = {
-    ['<C-p>'] = cmp.mapping.select_prev_item(),
-    ['<C-n>'] = cmp.mapping.select_next_item(),
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-y>'] = confirm(cmp.ConfirmBehavior.Insert),
-    ['<Tab>'] = confirm(cmp.ConfirmBehavior.Replace),
+    ["<C-p>"] = cmp.mapping.select_prev_item(),
+    ["<C-n>"] = cmp.mapping.select_next_item(),
+    ["<C-d>"] = cmp.mapping.scroll_docs(-4),
+    ["<C-f>"] = cmp.mapping.scroll_docs(4),
+    ["<C-Space>"] = cmp.mapping.complete(),
+    ["<C-y>"] = confirm(cmp.ConfirmBehavior.Insert),
+    ["<Tab>"] = confirm(cmp.ConfirmBehavior.Replace),
   },
   sources = default_sources,
 }

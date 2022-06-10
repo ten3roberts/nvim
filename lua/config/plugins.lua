@@ -84,7 +84,9 @@ require("packer").startup(function(use)
   use {
     "https://github.com/ahmedkhalf/project.nvim",
     config = function()
-      require("project_nvim").setup {}
+      require("project_nvim").setup {
+        detection_methods = { "pattern", "lsp" },
+      }
     end,
   }
 
@@ -247,7 +249,10 @@ require("packer").startup(function(use)
 
   use {
     "mfussenegger/nvim-dap",
-    requires = { "rcarriga/nvim-dap-ui" },
+    requires = {
+      "rcarriga/nvim-dap-ui",
+      "theHamsta/nvim-dap-virtual-text",
+    },
     config = function()
       require "config.dbg"
     end,
