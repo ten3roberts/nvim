@@ -149,6 +149,7 @@ local function get_impl()
       print("Found: " .. typename)
       return typename
     end
+    node = node:parent()
   end
 end
 

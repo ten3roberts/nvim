@@ -55,7 +55,10 @@ local function qf_func(info)
 
   local idx = q.idx
   local size = q.size
-  local percent = string.format("%3d", idx / size * 100) .. "%%"
+  local percent = ""
+  if size > 0 then
+    percent = string.format("%3d", idx / size * 100) .. "%%"
+  end
   return table.concat {
     "%#Purple# ﴯ %#Normal#",
     q.title,
