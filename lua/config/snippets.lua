@@ -314,6 +314,8 @@ ls.add_snippets("rust", {
       }
     )
   ),
+
+  s("de_serde", { t "#[derive(serde::Serialize, serde::Deserialize)]" }),
 })
 
 ls.add_snippets("javascript", {

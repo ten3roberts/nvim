@@ -64,6 +64,7 @@ cmp.setup {
   completion = {
     completeopt = "longest,noinsert,preview,noselect,shortest",
   },
+  preselect = cmp.PreselectMode.None,
   formatting = {
     fields = { "kind", "abbr", "menu" },
     format = lspkind.cmp_format {
