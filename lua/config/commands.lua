@@ -28,7 +28,7 @@ a.nvim_create_user_command("Dump", function(c)
 end, { nargs = 1 })
 
 a.nvim_create_user_command("Cargo", function(c)
-  recipe.execute { cmd = "cargo" .. c.args, interactive = true }
+  recipe.execute { cmd = "cargo " .. c.args, interactive = true }
 end, { nargs = "*" })
 
 a.nvim_create_user_command("CargoUpgrade", function(c)
