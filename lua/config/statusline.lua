@@ -239,7 +239,6 @@ local function get_buffername(bufnr)
 
     local cur_bufname = fn.bufname(bufnr)
     local other_bufname = fn.bufname(other)
-    -- print(cur_bufname, other_bufname, other, bufnr)
 
     if cur_bufname ~= other_bufname then
       local new_other, new_cur = get_unique_name(other_bufname, cur_bufname)
@@ -286,9 +285,9 @@ function M.update()
 
   local special = special_map[ft]
   if type(special) == "function" then
-    return special { bufnr = bufnr, winid = winid, is_current = is_current, ft = ft }
+    return special { bufnr = bufnr, winid = winid, is_current = is_current, ft = ft } or ""
   elseif type(special) == "table" then
-    return special[is_current]
+    return special[is_current] or ""
   end
 
   local mode = get_mode()
