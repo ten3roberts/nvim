@@ -4,9 +4,13 @@ local sn = ls.snippet_node
 local i = ls.insert_node
 local t = ls.text_node
 local f = ls.function_node
+local d = ls.dynamic_node
 local types = require "luasnip.util.types"
 local fmt = require("luasnip.extras.fmt").fmt
 local c = ls.choice_node
+local rep = require("luasnip.extras").rep
+local dl = require("luasnip.extras").dynamic_lambda
+local l = require("luasnip.extras").lambda
 
 ls.config.set_config {
   history = false,
@@ -127,6 +131,26 @@ ls.add_snippets("json", {
     )
   ),
 })
+
+local ts_utils = require "nvim-treesitter.ts_utils"
+local ts_locals = require "nvim-treesitter.locals"
+---@return string|nil
+local function get_impl()
+  local current_node = ts_utils.get_node_at_cursor()
+  if not current_node then
+    return ""
+  end
+
+  local node = current_node
+  while node do
+    local type = node:type()
+    if type == "impl_item" then
+      local typename = node:field("type")[1]
+      print("Found: " .. typename)
+      return typename
+    end
+  end
+end
 
 ls.add_snippets("rust", {
   s(
@@ -262,6 +286,31 @@ ls.add_snippets("rust", {
   ]],
       {
         c(1, { t "", t "Debug, Clone", t "Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash" }),
+      }
+    )
+  ),
+
+  s(
+    "with",
+    fmt(
+      [[
+        {} 
+        pub fn with_{}(&mut self, {}: {}) -> &mut Self {{
+          self.{} = {};
+          self
+        }}
+      ]],
+      {
+        d(4, function(args)
+          local typename = get_impl() or "Type"
+          local value = args[1][1]
+          return sn(4, { i(1, string.format("/// Set the %s's %s", typename, value)) })
+        end, { 1 }),
+        i(1, "value"),
+        rep(1),
+        i(2, "Type"),
+        rep(1),
+        dl(3, l._1, { 1 }), -- RHS
       }
     )
   ),
