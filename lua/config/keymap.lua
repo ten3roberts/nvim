@@ -133,9 +133,11 @@ map({ "n", "x" }, "z*", "<Plug>(asterisk-z*)<Plug>(searchhi-update)")
 map({ "n", "x" }, "z#", "<Plug>(asterisk-z#)<Plug>(searchhi-update)")
 map({ "n", "x" }, "gz*", "<Plug>(asterisk-gz*)<Plug>(searchhi-update)")
 map({ "n", "x" }, "gz#", "<Plug>(asterisk-gz#)<Plug>(searchhi-update)")
-
 -- Clear search highlight
--- map('n', '<Esc>', '<plug>(searchhi-clear-all)')
+map("n", "<C-[>", function()
+  vim.cmd "nohlsearch"
+  vim.fn["searchhi#clear"](0, 0)
+end)
 
 -- Easy align
 map("x", "ga", "<plug>(EasyAlign)")
@@ -234,10 +236,10 @@ map("v", "g<C-a>", require("dial.map").inc_gvisual(), { noremap = true })
 map("v", "g<C-x>", require("dial.map").dec_gvisual(), { noremap = true })
 
 -- Asterisk
-map("n", "*", "<Plug>(asterisk-z*)")
-map("n", "#", "<Plug>(asterisk-z#)")
-map("n", "g*", "<Plug>(asterisk-gz*)")
-map("n", "g#", "<Plug>(asterisk-gz#)")
+-- map("n", "*", "<Plug>(asterisk-z*)")
+-- map("n", "#", "<Plug>(asterisk-z#)")
+-- map("n", "g*", "<Plug>(asterisk-gz*)")
+-- map("n", "g#", "<Plug>(asterisk-gz#)")
 -- map *  <Plug>(asterisk-z*)
 -- map #  <Plug>(asterisk-z#)
 -- map g* <Plug>(asterisk-gz*)

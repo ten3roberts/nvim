@@ -31,9 +31,9 @@ require("nvim-treesitter.configs").setup {
     enable = true,
     keymaps = {
       init_selection = "gnn",
-      node_incremental = "g+",
+      node_incremental = "+",
       scope_incremental = "grc",
-      node_decremental = "g-",
+      node_decremental = "-",
     },
   },
   refactor = {

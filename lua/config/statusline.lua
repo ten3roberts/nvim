@@ -297,13 +297,13 @@ function M.update()
     end
   end
 
-  local mode = get_mode()
-  local path = get_path(true)
-  local git = get_git(true)
-  local diag = lsp.statusline(bufnr, true)
-  local rec = recipe.statusline()
-
   if is_current then
+    local mode = get_mode()
+    local path = get_path(true)
+    local git = get_git(true)
+    local diag = lsp.statusline(bufnr, true)
+    local rec = recipe.statusline()
+
     return table.concat {
       "%#Normal# ",
       branch,
@@ -318,6 +318,8 @@ function M.update()
       string.format(" %s %2d:%-2d ", mode.hl, row, col),
     }
   else
+    local path = get_path(false)
+
     return table.concat {
       " ",
       path,
