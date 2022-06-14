@@ -1,5 +1,4 @@
 local null_ls = require "null-ls"
-print "Setting up null_ls"
 null_ls.setup {
   sources = {
     -- shell

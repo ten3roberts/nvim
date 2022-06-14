@@ -1,7 +1,6 @@
 local api = vim.api
 local g = vim.g
 local fn = vim.fn
-local cmd = vim.cmd
 
 local lsp = require "config.lsp"
 local recipe = require "recipe"
@@ -69,11 +68,16 @@ local function qf_func(info)
   }
 end
 
-local util = require "qf.util"
-
 local special_map = {
   qf = qf_func,
-  aerial = { [true] = "%#Purple#  Aerial ", [false] = "  Aerial " },
+  aerial = {
+    [true] = function()
+      return "%#Purple#  Aerial "
+    end,
+    [false] = function()
+      return "  Aerial "
+    end,
+  },
   graphene = {
     [true] = graphene.make_statusline { icon = true },
     [false] = graphene.make_statusline { icon = true, hl = false },
@@ -284,10 +288,13 @@ function M.update()
   local ft, readonly, row, col, percent = get_infos(bufnr)
 
   local special = special_map[ft]
-  if type(special) == "function" then
-    return special { bufnr = bufnr, winid = winid, is_current = is_current, ft = ft } or ""
-  elseif type(special) == "table" then
-    return special[is_current] or ""
+  local opts = { bufnr = bufnr, winid = winid, is_current = is_current, ft = ft }
+  if special then
+    if type(special) == "function" then
+      return special(opts) or ""
+    elseif type(special) == "table" then
+      return special[is_current](opts) or ""
+    end
   end
 
   local mode = get_mode()

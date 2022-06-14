@@ -57,7 +57,7 @@ function M.set_qf()
 
   diagnostic.setqflist {
     open = false,
-    severity = diagnostic.severity.WARN,
+    severity = { min = diagnostic.severity.WARN },
   }
 
   qf.tally "c"

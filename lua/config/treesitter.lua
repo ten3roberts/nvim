@@ -18,14 +18,14 @@
 --   }
 -- }
 
-require "nvim-treesitter.configs".setup {
+require("nvim-treesitter.configs").setup {
   ensure_installed = "all",
   autopairs = { enable = true },
   playground = { enable = true },
   matchup = { enable = true },
   highlight = {
     enable = true,
-    disable = { "latex" }
+    disable = { "latex" },
   },
   incremental_selection = {
     enable = true,
@@ -47,7 +47,7 @@ require "nvim-treesitter.configs".setup {
       enable = true,
       keymaps = {
         smart_rename = "grr",
-      }
+      },
     },
     navigation = {
       enable = true,
@@ -58,7 +58,7 @@ require "nvim-treesitter.configs".setup {
         goto_next_usage = "<a-*>",
         goto_previous_usage = "<a-#>",
       },
-    }
+    },
   },
 
   textobjects = {
@@ -72,16 +72,24 @@ require "nvim-treesitter.configs".setup {
         ["ac"] = "@class.outer",
         ["ic"] = "@class.inner",
       },
-
     },
     swap = {
-      enable = true,
+      enable = false,
       swap_next = {
         ["<A-l>"] = "@parameter.inner",
       },
       swap_previous = {
         ["<A-h>"] = "@parameter.inner",
       },
+    },
+  },
+  textsubjects = {
+    enable = true,
+    prev_selection = ",", -- (Optional) keymap to select the previous selection
+    keymaps = {
+      ["."] = "textsubjects-smart",
+      [";"] = "textsubjects-container-outer",
+      ["i;"] = "textsubjects-container-inner",
     },
   },
   indent = { enable = true },
