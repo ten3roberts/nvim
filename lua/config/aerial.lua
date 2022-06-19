@@ -5,9 +5,7 @@ require("aerial").setup({
   close_behavior = "global",
 
   default_bindings = true,
-  default_direction = "prefer_left",
-
-  disable_max_lines = 10000,
+  default_direction = "right",
 
   highlight_mode = "split_width",
 
