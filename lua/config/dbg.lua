@@ -9,24 +9,6 @@ ui.setup {
     edit = "e",
     repl = "r",
   },
-  sidebar = {
-    open_on_start = true,
-    -- You can change the order of elements in the sidebar
-    elements = {
-      -- Provide as ID strings or tables with "id" and "size" keys
-      { id = "breakpoints", size = 0.3 },
-      { id = "watches", size = 0.3 },
-      { id = "scopes", size = 0.4 },
-    },
-    size = 36,
-    position = "right", -- Can be "left", "right", "top", "bottom"
-  },
-  tray = {
-    open_on_start = true,
-    elements = {},
-    size = 10,
-    position = "bottom", -- Can be "left", "right", "top", "bottom"
-  },
   floating = {
     max_height = nil, -- These can be integers or a float between 0 and 1.
     max_width = nil, -- Floats will be treated as percentage of your screen.

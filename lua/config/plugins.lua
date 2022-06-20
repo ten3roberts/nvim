@@ -395,7 +395,17 @@ require("packer").startup(function(use)
     "kyazdani42/nvim-tree.lua",
 
     config = function()
-      require("nvim-tree").setup {}
+      require("nvim-tree").setup {
+        diagnostics = {
+          enable = true
+        },
+        update_focused_file = {
+        enable = true,
+        update_cwd = false,
+        update_root = false,
+        ignore_list = {},
+      },
+      }
     end,
   }
 
