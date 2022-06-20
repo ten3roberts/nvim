@@ -9,6 +9,10 @@ vim.g.mapleader = " "
 map("n", "<leader>f", ":Graphene", silent)
 map("n", "<leader>pe", ":Graphene .", silent)
 
+local qf = require "qf"
+
+map("n", "<leader>EE", ":KeepType E<CR>", silent)
+
 -- Quickfix and location list
 map("n", "<leader>ll", ":Lopen<CR>", silent) -- Open location list
 map("n", "<leader>lo", ":Lopen true<CR>", silent) -- Open location list

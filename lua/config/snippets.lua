@@ -155,16 +155,28 @@ end
 
 ls.add_snippets("rust", {
   s(
+    "if-some",
+    fmt(
+      [[
+  if let Some({}) = {} {{
+      {}
+  }}
+  ]],
+      { i(1, "val"), dl(2, l._1, { 1 }), i(3) }
+    )
+  ),
+  s(
     "modtest",
     fmt(
       [[
+  #[cfg(test)]
   mod test {{
     {}
 
     {}
   }}
   ]],
-      { c(1, { t "", t "use super::*", t "use crate::*" }), i(0) }
+      { c(1, { t "", t "use super::*;", t "use crate::*;" }), i(0) }
     )
   ),
 
@@ -268,6 +280,7 @@ ls.add_snippets("rust", {
   ),
 
   s("default", t "Default::default()"),
+  s("Default", t "Default::default()"),
 
   s(
     "buf",
@@ -286,7 +299,7 @@ ls.add_snippets("rust", {
       #[derive({})]
   ]],
       {
-        c(1, { t "", t "Debug, Clone", t "Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash" }),
+        c(1, { t "Debug, Clone", t "Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash", t "" }),
       }
     )
   ),
