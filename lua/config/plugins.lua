@@ -48,37 +48,13 @@ require("packer").startup(function(use)
 
   -- Move arguments and elements in list around
   use "AndrewRadev/sideways.vim"
-  -- use {
-  --   "TimUntersberger/neogit",
-  --   requires = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim" },
-  --   config = function()
-  --     require "neogit".setup {
-  --       sections = {
-  --         untracked = {
-  --           folded = false
-  --         },
-  --         unstaged = {
-  --           folded = false
-  --         },
-  --         staged = {
-  --           folded = false
-  --         },
-  --         stashes = {
-  --           folded = true
-  --         },
-  --         unpulled = {
-  --           folded = true
-  --         },
-  --         unmerged = {
-  --           folded = false
-  --         },
-  --         recent = {
-  --           folded = false
-  --         },
-  --       },
-  --     }
-  --   end
-  -- }
+  use {
+    "TimUntersberger/neogit",
+    requires = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim" },
+    config = function()
+      require("neogit").setup {}
+    end,
+  }
 
   -- use 'airblade/vim-rooter'
   use {
@@ -397,14 +373,25 @@ require("packer").startup(function(use)
     config = function()
       require("nvim-tree").setup {
         diagnostics = {
-          enable = true
+          enable = true,
+        },
+        view = {
+          adaptive_size = true,
+          mappings = {
+            list = {
+              { key = "u", action = "dir_up" },
+            },
+          },
         },
         update_focused_file = {
-        enable = true,
-        update_cwd = false,
-        update_root = false,
-        ignore_list = {},
-      },
+          enable = true,
+          update_cwd = false,
+          update_root = false,
+          ignore_list = {},
+        },
+        open_on_setup = true,
+        open_on_setup_file = true,
+        open_on_tab = true,
       }
     end,
   }

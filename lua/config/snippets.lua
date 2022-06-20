@@ -171,9 +171,9 @@ ls.add_snippets("rust", {
       [[
   #[cfg(test)]
   mod test {{
-    {}
+      {}
 
-    {}
+      {}
   }}
   ]],
       { c(1, { t "", t "use super::*;", t "use crate::*;" }), i(0) }
@@ -186,7 +186,7 @@ ls.add_snippets("rust", {
       [[
     #[test]
     fn {}() {{
-      {}
+        {}
     }}{}
   ]],
       { i(1), i(2), i(0) }
