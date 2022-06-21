@@ -33,7 +33,9 @@ require("packer").startup(function(use)
   use {
     "~/dev/nvim/darken.nvim",
     config = function()
-      require("darken").setup {}
+      require("darken").setup {
+        filetypes = { "qf", "Outline", "help", "dap.*", "aerial" },
+      }
     end,
   }
   use "~/dev/nvim/toggle.nvim"
@@ -372,6 +374,8 @@ require("packer").startup(function(use)
 
     config = function()
       require("nvim-tree").setup {
+        hijack_netrw = true,
+
         diagnostics = {
           enable = true,
         },
