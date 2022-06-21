@@ -145,13 +145,14 @@ local function get_impl()
   while node do
     local type = node:type()
     if type == "impl_item" then
-      local typename = node:field("type")[1]
-      print("Found: " .. typename)
-      return typename
+      local n = node:field("type")[1]
+      return vim.treesitter.query.get_node_text(n, 0)
     end
     node = node:parent()
   end
 end
+
+_G.get_impl = get_impl
 
 ls.add_snippets("rust", {
   s(
