@@ -87,8 +87,8 @@ function M.on_attach(client)
   -- Setup mappings
 
   -- Jump forwards/backwards at the same tree level with '[[' and ']]'
-  buf_map(0, "n", "[[", "<cmd>AerialPrevUp<CR>")
-  buf_map(0, "n", "]]", "<cmd>AerialNextUp<CR>")
+  -- buf_map(0, "n", "[[", "<cmd>AerialPrevUp<CR>")
+  -- buf_map(0, "n", "]]", "<cmd>AerialNextUp<CR>")
 
   local builtin = require "telescope.builtin"
 

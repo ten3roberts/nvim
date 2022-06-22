@@ -54,7 +54,7 @@ require("packer").startup(function(use)
     "TimUntersberger/neogit",
     requires = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim" },
     config = function()
-      require("neogit").setup {}
+      require "config.neogit"
     end,
   }
 
@@ -315,10 +315,12 @@ require("packer").startup(function(use)
   use {
     "nvim-treesitter/nvim-treesitter",
     requires = {
+      "p00f/nvim-ts-rainbow",
       "nvim-treesitter/playground",
-      "RRethy/nvim-treesitter-textsubjects",
       "nvim-treesitter/nvim-treesitter-textobjects",
       "nvim-treesitter/nvim-treesitter-refactor",
+      "nvim-treesitter/nvim-treesitter-context",
+      "RRethy/nvim-treesitter-textsubjects",
     },
     config = function()
       require "config.treesitter"
