@@ -68,12 +68,12 @@ require("packer").startup(function(use)
     end,
   }
 
-  use {
-    "akinsho/git-conflict.nvim",
-    config = function()
-      require("git-conflict").setup {}
-    end,
-  }
+  -- use {
+  --   "akinsho/git-conflict.nvim",
+  --   config = function()
+  --     require("git-conflict").setup {}
+  --   end,
+  -- }
 
   use { "andymass/vim-matchup" }
   -- Markdown bullet management
