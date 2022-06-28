@@ -1,11 +1,11 @@
 -- Call the setup function to change the default behavior
-require("aerial").setup({
-  backends = { "lsp", "treesitter", "markdown" },
+require("aerial").setup {
+  backends = { "treesitter", "lsp", "markdown" },
 
   close_behavior = "global",
 
   default_bindings = true,
-  default_direction = "right",
+  default_direction = "left",
 
   highlight_mode = "split_width",
 
@@ -74,5 +74,4 @@ require("aerial").setup({
     -- How long to wait (in ms) after a buffer change before updating
     update_delay = 300,
   },
-
-})
+}

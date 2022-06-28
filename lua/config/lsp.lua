@@ -223,7 +223,7 @@ diagnostic.config {
 local installer = require "nvim-lsp-installer"
 
 installer.setup {
-  automatic_installation = false,
+  automatic_installation = true,
 }
 
 local server_conf = {
@@ -260,18 +260,37 @@ if ok and lua_server:is_installed() then
   require("nlua.lsp.nvim").setup(lspconfig, vim.tbl_deep_extend("keep", server_conf, c))
 end
 
+local function if_found(executable, func)
+  if vim.fn.executable(executable) == 1 then
+    func()
+  end
+end
+
 -- lspconfig.sumneko_lua.setup(vim.tbl_extend("error", require "config.lua-lsp", server_conf))
-require("config.rust").setup(server_conf)
-lspconfig.gopls.setup(server_conf)
+if_found("rustc", function()
+  require("config.rust").setup(server_conf)
+end)
+if_found("go", function()
+  lspconfig.gopls.setup(server_conf)
+end)
 lspconfig.sqlls.setup(server_conf)
-lspconfig.svelte.setup(server_conf)
-lspconfig.tailwindcss.setup(server_conf)
+if_found("npm", function()
+  lspconfig.svelte.setup(server_conf)
+end)
+if_found("npm", function()
+  lspconfig.tailwindcss.setup(server_conf)
+end)
 lspconfig.clangd.setup(server_conf)
-lspconfig.omnisharp.setup(server_conf)
+if_found("mono", function()
+  lspconfig.omnisharp.setup(server_conf)
+end)
 lspconfig.cssls.setup(server_conf)
 lspconfig.jsonls.setup(server_conf)
 lspconfig.taplo.setup(server_conf)
-lspconfig.tsserver.setup(server_conf)
+if_found("npm", function()
+  lspconfig.tsserver.setup(server_conf)
+end)
 lspconfig.yamlls.setup(server_conf)
+lspconfig.wgsl_analyzer.setup(server_conf)
 
 return M
