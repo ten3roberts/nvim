@@ -91,14 +91,15 @@ telescope.setup {
         },
       },
     },
+    lsp_references = require("telescope.themes").get_ivy {
+      layout_config = { width = 0.7, height = 0.7 },
+      border = false,
+      mappings = {},
+    },
     live_grep = require("telescope.themes").get_ivy {
       layout_config = { width = 0.7, height = 0.7 },
       border = false,
-      mappings = {
-        i = {
-          -- ["<CR>"] = custom_actions.file_drop,
-        },
-      },
+      mappings = {},
     },
   },
 

@@ -424,25 +424,25 @@ require("packer").startup(function(use)
     end,
   }
 
-  use {
-    "numToStr/Comment.nvim",
-    config = function()
-      require("Comment").setup {
-        mappings = {
-          ---Operator-pending mapping
-          ---Includes `gcc`, `gbc`, `gc[count]{motion}` and `gb[count]{motion}`
-          ---NOTE: These mappings can be changed individually by `opleader` and `toggler` config
-          basic = true,
-          ---Extra mapping
-          ---Includes `gco`, `gcO`, `gcA`
-          extra = true,
-          ---Extended mapping
-          ---Includes `g>`, `g<`, `g>[count]{motion}` and `g<[count]{motion}`
-          extended = true,
-        },
-      }
-    end,
-  }
+  -- use {
+  --   "numToStr/Comment.nvim",
+  --   config = function()
+  --     require("Comment").setup {
+  --       mappings = {
+  --         ---Operator-pending mapping
+  --         ---Includes `gcc`, `gbc`, `gc[count]{motion}` and `gb[count]{motion}`
+  --         ---NOTE: These mappings can be changed individually by `opleader` and `toggler` config
+  --         basic = true,
+  --         ---Extra mapping
+  --         ---Includes `gco`, `gcO`, `gcA`
+  --         extra = true,
+  --         ---Extended mapping
+  --         ---Includes `g>`, `g<`, `g>[count]{motion}` and `g<[count]{motion}`
+  --         extended = true,
+  --       },
+  --     }
+  --   end,
+  -- }
 
   use "stevearc/stickybuf.nvim"
   use "tikhomirov/vim-glsl" -- GLSL runtime files
@@ -454,6 +454,7 @@ require("packer").startup(function(use)
   -- use "tpope/vim-sleuth"
   use "tpope/vim-surround" -- ( surround text )
   use "tpope/vim-unimpaired"
+  use "tpope/vim-commentary"
 
   use "wellle/targets.vim" -- Better handling and seeking for textobjects
   use {

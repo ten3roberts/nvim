@@ -138,10 +138,7 @@ map({ "n", "x" }, "z#", "<Plug>(asterisk-z#)<Plug>(searchhi-update)")
 map({ "n", "x" }, "gz*", "<Plug>(asterisk-gz*)<Plug>(searchhi-update)")
 map({ "n", "x" }, "gz#", "<Plug>(asterisk-gz#)<Plug>(searchhi-update)")
 -- Clear search highlight
-map("n", "<C-[>", function()
-  vim.cmd "nohlsearch"
-  vim.fn["searchhi#clear"](0, 0)
-end)
+map("n", "<Esc>", "<plug>(searchhi-clear-all)")
 
 -- Easy align
 map("x", "ga", "<plug>(EasyAlign)")
