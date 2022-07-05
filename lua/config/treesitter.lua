@@ -107,21 +107,21 @@ require("nvim-treesitter.configs").setup {
       },
     },
   },
-  rainbow = {
-    enable = true,
-    -- disable = { "jsx", "cpp" }, list of languages you want to disable the plugin for
-    extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
-    max_file_lines = 2000, -- Do not enable for files with more than n lines, int
-    colors = {
-      "#5e81ac",
-      "#ebcb8b",
-      "#a3be8c",
-      "#bf6a6a",
-      "#b48ead",
-      "#d08770",
-    }, -- table of hex strings
-    -- termcolors = {} -- table of colour name strings
-  },
+  -- rainbow = {
+  --   enable = true,
+  --   -- disable = { "jsx", "cpp" }, list of languages you want to disable the plugin for
+  --   extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
+  --   max_file_lines = 2000, -- Do not enable for files with more than n lines, int
+  --   colors = {
+  --     "#5e81ac",
+  --     "#ebcb8b",
+  --     "#a3be8c",
+  --     "#bf6a6a",
+  --     "#b48ead",
+  --     "#d08770",
+  --   }, -- table of hex strings
+  --   -- termcolors = {} -- table of colour name strings
+  -- },
   textsubjects = {
     enable = true,
     prev_selection = ",", -- (Optional) keymap to select the previous selection

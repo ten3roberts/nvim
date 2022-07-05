@@ -3,6 +3,8 @@ local lspkind = require "lspkind"
 local fn = vim.fn
 local o = vim.o
 
+require "config.cmp_gh_source"
+
 local t = function(str)
   return vim.api.nvim_replace_termcodes(str, true, true, true)
 end
@@ -52,8 +54,9 @@ local default_sources = {
       -- end
     },
   },
-  { name = "luasnip" },
   { name = "nvim_lsp" },
+  { name = "luasnip" },
+  { name = "gh_issues" },
   { name = "nvim_lua" },
   { name = "treesitter" },
   { name = "buffer" },

@@ -2,6 +2,11 @@ local actions = require "telescope.actions"
 
 local telescope = require "telescope"
 
+local ivy = require("telescope.themes").get_ivy {
+  layout_config = { width = 0.7, height = 0.7 },
+  border = false,
+}
+
 telescope.setup {
   defaults = {
     vimgrep_arguments = {
@@ -78,29 +83,11 @@ telescope.setup {
         },
       },
     },
-    current_buffer_fuzzy_find = require("telescope.themes").get_ivy {
-      border = false,
-      layout_config = { width = 0.7, height = 0.7 },
-    },
-    diagnostics = require("telescope.themes").get_ivy {
-      layout_config = { width = 0.7, height = 0.7 },
-      border = false,
-      mappings = {
-        i = {
-          -- ["<CR>"] = custom_actions.file_drop,
-        },
-      },
-    },
-    lsp_references = require("telescope.themes").get_ivy {
-      layout_config = { width = 0.7, height = 0.7 },
-      border = false,
-      mappings = {},
-    },
-    live_grep = require("telescope.themes").get_ivy {
-      layout_config = { width = 0.7, height = 0.7 },
-      border = false,
-      mappings = {},
-    },
+    current_buffer_fuzzy_find = ivy,
+    diagnostics = ivy,
+    lsp_references = ivy,
+    live_grep = ivy,
+    grep_string = ivy,
   },
 
   extensions = {

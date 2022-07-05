@@ -55,14 +55,16 @@ au({ "FileType" }, {
   end,
   pattern = "fugitive",
 })
+
 au({ "BufReadPost" }, {
   callback = function()
     local l = fn.line [['"]]
     if l > 1 and l < fn.line "$" then
-      vim.cmd "normal! g'\""
+      vim.cmd [[ normal! g`" ]]
     end
   end,
 })
+
 au({ "BufUnload", "BufDelete" }, {
   callback = function()
     lsp.clear_buffer_cache(fn.expand "<abuf>")
