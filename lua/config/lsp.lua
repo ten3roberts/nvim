@@ -115,12 +115,13 @@ end
 function M.deferred_loc()
   vim.defer_fn(M.set_loc, 100)
 end
+local signs = require("config.palette").signs
 
 local diagnostic_severities = {
-  [sev.ERROR] = { hl = "%#STError#", type = "E", kind = "error", sign = "" },
-  [sev.WARN] = { hl = "%#STWarning#", type = "W", kind = "warning", sign = "" },
-  [sev.INFO] = { hl = "%#STInfo#", type = "I", kind = "info", sign = "" },
-  [sev.HINT] = { hl = "%#STHint#", type = "H", kind = "hint", sign = "" },
+  [sev.ERROR] = signs.E,
+  [sev.WARN] = signs.W,
+  [sev.INFO] = signs.I,
+  [sev.HINT] = signs.H,
 }
 
 -- function M.on_publish_diagnostics(err, method, result, client_id, _, _)
@@ -187,14 +188,14 @@ function M.statusline(bufnr, highlight)
     for i, v in ipairs(diagnostics) do
       if v > 0 then
         local severity = diagnostic_severities[i]
-        t[#t + 1] = severity.hl .. severity.sign .. " " .. v .. " "
+        t[#t + 1] = string.format("%%#%s#%s %s ", severity.hl, severity.sign, v)
       end
     end
   else
     for i, v in ipairs(diagnostics) do
       if v > 0 then
         local severity = diagnostic_severities[i]
-        t[#t + 1] = severity.sign .. " " .. v .. " "
+        t[#t + 1] = string.format("%s %s ", severity.sign, v)
       end
     end
   end

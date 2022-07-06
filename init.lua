@@ -11,6 +11,8 @@ require "config.clean_fold"
 require("config.statusline").setup()
 require "config.autocommands"
 
+local signs = require("config.palette").signs
+
 require("qf").setup {
   -- Location list configuration
   ["l"] = {
@@ -36,6 +38,7 @@ require("qf").setup {
     wide = true,
     focus_open = false,
   },
+  signs = signs,
 }
 
 require("toggle").setup {
@@ -64,5 +67,8 @@ require("recipe").setup {
       open = "xdg-open %:h",
       open_file = "xdg-open <cfile>",
     },
+  },
+  default_recipe = {
+    restart = true,
   },
 }
