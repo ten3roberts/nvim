@@ -68,7 +68,4 @@ require("recipe").setup {
       open_file = "xdg-open <cfile>",
     },
   },
-  default_recipe = {
-    restart = true,
-  },
 }

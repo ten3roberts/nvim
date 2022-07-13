@@ -46,7 +46,6 @@ require("packer").startup(function(use)
   use "rakr/vim-one"
   use "sainnhe/sonokai"
   use "rmehri01/onenord.nvim"
-  use "navarasu/onedark.nvim"
 
   -- Move arguments and elements in list around
   use "AndrewRadev/sideways.vim"
@@ -131,11 +130,11 @@ require("packer").startup(function(use)
     "hrsh7th/nvim-cmp",
     requires = {
       "hrsh7th/cmp-buffer",
+      "f3fora/cmp-spell",
       "hrsh7th/cmp-nvim-lsp",
       "saadparwaiz1/cmp_luasnip",
       "hrsh7th/cmp-nvim-lua",
       "hrsh7th/cmp-path",
-      "hrsh7th/cmp-nvim-lsp-signature-help",
       "hrsh7th/cmp-nvim-lsp-document-symbol",
       "hrsh7th/cmp-cmdline",
       "ray-x/cmp-treesitter",
@@ -146,6 +145,22 @@ require("packer").startup(function(use)
   }
 
   use "junegunn/vim-easy-align" -- Align text blocks
+  use {
+    "willthbill/opener.nvim",
+    config = function()
+      require("opener").setup {
+        pre_open = { "SaveSession" },
+        post_open = {
+          "SaveSession",
+          function()
+            require("graphene").init()
+          end,
+        },
+      }
+      require("telescope").load_extension "opener"
+    end,
+  }
+
   use {
     "karb94/neoscroll.nvim",
     config = function()
@@ -165,6 +180,7 @@ require("packer").startup(function(use)
       require("neoscroll.config").set_mappings(t)
     end,
   }
+
   use "kyazdani42/nvim-web-devicons" -- File icons
   use "lervag/vimtex"
   -- Show changed lines
@@ -327,28 +343,28 @@ require("packer").startup(function(use)
     end,
   }
 
-  -- use {
-  --   'olimorris/persisted.nvim',
-  --   after = "nvim-treesitter",
-  --   config = function()
-  --     require("persisted").setup({
-  --       save_dir = vim.fn.expand(vim.fn.stdpath("config") .. "/sessions/"), -- directory where session files are saved
-  --       command = "VimLeavePre", -- the autocommand for which the session is saved
-  --       use_git_branch = true, -- create session files based on the branch of the git enabled repository
-  --       autosave = true, -- automatically save session files when exiting Neovim
-  --       autoload = false, -- automatically load the session for the cwd on Neovim startup
-  --       telescope = {
-  --       }
-  --     })
-
-  --   end }
+  use {
+    "lewis6991/spellsitter.nvim",
+    requires = { " nvim-treesitter/nvim-treesitter" },
+    config = function()
+      require("spellsitter").setup {
+        enable = true,
+      }
+    end,
+  }
 
   use {
     "rmagatti/auto-session",
     config = function()
+      vim.o.sessionoptions = "buffers,help,tabpages"
       require("auto-session").setup {
         log_level = "error",
+        auto_session_suppress_dirs = { "~/" },
+        auto_session_enable_last_session = true,
+        auto_restore_enabled = true,
       }
+
+      vim.keymap.set("n", "<leader>pp", ":Autosession search<CR>", { silent = true })
     end,
   }
 
@@ -371,36 +387,36 @@ require("packer").startup(function(use)
     end,
   }
 
-  use {
-    "kyazdani42/nvim-tree.lua",
+  -- use {
+  --   "kyazdani42/nvim-tree.lua",
 
-    config = function()
-      require("nvim-tree").setup {
-        hijack_netrw = true,
+  --   config = function()
+  --     require("nvim-tree").setup {
+  --       hijack_netrw = true,
 
-        diagnostics = {
-          enable = true,
-        },
-        view = {
-          adaptive_size = true,
-          mappings = {
-            list = {
-              { key = "u", action = "dir_up" },
-            },
-          },
-        },
-        update_focused_file = {
-          enable = true,
-          update_cwd = false,
-          update_root = false,
-          ignore_list = {},
-        },
-        open_on_setup = false,
-        open_on_setup_file = false,
-        open_on_tab = false,
-      }
-    end,
-  }
+  --       diagnostics = {
+  --         enable = true,
+  --       },
+  --       view = {
+  --         adaptive_size = true,
+  --         mappings = {
+  --           list = {
+  --             { key = "u", action = "dir_up" },
+  --           },
+  --         },
+  --       },
+  --       update_focused_file = {
+  --         enable = true,
+  --         update_cwd = false,
+  --         update_root = false,
+  --         ignore_list = {},
+  --       },
+  --       open_on_setup = false,
+  --       open_on_setup_file = false,
+  --       open_on_tab = false,
+  --     }
+  --   end,
+  -- }
 
   use { "simrat39/rust-tools.nvim" }
   use { "sindrets/diffview.nvim", requires = { "nvim-lua/plenary.nvim" } }
@@ -424,26 +440,16 @@ require("packer").startup(function(use)
     end,
   }
 
-  -- use {
-  --   "numToStr/Comment.nvim",
-  --   config = function()
-  --     require("Comment").setup {
-  --       mappings = {
-  --         ---Operator-pending mapping
-  --         ---Includes `gcc`, `gbc`, `gc[count]{motion}` and `gb[count]{motion}`
-  --         ---NOTE: These mappings can be changed individually by `opleader` and `toggler` config
-  --         basic = true,
-  --         ---Extra mapping
-  --         ---Includes `gco`, `gcO`, `gcA`
-  --         extra = true,
-  --         ---Extended mapping
-  --         ---Includes `g>`, `g<`, `g>[count]{motion}` and `g<[count]{motion}`
-  --         extended = true,
-  --       },
-  --     }
-  --   end,
-  -- }
+  use {
+    "kylechui/nvim-surround",
+    config = function()
+      require("nvim-surround").setup {
+        -- Configuration here, or leave empty to use defaults
+      }
+    end,
+  }
 
+  use "mg979/vim-visual-multi"
   use "stevearc/stickybuf.nvim"
   use "tikhomirov/vim-glsl" -- GLSL runtime files
 
@@ -452,7 +458,7 @@ require("packer").startup(function(use)
   use "tpope/vim-repeat" -- Repeat plugin commands with .
   use "tpope/vim-rsi" -- Readline mappings in insert mode
   -- use "tpope/vim-sleuth"
-  use "tpope/vim-surround" -- ( surround text )
+  -- use "tpope/vim-surround" -- ( surround text )
   use "tpope/vim-unimpaired"
   use "tpope/vim-commentary"
 

@@ -1,13 +1,7 @@
 local cmp = require "cmp"
 local lspkind = require "lspkind"
-local fn = vim.fn
-local o = vim.o
 
 require "config.cmp_gh_source"
-
-local t = function(str)
-  return vim.api.nvim_replace_termcodes(str, true, true, true)
-end
 
 local ls = require "luasnip"
 
@@ -43,6 +37,7 @@ local default_sources = {
   {
     name = "path",
     option = {
+      trailing_slash = true,
       -- get_cwd = function()
       --   if rel_ft[o.ft] == true then
       --
@@ -54,19 +49,17 @@ local default_sources = {
       -- end
     },
   },
-  { name = "nvim_lsp" },
-  { name = "luasnip" },
   { name = "gh_issues" },
+  { name = "luasnip" },
+  { name = "nvim_lsp" },
   { name = "nvim_lua" },
   { name = "treesitter" },
   { name = "buffer" },
-  { name = "nvim_lsp_signature_help" },
+  { name = "spell" },
 }
+vim.o.completeopt = "menu,menuone,noselect"
 
 cmp.setup {
-  completion = {
-    completeopt = "longest,noinsert,preview,noselect,shortest",
-  },
   preselect = cmp.PreselectMode.None,
   formatting = {
     fields = { "kind", "abbr", "menu" },
@@ -88,7 +81,7 @@ cmp.setup {
     ["<C-n>"] = cmp.mapping.select_next_item(),
     ["<C-d>"] = cmp.mapping.scroll_docs(-4),
     ["<C-f>"] = cmp.mapping.scroll_docs(4),
-    ["<C-Space>"] = cmp.mapping.complete(),
+    ["<C-Space>"] = cmp.mapping.complete {},
     ["<C-y>"] = confirm(cmp.ConfirmBehavior.Insert),
     ["<Tab>"] = confirm(cmp.ConfirmBehavior.Replace),
   },

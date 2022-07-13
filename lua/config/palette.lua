@@ -12,10 +12,10 @@ function M.highlight(name, opts)
 end
 
 M.signs = {
-  E = { name = "Error", hl = "DiagnosticSignError", sign = " " },
-  W = { name = "Warn", hl = "DiagnosticSignWarn", sign = " " },
-  I = { name = "Info", hl = "DiagnosticSignInfo", sign = " " },
-  H = { name = "Warn", hl = "DiagnosticSignHint", sign = "" },
+  E = { name = "Error", hl = "DiagnosticSignError", sign = "" },
+  W = { name = "Warn", hl = "DiagnosticSignWarn", sign = "" },
+  I = { name = "Info", hl = "DiagnosticSignInfo", sign = "" },
+  H = { name = "Warn", hl = "DiagnosticSignHint", sign = "" },
   T = { name = "Text", hl = "DiagnosticSignHint", sign = "" },
 }
 M.signs.N = M.signs.H

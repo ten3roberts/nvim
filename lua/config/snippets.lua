@@ -154,6 +154,19 @@ end
 
 _G.get_impl = get_impl
 
+local function rust_log_crate()
+  local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+  for _, line in ipairs(lines) do
+    if line:find("log::", 1, true) then
+      return "log"
+    elseif line:find("tracing::", 1, true) then
+      return "tracing"
+    end
+  end
+
+  return "log"
+end
+
 ls.add_snippets("rust", {
   s(
     "if-some",
@@ -177,7 +190,7 @@ ls.add_snippets("rust", {
       {}
   }}
   ]],
-      { c(1, { t "", t "use super::*;", t "use crate::*;" }), i(0) }
+      { c(1, { t "use super::*;", t "use crate::*;", t "" }), i(0) }
     )
   ),
 
@@ -331,6 +344,12 @@ ls.add_snippets("rust", {
   ),
 
   s("de_serde", { t "#[derive(serde::Serialize, serde::Deserialize)]" }),
+
+  s("trace", fmt([[{}::trace!("{}");]], { f(rust_log_crate), i(1) })),
+  s("debug", fmt([[{}::debug!("{}");]], { f(rust_log_crate), i(1) })),
+  s("info", fmt([[{}::info!("{}");]], { f(rust_log_crate), i(1) })),
+  s("warn", fmt([[{}::warn!("{}");]], { f(rust_log_crate), i(1) })),
+  s("error", fmt([[{}::error!("{}");]], { f(rust_log_crate), i(1) })),
 })
 
 ls.add_snippets("javascript", {

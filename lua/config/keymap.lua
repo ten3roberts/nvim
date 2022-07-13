@@ -83,8 +83,9 @@ map("n", "<leader>bk", ':lua require"config.bclose".close()<CR>')
 map("n", "<leader>bo", ':lua require"config.bclose".close_hidden()<CR>')
 map("n", "<leader>bp", "<C-^>")
 
-map("n", "<leader>w", ":WindowPick<CR>")
-map("n", "<leader>W", ":WindowSwap<CR>")
+local window_picker = require "window-picker"
+map("n", "<leader>w", window_picker.pick)
+map("n", "<leader>W", window_picker.swap)
 
 -- Git mappings
 map("n", "<leader>gg", ":Ge :<CR>")
@@ -110,8 +111,8 @@ map("n", "<leader>gpu", ":Git pull<CR>")
 map("n", "<leader>gf", ":Git fetch<CR>")
 
 -- Search highlighting
--- map("n", "n", "<plug>(searchhi-n)")
--- map("n", "N", "<plug>(searchhi-N)")
+map("n", "n", "<plug>(searchhi-n)")
+map("n", "N", "<plug>(searchhi-N)")
 -- map("n", "*", "<plug>(searchhi-*)")
 -- map("n", "g*", "<plug>(searchhi-g*)")
 -- map("n", "#", "<plug>(searchhi-#)")
@@ -119,8 +120,8 @@ map("n", "<leader>gf", ":Git fetch<CR>")
 -- map("n", "gd", "<plug>(searchhi-gd)")
 -- map("n", "gD", "<plug>(searchhi-gD)")
 --
--- map("x", "n", "<plug>(searchhi-v-n)")
--- map("x", "N", "<plug>(searchhi-v-N)")
+map("x", "n", "<plug>(searchhi-v-n)")
+map("x", "N", "<plug>(searchhi-v-N)")
 -- map("x", "*", "<plug>(searchhi-v-*)")
 -- map("x", "g*", "<plug>(searchhi-v-g*)")
 -- map("x", "#", "<plug>(searchhi-v-#)")

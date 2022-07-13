@@ -74,7 +74,7 @@ require("nvim-treesitter.configs").setup {
         -- ["."] = "@parameter.inner",
         -- ["a,"] = "@parameter.outer",
         -- ["i,"] = "@parameter.inner",
-        -- [";"] = "@call.inner",
+        ["i;"] = "@call.inner",
       },
     },
     move = {

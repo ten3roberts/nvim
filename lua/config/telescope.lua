@@ -97,9 +97,6 @@ telescope.setup {
       override_file_sorter = true,
       case_mode = "smart_case",
     },
-    file_browser = {
-      path = "%:p:h",
-    },
     project = {
       mappings = {
         i = {
@@ -129,6 +126,7 @@ local builtin = require "telescope.builtin"
 
 -- Telescope
 map("n", "<leader><leader>", builtin.find_files)
+
 -- map('n',    '<leader>f',        '<cmd>lua require "telescope".extensions.file_browser.file_browser { path="%:p:h" }<CR>')
 map("n", "<leader>rf", builtin.oldfiles)
 map("n", "<M-x>", builtin.command_history)

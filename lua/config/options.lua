@@ -3,14 +3,24 @@ local opt = vim.opt
 local g = vim.g
 
 -- Vim Options
--- o.clipboard = 'unnamedplus' -- Use system clipboard
--- o.sessionoptions="blank,buffers,curdir,folds,help,options,tabpages,winsize,resize,winpos,terminal"
--- o.titlestring="nvim %{fnamemodify(getcwd(), ':~')} %M"
-o.autoread = true
-o.cmdheight = 1
-o.confirm = true -- Disable 'no write'
-o.cursorline = true
+-- opt.guifont = "Fira Code Retina:h12"
+o.guifont = "JetBrains Mono:h12"
+
+-- g.neovide_cursor_trail_length = 0.1
+g.neovide_cursor_animation_length = 0.02
+g.neovide_cursor_antialiasing = true
+
+g.neovide_floating_blur_amount_x = 1.0
+g.neovide_floating_blur_amount_y = 1.0
+g.neovide_scroll_animation_length = 0.0
+
+opt.autoread = true
+opt.cmdheight = 1
+opt.confirm = true -- Disable 'no write'
+opt.cursorline = true
+opt.laststatus = 3
 opt.spelllang = { "en_us" }
+opt.spell = false
 o.equalalways = true
 o.expandtab = true
 o.foldlevelstart = 4
@@ -28,9 +38,8 @@ o.hlsearch = true -- Highlight search results (enforce)
 o.ignorecase = true
 o.inccommand = "split" -- Show effects of command as you type in a split
 o.incsearch = true -- Move cursor during search
-o.laststatus = 2
 o.linebreak = true
-o.mouse = "nvc"
+o.mouse = "a"
 o.number = false
 o.path = o.path .. "**"
 o.pumheight = 8
@@ -38,7 +47,6 @@ o.pumwidth = 20
 o.relativenumber = false
 o.runtimepath = o.runtimepath .. ",~/dev/nvim"
 o.scrolloff = 8 -- Lines from the cursor
-o.sessionoptions = "buffers,help,tabpages"
 o.shiftwidth = 2
 o.shortmess = vim.o.shortmess .. "c"
 o.showmatch = true -- Show matching brackets/parenthesis
