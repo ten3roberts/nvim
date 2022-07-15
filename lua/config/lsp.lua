@@ -64,6 +64,8 @@ function M.set_qf()
   qf.open("c", false, true)
 end
 
+local border = "single"
+
 function M.on_attach(client)
   -- Lsp signature
   if client.name == "sumneko_lua" then
@@ -78,7 +80,7 @@ function M.on_attach(client)
     -- hint_scheme = "String",
     zindex = 1,
     handler_opts = {
-      border = "single", -- double, single, shadow, none
+      border = border, -- double, single, shadow, none
     },
   }
 
@@ -159,7 +161,11 @@ function M.on_publish_diagnostics(_, result, ctx, cfg)
   -- end
 end
 
-vim.lsp.handlers["textDocument/publishDiagnostics"] = M.on_publish_diagnostics
+local handlers = {
+  ["textDocument/publishDiagnostics"] = M.on_publish_diagnostics,
+  ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
+  ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
+}
 
 function M.clear_buffer_cache(bufnr)
   M.buffers[bufnr] = nil
@@ -230,6 +236,7 @@ installer.setup {
 local server_conf = {
   on_attach = M.on_attach,
   capabilities = capabilities,
+  handlers = handlers,
   settings = {
     ["rust-analyzer"] = {
       diagnostics = {

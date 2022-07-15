@@ -88,7 +88,8 @@ map("n", "<leader>w", window_picker.pick)
 map("n", "<leader>W", window_picker.swap)
 
 -- Git mappings
-map("n", "<leader>gg", ":Ge :<CR>")
+local neogit = require "neogit"
+map("n", "<leader>gg", neogit.open)
 map("n", "<leader>gd", ":G difftool --name-status<CR>")
 map("n", "<leader>ga", ":Git add %<CR>")
 map("n", "<leader>gS", ":Git stage .<CR>")
