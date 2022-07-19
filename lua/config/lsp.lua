@@ -18,25 +18,6 @@ require("lspkind").init {
 
 local M = { buffers = {}, statusline_cache = {} }
 
-local cmd = {
-  fzf = {
-    references = ":References<CR>",
-    type_definitions = ":TypeDefinitions<CR>",
-    definitions = ":Definitions<CR>",
-    declarations = ":Declarations<CR>",
-    code_actions = ":CodeActions<CR>",
-  },
-  telescope = {
-    references = ":Telescope lsp_references<CR>",
-    type_definitions = ":Telescope lsp_type_definitions<CR>",
-    definitions = ":Telescope lsp_definitions<CR>",
-    declarations = ":Telescope lsp_declarations<CR>",
-    code_actions = ":Telescope lsp_code_actions<CR>",
-  },
-}
-
-local provider = "telescope"
-
 -- Sets the location list with predefined options. Does not focus list.
 function M.set_loc()
   local bufnr = vim.api.nvim_get_current_buf()
@@ -103,7 +84,8 @@ function M.on_attach(client)
   buf_map(0, "", "<leader>cwr", vim.lsp.buf.remove_workspace_folder)
   buf_map(0, "", "<leader>q", require("config.lsp").set_qf)
   buf_map(0, "", "<leader>rn", vim.lsp.buf.rename)
-  buf_map(0, "", "<leader>a", vim.lsp.buf.code_action)
+  buf_map(0, "n", "<leader>a", vim.lsp.buf.code_action)
+  buf_map(0, "x", "<leader>a", vim.lsp.buf.range_code_action)
   buf_map(0, "", "K", vim.lsp.buf.hover)
   -- buf_map(0, '', '[d', vim.lsp.diagnostic.goto_prev)
   -- buf_map(0, '', ']d', vim.lsp.diagnostic.goto_next)
@@ -239,20 +221,26 @@ local server_conf = {
   handlers = handlers,
   settings = {
     ["rust-analyzer"] = {
-      diagnostics = {
-        enable = true,
-        disabled = { "unresolved-proc-macro" },
-        enableExperimental = true,
-      },
       cargo = {
         loadOutDirsFromCheck = true,
-        buildScripts = {
-          enable = true,
-        },
       },
       procMacro = {
         enable = true,
       },
+      -- diagnostics = {
+      --   enable = true,
+      --   disabled = { "unresolved-proc-macro" },
+      --   enableExperimental = true,
+      -- },
+      -- cargo = {
+      --   loadOutDirsFromCheck = true,
+      --   buildScripts = {
+      --     enable = false,
+      --   },
+      -- },
+      -- procMacro = {
+      --   enable = false,
+      -- },
     },
   },
 }

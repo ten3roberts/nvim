@@ -184,7 +184,7 @@ function M.setup()
   -- link('TSWarning', 'DiagnosticUnderlineWarning')
 
   -- Less obtrusive folds
-  link("Folded", "Comment")
+  -- link("Folded", "Comment")
 
   -- highlight('debugPC', normal_bg, p.green)
   -- highlight('debugBreakpoint', p.red, normal_bg)

@@ -5,27 +5,27 @@ neogit.setup {
   },
   disable_commit_confirmation = true,
   sections = {
-    untracked = {
-      folded = true,
-    },
-    unstaged = {
-      folded = false,
-    },
-    staged = {
-      folded = false,
-    },
-    stashes = {
-      folded = true,
-    },
-    unpulled = {
-      folded = false,
-    },
-    unmerged = {
-      folded = false,
-    },
-    recent = {
-      folded = false,
-    },
+    -- untracked = {
+    --   folded = true,
+    -- },
+    -- unstaged = {
+    --   folded = false,
+    -- },
+    -- staged = {
+    --   folded = false,
+    -- },
+    -- stashes = {
+    --   folded = true,
+    -- },
+    -- unpulled = {
+    --   folded = false,
+    -- },
+    -- unmerged = {
+    --   folded = false,
+    -- },
+    -- recent = {
+    --   folded = false,
+    -- },
   },
 }
 
