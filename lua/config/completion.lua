@@ -50,6 +50,8 @@ local default_sources = {
     },
   },
   { name = "gh_issues" },
+  { name = "crates" },
+
   { name = "luasnip" },
   { name = "nvim_lsp" },
   { name = "nvim_lua" },

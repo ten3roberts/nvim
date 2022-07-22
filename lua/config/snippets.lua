@@ -30,6 +30,24 @@ ls.config.set_config {
   enable_autosnippets = true,
 }
 
+local cache = {}
+local cache_dir = nil
+
+local function find_pattern(pattern, glob)
+  if cache_dir ~= vim.fn.getcwd() then
+    cache = {}
+  end
+
+  local match = cache[pattern]
+  if match then
+    return match
+  end
+
+  local result = vim.fn.systemlist { "rg", pattern, "-g", glob or "*" }
+  cache[pattern] = result
+  return result
+end
+
 ls.add_snippets("lua", {
   s(
     "fun",
@@ -155,16 +173,14 @@ end
 _G.get_impl = get_impl
 
 local function rust_log_crate()
-  local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
-  for _, line in ipairs(lines) do
-    if line:find("log::", 1, true) then
-      return "log"
-    elseif line:find("tracing::", 1, true) then
-      return "tracing"
-    end
-  end
+  local log_count = #find_pattern("\\blog\\b", "*.toml")
+  local tracing_count = #find_pattern("\\btracing\\b", "*.toml")
 
-  return "log"
+  if log_count > tracing_count then
+    return "log"
+  else
+    return "tracing"
+  end
 end
 
 ls.add_snippets("rust", {

@@ -24,7 +24,7 @@ telescope.setup {
         prompt_position = "top",
       },
       width = function(_, cols, _)
-        return math.min(120, math.floor(cols * 0.75))
+        return math.min(180, math.floor(cols * 0.75))
       end,
       height = 0.5,
     },
@@ -89,28 +89,12 @@ telescope.setup {
     live_grep = ivy,
     grep_string = ivy,
   },
-
   extensions = {
     fzf = {
       fuzzy = true,
       override_generic_sorter = true,
       override_file_sorter = true,
       case_mode = "smart_case",
-    },
-    project = {
-      mappings = {
-        i = {
-          ["<c-e>"] = actions.file_edit,
-        },
-        n = {
-          ["<c-e>"] = actions.file_edit,
-        },
-      },
-      base_dirs = {
-        { path = "~/dev", max_depth = 4 },
-        { "~/.config/nvim" },
-      },
-      hidden_files = false, -- default: false
     },
   },
 }

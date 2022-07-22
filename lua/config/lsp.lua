@@ -74,8 +74,8 @@ function M.on_attach(client)
   -- buf_map(0, "n", "]]", "<cmd>AerialNextUp<CR>")
 
   local builtin = require "telescope.builtin"
+  local ft = vim.o.ft
 
-  buf_map(0, "", "<leader>cf", vim.lsp.buf.formatting)
   buf_map(0, "", "<leader>ce", vim.diagnostic.open_float)
   buf_map(0, "", "<leader>cwa", vim.lsp.buf.add_workspace_folder)
   buf_map(0, "", "<leader>cwl", function()
@@ -85,8 +85,13 @@ function M.on_attach(client)
   buf_map(0, "", "<leader>q", require("config.lsp").set_qf)
   buf_map(0, "", "<leader>rn", vim.lsp.buf.rename)
   buf_map(0, "n", "<leader>a", vim.lsp.buf.code_action)
-  buf_map(0, "x", "<leader>a", vim.lsp.buf.range_code_action)
-  buf_map(0, "", "K", vim.lsp.buf.hover)
+  buf_map(0, "x", "<leader>a", function()
+    vim.notify "Range actions"
+    vim.lsp.buf.range_code_action()
+  end)
+  if ft ~= "toml" then
+    buf_map(0, "", "K", vim.lsp.buf.hover)
+  end
   -- buf_map(0, '', '[d', vim.lsp.diagnostic.goto_prev)
   -- buf_map(0, '', ']d', vim.lsp.diagnostic.goto_next)
   buf_map(0, "", "gD", vim.lsp.buf.declaration)
@@ -227,11 +232,14 @@ local server_conf = {
       procMacro = {
         enable = true,
       },
-      -- diagnostics = {
-      --   enable = true,
-      --   disabled = { "unresolved-proc-macro" },
-      --   enableExperimental = true,
-      -- },
+      checkOnSave = {
+        command = "clippy",
+      },
+      diagnostics = {
+        enable = true,
+        --   disabled = { "unresolved-proc-macro" },
+        enableExperimental = true,
+      },
       -- cargo = {
       --   loadOutDirsFromCheck = true,
       --   buildScripts = {
@@ -287,6 +295,6 @@ if_found("npm", function()
   lspconfig.tsserver.setup(server_conf)
 end)
 lspconfig.yamlls.setup(server_conf)
-lspconfig.wgsl_analyzer.setup(server_conf)
+-- lspconfig.wgsl_analyzer.setup(server_conf)
 
 return M

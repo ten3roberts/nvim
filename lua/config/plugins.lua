@@ -78,12 +78,6 @@ require("packer").startup(function(use)
   -- Markdown bullet management
   use "dkarter/bullets.vim"
   use "echasnovski/mini.nvim"
-  -- use {
-  --   "folke/zen-mode.nvim",
-  --   config = function()
-  --     require("zen-mode").setup {}
-  --   end,
-  -- }
 
   use {
     "gbprod/yanky.nvim",
@@ -106,6 +100,8 @@ require("packer").startup(function(use)
           enabled = true,
         },
       }
+
+      require("telescope").load_extension "yank_history"
     end,
   }
 
@@ -129,6 +125,8 @@ require("packer").startup(function(use)
   use {
     "hrsh7th/nvim-cmp",
     requires = {
+      "jose-elias-alvarez/null-ls.nvim",
+      "Saecki/crates.nvim",
       "hrsh7th/cmp-buffer",
       "f3fora/cmp-spell",
       "hrsh7th/cmp-nvim-lsp",
@@ -158,6 +156,7 @@ require("packer").startup(function(use)
         },
       }
       require("telescope").load_extension "opener"
+      vim.keymap.set("n", "<leader>po", ":Telescope opener<CR>", { silent = true })
     end,
   }
 
@@ -368,15 +367,6 @@ require("packer").startup(function(use)
     end,
   }
 
-  use {
-    "kevinhwang91/nvim-ufo",
-    requires = "kevinhwang91/promise-async",
-    config = function()
-      require("ufo").setup {}
-    end,
-  }
-
-  use "rhysd/rust-doc.vim"
   use "onsails/lspkind-nvim"
   use "qxxxb/vim-searchhi" -- Highlight current search match
   use "rafamadriz/friendly-snippets" -- Preconfigured snippets
@@ -389,44 +379,38 @@ require("packer").startup(function(use)
         timeout = 2000,
         render = "minimal",
         max_width = 80,
+
+        on_open = function(win)
+          if vim.api.nvim_win_is_valid(win) then
+            vim.api.nvim_win_set_config(win, { border = "single" })
+          end
+        end,
       }
 
       vim.notify = require "notify"
     end,
   }
 
-  -- use {
-  --   "kyazdani42/nvim-tree.lua",
-
-  --   config = function()
-  --     require("nvim-tree").setup {
-  --       hijack_netrw = true,
-
-  --       diagnostics = {
-  --         enable = true,
-  --       },
-  --       view = {
-  --         adaptive_size = true,
-  --         mappings = {
-  --           list = {
-  --             { key = "u", action = "dir_up" },
-  --           },
-  --         },
-  --       },
-  --       update_focused_file = {
-  --         enable = true,
-  --         update_cwd = false,
-  --         update_root = false,
-  --         ignore_list = {},
-  --       },
-  --       open_on_setup = false,
-  --       open_on_setup_file = false,
-  --       open_on_tab = false,
-  --     }
-  --   end,
-  -- }
-
   use { "simrat39/rust-tools.nvim" }
+  use {
+    "Saecki/crates.nvim",
+    requires = {
+      "jose-elias-alvarez/null-ls.nvim",
+      "nvim-lua/plenary.nvim",
+    },
+    config = function()
+      require("crates").setup {
+        popup = {
+          autofocus = true,
+        },
+        -- null_ls = {
+        --   enabled = true,
+        --   name = "Crates",
+        -- },
+      }
+    end,
+  }
+
   use { "sindrets/diffview.nvim", requires = { "nvim-lua/plenary.nvim" } }
   use {
     "stevearc/aerial.nvim",
