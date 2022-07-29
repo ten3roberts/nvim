@@ -229,7 +229,7 @@ map("n", "<leader><cr>", ":ToggleCheckbox<CR>")
 map("n", "<leader>rr", ":RustRunnables<CR>")
 map("n", "<leader>rd", ":RustDebuggables<CR>")
 map("n", "<leader>ru", ":RustParentModule<CR>")
-map("n", "<leader>ro", ":RustOpenCargo<CR>")
+map("n", "<leader>rU", ":RustOpenCargo<CR>")
 
 map("n", "<C-a>", require("dial.map").inc_normal(), { noremap = true })
 map("n", "<C-x>", require("dial.map").dec_normal(), { noremap = true })

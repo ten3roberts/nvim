@@ -22,7 +22,6 @@ opt.laststatus = 2
 opt.spelllang = { "en_us" }
 opt.spell = false
 o.equalalways = true
-o.expandtab = true
 o.foldlevelstart = 4
 o.foldmethod = "indent"
 -- o.foldmethod = "expr"
@@ -47,7 +46,10 @@ o.pumwidth = 20
 o.relativenumber = false
 o.runtimepath = o.runtimepath .. ",~/dev/nvim"
 o.scrolloff = 8 -- Lines from the cursor
-o.shiftwidth = 2
+
+o.expandtab = true
+o.shiftwidth = 4
+
 o.shortmess = vim.o.shortmess .. "c"
 o.showmatch = true -- Show matching brackets/parenthesis
 o.showmode = false -- Do not output message on the bottom

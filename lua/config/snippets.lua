@@ -90,11 +90,29 @@ ls.add_snippets("lua", {
       i(1),
     })
   ),
+  s("class", fmt("---@class ", {})),
+  s("field", fmt("---@field ", {})),
+  s("param", fmt("---@param ", {})),
 })
 
 local function rust_vis(pos)
   return c(pos, { t "pub ", t "", t "pub(crate) " })
 end
+
+ls.add_snippets("markdown", {
+  s("doc-link", fmt("[{}](https://docs.rs/{}/latest/{}/{})", { i(1), i(2), rep(2), i(3) })),
+  s(
+    "code-include",
+    fmt(
+      [[
+    ```rust
+    {{{{ #include {} }}}}
+    ```
+    ]],
+      { i(1) }
+    )
+  ),
+})
 
 ls.add_snippets("all", {
   s("date", {
@@ -366,6 +384,19 @@ ls.add_snippets("rust", {
   s("info", fmt([[{}::info!("{}");]], { f(rust_log_crate), i(1) })),
   s("warn", fmt([[{}::warn!("{}");]], { f(rust_log_crate), i(1) })),
   s("error", fmt([[{}::error!("{}");]], { f(rust_log_crate), i(1) })),
+  s("instrument", t("#[tracing::instrument]", {})),
+  s("doc_hidden", t("#[doc(hidden)]", {})),
+  s(
+    "ANCHOR",
+    fmt(
+      [[
+    // ANCHOR: {}
+    {}
+    // ANCHOR_END: {}
+    ]],
+      { i(1), i(2), rep(1) }
+    )
+  ),
 })
 
 ls.add_snippets("javascript", {
@@ -385,8 +416,8 @@ ls.filetype_extend("svelte", { "javascript" })
 ls.filetype_extend("typescript", { "javascript" })
 
 vim.keymap.set({ "i", "s" }, "<c-k>", function()
-  if ls.expand_or_jumpable() then
-    ls.expand_or_jump()
+  if ls.jumpable(1) then
+    ls.jump()
   end
 end)
 

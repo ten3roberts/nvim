@@ -20,14 +20,14 @@ ui.setup {
       size = 40, -- 40 columns
       position = "right",
     },
-    -- {
-    --   elements = {
-    --     "repl",
-    --     "console",
-    --   },
-    --   size = 0.25, -- 25% of total lines
-    --   position = "bottom",
-    -- },
+    {
+      elements = {
+        "repl",
+        "console",
+      },
+      size = 0.2, -- 25% of total lines
+      position = "bottom",
+    },
   },
   floating = {
     max_height = nil, -- These can be integers or a float between 0 and 1.
@@ -161,7 +161,7 @@ map("n", "<leader>dB", M.conditioal_break)
 map("n", "<leader>dBe", dap.set_exception_breakpoints)
 
 map("n", "<leader>dc", dap.continue)
--- map('n', '<leader>dr', dap.run_last)
+map("n", "<leader>dr", dap.run_last)
 map("n", "<leader>dg", dap.run_to_cursor)
 map("n", "<leader>dO", ui.toggle)
 

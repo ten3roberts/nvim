@@ -1,7 +1,8 @@
 local cmp = require "cmp"
 local lspkind = require "lspkind"
 
-require "config.cmp_gh_source"
+require "crates"
+require("cmp_git").setup {}
 
 local ls = require "luasnip"
 
@@ -27,13 +28,7 @@ local function confirm(behavior)
   end)
 end
 
-local rel_ft = {
-  markdown = true,
-  tex = true,
-}
-
 local default_sources = {
-
   {
     name = "path",
     option = {
@@ -49,8 +44,6 @@ local default_sources = {
       -- end
     },
   },
-  { name = "gh_issues" },
-  { name = "crates" },
 
   { name = "luasnip" },
   { name = "nvim_lsp" },
@@ -109,4 +102,20 @@ cmp.setup.cmdline(":", {
   }, {
     { name = "cmdline" },
   }),
+})
+
+cmp.setup.filetype("toml", {
+  sources = cmp.config.sources {
+    { name = "crates" },
+  },
+  default_sources,
+})
+
+cmp.setup.filetype("gitcommit", {
+  sources = cmp.config.sources {
+    { name = "cmp_git" },
+  },
+  {
+    { name = "buffer" },
+  },
 })

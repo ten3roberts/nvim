@@ -42,8 +42,6 @@ require("packer").startup(function(use)
   use "~/dev/nvim/window-picker.nvim"
 
   -- Colorschemes
-  use "arcticicestudio/nord-vim"
-  use "rakr/vim-one"
   use "sainnhe/sonokai"
   use "rmehri01/onenord.nvim"
 
@@ -57,7 +55,6 @@ require("packer").startup(function(use)
     end,
   }
 
-  -- use 'airblade/vim-rooter'
   use {
     "https://github.com/ahmedkhalf/project.nvim",
     config = function()
@@ -125,6 +122,7 @@ require("packer").startup(function(use)
   use {
     "hrsh7th/nvim-cmp",
     requires = {
+      "petertriho/cmp-git",
       "jose-elias-alvarez/null-ls.nvim",
       "Saecki/crates.nvim",
       "hrsh7th/cmp-buffer",
@@ -359,7 +357,7 @@ require("packer").startup(function(use)
       require("auto-session").setup {
         log_level = "error",
         auto_session_suppress_dirs = { "~/" },
-        auto_session_enable_last_session = true,
+        -- auto_session_enable_last_session = true,
         auto_restore_enabled = true,
       }
 
@@ -388,6 +386,7 @@ require("packer").startup(function(use)
       }
 
       vim.notify = require "notify"
+      require("telescope").load_extension "notify"
     end,
   }
 
@@ -449,7 +448,8 @@ require("packer").startup(function(use)
   use "tpope/vim-fugitive" -- Git management
   use "tpope/vim-repeat" -- Repeat plugin commands with .
   use "tpope/vim-rsi" -- Readline mappings in insert mode
-  -- use "tpope/vim-sleuth"
+  use "tpope/vim-dotenv"
+  use "tpope/vim-sleuth"
   -- use "tpope/vim-surround" -- ( surround text )
   use "tpope/vim-unimpaired"
   use "tpope/vim-commentary"

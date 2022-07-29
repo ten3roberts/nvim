@@ -12,7 +12,7 @@ local sev = diagnostic.severity
 
 require("lspkind").init {
   symbol_map = {
-    Function = "ﬦ",
+    -- Function = "ﬦ",
   },
 }
 
@@ -85,13 +85,14 @@ function M.on_attach(client)
   buf_map(0, "", "<leader>q", require("config.lsp").set_qf)
   buf_map(0, "", "<leader>rn", vim.lsp.buf.rename)
   buf_map(0, "n", "<leader>a", vim.lsp.buf.code_action)
-  buf_map(0, "x", "<leader>a", function()
-    vim.notify "Range actions"
-    vim.lsp.buf.range_code_action()
-  end)
+  buf_map(0, "n", "<leader>go", vim.lsp.buf.outgoing_calls)
+  buf_map(0, "n", "<leader>gi", vim.lsp.buf.incoming_calls)
+  buf_map(0, "x", "<leader>a", vim.lsp.buf.range_code_action)
+
   if ft ~= "toml" then
     buf_map(0, "", "K", vim.lsp.buf.hover)
   end
+
   -- buf_map(0, '', '[d', vim.lsp.diagnostic.goto_prev)
   -- buf_map(0, '', ']d', vim.lsp.diagnostic.goto_next)
   buf_map(0, "", "gD", vim.lsp.buf.declaration)
@@ -150,7 +151,7 @@ end
 
 local handlers = {
   ["textDocument/publishDiagnostics"] = M.on_publish_diagnostics,
-  ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
+  -- ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
   ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
 }
 
