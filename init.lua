@@ -65,7 +65,6 @@ require("recipe").setup {
     },
     global = {
       open = "xdg-open %:h",
-      open_file = "xdg-open <cfile>",
     },
   },
 }

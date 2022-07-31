@@ -57,7 +57,7 @@ map("n", "`<CR>", function()
 end)
 
 map("n", "<leader>ht", function()
-  recipe.execute { cmd = vim.env.SHELL, keep_open = true, interactive = true }
+  recipe.execute { cmd = "zsh", kind = "term" }
 end)
 
 -- Tabs

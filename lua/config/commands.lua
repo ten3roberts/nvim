@@ -18,38 +18,39 @@ a.nvim_create_user_command("Dump", function(c)
 end, { nargs = 1 })
 
 a.nvim_create_user_command("Cargo", function(c)
-  recipe.execute { cmd = "cargo " .. c.args, interactive = true, keep_open = true }
+  recipe.execute { cmd = "cargo " .. c.args, kind = "term", opts = { auto_close = false } }
 end, { nargs = "*" })
 
 a.nvim_create_user_command("CargoUpgrade", function(c)
-  recipe.execute { cmd = "cargo upgrade " .. c.args, interactive = true, keep_open = true }
+  recipe.execute { cmd = "cargo upgrade " .. c.args, kind = "term", opts = { auto_close = false } }
 end, { nargs = "*" })
 
 a.nvim_create_user_command("CargoAdd", function(c)
-  recipe.execute {
-    cmd = "cargo add " .. c.args,
-    interactive = true,
-    keep_open = true,
-    action = {
-      function()
-        vim.cmd "CargoReload"
-      end,
+  recipe.execute(
+    {
+      cmd = "cargo add " .. c.args,
+      kind = "term",
+      action = {},
     },
-  }
+    nil,
+    function(_)
+      vim.cmd "CargoReload"
+    end
+  )
 end, { nargs = "*" })
 
 a.nvim_create_user_command("CargoVersion", function(c)
-  recipe.execute { cmd = "cargo workspaces version " .. c.args, interactive = true }
+  recipe.execute { cmd = "cargo workspaces version " .. c.args, kind = "term" }
 end, { nargs = "*" })
 
 a.nvim_create_user_command("CargoTest", function(c)
-  recipe.execute { cmd = string.format("cargo test %s -- --nocapture", c.args), interactive = true }
+  recipe.execute { cmd = string.format("cargo test %s -- --nocapture", c.args), kind = "term" }
 end, { nargs = "*" })
 
 a.nvim_create_user_command("Clip", 'let @+=@"', {})
 
 a.nvim_create_user_command("CargoSyncReadme", function(c)
-  recipe.execute { cmd = "cargo sync-readme " .. c.args, interactive = true }
+  recipe.execute { cmd = "cargo sync-readme " .. c.args, kind = "term" }
 end, {})
 
 vim.cmd [[
