@@ -28,7 +28,7 @@ function M.set_loc()
   diagnostic.setloclist {
     open = false,
   }
-  qf.tally "l"
+  -- qf.tally "l"
 end
 
 function M.set_qf()
@@ -114,8 +114,10 @@ local diagnostic_severities = {
   [sev.HINT] = signs.H,
 }
 
+local old_diagnostics = vim.lsp.handlers["textDocument/publishDiagnostics"]
+
 -- function M.on_publish_diagnostics(err, method, result, client_id, _, _)
-function M.on_publish_diagnostics(_, result, ctx, cfg)
+function M.on_publish_diagnostics(err, result, ctx, cfg)
   local uri = result.uri
   local bufnr = vim.uri_to_bufnr(uri)
 
@@ -142,11 +144,9 @@ function M.on_publish_diagnostics(_, result, ctx, cfg)
 
   M.buffers[bufnr] = diagnostic_count
 
-  lsp_diagnostic.on_publish_diagnostics(_, result, ctx, cfg)
-
-  -- if vim.api.nvim_get_mode().mode == 'n' then
   M.set_loc()
-  -- end
+
+  old_diagnostics(err, result, ctx, cfg)
 end
 
 local handlers = {

@@ -24,7 +24,7 @@ function M.setup(server_conf)
             },
         },
         dap = {
-            adapter = require "recipe.adapters".codelldb,
+            adapter = require "recipe.debug_adapters".codelldb,
         },
 
         -- all the opts to send to nvim-lspconfig

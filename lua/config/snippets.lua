@@ -132,37 +132,48 @@ ls.add_snippets("all", {
 
 ls.add_snippets("json", {
   s(
-    "recipe-basic",
+    "recipe-build",
     fmt(
       [[
   "{}": {{
-    "cmd": {},
-    {}
+    "cmd": {}
   }}
   ]],
       {
         i(1),
         i(2),
-        c(3, {
-          t '"interactive": true',
-          sn(
-            1,
-            fmt(
-              [[
-    "action": [
-      "qf",
-      {{
-        "name": "dap",
-        "opts": {{
-          "program": "{}"
-        }}
-      }}
-    ]
+      }
+    )
+  ),
+  s(
+    "recipe-term",
+    fmt(
+      [[
+  "{}": {{
+    "cmd": {},
+    "kind": "term"
+  }}
   ]],
-              { i(1) }
-            )
-          ),
-        }),
+      {
+        i(1),
+        i(2),
+      }
+    )
+  ),
+  s(
+    "recipe-debug",
+    fmt(
+      [[
+  "{}": {{
+    "cmd": {},
+    "kind": "dap",
+    "depends_on": [ {} ]
+  }}
+  ]],
+      {
+        i(1),
+        i(2),
+        i(3),
       }
     )
   ),
@@ -417,7 +428,7 @@ ls.filetype_extend("typescript", { "javascript" })
 
 vim.keymap.set({ "i", "s" }, "<c-k>", function()
   if ls.jumpable(1) then
-    ls.jump()
+    ls.jump(1)
   end
 end)
 

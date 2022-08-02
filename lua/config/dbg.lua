@@ -12,10 +12,10 @@ ui.setup {
   layouts = {
     {
       elements = {
-        { id = "scopes", size = 0.25 },
         "breakpoints",
         "stacks",
         "watches",
+        "scopes",
       },
       size = 40, -- 40 columns
       position = "right",
@@ -42,7 +42,9 @@ ui.setup {
 
 local dap = require "dap"
 
-require("nvim-dap-virtual-text").setup()
+require("nvim-dap-virtual-text").setup {
+  highlight_new_as_changed = true,
+}
 
 dap.defaults.fallback.terminal_win_cmd = "10split new"
 
