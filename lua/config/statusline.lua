@@ -3,7 +3,6 @@ local g = vim.g
 local fn = vim.fn
 
 local lsp = require "config.lsp"
-local recipe = require "recipe"
 local icons = require "nvim-web-devicons"
 
 local M = {}
@@ -71,10 +70,10 @@ end
 local special_map = {
   qf = qf_func,
   aerial = {
-    [true] = function()
+    [true] = function(_)
       return "%#Purple#  Aerial "
     end,
-    [false] = function()
+    [false] = function(_)
       return "  Aerial "
     end,
   },
@@ -302,7 +301,6 @@ function M.update()
     local path = get_path(true)
     local git = get_git(true)
     local diag = lsp.statusline(bufnr, true)
-    local rec = recipe.statusline()
 
     return table.concat {
       "%#Normal# ",
@@ -311,7 +309,6 @@ function M.update()
       path,
       readonly and "%#Purple# " or "",
       "%#Normal#%=%#Normal# ",
-      rec,
       diag,
       "%#Purple#",
       percent,
