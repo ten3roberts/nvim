@@ -3,7 +3,7 @@ neogit.setup {
   integrations = {
     diffview = true,
   },
-  disable_commit_confirmation = true,
+  disable_commit_confirmation = false,
   sections = {
     -- untracked = {
     --   folded = true,
@@ -23,9 +23,9 @@ neogit.setup {
     -- unmerged = {
     --   folded = false,
     -- },
-    -- recent = {
-    --   folded = false,
-    -- },
+    recent = {
+      folded = false,
+    },
   },
 }
 

@@ -9,16 +9,16 @@ local ivy = require("telescope.themes").get_ivy {
 
 telescope.setup {
   defaults = {
-    vimgrep_arguments = {
-      "rg",
-      -- '--fixed-strings',
-      "--color=never",
-      "--no-heading",
-      "--with-filename",
-      "--line-number",
-      "--column",
-      "--smart-case",
-    },
+    -- vimgrep_arguments = {
+    --   "rg",
+    --   -- '--fixed-strings',
+    --   "--color=never",
+    --   "--no-heading",
+    --   "--with-filename",
+    --   "--line-number",
+    --   "--column",
+    --   "--smart-case",
+    -- },
     layout_config = {
       horizontal = {
         prompt_position = "top",

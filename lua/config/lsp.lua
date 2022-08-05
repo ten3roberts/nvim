@@ -85,8 +85,6 @@ function M.on_attach(client)
   buf_map(0, "", "<leader>q", require("config.lsp").set_qf)
   buf_map(0, "", "<leader>rn", vim.lsp.buf.rename)
   buf_map(0, "n", "<leader>a", vim.lsp.buf.code_action)
-  buf_map(0, "n", "<leader>go", vim.lsp.buf.outgoing_calls)
-  buf_map(0, "n", "<leader>gi", vim.lsp.buf.incoming_calls)
   buf_map(0, "x", "<leader>a", vim.lsp.buf.range_code_action)
 
   if ft ~= "toml" then
@@ -95,9 +93,11 @@ function M.on_attach(client)
 
   -- buf_map(0, '', '[d', vim.lsp.diagnostic.goto_prev)
   -- buf_map(0, '', ']d', vim.lsp.diagnostic.goto_next)
+  buf_map(0, "n", "go", builtin.lsp_outgoing_calls)
+  buf_map(0, "n", "gi", builtin.lsp_incoming_calls)
   buf_map(0, "", "gD", vim.lsp.buf.declaration)
   buf_map(0, "", "gd", builtin.lsp_definitions)
-  buf_map(0, "", "gi", builtin.lsp_implementations)
+  buf_map(0, "", "gI", builtin.lsp_implementations)
   buf_map(0, "", "gr", builtin.lsp_references)
   buf_map(0, "", "gy", builtin.lsp_type_definitions)
 end
