@@ -366,7 +366,7 @@ function M.update_tabline()
   -- after the last tab fill with TabLineFill and reset tab page nr
   t[#t + 1] = "%#TabLineFill#%T"
 
-  return table.concat(t, " |")
+  return table.concat(t, " 🮇")
 end
 
 _G.config_sl_update = M.update

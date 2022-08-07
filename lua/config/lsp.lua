@@ -229,6 +229,7 @@ local server_conf = {
     ["rust-analyzer"] = {
       cargo = {
         loadOutDirsFromCheck = true,
+        features = "all",
       },
       procMacro = {
         enable = true,
