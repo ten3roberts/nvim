@@ -351,19 +351,29 @@ require("packer").startup(function(use)
   }
 
   use {
-    "rmagatti/auto-session",
+    "olimorris/persisted.nvim",
     config = function()
-      vim.o.sessionoptions = "buffers,help,tabpages"
-      require("auto-session").setup {
-        log_level = "error",
-        auto_session_suppress_dirs = { "~/" },
-        -- auto_session_enable_last_session = true,
-        auto_restore_enabled = true,
+      vim.o.sessionoptions = "buffers,curdir,folds,help,tabpages,winsize,winpos"
+      require("persisted").setup {
+        autoload = true,
       }
-
-      vim.keymap.set("n", "<leader>pp", ":Autosession search<CR>", { silent = true })
+      require("telescope").load_extension "persisted"
     end,
   }
+  -- use {
+  --   "rmagatti/auto-session",
+  --   config = function()
+  --     -- vim.o.sessionoptions = "buffers,help,tabpages"
+  --     require("auto-session").setup {
+  --       -- log_level = { "error" },
+  --       -- auto_session_suppress_dirs = { "~/" },
+  --       -- auto_session_enable_last_session = true,
+  --       -- cwd_change_handling = true,
+  --     }
+
+  --     vim.keymap.set("n", "<leader>pp", ":Autosession search<CR>", { silent = true })
+  --   end,
+  -- }
 
   use "onsails/lspkind-nvim"
   use "qxxxb/vim-searchhi" -- Highlight current search match
@@ -454,7 +464,7 @@ require("packer").startup(function(use)
   use "tpope/vim-unimpaired"
   use "tpope/vim-commentary"
 
-  use "wellle/targets.vim" -- Better handling and seeking for textobjects
+  -- use "wellle/targets.vim" -- Better handling and seeking for textobjects
   use {
     "windwp/nvim-autopairs",
     requires = "windwp/nvim-ts-autotag",

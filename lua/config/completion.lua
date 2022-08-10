@@ -55,7 +55,7 @@ local default_sources = {
 vim.o.completeopt = "menu,menuone,noselect"
 
 cmp.setup {
-  preselect = cmp.PreselectMode.None,
+  preselect = cmp.PreselectMode.Item,
   formatting = {
     fields = { "kind", "abbr", "menu" },
     format = lspkind.cmp_format {

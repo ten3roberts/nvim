@@ -67,14 +67,13 @@ require("nvim-treesitter.configs").setup {
       lookahead = true,
       keymaps = {
         -- You can use the capture groups defined in textobjects.scm
-        ["af"] = "@function.outer",
-        ["if"] = "@function.inner",
-        ["ac"] = "@class.outer",
-        ["ic"] = "@class.inner",
-        -- ["."] = "@parameter.inner",
-        -- ["a,"] = "@parameter.outer",
-        -- ["i,"] = "@parameter.inner",
-        ["i;"] = "@call.inner",
+        -- ["af"] = "@function.outer",
+        -- ["if"] = "@function.inner",
+        -- ["ac"] = "@class.outer",
+        -- ["ic"] = "@class.inner",
+        -- ["ia"] = "@parameter.inner",
+        -- ["aa"] = "@parameter.outer",
+        -- ["i;"] = "@call.inner",
       },
     },
     move = {
@@ -122,15 +121,6 @@ require("nvim-treesitter.configs").setup {
   --   }, -- table of hex strings
   --   -- termcolors = {} -- table of colour name strings
   -- },
-  textsubjects = {
-    enable = true,
-    -- prev_selection = ",", -- (Optional) keymap to select the previous selection
-    keymaps = {
-      ["."] = "textsubjects-smart",
-      ["a;"] = "textsubjects-container-outer",
-      ["i;"] = "textsubjects-container-inner",
-    },
-  },
   indent = { enable = true },
 }
 

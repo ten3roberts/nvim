@@ -95,10 +95,6 @@ ls.add_snippets("lua", {
   s("param", fmt("---@param ", {})),
 })
 
-local function rust_vis(pos)
-  return c(pos, { t "pub ", t "", t "pub(crate) " })
-end
-
 ls.add_snippets("markdown", {
   s("doc-link", fmt("[{}](https://docs.rs/{}/latest/{}/{})", { i(1), i(2), rep(2), i(3) })),
   s(
@@ -239,6 +235,8 @@ ls.add_snippets("rust", {
     )
   ),
 
+  s("pubuse", fmt("pub use {}::*;", { i(1) })),
+
   s(
     "test",
     fmt(
@@ -256,16 +254,15 @@ ls.add_snippets("rust", {
     "fn",
     fmt(
       [[
-      {}fn {}({}){} {{
+      pub fn {}({}){} {{
             {}
         }}
       ]],
       {
-        rust_vis(1),
-        i(2, "name"),
-        i(3),
-        c(4, { t "", sn(1, { t " -> ", i(1, "_") }), sn(1, { t " -> Result<", i(1, "_"), t ">" }) }),
-        i(5, "todo!()"),
+        i(1, "name"),
+        i(2),
+        c(3, { t "", sn(1, { t " -> ", i(1, "_") }), sn(1, { t " -> Result<", i(1, "_"), t ">" }) }),
+        i(4, "todo!()"),
       }
     )
   ),
@@ -275,15 +272,14 @@ ls.add_snippets("rust", {
     fmt(
       [[
       #[derive({})]
-      {}struct {} {{
+      struct {} {{
           {}
       }}
     ]],
       {
         c(1, { t "Debug, Clone", t "Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash" }),
-        rust_vis(2),
-        i(3, "Name"),
-        i(4, ""),
+        i(2, "Name"),
+        i(3, ""),
       }
     )
   ),
@@ -293,15 +289,14 @@ ls.add_snippets("rust", {
     fmt(
       [[
       #[derive({})]
-      {}enum {} {{
+      enum {} {{
           {}
       }}
     ]],
       {
         c(1, { t "Debug, Clone", t "Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash" }),
-        rust_vis(2),
-        i(3, "Name"),
-        i(4, ""),
+        i(2, "Name"),
+        i(3, ""),
       }
     )
   ),
@@ -389,6 +384,7 @@ ls.add_snippets("rust", {
   ),
 
   s("de_serde", { t "#[derive(serde::Serialize, serde::Deserialize)]" }),
+  s("attr_serde", { t '#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]' }),
 
   s("trace", fmt([[{}::trace!("{}");]], { f(rust_log_crate), i(1) })),
   s("debug", fmt([[{}::debug!("{}");]], { f(rust_log_crate), i(1) })),

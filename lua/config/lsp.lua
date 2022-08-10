@@ -48,6 +48,15 @@ end
 local border = "single"
 
 function M.on_attach(client)
+  local opts = client.config
+
+  local keymap = {}
+  if type(opts.keymap) == "function" then
+    keymap = opts.keymap()
+  elseif type(opts.keymap) == "table" then
+    keymap = opts.keymap
+  end
+
   -- Lsp signature
   if client.name == "sumneko_lua" then
     client.server_capabilities.documentFormattingProvider = false -- 0.8 and later
@@ -74,7 +83,6 @@ function M.on_attach(client)
   -- buf_map(0, "n", "]]", "<cmd>AerialNextUp<CR>")
 
   local builtin = require "telescope.builtin"
-  local ft = vim.o.ft
 
   buf_map(0, "", "<leader>ce", vim.diagnostic.open_float)
   buf_map(0, "", "<leader>cwa", vim.lsp.buf.add_workspace_folder)
@@ -84,12 +92,10 @@ function M.on_attach(client)
   buf_map(0, "", "<leader>cwr", vim.lsp.buf.remove_workspace_folder)
   buf_map(0, "", "<leader>q", require("config.lsp").set_qf)
   buf_map(0, "", "<leader>rn", vim.lsp.buf.rename)
-  buf_map(0, "n", "<leader>a", vim.lsp.buf.code_action)
+  buf_map(0, "n", "<leader>a", keymap.code_action or vim.lsp.buf.code_action)
   buf_map(0, "x", "<leader>a", vim.lsp.buf.range_code_action)
 
-  if ft ~= "toml" then
-    buf_map(0, "", "K", vim.lsp.buf.hover)
-  end
+  buf_map(0, "", "K", keymap.hover or vim.lsp.buf.hover)
 
   -- buf_map(0, '', '[d', vim.lsp.diagnostic.goto_prev)
   -- buf_map(0, '', ']d', vim.lsp.diagnostic.goto_next)
@@ -105,6 +111,7 @@ end
 function M.deferred_loc()
   vim.defer_fn(M.set_loc, 100)
 end
+
 local signs = require("config.palette").signs
 
 local diagnostic_severities = {
@@ -225,6 +232,7 @@ local server_conf = {
   on_attach = M.on_attach,
   capabilities = capabilities,
   handlers = handlers,
+  keymap = {},
   settings = {
     ["rust-analyzer"] = {
       cargo = {
@@ -274,7 +282,12 @@ end
 
 -- lspconfig.sumneko_lua.setup(vim.tbl_extend("error", require "config.lua-lsp", server_conf))
 if_found("rustc", function()
-  require("config.rust").setup(server_conf)
+  local rt = require "rust-tools"
+  require("config.rust").setup(vim.tbl_deep_extend("force", server_conf, {
+    keymap = function()
+      return { hover = rt.hover_actions.hover_actions }
+    end,
+  }))
 end)
 if_found("go", function()
   lspconfig.gopls.setup(server_conf)
@@ -292,7 +305,13 @@ if_found("mono", function()
 end)
 lspconfig.cssls.setup(server_conf)
 lspconfig.jsonls.setup(server_conf)
-lspconfig.taplo.setup(server_conf)
+
+lspconfig.taplo.setup(vim.tbl_deep_extend("force", server_conf, {
+  keymap = function()
+    return { hover = require("crates").show_crate_popup }
+  end,
+}))
+
 if_found("npm", function()
   lspconfig.tsserver.setup(server_conf)
 end)

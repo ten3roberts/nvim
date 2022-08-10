@@ -109,26 +109,14 @@ local function get_git(highlight)
     math.ceil(added / total * 3), math.ceil(changed / total * 3), math.ceil(removed / total * 3)
 
   if highlight then
-    return (rel_added > 0 and ("%#Green#" .. string.rep("+", rel_added) .. " ") or "")
-      .. (rel_changed > 0 and ("%#Blue#" .. string.rep("~", rel_changed) .. " ") or "")
-      .. (rel_removed > 0 and ("%#Red#" .. string.rep("-", rel_removed) .. " ") or "")
+    return (rel_added > 0 and ("%#Green#" .. string.rep("+", rel_added)) or "")
+      .. (rel_changed > 0 and ("%#Blue#" .. string.rep("~", rel_changed)) or "")
+      .. (rel_removed > 0 and ("%#Red#" .. string.rep("-", rel_removed)) or "")
   else
-    return (rel_added > 0 and (string.rep("+", rel_added) .. " ") or "")
-      .. (rel_changed > 0 and (string.rep("~", rel_changed) .. " ") or "")
-      .. (rel_removed > 0 and (string.rep("-", rel_removed) .. " ") or "")
+    return (rel_added > 0 and (string.rep("+", rel_added)) or "")
+      .. (rel_changed > 0 and (string.rep("~", rel_changed)) or "")
+      .. (rel_removed > 0 and (string.rep("-", rel_removed)) or "")
   end
-
-  -- if highlight then
-  --   return '%#Orange#' .. branch,
-  --     (added > 0 and ('%#Green#+' .. added .. ' ') or '') ..
-  --     (changed > 0 and ('%#Blue#~' .. changed .. ' ') or '') ..
-  --     (removed > 0 and ('%#Red#-' .. removed .. ' ') or '')
-  -- else
-  --   return branch,
-  --     (added > 0 and ' +' .. added or '') ..
-  --     (changed > 0 and ' ~' .. changed or '') ..
-  --     (removed > 0 and ' ~' .. removed or '')
-  -- end
 end
 
 local function get_infos(bufnr)
@@ -151,9 +139,9 @@ local function get_path(highlight)
       return ""
     end
     if highlight then
-      return "%#Normal#" .. (info[1].variables.quickfix_title or "Quickfix") .. " "
+      return "%#Normal#" .. (info[1].variables.quickfix_title or "Quickfix")
     else
-      return string.gsub(info[1].variables.quickfix_title or "Quickfix", "%%#.-#", "") .. " "
+      return string.gsub(info[1].variables.quickfix_title or "Quickfix", "%%#.-#", "")
     end
   end
 
@@ -256,23 +244,13 @@ local function get_buffername(bufnr)
   buffer_ids[bufnr] = filename
 end
 
--- local function get_ft(bufnr, highlight)
---   local ft = api.nvim_buf_get_option(bufnr, 'filetype')
-
---   local icon, icon_hl = icons.get_icon(fn.expand('%:t'), fn.expand('%:e'))
-
---   if highlight then
---     return string.format('%%#%s#%s %s ', icon_hl or '', icon or '', ft)
---   else
---     return string.format('%s %s ', icon or '', ft)
---   end
--- end
-
----@class SL
----@field bufnr number
----@field winid number
----@field ft number
----@field is_current boolean
+local function get_session()
+  if vim.g.persisting then
+    return " "
+  elseif vim.g.persisting == false then
+    return " "
+  end
+end
 
 function M.update()
   local winid = api.nvim_get_current_win()
@@ -280,7 +258,7 @@ function M.update()
   local actual_curwin = tonumber(g.actual_curwin)
 
   local branch = vim.fn.FugitiveHead()
-  branch = branch and ("%#Orange# " .. branch .. " ") or ""
+  branch = branch and ("%#Orange# " .. branch) or ""
 
   local is_current = winid == actual_curwin
 
@@ -302,17 +280,25 @@ function M.update()
     local git = get_git(true)
     local diag = lsp.statusline(bufnr, true)
 
+    local sep = " "
     return table.concat {
-      "%#Normal# ",
+      "%#Normal#",
       branch,
+      sep,
       git,
+      sep,
       path,
-      readonly and "%#Purple# " or "",
-      "%#Normal#%=%#Normal# ",
+      sep,
+      readonly and "%#Purple#" or "",
+      "%#Normal#%=%#Normal#",
       diag,
+      "%#Comment#",
+      get_session(),
+      sep,
       "%#Purple#",
       percent,
-      string.format(" %s %2d:%-2d ", mode.hl, row, col),
+      sep,
+      string.format("%s %2d:%-2d ", mode.hl, row, col),
     }
   else
     local path = get_path(false)
