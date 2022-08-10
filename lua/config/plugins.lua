@@ -1,14 +1,21 @@
 local fn = vim.fn
 
-local paq_dir = fn.stdpath "data" .. "/site/pack/packer/start/"
-local packer_path = paq_dir .. "packer.nvim"
-
-if fn.empty(fn.glob(packer_path)) > 0 then
+local fn = vim.fn
+local install_path = fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
+local packer_bootstrap = false
+if fn.empty(fn.glob(install_path)) > 0 then
   print "Downloading packer"
-  fn.system { "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", packer_path }
+  packer_bootstrap = fn.system {
+    "git",
+    "clone",
+    "--depth",
+    "1",
+    "https://github.com/wbthomason/packer.nvim",
+    install_path,
+  }
+  vim.o.runtimepath = vim.fn.stdpath "data" .. "/site/pack/*/start/*," .. vim.o.runtimepath
+  vim.cmd [[packadd packer.nvim]]
 end
-
-vim.cmd [[packadd packer.nvim]]
 
 require("packer").startup(function(use)
   -- Packer can manage itself
@@ -480,4 +487,8 @@ require("packer").startup(function(use)
       vim.g.nvim_markdown_preview_theme = "github"
     end,
   }
+
+  if packer_bootstrap then
+    require("packer").sync()
+  end
 end)
