@@ -1,6 +1,5 @@
 local fn = vim.fn
 
-local fn = vim.fn
 local install_path = fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
 local packer_bootstrap = false
 if fn.empty(fn.glob(install_path)) > 0 then
@@ -252,7 +251,7 @@ require("packer").startup(function(use)
       "theHamsta/nvim-dap-virtual-text",
     },
     config = function()
-      require "config.dbg"
+      require "config.dap"
     end,
   }
 

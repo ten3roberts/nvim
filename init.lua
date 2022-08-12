@@ -59,6 +59,9 @@ require("window-picker").setup {
 }
 
 require("recipe").setup {
+  term = {
+    auto_close = true,
+  },
   custom_recipes = {
     rust = {
       upgrade = "cargo upgrade --workspace",

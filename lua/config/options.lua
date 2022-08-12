@@ -4,7 +4,8 @@ local g = vim.g
 
 -- Vim Options
 -- opt.guifont = "Fira Code Retina:h12"
-o.guifont = "JetBrains Mono:h12"
+-- o.guifont = "JetBrains Mono Nerd Font:h12"
+opt.guifont = "JetBrainsMono Nerd Font Mono:h12"
 
 -- g.neovide_cursor_trail_length = 0.1
 g.neovide_cursor_animation_length = 0.02
@@ -23,11 +24,11 @@ opt.spelllang = { "en_us" }
 opt.spell = false
 o.equalalways = true
 o.foldlevelstart = 4
-o.foldmethod = "indent"
--- o.foldmethod = "expr"
--- o.foldexpr = "nvim_treesitter#foldexpr()"
-o.foldminlines = 6
-o.foldnestmax = 6
+-- o.foldmethod = "indent"
+o.foldmethod = "expr"
+o.foldexpr = "nvim_treesitter#foldexpr()"
+-- o.foldminlines = 6
+-- o.foldnestmax = 6
 o.foldtext = "v:lua.clean_fold()"
 o.formatoptions = "jcrqltn"
 o.grepformat = "%f:%l:%c:%m,%f:%l:%m"
