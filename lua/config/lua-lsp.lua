@@ -20,14 +20,14 @@ local function add(lib)
 end
 
 -- add runtime
-add("$VIMRUNTIME")
+add "$VIMRUNTIME"
 
 -- add your config
-add("~/.config/nvim")
+add "~/.config/nvim"
 
 -- add plugins from paq
-add("~/.local/share/nvim/site/pack/paqs/opt/*")
-add("~/.local/share/nvim/site/pack/paqs/start/*")
+add "~/.local/share/nvim/site/pack/packer/opt/*"
+add "~/.local/share/nvim/site/pack/packer/start/*"
 
 return {
   -- delete root from workspace to make sure we don't trigger duplicate warnings
@@ -43,22 +43,22 @@ return {
         -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
         version = "LuaJIT",
         -- Setup your lua path
-        path = path
+        path = path,
       },
       completion = { callSnippet = "Both" },
       diagnostics = {
         -- Get the language server to recognize the `vim` global
-        globals = { "vim" }
+        globals = { "vim" },
       },
       workspace = {
         checkThirdParty = false,
         -- Make the server aware of Neovim runtime files
         library = library,
         maxPreload = 200,
-        preloadFileSize = 5000
+        preloadFileSize = 5000,
       },
       -- Do not send telemetry data containing a randomized but unique identifier
-      telemetry = { enable = false }
-    }
-  }
+      telemetry = { enable = false },
+    },
+  },
 }

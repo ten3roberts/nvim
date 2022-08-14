@@ -284,9 +284,28 @@ require("packer").startup(function(use)
   -- LSP configurations
   use {
     "neovim/nvim-lspconfig",
-    requires = { "williamboman/nvim-lsp-installer", "hrsh7th/nvim-cmp", "tjdevries/nlua.nvim" },
+    requires = {
+      "hrsh7th/nvim-cmp",
+      "tjdevries/nlua.nvim",
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+    },
     config = function()
       require "config.lsp"
+    end,
+  }
+
+  use {
+    "williamboman/mason.nvim",
+    requires = {
+      "williamboman/mason-lspconfig.nvim",
+    },
+    config = function()
+      print "setting up mason"
+      require("mason").setup()
+      require("mason-lspconfig").setup {
+        automatic_installation = true,
+      }
     end,
   }
 

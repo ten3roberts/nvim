@@ -47,7 +47,7 @@ end
 
 local border = "single"
 
-function M.on_attach(client)
+local function on_attach(client)
   local opts = client.config
 
   local keymap = {}
@@ -222,100 +222,162 @@ diagnostic.config {
   severity_sort = true,
 }
 
-local installer = require "nvim-lsp-installer"
-
-installer.setup {
-  automatic_installation = true,
-}
-
-local server_conf = {
-  on_attach = M.on_attach,
+local default_conf = {
+  on_attach = on_attach,
   capabilities = capabilities,
   handlers = handlers,
   keymap = {},
-  settings = {
-    ["rust-analyzer"] = {
-      cargo = {
-        loadOutDirsFromCheck = true,
-        features = "all",
-      },
-      procMacro = {
-        enable = true,
-      },
-      checkOnSave = {
-        command = "clippy",
-      },
-      diagnostics = {
-        enable = true,
-        --   disabled = { "unresolved-proc-macro" },
-        enableExperimental = true,
-      },
-      -- cargo = {
-      --   loadOutDirsFromCheck = true,
-      --   buildScripts = {
-      --     enable = false,
-      --   },
-      -- },
-      -- procMacro = {
-      --   enable = false,
-      -- },
-    },
-  },
 }
 
-local ok, lua_server = installer.get_server "sumneko_lua"
-if ok and lua_server:is_installed() then
-  local c = lua_server:get_default_options()
-  c.cmd = {
-    vim.fn.stdpath "data" .. "/lsp_servers/sumneko_lua/extension/server/bin/lua-language-server",
-    "-E",
-    vim.fn.stdpath "data" .. "/lsp_servers/sumneko_lua/extension/server/main.lua",
-  }
-  require("nlua.lsp.nvim").setup(lspconfig, vim.tbl_deep_extend("keep", server_conf, c))
-end
-
-local function if_found(executable, func)
-  if vim.fn.executable(executable) == 1 then
-    func()
-  end
-end
-
--- lspconfig.sumneko_lua.setup(vim.tbl_extend("error", require "config.lua-lsp", server_conf))
-if_found("rustc", function()
-  local rt = require "rust-tools"
-  require("config.rust").setup(vim.tbl_deep_extend("force", server_conf, {
-    keymap = function()
-      return { hover = rt.hover_actions.hover_actions }
-    end,
-  }))
-end)
-if_found("go", function()
-  lspconfig.gopls.setup(server_conf)
-end)
-lspconfig.sqlls.setup(server_conf)
-if_found("npm", function()
-  lspconfig.svelte.setup(server_conf)
-end)
-if_found("npm", function()
-  lspconfig.tailwindcss.setup(server_conf)
-end)
-lspconfig.clangd.setup(server_conf)
-if_found("mono", function()
-  lspconfig.omnisharp.setup(server_conf)
-end)
-lspconfig.cssls.setup(server_conf)
-lspconfig.jsonls.setup(server_conf)
-
-lspconfig.taplo.setup(vim.tbl_deep_extend("force", server_conf, {
-  keymap = function()
-    return { hover = require("crates").show_crate_popup }
+require("mason-lspconfig").setup_handlers {
+  -- The first entry (without a key) will be the default handler
+  -- and will be called for each installed server that doesn't have
+  -- a dedicated handler.
+  function(server_name) -- default handler (optional)
+    lspconfig[server_name].setup(default_conf)
   end,
-}))
+  taplo = function()
+    lspconfig.taplo.setup(vim.tbl_deep_extend("force", default_conf, {
+      keymap = function()
+        return { hover = require("crates").show_crate_popup }
+      end,
+    }))
+  end,
+  sumneko_lua = function()
+    lspconfig.sumneko_lua.setup(vim.tbl_deep_extend("force", default_conf, require "config.lua-lsp"))
+  end,
+  -- Next, you can provide targeted overrides for specific servers.
+  -- For example, a handler override for the `rust_analyzer`:
+  ["rust_analyzer"] = function()
+    require("rust-tools").setup {
+      tools = { -- rust-tools options
+        inlay_hints = {
+          auto = true,
+          -- prefix for parameter hints
+          parameter_hints_prefix = "<- ",
 
-if_found("npm", function()
-  lspconfig.tsserver.setup(server_conf)
-end)
-lspconfig.yamlls.setup(server_conf)
--- lspconfig.wgsl_analyzer.setup(server_conf)
+          -- prefix for all the other hints (type, chaining)
+          other_hints_prefix = "=> ",
+
+          -- padding from the left if max_len_align is true
+          -- whether to align to the extreme right or not
+          right_align = false,
+
+          -- padding from the right if right_align is true
+          right_align_padding = 8,
+
+          -- The color of the hints
+          highlight = "InlayHint",
+        },
+        hover_actions = {
+          border = "single",
+        },
+      },
+      dap = {
+        adapter = require("recipe.debug_adapters").codelldb,
+      },
+
+      -- all the opts to send to nvim-lspconfig
+      -- these override the defaults set by rust-tools.nvim
+      -- see https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#rust_analyzer
+      server = vim.tbl_deep_extend("force", default_conf, {
+        keymap = function()
+          local rt = require "rust-tools"
+          return { hover = rt.hover_actions.hover_actions }
+        end,
+        settings = {
+          ["rust-analyzer"] = {
+            cargo = {
+              loadOutDirsFromCheck = true,
+              features = "all",
+            },
+            procMacro = {
+              enable = true,
+            },
+            checkOnSave = {
+              command = "clippy",
+            },
+            diagnostics = {
+              enable = true,
+              --   disabled = { "unresolved-proc-macro" },
+              enableExperimental = true,
+            },
+            -- cargo = {
+            --   loadOutDirsFromCheck = true,
+            --   buildScripts = {
+            --     enable = false,
+            --   },
+            -- },
+            -- procMacro = {
+            --   enable = false,
+            -- },
+          },
+        },
+      }),
+    }
+  end,
+}
+
+-- local server_conf = {
+--   on_attach = M.on_attach,
+--   capabilities = capabilities,
+--   handlers = handlers,
+--   keymap = {},
+-- }
+
+-- local ok, lua_server = installer.get_server "sumneko_lua"
+-- if ok and lua_server:is_installed() then
+--   local c = lua_server:get_default_options()
+--   c.cmd = {
+--     vim.fn.stdpath "data" .. "/lsp_servers/sumneko_lua/extension/server/bin/lua-language-server",
+--     "-E",
+--     vim.fn.stdpath "data" .. "/lsp_servers/sumneko_lua/extension/server/main.lua",
+--   }
+--   require("nlua.lsp.nvim").setup(lspconfig, vim.tbl_deep_extend("keep", server_conf, c))
+-- end
+
+-- local function if_found(executable, func)
+--   if vim.fn.executable(executable) == 1 then
+--     func()
+--   end
+-- end
+
+-- -- lspconfig.sumneko_lua.setup(vim.tbl_extend("error", require "config.lua-lsp", server_conf))
+-- if_found("rustc", function()
+--   local rt = require "rust-tools"
+--   require("config.rust").setup(vim.tbl_deep_extend("force", server_conf, {
+--     keymap = function()
+--       return { hover = rt.hover_actions.hover_actions }
+--     end,
+--   }))
+-- end)
+-- if_found("go", function()
+--   lspconfig.gopls.setup(server_conf)
+-- end)
+-- lspconfig.sqlls.setup(server_conf)
+-- if_found("npm", function()
+--   lspconfig.svelte.setup(server_conf)
+-- end)
+-- if_found("npm", function()
+--   lspconfig.tailwindcss.setup(server_conf)
+-- end)
+-- lspconfig.clangd.setup(server_conf)
+-- if_found("mono", function()
+--   lspconfig.omnisharp.setup(server_conf)
+-- end)
+-- lspconfig.cssls.setup(server_conf)
+-- lspconfig.jsonls.setup(server_conf)
+
+-- lspconfig.taplo.setup(vim.tbl_deep_extend("force", server_conf, {
+--   keymap = function()
+--     return { hover = require("crates").show_crate_popup }
+--   end,
+-- }))
+
+-- if_found("npm", function()
+--   lspconfig.tsserver.setup(server_conf)
+-- end)
+-- lspconfig.yamlls.setup(server_conf)
+-- -- lspconfig.wgsl_analyzer.setup(server_conf)
 
 return M
