@@ -17,6 +17,14 @@ a.nvim_create_user_command("Dump", function(c)
   require("config.dev_utils").dump_mod(c.args)
 end, { nargs = 1 })
 
+a.nvim_create_user_command("CargoClean", function(_)
+  recipe.execute { cmd = "cargo clean" }
+end, { nargs = "*" })
+
+a.nvim_create_user_command("CargoDoc", function(_)
+  recipe.execute { cmd = "cargo doc --open" }
+end, { nargs = "*" })
+
 a.nvim_create_user_command("Cargo", function(c)
   recipe.execute { cmd = "cargo " .. c.args, kind = "term", opts = { auto_close = false } }
 end, { nargs = "*" })

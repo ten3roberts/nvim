@@ -86,11 +86,7 @@ require("packer").startup(function(use)
     "gbprod/yanky.nvim",
     config = function()
       require("yanky").setup {
-        ring = {
-          history_length = 32,
-          storage = "shada",
-          sync_with_numbered_registers = true,
-        },
+        ring = {},
         system_clipboard = {
           sync_with_ring = true,
         },
@@ -104,7 +100,11 @@ require("packer").startup(function(use)
         },
       }
 
-      require("telescope").load_extension "yank_history"
+      local telescope = require "telescope"
+      telescope.load_extension "yank_history"
+      vim.keymap.set("n", "<leader>pp", function()
+        telescope.extensions.yank_history.yank_history {}
+      end)
     end,
   }
 
@@ -301,7 +301,6 @@ require("packer").startup(function(use)
       "williamboman/mason-lspconfig.nvim",
     },
     config = function()
-      print "setting up mason"
       require("mason").setup()
       require("mason-lspconfig").setup {
         automatic_installation = true,
@@ -421,7 +420,11 @@ require("packer").startup(function(use)
       }
 
       vim.notify = require "notify"
-      require("telescope").load_extension "notify"
+      local telescope = require "telescope"
+      telescope.load_extension "notify"
+      vim.keymap.set("n", "<leader>pn", function()
+        telescope.extensions.notify.notify {}
+      end)
     end,
   }
 

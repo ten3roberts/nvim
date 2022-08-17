@@ -124,9 +124,6 @@ map("n", "<leader>O", builtin.lsp_dynamic_workspace_symbols)
 map("n", "<leader>D", builtin.diagnostics)
 map("n", "z=", builtin.spell_suggest)
 
-map("n", "<leader>pn", function()
-  telescope.extensions.notify.notify {}
-end)
-map("n", "<leader>pp", function()
+map("n", "<leader>ss", function()
   telescope.extensions.persisted.persisted {}
 end)

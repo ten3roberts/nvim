@@ -4,7 +4,6 @@ end
 
 local aerial = require "aerial"
 local diagnostic = vim.diagnostic
-local lsp_diagnostic = vim.lsp.diagnostic
 local lspconfig = require "lspconfig"
 local lsp_signature = require "lsp_signature"
 local qf = require "qf"
@@ -21,9 +20,9 @@ local M = { buffers = {}, statusline_cache = {} }
 -- Sets the location list with predefined options. Does not focus list.
 function M.set_loc()
   local bufnr = vim.api.nvim_get_current_buf()
-  if vim.o.buftype ~= "" or M.buffers[bufnr] == nil then
-    return
-  end
+  -- if vim.o.buftype ~= "" or M.buffers[bufnr] == nil then
+  --   return
+  -- end
 
   diagnostic.setloclist {
     open = false,
@@ -248,7 +247,7 @@ require("mason-lspconfig").setup_handlers {
   end,
   -- Next, you can provide targeted overrides for specific servers.
   -- For example, a handler override for the `rust_analyzer`:
-  ["rust_analyzer"] = function()
+  ["rust-analyzer"] = function()
     require("rust-tools").setup {
       tools = { -- rust-tools options
         inlay_hints = {
