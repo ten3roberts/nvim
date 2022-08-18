@@ -122,6 +122,7 @@ map("n", "<leader>gs", builtin.git_status)
 map("n", "<leader>o", builtin.lsp_document_symbols)
 map("n", "<leader>O", builtin.lsp_dynamic_workspace_symbols)
 map("n", "<leader>D", builtin.diagnostics)
+map("n", "<leader>gb", builtin.git_branches)
 map("n", "z=", builtin.spell_suggest)
 
 map("n", "<leader>ss", function()

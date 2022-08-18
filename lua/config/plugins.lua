@@ -352,7 +352,8 @@ require("packer").startup(function(use)
   use {
     "nvim-treesitter/nvim-treesitter",
     requires = {
-      -- "p00f/nvim-ts-rainbow",
+      "p00f/nvim-ts-rainbow",
+      "RRethy/nvim-treesitter-textsubjects",
       "nvim-treesitter/playground",
       "nvim-treesitter/nvim-treesitter-textobjects",
       "nvim-treesitter/nvim-treesitter-refactor",

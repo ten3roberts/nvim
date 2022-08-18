@@ -20,9 +20,9 @@ local M = { buffers = {}, statusline_cache = {} }
 -- Sets the location list with predefined options. Does not focus list.
 function M.set_loc()
   local bufnr = vim.api.nvim_get_current_buf()
-  -- if vim.o.buftype ~= "" or M.buffers[bufnr] == nil then
-  --   return
-  -- end
+  if vim.o.buftype == "quickfix" then
+    return
+  end
 
   diagnostic.setloclist {
     open = false,
@@ -247,7 +247,42 @@ require("mason-lspconfig").setup_handlers {
   end,
   -- Next, you can provide targeted overrides for specific servers.
   -- For example, a handler override for the `rust_analyzer`:
-  ["rust-analyzer"] = function()
+  ["rust_analyzer"] = function()
+    local conf = vim.tbl_deep_extend("force", default_conf, {
+      keymap = function()
+        local rt = require "rust-tools"
+        return { hover = rt.hover_actions.hover_actions }
+      end,
+      settings = {
+        ["rust-analyzer"] = {
+          cargo = {
+            loadOutDirsFromCheck = true,
+            features = "all",
+          },
+          procMacro = {
+            enable = true,
+          },
+          checkOnSave = {
+            command = "clippy",
+          },
+          diagnostics = {
+            enable = true,
+            --   disabled = { "unresolved-proc-macro" },
+            enableExperimental = true,
+          },
+          -- cargo = {
+          --   loadOutDirsFromCheck = true,
+          --   buildScripts = {
+          --     enable = false,
+          --   },
+          -- },
+          -- procMacro = {
+          --   enable = false,
+          -- },
+        },
+      },
+    })
+
     require("rust-tools").setup {
       tools = { -- rust-tools options
         inlay_hints = {
@@ -279,40 +314,7 @@ require("mason-lspconfig").setup_handlers {
       -- all the opts to send to nvim-lspconfig
       -- these override the defaults set by rust-tools.nvim
       -- see https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#rust_analyzer
-      server = vim.tbl_deep_extend("force", default_conf, {
-        keymap = function()
-          local rt = require "rust-tools"
-          return { hover = rt.hover_actions.hover_actions }
-        end,
-        settings = {
-          ["rust-analyzer"] = {
-            cargo = {
-              loadOutDirsFromCheck = true,
-              features = "all",
-            },
-            procMacro = {
-              enable = true,
-            },
-            checkOnSave = {
-              command = "clippy",
-            },
-            diagnostics = {
-              enable = true,
-              --   disabled = { "unresolved-proc-macro" },
-              enableExperimental = true,
-            },
-            -- cargo = {
-            --   loadOutDirsFromCheck = true,
-            --   buildScripts = {
-            --     enable = false,
-            --   },
-            -- },
-            -- procMacro = {
-            --   enable = false,
-            -- },
-          },
-        },
-      }),
+      server = conf,
     }
   end,
 }
