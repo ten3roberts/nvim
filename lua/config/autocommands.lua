@@ -75,7 +75,7 @@ au({ "BufWritePost" }, {
   callback = function(opts)
     vim.notify("Compiling " .. opts.file)
     vim.cmd("source " .. opts.file)
-    -- require("packer").compile()
+    require("packer").compile()
   end,
   pattern = "*/plugins.lua",
 })
