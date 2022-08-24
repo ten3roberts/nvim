@@ -146,6 +146,13 @@ require("packer").startup(function(use)
     end,
   }
 
+  use {
+    "j-hui/fidget.nvim",
+    config = function()
+      require("fidget").setup { text = { spinner = "dots" } }
+    end,
+  }
+
   use "junegunn/vim-easy-align" -- Align text blocks
   use {
     "willthbill/opener.nvim",
