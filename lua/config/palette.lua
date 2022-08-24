@@ -111,10 +111,6 @@ function M.setup()
   local normal = M.get_hl "Normal"
   local normal_bg = normal.bg
 
-  local statusline_bg = M.get_hl("StatusLine").bg
-  local comment_fg = M.get_hl("Comment").fg
-  local tabline_fill_bg = M.get_hl("TabLineFill").bg
-
   highlight("Black", { guifg = p.black })
   highlight("Blue", { guifg = p.blue })
   highlight("Green", { guifg = p.green })

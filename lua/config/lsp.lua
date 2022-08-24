@@ -19,7 +19,6 @@ local M = { buffers = {}, statusline_cache = {} }
 
 -- Sets the location list with predefined options. Does not focus list.
 function M.set_loc()
-  local bufnr = vim.api.nvim_get_current_buf()
   if vim.o.buftype == "quickfix" then
     return
   end
@@ -128,6 +127,7 @@ function M.on_publish_diagnostics(err, result, ctx, cfg)
   local bufnr = vim.uri_to_bufnr(uri)
 
   if not bufnr then
+    vim.notify "No bufnr for diagnostic callback"
     return
   end
 

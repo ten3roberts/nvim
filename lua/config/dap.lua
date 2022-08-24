@@ -147,7 +147,7 @@ map("n", "<leader>do", dap.step_out)
 map("n", "<leader>dd", dap.down)
 map("n", "<leader>du", dap.up)
 map("n", "<leader>ds", dap.pause)
-map("n", "<leader>dQ", dap.close)
+map("n", "<leader>dQ", dap.terminate)
 
 map("n", "<leader>db", dap.toggle_breakpoint)
 map("n", "<leader>dB", M.conditioal_break)

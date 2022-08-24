@@ -5,178 +5,16 @@ local i = ls.insert_node
 local t = ls.text_node
 local f = ls.function_node
 local d = ls.dynamic_node
-local types = require "luasnip.util.types"
 local fmt = require("luasnip.extras.fmt").fmt
 local c = ls.choice_node
 local rep = require("luasnip.extras").rep
 local dl = require("luasnip.extras").dynamic_lambda
 local l = require("luasnip.extras").lambda
 
-ls.config.set_config {
-  history = false,
-  -- Update more often, :h events for more info.
-  updateevents = "TextChanged,TextChangedI",
-  ext_opts = {
-    [types.choiceNode] = {
-      active = {
-        virt_text = { { "<<-", "String" } },
-      },
-    },
-  },
-  -- treesitter-hl has 100, use something higher (default is 200).
-  ext_base_prio = 300,
-  -- minimal increase in priority.
-  ext_prio_increase = 1,
-  enable_autosnippets = true,
-}
-
 local cache = {}
 local cache_dir = nil
 
-local function find_pattern(pattern, glob)
-  if cache_dir ~= vim.fn.getcwd() then
-    cache = {}
-  end
-
-  local match = cache[pattern]
-  if match then
-    return match
-  end
-
-  local result = vim.fn.systemlist { "rg", pattern, "-g", glob or "*" }
-  cache[pattern] = result
-  return result
-end
-
-ls.add_snippets("lua", {
-  s(
-    "fun",
-    fmt(
-      [[
-      function{}({})
-        {}
-      end{}
-    ]],
-      { i(1), i(2), i(3), i(0) }
-    )
-  ),
-
-  s(
-    "lfun",
-    fmt(
-      [[
-    local function{}({})
-      {}
-    end{}
-  ]],
-      { i(1), i(2), i(3), i(0) }
-    )
-  ),
-
-  s(
-    "req",
-    fmt([[require "{}"]], {
-      i(1),
-    })
-  ),
-
-  s(
-    "lreq",
-    fmt([[{}require "{}"]], {
-      f(function(args)
-        local name = string.match(args[1][1], "[^./]*$"):gsub("-", "_")
-        return string.format("local %s = ", name or "")
-      end, { 1 }),
-      i(1),
-    })
-  ),
-  s("class", fmt("---@class ", {})),
-  s("field", fmt("---@field ", {})),
-  s("param", fmt("---@param ", {})),
-})
-
-ls.add_snippets("markdown", {
-  s("doc-link", fmt("[{}](https://docs.rs/{}/latest/{}/{})", { i(1), i(2), rep(2), i(3) })),
-  s(
-    "code-include",
-    fmt(
-      [[
-    ```rust
-    {{{{ #include {} }}}}
-    ```
-    ]],
-      { i(1) }
-    )
-  ),
-})
-
-ls.add_snippets("all", {
-  s("date", {
-    c(1, {
-      f(function()
-        return os.date "%Y-%d-%d"
-      end),
-      f(function()
-        return os.date "%Y-%m-%dT%H:%M:%s"
-      end),
-      f(function()
-        return os.date "%b %d %Y"
-      end),
-    }),
-  }),
-})
-
-ls.add_snippets("json", {
-  s(
-    "recipe-build",
-    fmt(
-      [[
-  "{}": {{
-    "cmd": {}
-  }}
-  ]],
-      {
-        i(1),
-        i(2),
-      }
-    )
-  ),
-  s(
-    "recipe-term",
-    fmt(
-      [[
-  "{}": {{
-    "cmd": {},
-    "kind": "term"
-  }}
-  ]],
-      {
-        i(1),
-        i(2),
-      }
-    )
-  ),
-  s(
-    "recipe-debug",
-    fmt(
-      [[
-  "{}": {{
-    "cmd": {},
-    "kind": "dap",
-    "depends_on": [ {} ]
-  }}
-  ]],
-      {
-        i(1),
-        i(2),
-        i(3),
-      }
-    )
-  ),
-})
-
 local ts_utils = require "nvim-treesitter.ts_utils"
-local ts_locals = require "nvim-treesitter.locals"
 ---@return string|nil
 local function get_impl()
   local current_node = ts_utils.get_node_at_cursor()
@@ -194,12 +32,30 @@ local function get_impl()
     node = node:parent()
   end
 end
+local function find_pattern(pattern, extra)
+  if cache_dir ~= vim.fn.getcwd() then
+    cache = {}
+  end
 
-_G.get_impl = get_impl
+  local match = cache[pattern]
+  if match then
+    return match
+  end
+
+  local args = { "rg", pattern }
+  for _, v in ipairs(extra) do
+    args[#args + 1] = v
+  end
+
+  local result = vim.fn.systemlist(args)
+  cache[pattern] = result
+  return result
+end
 
 local function rust_log_crate()
-  local log_count = #find_pattern("\\blog\\b", "*.toml")
-  local tracing_count = #find_pattern("\\btracing\\b", "*.toml")
+  local parent = vim.fn.expand "%:p:h"
+  local log_count = #find_pattern("\\blog\\b", { parent })
+  local tracing_count = #find_pattern("\\btracing\\b", { parent })
 
   if log_count > tracing_count then
     return "log"
@@ -208,7 +64,7 @@ local function rust_log_crate()
   end
 end
 
-ls.add_snippets("rust", {
+return {
   s(
     "if-some",
     fmt(
@@ -409,40 +265,4 @@ ls.add_snippets("rust", {
       { i(1), i(2), rep(1) }
     )
   ),
-})
-
-ls.add_snippets("javascript", {
-  s(
-    "import",
-    fmt([[import {} from '{}']], {
-      f(function(args)
-        local name = string.match(args[1][1], "[^/]*."):gsub(".", "")
-        return name
-      end, { 1 }),
-      i(1),
-    })
-  ),
-})
-
-ls.filetype_extend("svelte", { "javascript" })
-ls.filetype_extend("typescript", { "javascript" })
-
-vim.keymap.set({ "i", "s" }, "<c-k>", function()
-  if ls.jumpable(1) then
-    ls.jump(1)
-  end
-end)
-
-vim.keymap.set({ "i", "s" }, "<c-j>", function()
-  if ls.jumpable(-1) then
-    ls.jump(-1)
-  end
-end)
-
-vim.keymap.set({ "i", "s" }, "<c-l>", function()
-  if ls.choice_active() then
-    ls.change_choice(1)
-  end
-end)
-
-require("luasnip.loaders.from_vscode").lazy_load()
+}
