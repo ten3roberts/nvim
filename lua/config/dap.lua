@@ -17,8 +17,8 @@ ui.setup {
         "watches",
         "scopes",
       },
-      size = 40, -- 40 columns
-      position = "right",
+      size = 8, -- 40 columns
+      position = "bottom",
     },
   },
   floating = {

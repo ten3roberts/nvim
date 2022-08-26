@@ -245,9 +245,9 @@ local function get_buffername(bufnr)
 end
 
 local function get_session()
-  if vim.g.persisting then
+  if vim.v.this_session ~= "" then
     return " "
-  elseif vim.g.persisting == false then
+  else
     return " "
   end
 end

@@ -8,16 +8,15 @@ null_ls.setup {
     -- },
     -- md
     -- null_ls.builtins.diagnostics.markdownlint,
+    null_ls.builtins.completion.spell,
     -- python
-    -- null_ls.builtins.diagnostics.pylint,
-    null_ls.builtins.formatting.black.with {
-      extra_args = { "-l", "120" },
-    },
-    -- latex
-    -- null_ls.builtins.diagnostics.chktex,
-    -- null_ls.builtins.formatting.latexindent,
-    -- lua
+    null_ls.builtins.diagnostics.alex,
+    null_ls.builtins.diagnostics.jsonlint,
+    null_ls.builtins.diagnostics.yamllint,
+
+    null_ls.builtins.formatting.latexindent,
     null_ls.builtins.formatting.stylua,
-    -- null_ls.builtins.completion.spell,
+    null_ls.builtins.formatting.jq,
+    null_ls.builtins.formatting.prettier,
   },
 }

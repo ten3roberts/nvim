@@ -149,7 +149,7 @@ require("packer").startup(function(use)
   use {
     "j-hui/fidget.nvim",
     config = function()
-      require("fidget").setup { text = { spinner = "dots" } }
+      require("fidget").setup { text = { spinner = "dots", done = "" } }
     end,
   }
 
@@ -312,6 +312,15 @@ require("packer").startup(function(use)
       require("mason-lspconfig").setup {
         automatic_installation = true,
       }
+
+      require("config.auto_install").ensure_installed {
+        "markdownlint",
+        "alex",
+        "prettier",
+        "jq",
+        "stylua",
+        "yamllint",
+      }
     end,
   }
 
@@ -382,30 +391,31 @@ require("packer").startup(function(use)
     end,
   }
 
-  use {
-    "olimorris/persisted.nvim",
-    config = function()
-      vim.o.sessionoptions = "buffers,curdir,folds,help,tabpages,winsize,winpos"
-      require("persisted").setup {
-        autoload = true,
-      }
-      require("telescope").load_extension "persisted"
-    end,
-  }
   -- use {
-  --   "rmagatti/auto-session",
+  --   "olimorris/persisted.nvim",
   --   config = function()
-  --     -- vim.o.sessionoptions = "buffers,help,tabpages"
-  --     require("auto-session").setup {
-  --       -- log_level = { "error" },
-  --       -- auto_session_suppress_dirs = { "~/" },
-  --       -- auto_session_enable_last_session = true,
-  --       -- cwd_change_handling = true,
+  --     vim.o.sessionoptions = "buffers,curdir,folds,help,tabpages,winsize,winpos"
+  --     require("persisted").setup {
+  --       autoload = true,
   --     }
-
-  --     vim.keymap.set("n", "<leader>pp", ":Autosession search<CR>", { silent = true })
+  --     require("telescope").load_extension "persisted"
   --   end,
   -- }
+
+  use {
+    "rmagatti/auto-session",
+    config = function()
+      vim.o.sessionoptions = "buffers,help,tabpages"
+      require("auto-session").setup {
+        -- log_level = { "error" },
+        -- auto_session_suppress_dirs = { "~/" },
+        -- auto_session_enable_last_session = true,
+        -- cwd_change_handling = true,
+      }
+
+      vim.keymap.set("n", "<leader>ss", ":Autosession search<CR>", { silent = true })
+    end,
+  }
 
   use "onsails/lspkind-nvim"
   use "qxxxb/vim-searchhi" -- Highlight current search match
