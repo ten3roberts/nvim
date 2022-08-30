@@ -8,11 +8,12 @@ null_ls.setup {
     -- },
     -- md
     -- null_ls.builtins.diagnostics.markdownlint,
-    null_ls.builtins.completion.spell,
-    -- python
-    null_ls.builtins.diagnostics.alex,
+    -- null_ls.builtins.completion.spell,
+
+    -- null_ls.builtins.diagnostics.alex,
     null_ls.builtins.diagnostics.jsonlint,
     null_ls.builtins.diagnostics.yamllint,
+    null_ls.builtins.diagnostics.selene,
 
     null_ls.builtins.formatting.latexindent,
     null_ls.builtins.formatting.stylua,

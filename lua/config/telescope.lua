@@ -124,7 +124,3 @@ map("n", "<leader>O", builtin.lsp_dynamic_workspace_symbols)
 map("n", "<leader>D", builtin.diagnostics)
 map("n", "<leader>gb", builtin.git_branches)
 map("n", "z=", builtin.spell_suggest)
-
-map("n", "<leader>ss", function()
-  telescope.extensions.persisted.persisted {}
-end)
