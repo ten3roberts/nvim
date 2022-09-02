@@ -139,42 +139,61 @@ local function map(mode, lhs, rhs, opts)
   vim.keymap.set(mode, lhs, rhs, opts)
 end
 
-map("n", "<leader>dn", dap.step_over)
-map("n", "]d", dap.step_over)
-map("n", "[d", dap.step_back)
-map("n", "<leader>di", dap.step_into)
-map("n", "<leader>do", dap.step_out)
-map("n", "<leader>dd", dap.down)
-map("n", "<leader>du", dap.up)
-map("n", "<leader>ds", dap.pause)
-map("n", "<leader>dQ", dap.terminate)
+local wk = require "which-key"
 
-map("n", "<leader>db", dap.toggle_breakpoint)
-map("n", "<leader>dB", M.conditioal_break)
+wk.register({
+  name = "dap",
+  n = { dap.step_over, "Step over" },
+  i = { dap.step_into, "Step into" },
+  o = { dap.step_out, "Step out" },
+  d = { dap.down, "Down" },
+  u = { dap.up, "Up" },
+  s = { dap.pause, "Pause" },
+  q = { dap.terminate, "Terminate" },
+  c = { dap.continue, "Continue" },
+  g = { dap.run_to_cursor, "Run to cursor" },
+  r = { dap.run_last, "Run last" },
+  O = { ui.toggle, "Toggle dap ui" },
 
-map("n", "<leader>dBe", dap.set_exception_breakpoints)
+  e = {
+    function()
+      ui.eval(nil, { enter = true })
+    end,
+    "Evaluate expression under cursor",
+  },
+  E = { M.eval_input, "Evaluate input" },
+  ["."] = { M.float, "Open floating element" },
+  w = {
+    function()
+      require("dap.ui.widgets").hover()
+    end,
+    "Hover",
+  },
 
-map("n", "<leader>dc", dap.continue)
-map("n", "<leader>dr", dap.run_last)
-map("n", "<leader>dg", dap.run_to_cursor)
-map("n", "<leader>dO", ui.toggle)
+  b = {
+    b = { dap.toggle_breakpoint, "Toggle breakpoint" },
+    B = { M.conditioal_break, "Conditional breakpoint" },
+    e = { dap.set_exception_breakpoints, "Exception breakpoints" },
+  },
 
-map("n", "<leader>dlv", ":Telescope dap variables<CR>")
-map("n", "<leader>dlb", ":Telescope dap list_breakpoints<CR>")
-map("n", "<leader>dlf", ":Telescope dap frames<CR>")
-map("n", "<leader>dlc", ":Telescope dap commands<CR>")
+  l = {
+    name = "Telescope",
+    v = { "<cmd>:Telescope dap variables", "Variables" },
+    b = { "<cmd>:Telescope dap list_breakpoints", "Breakpoints" },
+    f = { "<cmd>:Telescope dap frames", "Frames" },
+    c = { "<cmd>:Telescope dap commands", "Commands" },
+  },
+}, { prefix = "<leader>d" })
 
-map("n", "<leader>de", function()
-  ui.eval(nil, { enter = true })
-end)
-map("n", "<leader>dE", M.eval_input)
-map("n", "<leader>d.", M.float)
-
-map("n", "<leader>dw", require("dap.ui.widgets").hover)
-
-map("n", "<F5>", dap.continue)
-map("n", "<F10>", dap.step_over)
-map("n", "<F11>", dap.step_into)
-map("n", "<F12>", dap.step_out)
+wk.register({
+  ["]d"] = {
+    dap.step_over,
+    "Next diagnostic item",
+  },
+  ["[d"] = {
+    dap.step_back,
+    "Prev diagnostic item",
+  },
+}, {})
 
 return M

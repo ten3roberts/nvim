@@ -5,15 +5,15 @@ local g = vim.g
 -- Vim Options
 -- opt.guifont = "Fira Code Retina:h12"
 -- o.guifont = "JetBrains Mono Nerd Font:h12"
-opt.guifont = "JetBrainsMono Nerd Font Mono:h12"
+opt.guifont = "JetBrainsMono Nerd Font:h12"
 
--- g.neovide_cursor_trail_length = 0.1
-g.neovide_cursor_animation_length = 0.02
+g.neovide_cursor_trail_length = 0.1
+g.neovide_cursor_animation_length = 0.01
 g.neovide_cursor_antialiasing = true
 
 g.neovide_floating_blur_amount_x = 1.0
 g.neovide_floating_blur_amount_y = 1.0
-g.neovide_scroll_animation_length = 0.0
+-- g.neovide_scroll_animation_length = 0.5
 
 opt.autoread = true
 opt.cmdheight = 1
@@ -22,11 +22,11 @@ opt.cursorline = true
 opt.laststatus = 2
 opt.spelllang = { "en_us" }
 opt.spell = false
-o.equalalways = true
-o.foldlevelstart = 6
--- o.foldmethod = "indent"
-o.foldmethod = "expr"
-o.foldexpr = "nvim_treesitter#foldexpr()"
+opt.equalalways = true
+opt.foldlevelstart = 6
+opt.foldmethod = "indent"
+-- o.foldmethod = "expr"
+-- o.foldexpr = "nvim_treesitter#foldexpr()"
 -- o.foldminlines = 6
 -- o.foldnestmax = 6
 o.foldtext = "v:lua.clean_fold()"

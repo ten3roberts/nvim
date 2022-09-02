@@ -107,20 +107,9 @@ local function map(mode, lhs, rhs, opts)
 end
 
 local builtin = require "telescope.builtin"
-
 -- Telescope
-map("n", "<leader><leader>", builtin.find_files)
 
 -- map('n',    '<leader>f',        '<cmd>lua require "telescope".extensions.file_browser.file_browser { path="%:p:h" }<CR>')
 map("n", "<leader>rf", builtin.oldfiles)
-map("n", "<M-x>", builtin.command_history)
-map("n", "<leader>,", builtin.buffers)
-map("n", "<leader>/", builtin.current_buffer_fuzzy_find)
-map("n", "<leader>rg", builtin.live_grep)
-map("n", "<leader>gl", builtin.git_commits)
-map("n", "<leader>gs", builtin.git_status)
-map("n", "<leader>o", builtin.lsp_document_symbols)
-map("n", "<leader>O", builtin.lsp_dynamic_workspace_symbols)
-map("n", "<leader>D", builtin.diagnostics)
-map("n", "<leader>gb", builtin.git_branches)
+-- map("n", "<leader>gb", builtin.git_branches)
 map("n", "z=", builtin.spell_suggest)
