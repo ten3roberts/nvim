@@ -2,114 +2,237 @@ local function map(mode, lhs, rhs, opts)
   vim.keymap.set(mode, lhs, rhs, opts)
 end
 
-local silent = { silent = true }
+local wk = require "which-key"
+
+local qf = require "qf"
+local graphene = require "graphene"
+
+local diffview = require "diffview"
+local recipe = require "recipe"
+local neogit = require "neogit"
+local window_picker = require "window-picker"
+local builtin = require "telescope.builtin"
 
 vim.g.mapleader = " "
 
-map("n", "<leader>f", ":Graphene", silent)
-map("n", "<leader>pe", ":Graphene .", silent)
+wk.register({
+  ["<leader>"] = {
+    builtin.find_files,
+    "Find files",
+  },
+  c = {
+    name = "Quickfix",
+    c = {
+      function()
+        qf.toggle "c"
+      end,
+      "Toggle",
+    },
+    f = {
+      "<cmd>cc<CR>",
+      "Find first",
+    },
+    o = {
+      function()
+        qf.open "c"
+      end,
+      "Open",
+    },
+  },
+  l = {
+    name = "Loclist",
+    l = {
+      function()
+        qf.toggle "l"
+      end,
+      "Toggle",
+    },
+    c = {
+      function()
+        qf.close "l"
+      end,
+      "Close",
+    },
+  },
+  f = {
+    function()
+      graphene.open()
+    end,
+    "Open parent folder",
+  },
+  F = {
+    function()
+      graphene.open "."
+    end,
+    "Open root",
+  },
+  e = {
+    recipe.pick,
+    "Pick a recipe",
+  },
+  E = {
+    name = "recipe",
+    r = {
+      function()
+        recipe.bake "run"
+      end,
+      "Run",
+    },
+    b = {
+      function()
+        recipe.bake "build"
+      end,
+      "Build",
+    },
 
-local qf = require "qf"
+    E = {
+      function()
+        qf.filter("visible", function(v)
+          return v.type == "E"
+        end)
+      end,
+      "Filter errors",
+    },
+  },
 
-map("n", "<leader>EE", ":KeepType E<CR>", silent)
+  t = {
+    name = "tabs",
 
--- Quickfix and location list
-map("n", "<leader>ll", ":Lopen<CR>", silent) -- Open location list
-map("n", "<leader>lo", ":Lopen true<CR>", silent) -- Open location list
-map("n", "<leader>lc", ":Lclose<CR>", silent) -- Close location list
-map("n", "<leader>lt", ":Ltoggle true<CR>", silent) -- Toggle location list and stay in current window
+    o = { "<cmd>tabonly<CR>", "Close other tabs" },
+    t = { "<cmd>tab split<CR>", "New tab" },
+    q = { "<cmd>tabclose<CR>", "Close tab" },
+  },
 
-map("n", "<leader>co", ":Qopen<CR>", silent) -- Open quickfix list
-map("n", "<leader>cl", ":clast<CR>", silent) -- Open quickfix list
-map("n", "<leader>cf", ":cfirst<CR>", silent) -- Open quickfix list
--- map('n', '<leader>co', '<cmd>lua require"qf".open("c")<CR>') -- Open quickfix list
-map("n", "<leader>cc", ":Qclose<CR>", silent) -- Close quickfix list
-map("n", "<leader>C", ":Qclose<CR>", silent) -- Close quickfix list
-map("n", "<leader>ct", ":Qtoggle true<CR>", silent) --Toggle quickfix list and stay in current window
+  o = {
+    builtin.lsp_document_symbols,
+    "Document symbols",
+  },
 
-map("n", "<leader>j", ":Lbelow<CR>", silent) -- Go to next location list entry from cursor
-map("n", "<leader>k", ":Labove<CR>", silent) -- Go to previous location list entry from cursor
+  O = {
+    builtin.lsp_workspace_symbols,
+    "Workspace symbols",
+  },
 
-map("n", "]q", ":Vbelow<CR>", silent) -- Go to next quickfix entry from cursor
-map("n", "[q", ":Vabove<CR>", silent) -- Go to previous quickfix entry from cursor
-map("n", "<leader>J", "Qbelow", silent) -- Go to next quickfix entry from cursor
-map("n", "<leader>K", "Qabove", silent) -- Go to previous quickfix entry from cursor
+  r = {
+    g = { builtin.live_grep, "Live grep" },
+    h = { builtin.help_tags, "Help grep" },
+    G = { builtin.grep_string, "Grep string" },
+  },
 
-map("x", "gl", ':<c-u>lua require"config.onlines"()<CR>', silent)
+  ["/"] = {
+    builtin.current_buffer_fuzzy_find,
+    "Buffer fuzzy find",
+  },
 
--- Dispatching
-local recipe = require "recipe"
+  [","] = {
+    builtin.buffers,
+    "Buffers",
+  },
 
-map("n", "<leader>e", function()
-  recipe.pick()
-end)
-map("n", "<leader>Eb", function()
-  recipe.bake "build"
-end)
-map("n", "<leader>Er", function()
-  recipe.bake "run"
-end)
-map("n", "<leader>Ec", function()
-  recipe.bake "check"
-end)
-map("n", "`<CR>", function()
-  recipe.bake "check"
-end)
+  g = {
+    name = "git",
+    g = { neogit.open, "Git status" },
+    d = { diffview.open, "Diffview" },
+    b = { builtin.git_branches },
+    l = { builtin.git_commits },
+    m = {
+      function()
+        diffview.open "@{u}...HEAD"
+      end,
+      "Diff againt parent branch",
+    },
+  },
+  h = {
+    name = "term",
+    t = {
+      function()
+        recipe.execute { cmd = "zsh", kind = "term" }
+      end,
+      "Open terminal",
+    },
+  },
 
-map("n", "<leader>ht", function()
-  recipe.execute { cmd = "zsh", kind = "term" }
-end)
+  b = {
+    name = "buffer",
+    k = {
+      require("config.bclose").close,
+      "Close buffer",
+    },
+    o = {
+      require("config.bclose").close_hidden,
+      "Close all hidden buffers",
+    },
+  },
 
--- Tabs
-map("n", "<leader>N", ":tabnew<CR>")
-map("n", "<leader>S", ":tab split<CR>")
-map("n", "<leader>Q", ":tabclose<CR>")
-map("n", "<leader>to", ":tabonly<CR>")
+  w = {
+    window_picker.pick,
+    "Navigate to window",
+  },
+  W = {
+    window_picker.swap,
+    "Swap window",
+  },
+
+  j = {
+    vim.diagnostic.goto_next,
+    "Next diagnostic item",
+  },
+  k = {
+    vim.diagnostic.goto_prev,
+    "Prev diagnostic item",
+  },
+}, { prefix = "<leader>" })
+
+wk.register {
+  ["<M-x>"] = {
+    builtin.command_history,
+    "Command history",
+  },
+  ["]l"] = {
+    function()
+      qf.next "l"
+    end,
+    "Next loclist item",
+  },
+  ["[l"] = {
+    function()
+      qf.prev "l"
+    end,
+    "Prev loclist item",
+  },
+  ["]q"] = {
+    function()
+      qf.next "c"
+    end,
+    "Next quickfix item",
+  },
+  ["[q"] = {
+    function()
+      qf.prev "c"
+    end,
+    "Prev quickfix item",
+  },
+}
+
+wk.register({
+  ["<CR>"] = {
+    function()
+      recipe.bake "check"
+    end,
+    "Check",
+  },
+}, { prefix = "`" })
+
+local silent = { silent = true }
 
 for i = 0, 9 do
   map("n", "<leader>" .. i, i .. "gt")
-  map("n", "<A-" .. i .. ">", i .. "gt")
-  map("!", "<A-" .. i .. ">", "<ESC>" .. i .. "gt")
-  map("t", "<A-" .. i .. ">", "<C-\\><C-n>" .. i .. "gt")
 end
 
 map("n", "<A-,>", ":tabprevious<CR>")
 map("n", "<A-.>", ":tabnext<CR>")
 map("n", "<A-<>", ":tabmove -1<CR>")
 map("n", "<A->>", ":tabmove +1<CR>")
-
--- Buffers
-map("n", "<leader>bk", ':lua require"config.bclose".close()<CR>')
-map("n", "<leader>bo", ':lua require"config.bclose".close_hidden()<CR>')
-map("n", "<leader>bp", "<C-^>")
-
-local window_picker = require "window-picker"
-map("n", "<leader>w", window_picker.pick)
-map("n", "<leader>W", window_picker.swap)
-
--- Git mappings
-local neogit = require "neogit"
-map("n", "<leader>gg", neogit.open)
-map("n", "<leader>gd", ":G difftool --name-status<CR>")
-map("n", "<leader>ga", ":Git add %<CR>")
-map("n", "<leader>gS", ":Git stage .<CR>")
-map("n", "<leader>gc", ":Git commit<CR>")
-map("n", "<leader>gpp", ":Git push<CR>")
-map("n", "<leader>gpf", ":Git push --force-with-lease<CR>")
-map("n", "<leader>g2", ":diffget //2<CR>")
-map("n", "<leader>g3", ":diffget //3<CR>")
-
--- -- Neogit
--- map('', '<leader>gg', ':Neogit<CR>')
--- map('', '<leader>gd', ':DiffviewOpen<CR>')
--- map('', '<leader>gq', ':DiffviewClose<CR>')
--- map('', '<leader>gD', ':DiffviewOpen master<CR>')
--- map('', '<leader>gl', ':Neogit log<CR>')
--- map('', '<leader>gp', ':Neogit push<CR>')
-
-map("n", "<leader>gpu", ":Git pull<CR>")
--- map('n', '<leader>gpf', ':Git push --force<CR>')
-map("n", "<leader>gf", ":Git fetch<CR>")
 
 -- Search highlighting
 map("n", "n", "<plug>(searchhi-n)")
@@ -139,6 +262,7 @@ map({ "n", "x" }, "z*", "<Plug>(asterisk-z*)<Plug>(searchhi-update)")
 map({ "n", "x" }, "z#", "<Plug>(asterisk-z#)<Plug>(searchhi-update)")
 map({ "n", "x" }, "gz*", "<Plug>(asterisk-gz*)<Plug>(searchhi-update)")
 map({ "n", "x" }, "gz#", "<Plug>(asterisk-gz#)<Plug>(searchhi-update)")
+
 -- Clear search highlight
 map("n", "<Esc>", "<plug>(searchhi-clear-all)")
 
@@ -146,30 +270,28 @@ map("n", "<Esc>", "<plug>(searchhi-clear-all)")
 map("x", "ga", "<plug>(EasyAlign)")
 map("n", "ga", "<plug>(EasyAlign)")
 
--- Movements
-map("", "<C-j>", "}", { noremap = true })
-map("", "<C-k>", "{", { noremap = true })
-map("i", "<C-5>", "<C-o>%", { noremap = true })
+wk.register({
+  y = { "<Plug>(YankyYank)", "Yank" },
+  p = { "<Plug>(YankyPutAfter)", "Put" },
+  P = { "<Plug>(YankyPutBefore)", "Put before" },
+  gp = { "<Plug>(YankyGPutAfter)", "Gput" },
+  gP = { "<Plug>(YankyGPutBefore)", "Gput after" },
+  ["<A-n>"] = { "<Plug>(YankyCycleForward)", "Yankring forward" },
+  ["<A-p>"] = { "<Plug>(YankyCycleBackward)", "Yankring backward" },
+}, { mode = "n" })
 
--- Clipboard
--- map('n', 'p',     '<Plug>(miniyank-autoput)')
--- map('n', 'P',     '<Plug>(miniyank-autoPut)')
--- map('n', '<A-p>', '<Plug>(miniyank-cycle)')
--- map('n', '<A-P>', '<Plug>(miniyank-cycleback)')
+wk.register({
+  y = { "<Plug>(YankyYank)", "Yank" },
+  p = { "<Plug>(YankyPutAfter)", "Put" },
+  P = { "<Plug>(YankyPutBefore)", "Put before" },
+  gp = { "<Plug>(YankyGPutAfter)", "Gput" },
+  gP = { "<Plug>(YankyGPutBefore)", "Gput after" },
+  ["<A-n>"] = { "<Plug>(YankyCycleForward)", "Yankring forward" },
+  ["<A-p>"] = { "<Plug>(YankyCycleBackward)", "Yankring backward" },
+}, { mode = "x" })
 
-map("n", "p", "<Plug>(YankyPutAfter)")
-map("n", "P", "<Plug>(YankyPutBefore)")
-map("x", "p", "<Plug>(YankyPutAfter)")
-map("x", "P", "<Plug>(YankyPutBefore)")
-map("n", "gp", "<Plug>(YankyGPutAfter)")
-map("n", "gP", "<Plug>(YankyGPutBefore)")
-map("x", "gp", "<Plug>(YankyGPutAfter)")
-map("x", "gP", "<Plug>(YankyGPutBefore)")
-map("n", "<A-n>", "<Plug>(YankyCycleForward)")
-map("n", "<A-p>", "<Plug>(YankyCycleBackward)")
-
-map("n", "y", "<Plug>(YankyYank)")
-map("x", "y", "<Plug>(YankyYank)")
+-- map("n", "y", "<Plug>(YankyYank)")
+-- map("x", "y", "<Plug>(YankyYank)")
 -- map('', '<C-a>', '^')
 -- map('', '<C-e>', '$')
 
@@ -189,20 +311,17 @@ map("n", "<A-h>", ":SidewaysLeft<CR>", silent)
 map("n", "<A-l>", ":SidewaysRight<CR>", silent)
 
 -- Textobjects for inside and around arguments/lists,paramater constraints
-map({ "x", "o" }, "aa", "<Plug>SidewaysArgumentTextobjA", silent)
-map({ "x", "o" }, "a,", "<Plug>SidewaysArgumentTextobjA", silent)
+-- map({ "x", "o" }, "aa", "<Plug>SidewaysArgumentTextobjA", silent)
+-- map({ "x", "o" }, "a,", "<Plug>SidewaysArgumentTextobjA", silent)
 
-map({ "x", "o" }, "ia", "<Plug>SidewaysArgumentTextobjI", silent)
-map({ "x", "o" }, "i,", "<Plug>SidewaysArgumentTextobjI", silent)
+-- map({ "x", "o" }, "ia", "<Plug>SidewaysArgumentTextobjI", silent)
+-- map({ "x", "o" }, "i,", "<Plug>SidewaysArgumentTextobjI", silent)
 
-map({ "x", "o" }, "i,", "<Plug>SidewaysArgumentTextobjI", silent)
+-- map({ "x", "o" }, "i,", "<Plug>SidewaysArgumentTextobjI", silent)
 
 -- map('x', 'x', ':lua require"treesitter-unit".select()<CR>',      silent)
 -- map('o', 'x', ':<c-u>lua require"treesitter-unit".select()<CR>', silent)
 -- map('n', 'X', ':lua require"treesitter-unit".select()<CR>', silent)
-
--- Toggle bool
-map("n", "gb", '<cmd>lua require"toggle".toggle()<CR>')
 
 -- Folding
 for i = 1, 9 do
@@ -213,37 +332,37 @@ for i = 1, 9 do
   end)
 end
 
-map("n", "z-", ':set foldlevel-=1 | echo "Foldlevel: " . &foldlevel<CR>', silent)
-map("n", "z+", ':set foldlevel+=1 | echo "Foldlevel: " . &foldlevel<CR>', silent)
-
 -- Indent whole buffer
 map("n", "<leader>ci", "mggg=G`g")
 
 -- Dev utils
 map("n", "<leader>xx", '<cmd>lua require"config.dev_utils".save_and_exec()<CR>')
+wk.register({
+  ["<C-a>"] = {
+    require("dial.map").inc_normal(),
+    "Increment",
+  },
+  ["<C-x>"] = {
+    require("dial.map").dec_normal(),
+    "Decrement",
+  },
+}, { mode = "n" })
 
-map("n", "<leader><cr>", ":ToggleCheckbox<CR>")
-
--- DAP
--- Rust
-map("n", "<leader>rr", ":RustRunnables<CR>")
-map("n", "<leader>rd", ":RustDebuggables<CR>")
-map("n", "<leader>ru", ":RustParentModule<CR>")
-map("n", "<leader>rU", ":RustOpenCargo<CR>")
-
-map("n", "<C-a>", require("dial.map").inc_normal(), { noremap = true })
-map("n", "<C-x>", require("dial.map").dec_normal(), { noremap = true })
-map("v", "<C-a>", require("dial.map").inc_visual(), { noremap = true })
-map("v", "<C-x>", require("dial.map").dec_visual(), { noremap = true })
-map("v", "g<C-a>", require("dial.map").inc_gvisual(), { noremap = true })
-map("v", "g<C-x>", require("dial.map").dec_gvisual(), { noremap = true })
-
--- Asterisk
--- map("n", "*", "<Plug>(asterisk-z*)")
--- map("n", "#", "<Plug>(asterisk-z#)")
--- map("n", "g*", "<Plug>(asterisk-gz*)")
--- map("n", "g#", "<Plug>(asterisk-gz#)")
--- map *  <Plug>(asterisk-z*)
--- map #  <Plug>(asterisk-z#)
--- map g* <Plug>(asterisk-gz*)
--- map g# <Plug>(asterisk-gz#)
+wk.register({
+  ["<C-a>"] = {
+    require("dial.map").inc_visual(),
+    "Increment",
+  },
+  ["<C-x>"] = {
+    require("dial.map").dec_visual(),
+    "Decrement",
+  },
+  ["g<C-a>"] = {
+    require("dial.map").inc_gvisual(),
+    "Increment",
+  },
+  ["g<C-x>"] = {
+    require("dial.map").dec_gvisual(),
+    "Decrement",
+  },
+}, { mode = "x" })

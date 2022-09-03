@@ -27,11 +27,6 @@ require("packer").startup(function(use)
     config = function()
       local graphene = require "graphene"
       graphene.setup {}
-
-      vim.keymap.set("n", "<leader>f", graphene.init, {})
-      vim.keymap.set("n", "<leader>pe", function()
-        graphene.init "."
-      end, {})
     end,
   }
   use { "~/dev/nvim/wgsl.vim", opt = false }
@@ -65,7 +60,8 @@ require("packer").startup(function(use)
     "https://github.com/ahmedkhalf/project.nvim",
     config = function()
       require("project_nvim").setup {
-        detection_methods = { "pattern", "lsp" },
+        manual_mode = true,
+        -- detection_methods = { "pattern", "lsp" },
       }
     end,
   }
@@ -177,14 +173,14 @@ require("packer").startup(function(use)
       local t = {}
       t["<C-u>"] = { "scroll", { "-vim.wo.scroll", "true", "100", "quadratic" } }
       t["<C-d>"] = { "scroll", { "vim.wo.scroll", "true", "100", "quadratic" } }
-      t["<C-b>"] = { "scroll", { "-vim.api.nvim_win_get_height(0)", "true", "250" } }
-      t["<C-f>"] = { "scroll", { "vim.api.nvim_win_get_height(0)", "true", "250" } }
+      -- t["<C-b>"] = { "scroll", { "-vim.api.nvim_win_get_height(0)", "true", "250" } }
+      -- t["<C-f>"] = { "scroll", { "vim.api.nvim_win_get_height(0)", "true", "250" } }
 
-      t["<C-y>"] = { "scroll", { "-0.10", "false", "100" } }
-      t["<C-e>"] = { "scroll", { "0.10", "false", "100" } }
-      t["zt"] = { "zt", { "250" } }
-      t["zz"] = { "zz", { "250" } }
-      t["zb"] = { "zb", { "250" } }
+      -- t["<C-y>"] = { "scroll", { "-0.10", "false", "100" } }
+      -- t["<C-e>"] = { "scroll", { "0.10", "false", "100" } }
+      -- t["zt"] = { "zt", { "250" } }
+      -- t["zz"] = { "zz", { "250" } }
+      -- t["zb"] = { "zb", { "250" } }
 
       require("neoscroll").setup {}
       require("neoscroll.config").set_mappings(t)
@@ -239,17 +235,6 @@ require("packer").startup(function(use)
   }
 
   use "mbbill/undotree"
-
-  use {
-    "ThePrimeagen/harpoon",
-    config = function()
-      local ui = require "harpoon.ui"
-      local mark = require "harpoon.mark"
-      vim.keymap.set("n", "<leader>ha", mark.add_file, {})
-      vim.keymap.set("n", "<leader>ho", ui.toggle_quick_menu, {})
-      vim.keymap.set("n", "<leader>hh", ui.toggle_quick_menu, {})
-    end,
-  }
 
   use {
     "mfussenegger/nvim-dap",
@@ -314,8 +299,6 @@ require("packer").startup(function(use)
       }
 
       require("config.auto_install").ensure_installed {
-        "markdownlint",
-        "alex",
         "prettier",
         "jq",
         "stylua",
@@ -391,29 +374,37 @@ require("packer").startup(function(use)
     end,
   }
 
-  -- use {
-  --   "olimorris/persisted.nvim",
-  --   config = function()
-  --     vim.o.sessionoptions = "buffers,curdir,folds,help,tabpages,winsize,winpos"
-  --     require("persisted").setup {
-  --       autoload = true,
-  --     }
-  --     require("telescope").load_extension "persisted"
-  --   end,
-  -- }
-
   use {
     "rmagatti/auto-session",
     config = function()
       vim.o.sessionoptions = "buffers,help,tabpages"
       require("auto-session").setup {
-        -- log_level = { "error" },
-        -- auto_session_suppress_dirs = { "~/" },
-        -- auto_session_enable_last_session = true,
-        -- cwd_change_handling = true,
+        log_level = { "error" },
+        auto_session_suppress_dirs = { "~/" },
+        auto_session_enable_last_session = true,
+        cwd_change_handling = {
+          restore_upcoming_session = true,
+          pre_cwd_changed_hook = nil, -- lua function hook. This is called after auto_session code runs for the `DirChangedPre` autocmd
+          post_cwd_changed_hook = nil, -- lua function hook. This is called after auto_session code runs for the `DirChanged` autocmd
+        },
       }
 
       vim.keymap.set("n", "<leader>ss", ":Autosession search<CR>", { silent = true })
+    end,
+  }
+
+  use {
+    "folke/which-key.nvim",
+    config = function()
+      require "config.keymap"
+    end,
+  }
+
+  use {
+    "nvim-neotest/neotest",
+    requires = { "rouge8/neotest-rust" },
+    config = function()
+      require "config.neotest"
     end,
   }
 
