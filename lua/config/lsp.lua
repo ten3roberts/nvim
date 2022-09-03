@@ -26,7 +26,8 @@ function M.set_loc()
   diagnostic.setloclist {
     open = false,
   }
-  -- qf.tally "l"
+
+  qf.tally "l"
 end
 
 function M.set_qf()

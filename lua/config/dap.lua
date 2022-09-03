@@ -12,10 +12,10 @@ ui.setup {
   layouts = {
     {
       elements = {
-        "breakpoints",
+        "scopes",
+        { id = "breakpoints", size = 0.1 },
         "stacks",
         "watches",
-        "scopes",
       },
       size = 8, -- 40 columns
       position = "bottom",
@@ -129,9 +129,11 @@ function M.eval_input()
   end)
 end
 
-function M.conditioal_break()
+function M.conditional_breakpoint()
   vim.ui.input({ prompt = "Condition: " }, function(v)
-    dap.set_breakpoint(v)
+    vim.ui.input({ prompt = "Hit Condition" }, function(hit)
+      dap.set_breakpoint(v, hit)
+    end)
   end)
 end
 
@@ -150,7 +152,7 @@ map("n", "<leader>ds", dap.pause)
 map("n", "<leader>dQ", dap.terminate)
 
 map("n", "<leader>db", dap.toggle_breakpoint)
-map("n", "<leader>dB", M.conditioal_break)
+map("n", "<leader>dB", M.conditional_breakpoint)
 
 map("n", "<leader>dBe", dap.set_exception_breakpoints)
 
