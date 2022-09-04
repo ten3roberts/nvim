@@ -109,7 +109,7 @@ wk.register({
   },
 
   O = {
-    builtin.lsp_workspace_symbols,
+    builtin.lsp_dynamic_workspace_symbols,
     "Workspace symbols",
   },
 
