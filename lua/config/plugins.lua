@@ -375,13 +375,41 @@ require("packer").startup(function(use)
   }
 
   use {
+    "ThePrimeagen/harpoon",
+    config = function()
+      local mark = require "harpoon.mark"
+      local ui = require "harpoon.ui"
+
+      vim.keymap.set("n", "<leader>ha", mark.add_file)
+      vim.keymap.set("n", "<leader>ho", "<cmd>Telescope harpoon marks<CR>")
+      vim.keymap.set("n", "<leader>hq", function()
+        ui.nav_file(1)
+      end)
+      vim.keymap.set("n", "<leader>hw", function()
+        ui.nav_file(2)
+      end)
+      vim.keymap.set("n", "<leader>hf", function()
+        ui.nav_file(3)
+      end)
+      vim.keymap.set("n", "<leader>hp", function()
+        ui.nav_file(4)
+      end)
+      vim.keymap.set("n", "<leader>hb", function()
+        ui.nav_file(5)
+      end)
+
+      require("telescope").load_extension "harpoon"
+    end,
+  }
+
+  use {
     "rmagatti/auto-session",
     config = function()
       vim.o.sessionoptions = "buffers,help,tabpages"
       require("auto-session").setup {
-        log_level = { "error" },
+        log_level = "error",
         auto_session_suppress_dirs = { "~/" },
-        auto_session_enable_last_session = true,
+        -- auto_session_enable_last_session = true,
         cwd_change_handling = {
           restore_upcoming_session = true,
           pre_cwd_changed_hook = nil, -- lua function hook. This is called after auto_session code runs for the `DirChangedPre` autocmd

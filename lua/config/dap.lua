@@ -38,7 +38,7 @@ require("nvim-dap-virtual-text").setup {
   highlight_new_as_changed = true,
 }
 
-dap.defaults.fallback.terminal_win_cmd = "10split new"
+dap.defaults.fallback.terminal_win_cmd = "80vsplit new"
 
 dap.listeners.after.event_initialized["dapui_config"] = function()
   ui.open {}
@@ -72,6 +72,8 @@ dap.configurations.rust = {
   -- https://www.kernel.org/doc/html/latest/admin-guide/LSM/Yama.html
   runInTerminal = false,
 }
+
+dap.defaults.rust.exception_breakpoints = { "rust_panic" }
 
 dap.adapters.lldb = {
   type = "executable",

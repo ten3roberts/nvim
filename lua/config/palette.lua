@@ -203,7 +203,8 @@ function M.setup()
   -- fn.sign_define("DiagnosticVirtualTextHint", { text = "", texthl = "DiagnosticSignHint" })
 
   highlight("DapBreakpoint", { gui = "bold" })
-  highlight("DapStopped", { guibg = p.green, guifg = normal.bg })
+  -- highlight("DapStopped", { guifg = "NONE", guibg = p.green, guisp = "NONE" })
+  link("DapStopped", "CursorLine")
 
   fn.sign_define("DapBreakpoint", { text = "●", texthl = "Red", linehl = "", numhl = "" })
   fn.sign_define("DapStopped", { text = "⯈", texthl = "Green", linehl = "DapStopped", numhl = "" })

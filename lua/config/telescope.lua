@@ -53,7 +53,7 @@ telescope.setup {
         -- Add up multiple actions
         -- ["<CR>"] = actions.select_default + actions.center,
         ["<Tab>"] = actions.select_default + actions.center,
-        ["<C-s>"] = actions.file_tab,
+        ["<C-t>"] = actions.select_tab_drop,
         ["<C-v>"] = actions.file_vsplit,
         ["<C-h>"] = actions.file_split,
         -- ["<C-s>"] = custom_actions.file_drop,

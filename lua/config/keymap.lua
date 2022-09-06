@@ -17,7 +17,9 @@ vim.g.mapleader = " "
 
 wk.register({
   ["<leader>"] = {
-    builtin.find_files,
+    function()
+      builtin.find_files {}
+    end,
     "Find files",
   },
   c = {
@@ -283,7 +285,7 @@ wk.register({
 wk.register({
   y = { "<Plug>(YankyYank)", "Yank" },
   p = { "<Plug>(YankyPutAfter)", "Put" },
-  P = { "<Plug>(YankyPutBefore)", "Put before" },
+  -- P = { "<Plug>(YankyPutBefore)", "Put before" },
   gp = { "<Plug>(YankyGPutAfter)", "Gput" },
   gP = { "<Plug>(YankyGPutBefore)", "Gput after" },
   ["<A-n>"] = { "<Plug>(YankyCycleForward)", "Yankring forward" },
