@@ -1,7 +1,7 @@
 require "config.options"
+require "config.keymap"
 
 require "config.plugins"
-require "config.keymap"
 require "config.devicons"
 require "config.mini"
 require("config.palette").setup()

@@ -13,7 +13,7 @@ null_ls.setup {
     -- null_ls.builtins.diagnostics.alex,
     null_ls.builtins.diagnostics.jsonlint,
     null_ls.builtins.diagnostics.yamllint,
-    null_ls.builtins.diagnostics.selene,
+    -- null_ls.builtins.diagnostics.selene,
 
     null_ls.builtins.formatting.latexindent,
     null_ls.builtins.formatting.stylua,

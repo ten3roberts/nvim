@@ -2,8 +2,6 @@ local function map(mode, lhs, rhs, opts)
   vim.keymap.set(mode, lhs, rhs, opts)
 end
 
-local wk = require "which-key"
-
 local qf = require "qf"
 local graphene = require "graphene"
 
@@ -15,7 +13,9 @@ local builtin = require "telescope.builtin"
 
 vim.g.mapleader = " "
 
-wk.register({
+local tree = require "config.treebind"
+
+tree.register({
   ["<leader>"] = {
     function()
       builtin.find_files {}
@@ -58,13 +58,13 @@ wk.register({
   },
   f = {
     function()
-      graphene.open()
+      graphene.init()
     end,
     "Open parent folder",
   },
   F = {
     function()
-      graphene.open "."
+      graphene.init "."
     end,
     "Open root",
   },
@@ -135,8 +135,8 @@ wk.register({
     name = "git",
     g = { neogit.open, "Git status" },
     d = { diffview.open, "Diffview" },
-    b = { builtin.git_branches },
-    l = { builtin.git_commits },
+    b = { builtin.git_branches, "Git branches" },
+    l = { builtin.git_commits, "Git commits" },
     m = {
       function()
         diffview.open "@{u}...HEAD"
@@ -185,7 +185,7 @@ wk.register({
   },
 }, { prefix = "<leader>" })
 
-wk.register {
+tree.register {
   ["<M-x>"] = {
     builtin.command_history,
     "Command history",
@@ -216,7 +216,7 @@ wk.register {
   },
 }
 
-wk.register({
+tree.register({
   ["<CR>"] = {
     function()
       recipe.bake "check"
@@ -272,7 +272,7 @@ map("n", "<Esc>", "<plug>(searchhi-clear-all)")
 map("x", "ga", "<plug>(EasyAlign)")
 map("n", "ga", "<plug>(EasyAlign)")
 
-wk.register({
+tree.register({
   y = { "<Plug>(YankyYank)", "Yank" },
   p = { "<Plug>(YankyPutAfter)", "Put" },
   P = { "<Plug>(YankyPutBefore)", "Put before" },
@@ -282,7 +282,7 @@ wk.register({
   ["<A-p>"] = { "<Plug>(YankyCycleBackward)", "Yankring backward" },
 }, { mode = "n" })
 
-wk.register({
+tree.register({
   y = { "<Plug>(YankyYank)", "Yank" },
   p = { "<Plug>(YankyPutAfter)", "Put" },
   -- P = { "<Plug>(YankyPutBefore)", "Put before" },
@@ -314,12 +314,10 @@ map("n", "<A-l>", ":SidewaysRight<CR>", silent)
 
 -- Textobjects for inside and around arguments/lists,paramater constraints
 -- map({ "x", "o" }, "aa", "<Plug>SidewaysArgumentTextobjA", silent)
--- map({ "x", "o" }, "a,", "<Plug>SidewaysArgumentTextobjA", silent)
+map({ "x", "o" }, "a,", "<Plug>SidewaysArgumentTextobjA", silent)
 
 -- map({ "x", "o" }, "ia", "<Plug>SidewaysArgumentTextobjI", silent)
--- map({ "x", "o" }, "i,", "<Plug>SidewaysArgumentTextobjI", silent)
-
--- map({ "x", "o" }, "i,", "<Plug>SidewaysArgumentTextobjI", silent)
+map({ "x", "o" }, "i,", "<Plug>SidewaysArgumentTextobjI", silent)
 
 -- map('x', 'x', ':lua require"treesitter-unit".select()<CR>',      silent)
 -- map('o', 'x', ':<c-u>lua require"treesitter-unit".select()<CR>', silent)
@@ -339,7 +337,7 @@ map("n", "<leader>ci", "mggg=G`g")
 
 -- Dev utils
 map("n", "<leader>xx", '<cmd>lua require"config.dev_utils".save_and_exec()<CR>')
-wk.register({
+tree.register({
   ["<C-a>"] = {
     require("dial.map").inc_normal(),
     "Increment",
@@ -350,7 +348,7 @@ wk.register({
   },
 }, { mode = "n" })
 
-wk.register({
+tree.register({
   ["<C-a>"] = {
     require("dial.map").inc_visual(),
     "Increment",

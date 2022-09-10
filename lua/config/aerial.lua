@@ -1,8 +1,9 @@
 -- Call the setup function to change the default behavior
 require("aerial").setup {
-  backends = { "treesitter", "lsp", "markdown" },
+  backends = { "treesitter", "markdown", "lsp" },
 
-  close_behavior = "global",
+  attach_mode = "global",
+  close_automatic_events = { "unsupported" },
 
   default_bindings = true,
   default_direction = "left",

@@ -143,10 +143,9 @@ local function map(mode, lhs, rhs, opts)
   vim.keymap.set(mode, lhs, rhs, opts)
 end
 
-local wk = require "which-key"
+local tree = require "config.treebind"
 
-wk.register({
-  name = "dap",
+tree.register({
   n = { dap.step_over, "Step over" },
   i = { dap.step_into, "Step into" },
   o = { dap.step_out, "Step out" },
@@ -176,12 +175,11 @@ wk.register({
 
   b = {
     b = { dap.toggle_breakpoint, "Toggle breakpoint" },
-    B = { M.conditioal_break, "Conditional breakpoint" },
+    B = { M.conditional_breakpoint, "Conditional breakpoint" },
     e = { dap.set_exception_breakpoints, "Exception breakpoints" },
   },
 
   l = {
-    name = "Telescope",
     v = { "<cmd>:Telescope dap variables", "Variables" },
     b = { "<cmd>:Telescope dap list_breakpoints", "Breakpoints" },
     f = { "<cmd>:Telescope dap frames", "Frames" },
@@ -189,7 +187,7 @@ wk.register({
   },
 }, { prefix = "<leader>d" })
 
-wk.register({
+tree.register({
   ["]d"] = {
     dap.step_over,
     "Next diagnostic item",

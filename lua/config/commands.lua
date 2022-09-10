@@ -22,7 +22,7 @@ a.nvim_create_user_command("CargoClean", function(_)
 end, { nargs = "*" })
 
 a.nvim_create_user_command("CargoDoc", function(_)
-  recipe.execute { cmd = "cargo doc --open" }
+  recipe.execute { cmd = "cargo doc --all-features --open" }
 end, { nargs = "*" })
 
 a.nvim_create_user_command("Cargo", function(c)

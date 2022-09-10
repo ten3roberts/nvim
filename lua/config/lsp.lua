@@ -73,7 +73,7 @@ local function on_attach(client)
     },
   }
 
-  aerial.on_attach(client)
+  -- aerial.on_attach(client)
 
   -- Setup mappings
 

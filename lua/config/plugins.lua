@@ -74,9 +74,14 @@ require("packer").startup(function(use)
   }
 
   use { "andymass/vim-matchup" }
-  -- Markdown bullet management
-  use "dkarter/bullets.vim"
   use "echasnovski/mini.nvim"
+
+  use {
+    "gaoDean/autolist.nvim",
+    config = function()
+      require("autolist").setup {}
+    end,
+  }
 
   use {
     "gbprod/yanky.nvim",
@@ -418,13 +423,6 @@ require("packer").startup(function(use)
       }
 
       vim.keymap.set("n", "<leader>ss", ":Autosession search<CR>", { silent = true })
-    end,
-  }
-
-  use {
-    "folke/which-key.nvim",
-    config = function()
-      require "config.keymap"
     end,
   }
 

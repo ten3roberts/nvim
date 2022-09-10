@@ -1,5 +1,4 @@
-local wk = require "which-key"
-wk.register({
+require("config.treebind").register({
   r = { "<cmd>RustRunnables<CR>", "Rust runnables" },
   d = { "<cmd>RustDebuggables<CR>", "Rust debuggables" },
   u = { "<cmd>RustParentModule<CR>", "Rust parent module" },
