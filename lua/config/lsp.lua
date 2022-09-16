@@ -2,7 +2,6 @@ local function buf_map(buf, mod, lhs, rhs)
   vim.keymap.set(mod, lhs, rhs, { silent = true, buffer = buf })
 end
 
-local aerial = require "aerial"
 local diagnostic = vim.diagnostic
 local lspconfig = require "lspconfig"
 local lsp_signature = require "lsp_signature"
@@ -73,7 +72,8 @@ local function on_attach(client)
     },
   }
 
-  -- aerial.on_attach(client)
+  local aerial = require "aerial"
+  aerial.on_attach(client)
 
   -- Setup mappings
 

@@ -4,7 +4,6 @@ local telescope = require "telescope"
 
 local ivy = require("telescope.themes").get_ivy {
   layout_config = { width = 0.7, height = 0.7 },
-  border = false,
 }
 
 telescope.setup {
@@ -29,7 +28,7 @@ telescope.setup {
       height = 0.5,
     },
     sorting_strategy = "ascending",
-    border = false,
+    border = true,
     -- borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
     path_display = { "truncate" },
     prompt_prefix = "   ",

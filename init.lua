@@ -3,7 +3,6 @@ require "config.keymap"
 
 require "config.plugins"
 require "config.devicons"
-require "config.mini"
 require("config.palette").setup()
 require "config.dev_utils"
 require "config.commands"

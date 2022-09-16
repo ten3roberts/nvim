@@ -109,6 +109,7 @@ function M.setup()
   local p = M.generate_palette()
 
   local normal = M.get_hl "Normal"
+  local dark = require("darken").get_bg_color()
   local normal_bg = normal.bg
 
   highlight("Black", { guifg = p.black })
@@ -154,9 +155,23 @@ function M.setup()
   highlight("RedInv", { guifg = normal_bg, guibg = p.red, gui = "bold" })
   highlight("YellowInv", { guifg = normal_bg, guibg = p.yellow, gui = "bold" })
 
+  link("HarpoonWindow", "DarkenedBg")
+  link("HarpoonBorder", "DarkenedBg")
+
   link("TelescopeNormal", "DarkenedBg")
+
+  highlight("TelescopeBorder", { guifg = dark, guibg = dark })
+  highlight("TelescopePromptTitle", { guibg = p.red, guifg = normal_bg })
+  highlight("TelescopePreviewTitle", { guibg = p.green, guifg = normal_bg })
+  highlight("TelescopeResultsTitle", { guibg = dark, guifg = dark })
+
+  highlight("TelescopePromptBorder", { guifg = normal_bg, guibg = normal_bg })
+
+  link("TelescopeResultsBorder", "TelescopeBorder")
+  link("TelescopePreviewBorder", "TelescopeBorder")
+
   link("TelescopePromptNormal", "Normal")
-  link("TelescopePreviewNormal", "Normal")
+  link("TelescopePreviewNormal", "DarkenedBg")
 
   link("STError", "Red")
   link("InlayHint", "Grey")

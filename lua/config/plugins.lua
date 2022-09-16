@@ -49,7 +49,7 @@ require("packer").startup(function(use)
   -- Move arguments and elements in list around
   use "AndrewRadev/sideways.vim"
   use {
-    "TimUntersberger/neogit",
+    "~/dev/nvim/neogit",
     requires = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim" },
     config = function()
       require "config.neogit"
@@ -66,15 +66,7 @@ require("packer").startup(function(use)
     end,
   }
 
-  use {
-    "akinsho/git-conflict.nvim",
-    config = function()
-      require("git-conflict").setup {}
-    end,
-  }
-
   use { "andymass/vim-matchup" }
-  use "echasnovski/mini.nvim"
 
   use {
     "gaoDean/autolist.nvim",
@@ -307,7 +299,7 @@ require("packer").startup(function(use)
         "prettier",
         "jq",
         "stylua",
-        "yamllint",
+        -- "yamllint",
       }
     end,
   }
@@ -324,18 +316,19 @@ require("packer").startup(function(use)
   use {
     "norcalli/nvim-colorizer.lua",
     config = function()
-      require("colorizer").setup({ "*" }, {
-        RGB = true, -- #RGB hex codes
-        RRGGBB = true, -- #RRGGBB hex codes
-        names = true, -- "Name" codes like Blue
-        RRGGBBAA = true, -- #RRGGBBAA hex codes
-        rgb_fn = false, -- CSS rgb() and rgba() functions
-        hsl_fn = false, -- CSS hsl() and hsla() functions
-        css = false, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
-        css_fn = false, -- Enable all CSS *functions*: rgb_fn, hsl_fn
-        -- Available mod,s: foreground, background
-        mode = "foreground", -- Set the display mode.
-      })
+      require("colorizer").setup()
+      -- require("colorizer").setup({ "*" }, {
+      --   RGB = true, -- #RGB hex codes
+      --   RRGGBB = true, -- #RRGGBB hex codes
+      --   names = true, -- "Name" codes like Blue
+      --   RRGGBBAA = true, -- #RRGGBBAA hex codes
+      --   rgb_fn = false, -- CSS rgb() and rgba() functions
+      --   hsl_fn = false, -- CSS hsl() and hsla() functions
+      --   css = false, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
+      --   css_fn = false, -- Enable all CSS *functions*: rgb_fn, hsl_fn
+      --   -- Available mod,s: foreground, background
+      --   mode = "foreground", -- Set the display mode.
+      -- })
     end,
   }
 
@@ -385,23 +378,43 @@ require("packer").startup(function(use)
       local mark = require "harpoon.mark"
       local ui = require "harpoon.ui"
 
-      vim.keymap.set("n", "<leader>ha", mark.add_file)
-      vim.keymap.set("n", "<leader>ho", "<cmd>Telescope harpoon marks<CR>")
-      vim.keymap.set("n", "<leader>hq", function()
-        ui.nav_file(1)
-      end)
-      vim.keymap.set("n", "<leader>hw", function()
-        ui.nav_file(2)
-      end)
-      vim.keymap.set("n", "<leader>hf", function()
-        ui.nav_file(3)
-      end)
-      vim.keymap.set("n", "<leader>hp", function()
-        ui.nav_file(4)
-      end)
-      vim.keymap.set("n", "<leader>hb", function()
-        ui.nav_file(5)
-      end)
+      require("harpoon").setup {
+        menu = {
+          width = 50,
+          height = 8,
+          borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
+        },
+      }
+
+      require("config.treebind").register({
+        a = { mark.add_file },
+        h = { ui.toggle_quick_menu },
+        q = {
+          function()
+            ui.nav_file(1)
+          end,
+        },
+        w = {
+          function()
+            ui.nav_file(2)
+          end,
+        },
+        f = {
+          function()
+            ui.nav_file(3)
+          end,
+        },
+        p = {
+          function()
+            ui.nav_file(4)
+          end,
+        },
+        b = {
+          function()
+            ui.nav_file(4)
+          end,
+        },
+      }, { prefix = "<leader>h" })
 
       require("telescope").load_extension "harpoon"
     end,
