@@ -53,10 +53,6 @@ require("toggle").setup {
   variants = true,
 }
 
-require("window-picker").setup {
-  keys = "airesntmg",
-}
-
 require("recipe").setup {
   term = {
     auto_close = true,

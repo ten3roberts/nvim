@@ -109,7 +109,10 @@ local function get_git(highlight)
     math.ceil(added / total * 3), math.ceil(changed / total * 3), math.ceil(removed / total * 3)
 
   if highlight then
-    return (rel_added > 0 and ("%#Green#" .. string.rep("+", rel_added)) or "")
+    return "%#Orange# "
+      .. signs.head
+      .. " "
+      .. (rel_added > 0 and ("%#Green#" .. string.rep("+", rel_added)) or "")
       .. (rel_changed > 0 and ("%#Blue#" .. string.rep("~", rel_changed)) or "")
       .. (rel_removed > 0 and ("%#Red#" .. string.rep("-", rel_removed)) or "")
   else
@@ -257,9 +260,6 @@ function M.update()
   local bufnr = api.nvim_win_get_buf(winid)
   local actual_curwin = tonumber(g.actual_curwin)
 
-  local branch = vim.fn.FugitiveHead()
-  branch = branch and ("%#Orange# " .. branch) or ""
-
   local is_current = winid == actual_curwin
 
   local ft, readonly, row, col, percent = get_infos(bufnr)
@@ -282,9 +282,7 @@ function M.update()
 
     local sep = " "
     return table.concat {
-      "%#Normal#",
-      branch,
-      sep,
+      "%#Normal# ",
       git,
       sep,
       path,

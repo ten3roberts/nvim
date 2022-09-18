@@ -39,8 +39,29 @@ require("packer").startup(function(use)
       }
     end,
   }
+
+  -- use {
+  --   "anuvyklack/windows.nvim",
+  --   requires = {
+  --     "anuvyklack/middleclass",
+  --     "anuvyklack/animation.nvim",
+  --   },
+  --   config = function()
+  --     vim.o.winwidth = 10
+  --     vim.o.winminwidth = 10
+  --     require("windows").setup()
+  --   end,
+  -- }
+
   use "~/dev/nvim/toggle.nvim"
-  use "~/dev/nvim/window-picker.nvim"
+  use {
+    "~/dev/nvim/window-picker.nvim",
+    config = function()
+      require("window-picker").setup {
+        keys = "arstgmneio",
+      }
+    end,
+  }
 
   -- Colorschemes
   use "sainnhe/sonokai"
@@ -136,13 +157,6 @@ require("packer").startup(function(use)
     },
     config = function()
       require "config.completion"
-    end,
-  }
-
-  use {
-    "j-hui/fidget.nvim",
-    config = function()
-      require("fidget").setup { text = { spinner = "dots", done = "" } }
     end,
   }
 
@@ -312,25 +326,33 @@ require("packer").startup(function(use)
     end,
   }
 
-  -- Highlight colorcodes
   use {
-    "norcalli/nvim-colorizer.lua",
+    "brenoprata10/nvim-highlight-colors",
     config = function()
-      require("colorizer").setup()
-      -- require("colorizer").setup({ "*" }, {
-      --   RGB = true, -- #RGB hex codes
-      --   RRGGBB = true, -- #RRGGBB hex codes
-      --   names = true, -- "Name" codes like Blue
-      --   RRGGBBAA = true, -- #RRGGBBAA hex codes
-      --   rgb_fn = false, -- CSS rgb() and rgba() functions
-      --   hsl_fn = false, -- CSS hsl() and hsla() functions
-      --   css = false, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
-      --   css_fn = false, -- Enable all CSS *functions*: rgb_fn, hsl_fn
-      --   -- Available mod,s: foreground, background
-      --   mode = "foreground", -- Set the display mode.
-      -- })
+      require("nvim-highlight-colors").setup {
+        render = "background",
+      }
     end,
   }
+
+  -- Highlight colorcodes
+  -- use {
+  --   "norcalli/nvim-colorizer.lua",
+  --   config = function()
+  --     require("colorizer").setup({ "*" }, {
+  --       RGB = false, -- #RGB hex codes
+  --       RRGGBB = true, -- #RRGGBB hex codes
+  --       names = true, -- "Name" codes like Blue
+  --       RRGGBBAA = true, -- #RRGGBBAA hex codes
+  --       rgb_fn = false, -- CSS rgb() and rgba() functions
+  --       hsl_fn = false, -- CSS hsl() and hsla() functions
+  --       css = false, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
+  --       css_fn = false, -- Enable all CSS *functions*: rgb_fn, hsl_fn
+  --       -- Available mod,s: foreground, background
+  --       mode = "foreground", -- Set the display mode.
+  --     })
+  --   end,
+  -- }
 
   use { "nvim-telescope/telescope-fzf-native.nvim", run = "make" }
 
@@ -540,7 +562,7 @@ require("packer").startup(function(use)
   use "tpope/vim-unimpaired"
   use "tpope/vim-commentary"
 
-  -- use "wellle/targets.vim" -- Better handling and seeking for textobjects
+  use "wellle/targets.vim" -- Better handling and seeking for textobjects
   use {
     "windwp/nvim-autopairs",
     requires = "windwp/nvim-ts-autotag",
