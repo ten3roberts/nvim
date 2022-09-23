@@ -41,6 +41,7 @@ require("nvim-dap-virtual-text").setup {
 dap.defaults.fallback.terminal_win_cmd = "80vsplit new"
 
 dap.listeners.after.event_initialized["dapui_config"] = function()
+  dap.set_exception_breakpoints "default"
   ui.open {}
 end
 dap.listeners.before.event_terminated["dapui_config"] = function()

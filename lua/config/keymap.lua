@@ -10,6 +10,8 @@ local recipe = require "recipe"
 local neogit = require "neogit"
 local window_picker = require "window-picker"
 local builtin = require "telescope.builtin"
+local neotest = require "neotest"
+local aerial = require "aerial"
 
 vim.g.mapleader = " "
 
@@ -21,6 +23,14 @@ tree.register({
       builtin.find_files {}
     end,
     "Find files",
+  },
+  p = {
+    o = {
+      aerial.open,
+    },
+    p = {
+      aerial.toggle,
+    },
   },
   c = {
     name = "Quickfix",
@@ -71,6 +81,18 @@ tree.register({
   e = {
     recipe.pick,
     "Pick a recipe",
+  },
+  n = {
+    r = {
+      function()
+        neotest.run.run()
+      end,
+    },
+    f = {
+      function()
+        neotest.run.run(vim.fn.expand "%")
+      end,
+    },
   },
   E = {
     name = "recipe",
@@ -141,7 +163,7 @@ tree.register({
       function()
         diffview.open "@{u}...HEAD"
       end,
-      "Diff againt parent branch",
+      "Diff against parent branch",
     },
   },
   h = {
@@ -237,8 +259,8 @@ map("n", "<A-<>", ":tabmove -1<CR>")
 map("n", "<A->>", ":tabmove +1<CR>")
 
 -- Search highlighting
-map("n", "n", "<plug>(searchhi-n)")
-map("n", "N", "<plug>(searchhi-N)")
+-- map("n", "n", "<plug>(searchhi-n)")
+-- map("n", "N", "<plug>(searchhi-N)")
 -- map("n", "*", "<plug>(searchhi-*)")
 -- map("n", "g*", "<plug>(searchhi-g*)")
 -- map("n", "#", "<plug>(searchhi-#)")
@@ -246,8 +268,8 @@ map("n", "N", "<plug>(searchhi-N)")
 -- map("n", "gd", "<plug>(searchhi-gd)")
 -- map("n", "gD", "<plug>(searchhi-gD)")
 --
-map("x", "n", "<plug>(searchhi-v-n)")
-map("x", "N", "<plug>(searchhi-v-N)")
+-- map("x", "n", "<plug>(searchhi-v-n)")
+-- map("x", "N", "<plug>(searchhi-v-N)")
 -- map("x", "*", "<plug>(searchhi-v-*)")
 -- map("x", "g*", "<plug>(searchhi-v-g*)")
 -- map("x", "#", "<plug>(searchhi-v-#)")
@@ -255,18 +277,18 @@ map("x", "N", "<plug>(searchhi-v-N)")
 -- map("x", "gd", "<plug>(searchhi-v-gd)")
 -- map("x", "gD", "<plug>(searchhi-v-gD)")
 
-map({ "n", "x" }, "*", "<Plug>(asterisk-*)<Plug>(searchhi-update)")
-map({ "n", "x" }, "#", "<Plug>(asterisk-#)<Plug>(searchhi-update)")
-map({ "n", "x" }, "g*", "<Plug>(asterisk-g*)<Plug>(searchhi-update)")
-map({ "n", "x" }, "g#", "<Plug>(asterisk-g#)<Plug>(searchhi-update)")
+map({ "n", "x" }, "*", "<Plug>(asterisk-*)")
+map({ "n", "x" }, "#", "<Plug>(asterisk-#)")
+map({ "n", "x" }, "g*", "<Plug>(asterisk-g*)")
+map({ "n", "x" }, "g#", "<Plug>(asterisk-g#)")
 
-map({ "n", "x" }, "z*", "<Plug>(asterisk-z*)<Plug>(searchhi-update)")
-map({ "n", "x" }, "z#", "<Plug>(asterisk-z#)<Plug>(searchhi-update)")
-map({ "n", "x" }, "gz*", "<Plug>(asterisk-gz*)<Plug>(searchhi-update)")
-map({ "n", "x" }, "gz#", "<Plug>(asterisk-gz#)<Plug>(searchhi-update)")
+map({ "n", "x" }, "z*", "<Plug>(asterisk-z*)")
+map({ "n", "x" }, "z#", "<Plug>(asterisk-z#)")
+map({ "n", "x" }, "gz*", "<Plug>(asterisk-gz*)")
+map({ "n", "x" }, "gz#", "<Plug>(asterisk-gz#)")
 
 -- Clear search highlight
-map("n", "<Esc>", "<plug>(searchhi-clear-all)")
+map("n", "<Esc>", "<silent> :nohl<CR>")
 
 -- Easy align
 map("x", "ga", "<plug>(EasyAlign)")

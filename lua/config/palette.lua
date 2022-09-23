@@ -46,24 +46,6 @@ local palettes = {
       yellow = "#e5c07b",
     }
   end,
-  ["doom-one"] = function()
-    return {
-      black = "#1b2229",
-      blue = "#51afef",
-      cyan = "#46d9ff",
-      dark_blue = "#2257a0",
-      dark_cyan = "#5699af",
-      green = "#98be65",
-      grey = "#3f444a",
-      purple = "#c678dd",
-      orange = "#da8548",
-      red = "#ff6c6b",
-      teal = "#4db5bd",
-      violet = "#a9a1e1",
-      white = "#efefef",
-      yellow = "#ecbe7b",
-    }
-  end,
   nord = function()
     return {
       black = "#2e3440",
@@ -136,10 +118,10 @@ function M.setup()
   highlight("RedBold", { guifg = p.red, gui = "bold" })
   highlight("YellowBold", { guifg = p.yellow, gui = "bold" })
 
-  highlight("DiagnosticSignError", { guifg = p.red })
-  highlight("DiagnosticSignWarn", { guifg = p.orange })
-  highlight("DiagnosticSignInformation", { guifg = p.purple })
-  highlight("DiagnosticSignHint", { guifg = p.green })
+  -- highlight("DiagnosticSignError", { guifg = p.red })
+  -- highlight("DiagnosticSignWarn", { guifg = p.orange })
+  -- highlight("DiagnosticSignInformation", { guifg = p.purple })
+  -- highlight("DiagnosticSignHint", { guifg = p.green })
 
   -- highlight('LspDiagnosticsUnderlineError',       nil, nil, 'undercurl', p.red)
   -- highlight('LspDiagnosticsUnderlineWarning',     nil, nil, 'undercurl', p.orange)
@@ -178,8 +160,8 @@ function M.setup()
   link("STWarning", "Orange")
   link("STInfo", "Blue")
   link("STHint", "Green")
-  link("GitSignsCurrentLineBlame", "Comment")
-  link("FocusedSymbol", "GreenInv")
+  -- link("GitSignsCurrentLineBlame", "Comment")
+  -- link("FocusedSymbol", "GreenInv")
 
   -- link('DiagnosticError', 'Red')
   -- link('DiagnosticWarning', 'Orange')
@@ -206,16 +188,6 @@ function M.setup()
     name = "DiagnosticVirtualText" .. icon.name
     fn.sign_define(name, { text = icon.sign, texthl = name, numhl = name })
   end
-
-  -- fn.sign_define("DiagnosticSignError", { text = "", texthl = "DiagnosticSignError" })
-  -- fn.sign_define("DiagnosticSignWarn", { text = "", texthl = "DiagnosticSignWarn" })
-  -- fn.sign_define("DiagnosticSignInformation", { text = "", texthl = "DiagnosticSignInformation" })
-  -- fn.sign_define("DiagnosticSignHint", { text = "", texthl = "DiagnosticSignHint" })
-
-  -- fn.sign_define("DiagnosticVirtualTextError", { text = "", texthl = "DiagnosticSignError" })
-  -- fn.sign_define("DiagnosticVirtualTextWarn", { text = "", texthl = "DiagnosticSignWarn" })
-  -- fn.sign_define("DiagnosticVirtualTextInformation", { text = "", texthl = "DiagnosticSignInformation" })
-  -- fn.sign_define("DiagnosticVirtualTextHint", { text = "", texthl = "DiagnosticSignHint" })
 
   highlight("DapBreakpoint", { gui = "bold" })
   -- highlight("DapStopped", { guifg = "NONE", guibg = p.green, guisp = "NONE" })

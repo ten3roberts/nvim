@@ -260,6 +260,9 @@ require("mason-lspconfig").setup_handlers {
             loadOutDirsFromCheck = true,
             features = "all",
           },
+          references = {
+            excludeImports = true,
+          },
           procMacro = {
             enable = true,
           },

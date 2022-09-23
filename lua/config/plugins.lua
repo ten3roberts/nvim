@@ -49,7 +49,12 @@ require("packer").startup(function(use)
   --   config = function()
   --     vim.o.winwidth = 10
   --     vim.o.winminwidth = 10
-  --     require("windows").setup()
+  --     require("windows").setup {
+  --       ignore = { --			  |windows.ignore|
+  --         buftype = { "quickfix" },
+  --         filetype = { "NvimTree", "neo-tree", "undotree", "gundo", "aerial" },
+  --       },
+  --     }
   --   end,
   -- }
 
@@ -66,6 +71,7 @@ require("packer").startup(function(use)
   -- Colorschemes
   use "sainnhe/sonokai"
   use "rmehri01/onenord.nvim"
+  use "folke/tokyonight.nvim"
 
   -- Move arguments and elements in list around
   use "AndrewRadev/sideways.vim"
@@ -174,7 +180,6 @@ require("packer").startup(function(use)
         },
       }
       require("telescope").load_extension "opener"
-      vim.keymap.set("n", "<leader>po", ":Telescope opener<CR>", { silent = true })
     end,
   }
 
@@ -470,7 +475,7 @@ require("packer").startup(function(use)
   }
 
   use "onsails/lspkind-nvim"
-  use "qxxxb/vim-searchhi" -- Highlight current search match
+  -- use "qxxxb/vim-searchhi" -- Highlight current search match
   use "rafamadriz/friendly-snippets" -- Preconfigured snippets
   use "ray-x/lsp_signature.nvim" -- Show function signature help
   use "rcarriga/nvim-dap-ui"
@@ -510,11 +515,22 @@ require("packer").startup(function(use)
         popup = {
           autofocus = true,
         },
-        -- null_ls = {
-        --   enabled = true,
-        --   name = "Crates",
-        -- },
+        null_ls = {
+          enabled = true,
+          name = "Crates",
+        },
       }
+    end,
+  }
+
+  use {
+    "https://github.com/danymat/neogen",
+    config = function()
+      local neogen = require "neogen"
+      neogen.setup { snippet_engine = "luasnip" }
+      require("config.treebind").register({
+        ["?"] = { neogen.generate },
+      }, { prefix = "<leader>" })
     end,
   }
 

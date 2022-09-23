@@ -32,7 +32,7 @@ end
 ---@field remap boolean|nil
 
 ---@param bindings MappingTree
----@param opts TreebindOpts
+---@param opts TreebindOpts|nil
 function M.register(bindings, opts)
   opts = opts or {}
   local result = {}

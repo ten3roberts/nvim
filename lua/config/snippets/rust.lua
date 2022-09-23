@@ -247,7 +247,7 @@ return {
   s("info", fmt([[{}::info!("{}");]], { f(rust_log_crate), i(1) })),
   s("warn", fmt([[{}::warn!("{}");]], { f(rust_log_crate), i(1) })),
   s("error", fmt([[{}::error!("{}");]], { f(rust_log_crate), i(1) })),
-  s("instrument", t("#[tracing::instrument]", {})),
+  s("instrument", t('#[tracing::instrument(level = "info")]', {})),
   s("instrument_trace", t('#[tracing::instrument(level = "trace")]', {})),
   s("instrument_debug", t('#[tracing::instrument(level = "debug")]', {})),
   s("instrument_info", t('#[tracing::instrument(level = "info")]', {})),

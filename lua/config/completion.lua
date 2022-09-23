@@ -49,10 +49,10 @@ local default_sources = {
   { name = "nvim_lsp" },
   { name = "nvim_lua" },
   { name = "treesitter" },
-  { name = "buffer" },
-  { name = "spell" },
+  -- { name = "buffer" },
+  -- { name = "spell" },
 }
-vim.o.completeopt = "menu,menuone,noselect"
+vim.o.completeopt = "menu,menuone"
 
 cmp.setup {
   preselect = cmp.PreselectMode.None,
