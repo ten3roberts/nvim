@@ -13,9 +13,9 @@ ui.setup {
     {
       elements = {
         "scopes",
-        { id = "breakpoints", size = 0.1 },
-        "stacks",
         "watches",
+        "stacks",
+        { id = "breakpoints", size = 0.1 },
       },
       size = 8, -- 40 columns
       position = "bottom",

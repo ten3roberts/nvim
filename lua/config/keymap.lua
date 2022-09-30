@@ -288,7 +288,7 @@ map({ "n", "x" }, "gz*", "<Plug>(asterisk-gz*)")
 map({ "n", "x" }, "gz#", "<Plug>(asterisk-gz#)")
 
 -- Clear search highlight
-map("n", "<Esc>", "<silent> :nohl<CR>")
+map("n", "<Esc>", "<cmd>nohl<CR>", {})
 
 -- Easy align
 map("x", "ga", "<plug>(EasyAlign)")

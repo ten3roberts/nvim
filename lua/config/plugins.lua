@@ -167,21 +167,21 @@ require("packer").startup(function(use)
   }
 
   use "junegunn/vim-easy-align" -- Align text blocks
-  use {
-    "willthbill/opener.nvim",
-    config = function()
-      require("opener").setup {
-        pre_open = { "SaveSession" },
-        post_open = {
-          "SaveSession",
-          function()
-            require("graphene").init()
-          end,
-        },
-      }
-      require("telescope").load_extension "opener"
-    end,
-  }
+  -- use {
+  --   "willthbill/opener.nvim",
+  --   config = function()
+  --     require("opener").setup {
+  --       pre_open = { "SaveSession" },
+  --       post_open = {
+  --         "SaveSession",
+  --         function()
+  --           require("graphene").init()
+  --         end,
+  --       },
+  --     }
+  --     require("telescope").load_extension "opener"
+  --   end,
+  -- }
 
   use {
     "karb94/neoscroll.nvim",
@@ -331,14 +331,14 @@ require("packer").startup(function(use)
     end,
   }
 
-  use {
-    "brenoprata10/nvim-highlight-colors",
-    config = function()
-      require("nvim-highlight-colors").setup {
-        render = "background",
-      }
-    end,
-  }
+  -- use {
+  --   "brenoprata10/nvim-highlight-colors",
+  --   config = function()
+  --     require("nvim-highlight-colors").setup {
+  --       render = "background",
+  --     }
+  --   end,
+  -- }
 
   -- Highlight colorcodes
   -- use {
@@ -376,7 +376,7 @@ require("packer").startup(function(use)
   use {
     "nvim-treesitter/nvim-treesitter",
     requires = {
-      "p00f/nvim-ts-rainbow",
+      -- "p00f/nvim-ts-rainbow",
       "RRethy/nvim-treesitter-textsubjects",
       "nvim-treesitter/playground",
       "nvim-treesitter/nvim-treesitter-textobjects",
@@ -516,7 +516,7 @@ require("packer").startup(function(use)
           autofocus = true,
         },
         null_ls = {
-          enabled = true,
+          enabled = false,
           name = "Crates",
         },
       }
@@ -534,7 +534,23 @@ require("packer").startup(function(use)
     end,
   }
 
-  use { "sindrets/diffview.nvim", requires = { "nvim-lua/plenary.nvim" } }
+  use {
+    "sindrets/diffview.nvim",
+    requires = { "nvim-lua/plenary.nvim" },
+    config = function()
+      require("diffview").setup {
+        enhanced_diff_hl = false, -- See ':h diffview-config-enhanced_diff_hl'
+        view = {
+
+          merge_tool = {
+            -- Config for conflicted files in diff views during a merge or rebase.
+            layout = "diff3_mixed",
+            disable_diagnostics = true, -- Temporarily disable diagnostics for conflict buffers while in the view.
+          },
+        },
+      }
+    end,
+  }
   use {
     "stevearc/aerial.nvim",
     config = function()
