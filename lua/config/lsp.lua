@@ -91,8 +91,7 @@ local function on_attach(client)
   buf_map(0, "", "<leader>cwr", vim.lsp.buf.remove_workspace_folder)
   buf_map(0, "", "<leader>q", require("config.lsp").set_qf)
   buf_map(0, "", "<leader>rn", vim.lsp.buf.rename)
-  buf_map(0, "n", "<leader>a", keymap.code_action or vim.lsp.buf.code_action)
-  buf_map(0, "x", "<leader>a", vim.lsp.buf.range_code_action)
+  buf_map(0, { "n", "x" }, "<leader>a", keymap.code_action or vim.lsp.buf.code_action)
 
   buf_map(0, "", "K", keymap.hover or vim.lsp.buf.hover)
 
