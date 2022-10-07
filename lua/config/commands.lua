@@ -86,7 +86,6 @@ function! Redir(cmd, rng, start, end)
 	vnew
 	let w:scratch = 1
 	setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile
-  ColorizerAttachToBuffer
 	call setline(1, output)
 endfunction
 

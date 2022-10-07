@@ -548,6 +548,14 @@ require("packer").startup(function(use)
             disable_diagnostics = true, -- Temporarily disable diagnostics for conflict buffers while in the view.
           },
         },
+        keymaps = {
+          view = {
+            ["q"] = "<cmd>DiffviewClose<CR>",
+          },
+          file_panel = {
+            ["q"] = "<cmd>DiffviewClose<CR>",
+          },
+        },
       }
     end,
   }
@@ -580,6 +588,13 @@ require("packer").startup(function(use)
     end,
   }
 
+  use {
+    "echasnovski/mini.nvim",
+    config = function()
+      require "config.mini"
+    end,
+  }
+
   use "mg979/vim-visual-multi"
   use "stevearc/stickybuf.nvim"
   use "tikhomirov/vim-glsl" -- GLSL runtime files
@@ -588,13 +603,13 @@ require("packer").startup(function(use)
   use "tpope/vim-fugitive" -- Git management
   use "tpope/vim-repeat" -- Repeat plugin commands with .
   use "tpope/vim-rsi" -- Readline mappings in insert mode
-  use "tpope/vim-dotenv"
+  -- use "tpope/vim-dotenv"
   use "tpope/vim-sleuth"
   -- use "tpope/vim-surround" -- ( surround text )
   use "tpope/vim-unimpaired"
   use "tpope/vim-commentary"
 
-  use "wellle/targets.vim" -- Better handling and seeking for textobjects
+  -- use "wellle/targets.vim" -- Better handling and seeking for textobjects
   use {
     "windwp/nvim-autopairs",
     requires = "windwp/nvim-ts-autotag",

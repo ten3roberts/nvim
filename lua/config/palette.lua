@@ -2,13 +2,24 @@ local M = {}
 local cmd = vim.cmd
 local fn = vim.fn
 
-function M.highlight(name, opts)
-  local t = { "hi!", name }
-  for k, v in pairs(opts) do
-    t[#t + 1] = string.format("%s=%s", k, v)
-  end
+function M.highlight(name, opt)
+  -- local t = { "hi!", name }
+  -- for k, v in pairs(opts) do
+  --   t[#t + 1] = string.format("%s=%s", k, v)
+  -- end
 
-  cmd(table.concat(t, " "))
+  vim.cmd(
+    string.format(
+      "hi %s %s guifg=%s guibg=%s gui=%s guisp=%s blend=%s",
+      opt.default and "default" or "",
+      name,
+      opt.guifg or "NONE",
+      opt.guibg or "NONE",
+      opt.gui or "NONE",
+      opt.guisp or "NONE",
+      opt.blend or "NONE"
+    )
+  )
 end
 
 M.signs = {
