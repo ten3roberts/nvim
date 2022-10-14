@@ -31,14 +31,14 @@ return {
 
   s(
     "req",
-    fmt([[require "{}"]], {
+    fmt([[require("{}")]], {
       i(1),
     })
   ),
 
   s(
     "lreq",
-    fmt([[{}require "{}"]], {
+    fmt([[{}require("{}")]], {
       f(function(args)
         local name = string.match(args[1][1], "[^./]*$"):gsub("-", "_")
         return string.format("local %s = ", name or "")

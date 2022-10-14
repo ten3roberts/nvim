@@ -32,7 +32,7 @@ require("qf").setup {
     follow_slow = true, -- Only follow on CursorHold
     auto_open = true, -- Automatically open list on QuickFixCmdPost
     auto_resize = true, -- Auto resize and shrink location list if less than `max_height`
-    max_height = 15, -- Maximum height of location/quickfix list
+    max_height = 8, -- Maximum height of location/quickfix list
     min_height = 5, -- Minumum height of location/quickfix list
     wide = true,
     focus_open = false,

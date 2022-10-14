@@ -18,7 +18,7 @@ local function confirm(behavior)
         behavior = behavior,
         select = true,
       }
-    elseif has_words_before() and ls.expand_or_jumpable() then
+    elseif ls.expand_or_jumpable() then
       ls.expand_or_jump()
     elseif has_words_before() then
       cmp.complete()
