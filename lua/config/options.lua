@@ -3,9 +3,9 @@ local opt = vim.opt
 local g = vim.g
 
 -- Vim Options
--- opt.guifont = "Fira Code Retina:h12"
+opt.guifont = "Fira Code:h12"
 -- o.guifont = "JetBrains Mono Nerd Font:h12"
-opt.guifont = "JetBrainsMono Nerd Font:h12"
+-- opt.guifont = "JetBrainsMono Nerd Font:h12"
 
 g.neovide_cursor_trail_length = 0.1
 g.neovide_cursor_animation_length = 0.01

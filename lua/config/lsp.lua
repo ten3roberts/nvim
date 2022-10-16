@@ -205,8 +205,7 @@ function M.statusline(bufnr, highlight)
   return s
 end
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 diagnostic.config {
   -- Only show virtual text if window is large enough

@@ -167,21 +167,21 @@ require("packer").startup(function(use)
   }
 
   use "junegunn/vim-easy-align" -- Align text blocks
-  -- use {
-  --   "willthbill/opener.nvim",
-  --   config = function()
-  --     require("opener").setup {
-  --       pre_open = { "SaveSession" },
-  --       post_open = {
-  --         "SaveSession",
-  --         function()
-  --           require("graphene").init()
-  --         end,
-  --       },
-  --     }
-  --     require("telescope").load_extension "opener"
-  --   end,
-  -- }
+  use {
+    "willthbill/opener.nvim",
+    config = function()
+      require("opener").setup {
+        pre_open = { "SaveSession" },
+        post_open = {
+          "SaveSession",
+          function()
+            vim.cmd "ProjectRoot"
+          end,
+        },
+      }
+      require("telescope").load_extension "opener"
+    end,
+  }
 
   use {
     "karb94/neoscroll.nvim",
