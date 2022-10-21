@@ -18,8 +18,8 @@ local function confirm(behavior)
         behavior = behavior,
         select = true,
       }
-    elseif ls.expand_or_jumpable() then
-      ls.expand_or_jump()
+    elseif ls.jumpable() then
+      ls.jump(1)
     elseif has_words_before() then
       cmp.complete()
     else
@@ -91,9 +91,9 @@ cmp.setup.cmdline("/", {
 })
 
 cmp.setup.cmdline(":", {
-  completion = {
-    keyword_length = 2,
-  },
+  -- completion = {
+  --   keyword_length = 2,
+  -- },
   mapping = cmp.mapping.preset.cmdline(),
   sources = cmp.config.sources({
     { name = "path", option = {
@@ -112,6 +112,15 @@ cmp.setup.filetype("toml", {
 })
 
 cmp.setup.filetype("gitcommit", {
+  sources = cmp.config.sources {
+    { name = "cmp_git" },
+  },
+  {
+    { name = "buffer" },
+  },
+})
+
+cmp.setup.filetype("NeogitCommit", {
   sources = cmp.config.sources {
     { name = "cmp_git" },
   },

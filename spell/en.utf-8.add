@@ -8,3 +8,7 @@ SyncAssetKey
 AssetCache
 BoundedSourceDyn
 init
+despawned
+subtree
+async
+cloneable
