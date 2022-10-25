@@ -252,6 +252,7 @@ require("mason-lspconfig").setup_handlers {
         local rt = require "rust-tools"
         return { hover = rt.hover_actions.hover_actions }
       end,
+      standalone = false,
       settings = {
         ["rust-analyzer"] = {
           cargo = {
@@ -310,7 +311,7 @@ require("mason-lspconfig").setup_handlers {
         },
       },
       dap = {
-        adapter = require("recipe.debug_adapters").codelldb,
+        adapter = require("config.codelldb").get_codelldb(),
       },
 
       -- all the opts to send to nvim-lspconfig

@@ -204,7 +204,7 @@ function M.setup()
   -- highlight("DapStopped", { guifg = "NONE", guibg = p.green, guisp = "NONE" })
   link("DapStopped", "CursorLine")
 
-  fn.sign_define("DapBreakpoint", { text = "●", texthl = "Red", linehl = "", numhl = "" })
+  fn.sign_define("DapBreakpoint", { text = "●", texthl = "DiagnosticSignError", linehl = "", numhl = "" })
   fn.sign_define("DapStopped", { text = "⯈", texthl = "Green", linehl = "DapStopped", numhl = "" })
 end
 

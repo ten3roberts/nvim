@@ -183,25 +183,25 @@ require("packer").startup(function(use)
     end,
   }
 
-  use {
-    "karb94/neoscroll.nvim",
-    config = function()
-      local t = {}
-      t["<C-u>"] = { "scroll", { "-vim.wo.scroll", "true", "100", "quadratic" } }
-      t["<C-d>"] = { "scroll", { "vim.wo.scroll", "true", "100", "quadratic" } }
-      -- t["<C-b>"] = { "scroll", { "-vim.api.nvim_win_get_height(0)", "true", "250" } }
-      -- t["<C-f>"] = { "scroll", { "vim.api.nvim_win_get_height(0)", "true", "250" } }
+  -- use {
+  -- "karb94/neoscroll.nvim",
+  -- config = function()
+  --   local t = {}
+  --   t["<C-u>"] = { "scroll", { "-vim.wo.scroll", "true", "100", "quadratic" } }
+  --   t["<C-d>"] = { "scroll", { "vim.wo.scroll", "true", "100", "quadratic" } }
+  --   -- t["<C-b>"] = { "scroll", { "-vim.api.nvim_win_get_height(0)", "true", "250" } }
+  --   -- t["<C-f>"] = { "scroll", { "vim.api.nvim_win_get_height(0)", "true", "250" } }
 
-      -- t["<C-y>"] = { "scroll", { "-0.10", "false", "100" } }
-      -- t["<C-e>"] = { "scroll", { "0.10", "false", "100" } }
-      -- t["zt"] = { "zt", { "250" } }
-      -- t["zz"] = { "zz", { "250" } }
-      -- t["zb"] = { "zb", { "250" } }
+  --   -- t["<C-y>"] = { "scroll", { "-0.10", "false", "100" } }
+  --   -- t["<C-e>"] = { "scroll", { "0.10", "false", "100" } }
+  --   -- t["zt"] = { "zt", { "250" } }
+  --   -- t["zz"] = { "zz", { "250" } }
+  --   -- t["zb"] = { "zb", { "250" } }
 
-      require("neoscroll").setup {}
-      require("neoscroll.config").set_mappings(t)
-    end,
-  }
+  --   require("neoscroll").setup {}
+  --   require("neoscroll.config").set_mappings(t)
+  -- end,
+  -- }
 
   use "kyazdani42/nvim-web-devicons" -- File icons
   use "lervag/vimtex"
@@ -449,10 +449,11 @@ require("packer").startup(function(use)
 
   use {
     "rmagatti/auto-session",
+    requires = { "rmagatti/session-lens" },
     config = function()
       vim.o.sessionoptions = "buffers,help,tabpages"
       require("auto-session").setup {
-        log_level = "error",
+        -- log_level = "error",
         auto_session_suppress_dirs = { "~/" },
         -- auto_session_enable_last_session = true,
         cwd_change_handling = {
@@ -462,7 +463,11 @@ require("packer").startup(function(use)
         },
       }
 
-      vim.keymap.set("n", "<leader>ss", ":Autosession search<CR>", { silent = true })
+      require("session-lens").setup {
+        path_display = { "shorten" },
+      }
+      require("telescope").load_extension "session-lens"
+      vim.keymap.set("n", "<leader>ss", ":SearchSession<CR>", { silent = true })
     end,
   }
 
@@ -576,6 +581,16 @@ require("packer").startup(function(use)
           },
         },
       }
+    end,
+  }
+
+  use {
+    "stevearc/overseer.nvim",
+    requires = {
+      "mfussenegger/nvim-dap",
+    },
+    config = function()
+      require "config.overseer"
     end,
   }
 

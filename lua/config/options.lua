@@ -3,16 +3,16 @@ local opt = vim.opt
 local g = vim.g
 
 -- Vim Options
-opt.guifont = "Fira Code:h12"
+opt.guifont = "JetBrainsMono Nerd Font Mono:h12:#h-none:#e-antialias"
 -- o.guifont = "JetBrains Mono Nerd Font:h12"
 -- opt.guifont = "JetBrainsMono Nerd Font:h12"
 
-g.neovide_cursor_trail_length = 0.1
-g.neovide_cursor_animation_length = 0.01
-g.neovide_cursor_antialiasing = true
+-- g.neovide_cursor_trail_length = 0.1
+-- g.neovide_cursor_animation_length = 0.01
+-- g.neovide_cursor_antialiasing = true
 
-g.neovide_floating_blur_amount_x = 1.0
-g.neovide_floating_blur_amount_y = 1.0
+g.neovide_floating_blur_amount_x = 0.8
+g.neovide_floating_blur_amount_y = 0.8
 -- g.neovide_scroll_animation_length = 0.5
 
 opt.autoread = true
@@ -25,6 +25,7 @@ opt.spell = false
 opt.equalalways = true
 opt.foldlevelstart = 99
 opt.foldmethod = "indent"
+opt.pumblend = 10
 -- o.foldmethod = "expr"
 -- o.foldexpr = "nvim_treesitter#foldexpr()"
 -- o.foldminlines = 6

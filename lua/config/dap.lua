@@ -55,48 +55,10 @@ dap.listeners.before.event_exited["dapui_config"] = function()
 end
 
 dap.configurations.rust = {
-  name = "rust_lldb",
-  type = "rust_lldb",
-  program = function()
-    return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
-  end,
-  cwd = "${workspaceFolder}",
-  args = {},
-  stopOnEntry = true,
-
-  -- if you change `runInTerminal` to true, you might need to change the yama/ptrace_scope setting:
-  --
-  --    echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
-  --
-  -- Otherwise you might get the following error:
-  --
-  --    Error on launch: Failed to attach to the target process
-  --
-  -- But you should be aware of the implications:
-  -- https://www.kernel.org/doc/html/latest/admin-guide/LSM/Yama.html
-  runInTerminal = false,
-}
-
-dap.defaults.rust.exception_breakpoints = { "rust_panic" }
-
-dap.adapters.lldb = {
-  type = "executable",
-  command = "lldb-vscode", -- adjust as needed
-  name = "lldb",
-  env = { LLDB_LAUNCH_FLAG_LAUNCH_IN_TTY = "YES" },
-}
-
-dap.configurations.rust = {
   {
-    name = "Launch",
-    type = "lldb",
+    name = "codelldb",
+    type = "codelldb",
     request = "launch",
-    program = function()
-      return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
-    end,
-    cwd = "${workspaceFolder}",
-    stopOnEntry = false,
-    args = {},
 
     -- if you change `runInTerminal` to true, you might need to change the yama/ptrace_scope setting:
     --
@@ -108,9 +70,12 @@ dap.configurations.rust = {
     --
     -- But you should be aware of the implications:
     -- https://www.kernel.org/doc/html/latest/admin-guide/LSM/Yama.html
-    runInTerminal = false,
   },
 }
+
+dap.adapters.codelldb = require("config.codelldb").get_codelldb()
+dap.defaults.rust.exception_breakpoints = { "rust_panic" }
+dap.defaults.codelldb.exception_breakpoints = { "rust_panic" }
 
 local M = {
   dap = dap,

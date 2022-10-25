@@ -340,17 +340,17 @@ function M.update_tabline()
     for _, bufnr in ipairs(buflist) do
       local name = buffer_ids[bufnr]
       if name then
-        windows[#windows + 1] = " " .. name .. " "
+        windows[#windows + 1] = name
       end
     end
 
-    t[#t + 1] = highlight .. "  %" .. i .. "T" .. i .. table.concat(windows, "·")
+    t[#t + 1] = highlight .. "▎ %" .. i .. "T" .. i .. " " .. table.concat(windows, " · ") .. " "
   end
 
   -- after the last tab fill with TabLineFill and reset tab page nr
   t[#t + 1] = "%#TabLineFill#%T"
 
-  return table.concat(t, " 🮇")
+  return table.concat(t, "")
 end
 
 _G.config_sl_update = M.update
