@@ -27,10 +27,10 @@ telescope.setup {
       end,
       height = 0.5,
     },
-    -- sorting_strategy = "ascending",
-    winblend = 5,
+    sorting_strategy = "ascending",
+    winblend = 20,
     border = true,
-    -- borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
+    borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
     path_display = { "truncate" },
     prompt_prefix = "   ",
     mappings = {

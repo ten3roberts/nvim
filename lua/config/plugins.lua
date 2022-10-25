@@ -87,7 +87,6 @@ require("packer").startup(function(use)
     "https://github.com/ahmedkhalf/project.nvim",
     config = function()
       require("project_nvim").setup {
-        manual_mode = true,
         -- detection_methods = { "pattern", "lsp" },
       }
     end,
@@ -122,9 +121,9 @@ require("packer").startup(function(use)
 
       local telescope = require "telescope"
       telescope.load_extension "yank_history"
-      vim.keymap.set("n", "<leader>pp", function()
-        telescope.extensions.yank_history.yank_history {}
-      end)
+      -- vim.keymap.set("n", "<leader>pp", function()
+      --   telescope.extensions.yank_history.yank_history {}
+      -- end)
     end,
   }
 
@@ -166,20 +165,18 @@ require("packer").startup(function(use)
     end,
   }
 
-  use "junegunn/vim-easy-align" -- Align text blocks
   use {
     "willthbill/opener.nvim",
     config = function()
       require("opener").setup {
         pre_open = { "SaveSession" },
-        post_open = {
-          "SaveSession",
-          function()
-            vim.cmd "ProjectRoot"
-          end,
-        },
+        post_open = {},
       }
       require("telescope").load_extension "opener"
+
+      vim.keymap.set("n", "<leader>F", function()
+        require("telescope").extensions.opener.opener {}
+      end)
     end,
   }
 
@@ -331,15 +328,6 @@ require("packer").startup(function(use)
     end,
   }
 
-  -- use {
-  --   "brenoprata10/nvim-highlight-colors",
-  --   config = function()
-  --     require("nvim-highlight-colors").setup {
-  --       render = "background",
-  --     }
-  --   end,
-  -- }
-
   -- Highlight colorcodes
   -- use {
   --   "norcalli/nvim-colorizer.lua",
@@ -456,16 +444,14 @@ require("packer").startup(function(use)
         -- log_level = "error",
         auto_session_suppress_dirs = { "~/" },
         -- auto_session_enable_last_session = true,
-        cwd_change_handling = {
-          restore_upcoming_session = true,
-          pre_cwd_changed_hook = nil, -- lua function hook. This is called after auto_session code runs for the `DirChangedPre` autocmd
-          post_cwd_changed_hook = nil, -- lua function hook. This is called after auto_session code runs for the `DirChanged` autocmd
-        },
+        -- cwd_change_handling = {
+        --   restore_upcoming_session = true,
+        --   pre_cwd_changed_hook = nil, -- lua function hook. This is called after auto_session code runs for the `DirChangedPre` autocmd
+        --   post_cwd_changed_hook = nil, -- lua function hook. This is called after auto_session code runs for the `DirChanged` autocmd
+        -- },
       }
 
-      require("session-lens").setup {
-        path_display = { "shorten" },
-      }
+      require("session-lens").setup {}
       require("telescope").load_extension "session-lens"
       vim.keymap.set("n", "<leader>ss", ":SearchSession<CR>", { silent = true })
     end,
@@ -613,7 +599,7 @@ require("packer").startup(function(use)
   use "mg979/vim-visual-multi"
   use "stevearc/stickybuf.nvim"
   use "tikhomirov/vim-glsl" -- GLSL runtime files
-
+  use "junegunn/vim-easy-align" -- Align text blocks
   use "tpope/vim-abolish" -- Change casing styles and provide smart search and replace
   use "tpope/vim-fugitive" -- Git management
   use "tpope/vim-repeat" -- Repeat plugin commands with .

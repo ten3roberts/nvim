@@ -3,16 +3,16 @@ local opt = vim.opt
 local g = vim.g
 
 -- Vim Options
-opt.guifont = "JetBrainsMono Nerd Font Mono:h12:#h-none:#e-antialias"
+opt.guifont = "JetBrains Mono:h12:#h-slight:#e-subpixelantialias"
 -- o.guifont = "JetBrains Mono Nerd Font:h12"
 -- opt.guifont = "JetBrainsMono Nerd Font:h12"
 
--- g.neovide_cursor_trail_length = 0.1
--- g.neovide_cursor_animation_length = 0.01
--- g.neovide_cursor_antialiasing = true
+g.neovide_cursor_trail_length = 0.1
+g.neovide_cursor_animation_length = 0.01
+g.neovide_cursor_antialiasing = true
 
-g.neovide_floating_blur_amount_x = 0.8
-g.neovide_floating_blur_amount_y = 0.8
+g.neovide_floating_blur_amount_x = 2.0
+g.neovide_floating_blur_amount_y = 2.0
 -- g.neovide_scroll_animation_length = 0.5
 
 opt.autoread = true
@@ -21,7 +21,7 @@ opt.confirm = true -- Disable 'no write'
 opt.cursorline = true
 opt.laststatus = 2
 opt.spelllang = { "en_us" }
-opt.spell = false
+opt.spell = true
 opt.equalalways = true
 opt.foldlevelstart = 99
 opt.foldmethod = "indent"
@@ -31,7 +31,6 @@ opt.pumblend = 10
 -- o.foldminlines = 6
 -- o.foldnestmax = 6
 o.foldtext = "v:lua.clean_fold()"
-o.formatoptions = "jcrqltn"
 o.grepformat = "%f:%l:%c:%m,%f:%l:%m"
 o.grepprg = "rg --vimgrep --no-heading"
 o.hidden = true
@@ -46,13 +45,11 @@ o.path = o.path .. "**"
 o.pumheight = 8
 o.pumwidth = 20
 o.relativenumber = false
-o.runtimepath = o.runtimepath .. ",~/dev/nvim"
 o.scrolloff = 8 -- Lines from the cursor
 
 o.expandtab = true
 o.shiftwidth = 4
 
-o.shortmess = vim.o.shortmess .. "c"
 o.showmatch = true -- Show matching brackets/parenthesis
 o.showmode = false -- Do not output message on the bottom
 o.signcolumn = "yes"

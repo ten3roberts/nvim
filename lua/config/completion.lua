@@ -18,8 +18,6 @@ local function confirm(behavior)
         behavior = behavior,
         select = true,
       }
-    elseif ls.jumpable() then
-      ls.jump(1)
     elseif has_words_before() then
       cmp.complete()
     else
@@ -48,8 +46,8 @@ local default_sources = {
   { name = "luasnip" },
   { name = "nvim_lsp" },
   { name = "nvim_lua" },
-  { name = "treesitter" },
-  -- { name = "buffer" },
+  -- { name = "treesitter" },
+  { name = "buffer" },
   -- { name = "spell" },
 }
 vim.o.completeopt = "menu,menuone"

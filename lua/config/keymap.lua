@@ -72,12 +72,12 @@ tree.register({
     end,
     "Open parent folder",
   },
-  F = {
-    function()
-      graphene.init "."
-    end,
-    "Open root",
-  },
+  -- F = {
+  --   function()
+  --     graphene.init "."
+  --   end,
+  --   "Open root",
+  -- },
   e = {
     recipe.pick,
     "Pick a recipe",
@@ -277,10 +277,10 @@ map("n", "<A->>", ":tabmove +1<CR>")
 -- map("x", "gd", "<plug>(searchhi-v-gd)")
 -- map("x", "gD", "<plug>(searchhi-v-gD)")
 
-map({ "n", "x" }, "*", "<Plug>(asterisk-*)")
-map({ "n", "x" }, "#", "<Plug>(asterisk-#)")
-map({ "n", "x" }, "g*", "<Plug>(asterisk-g*)")
-map({ "n", "x" }, "g#", "<Plug>(asterisk-g#)")
+map({ "n", "x" }, "*", "<Plug>(asterisk-z*)")
+map({ "n", "x" }, "#", "<Plug>(asterisk-z#)")
+map({ "n", "x" }, "g*", "<Plug>(asterisk-gz*)")
+map({ "n", "x" }, "g#", "<Plug>(asterisk-gz#)")
 
 map({ "n", "x" }, "z*", "<Plug>(asterisk-z*)")
 map({ "n", "x" }, "z#", "<Plug>(asterisk-z#)")

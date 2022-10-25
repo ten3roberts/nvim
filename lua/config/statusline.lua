@@ -344,7 +344,7 @@ function M.update_tabline()
       end
     end
 
-    t[#t + 1] = highlight .. "▎ %" .. i .. "T" .. i .. " " .. table.concat(windows, " · ") .. " "
+    t[#t + 1] = highlight .. "▎ %" .. i .. "T" .. i .. " " .. table.concat(windows, " · ") .. "  "
   end
 
   -- after the last tab fill with TabLineFill and reset tab page nr

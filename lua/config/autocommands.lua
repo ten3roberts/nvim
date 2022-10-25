@@ -23,7 +23,15 @@ local function format(opts)
   vim.lsp.buf.format { bufnr = bufnr }
 end
 
-au({ "BufEnter" }, { callback = lsp.deferred_loc })
+au({ "BufWinEnter" }, {
+  callback = function(o)
+    if vim.api.nvim_buf_get_option(o.buf, "buftype") == "" then
+      vim.opt.spell = true
+    else
+      vim.opt.spell = false
+    end
+  end,
+})
 au({ "VimResized" }, {
   callback = function()
     vim.cmd "wincmd ="
@@ -48,12 +56,6 @@ au({ "TermEnter" }, {
   callback = function()
     vim.keymap.set("t", "<esc>", "<C-\\><C-n>", { buffer = true })
   end,
-})
-au({ "FileType" }, {
-  callback = function()
-    vim.keymap.set("n", "<tab>", "=", { buffer = 0, remap = true })
-  end,
-  pattern = "fugitive",
 })
 
 au({ "BufReadPost" }, {

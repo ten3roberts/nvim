@@ -12,3 +12,12 @@ despawned
 subtree
 async
 cloneable
+neovide
+packadd
+textobjects
+dst
+dst_changes
+gz
+ComponentId
+ArchetypeId
+EntityBuilder
