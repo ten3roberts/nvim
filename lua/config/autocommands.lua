@@ -23,9 +23,10 @@ local function format(opts)
   vim.lsp.buf.format { bufnr = bufnr }
 end
 
-au({ "BufWinEnter" }, {
+au({ "BufWinEnter", "FileType" }, {
   callback = function(o)
-    if vim.api.nvim_buf_get_option(o.buf, "buftype") == "" then
+    local ft = vim.api.nvim_buf_get_option(o.buf, "filetype")
+    if not ft:find "git" and vim.api.nvim_buf_get_option(o.buf, "buftype") == "" then
       vim.opt.spell = true
     else
       vim.opt.spell = false

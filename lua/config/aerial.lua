@@ -1,10 +1,15 @@
 -- Call the setup function to change the default behavior
-require("aerial").setup {
+local aerial = require "aerial"
+aerial.setup {
   -- backends = { "treesitter", "lsp", "markdown" },
+  on_attach = function(bufnr)
+    vim.keymap.set("n", "[[", aerial.prev, { buffer = bufnr })
+    vim.keymap.set("n", "]]", aerial.next, { buffer = bufnr })
+  end,
   layout = {
 
     -- The maximum width of the aerial window
-    -- max_width = { 30, 0.2 },
+    max_width = { 30, 0.2 },
     -- placement = "edge",
     -- default_direction = "left",
   },
@@ -22,6 +27,7 @@ require("aerial").setup {
   -- open_automatic = function(_)
   --   return not vim.o.diff
   -- end,
+  open_automatic = true,
 
   -- Run this command after jumping to a symbol (false will disable)
   post_jump_cmd = "normal! zz",

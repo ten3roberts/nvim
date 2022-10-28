@@ -21,3 +21,14 @@ gz
 ComponentId
 ArchetypeId
 EntityBuilder
+Vec
+mut
+utf8
+lossy
+iff
+param
+ctx
+graphene
+dir
+filetype
+nvim

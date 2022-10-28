@@ -74,6 +74,7 @@ dap.configurations.rust = {
 }
 
 dap.adapters.codelldb = require("config.codelldb").get_codelldb()
+dap.adapters.rust = require("config.codelldb").get_codelldb()
 dap.defaults.rust.exception_breakpoints = { "rust_panic" }
 dap.defaults.codelldb.exception_breakpoints = { "rust_panic" }
 
