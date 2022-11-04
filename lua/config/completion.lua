@@ -2,7 +2,9 @@ local cmp = require "cmp"
 local lspkind = require "lspkind"
 
 require "crates"
-require("cmp_git").setup {}
+require("cmp_git").setup {
+  filetypes = { "NeogitCommitMessage", "gitcommit", "octo" },
+}
 
 local ls = require "luasnip"
 
@@ -26,34 +28,10 @@ local function confirm(behavior)
   end)
 end
 
-local default_sources = {
-  {
-    name = "path",
-    option = {
-      trailing_slash = true,
-      -- get_cwd = function()
-      --   if rel_ft[o.ft] == true then
-      --
-      --     return fn.expand("%:p:h")
-      --   else
-      --     return fn.getcwd()
-      --
-      --   end
-      -- end
-    },
-  },
-
-  { name = "luasnip" },
-  { name = "nvim_lsp" },
-  { name = "nvim_lua" },
-  -- { name = "treesitter" },
-  { name = "buffer" },
-  -- { name = "spell" },
-}
-vim.o.completeopt = "menu,menuone"
+-- vim.o.completeopt = "menu,menuone"
 
 cmp.setup {
-  preselect = cmp.PreselectMode.None,
+  -- preselect = cmp.PreselectMode.None,
   formatting = {
     fields = { "kind", "abbr", "menu" },
     format = lspkind.cmp_format {
@@ -63,7 +41,7 @@ cmp.setup {
   },
   snippet = {
     expand = function(args)
-      ls.lsp_expand(args.body)
+      require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
     end,
   },
   experimental = {
@@ -78,13 +56,23 @@ cmp.setup {
     ["<C-y>"] = confirm(cmp.ConfirmBehavior.Insert),
     ["<Tab>"] = confirm(cmp.ConfirmBehavior.Replace),
   },
-  sources = default_sources,
+  sources = cmp.config.sources {
+    { name = "git" },
+    { name = "luasnip" },
+    { name = "nvim_lsp" },
+    { name = "nvim_lua" },
+    { name = "path", option = { trailing_slash = true } },
+    -- { name = "treesitter" },
+  },
 }
 
 cmp.setup.cmdline("/", {
   mapping = cmp.mapping.preset.cmdline(),
-  sources = {
-    { name = "buffer" },
+  sources = cmp.config.sources {
+    { name = "luasnip" },
+    { name = "nvim_lsp" },
+    { name = "nvim_lua" },
+    -- { name = "treesitter" },
   },
 })
 
@@ -93,36 +81,16 @@ cmp.setup.cmdline(":", {
   --   keyword_length = 2,
   -- },
   mapping = cmp.mapping.preset.cmdline(),
-  sources = cmp.config.sources({
-    { name = "path", option = {
-      trailing_slash = true,
-    } },
-  }, {
+  sources = cmp.config.sources {
     { name = "cmdline" },
-  }),
-})
-
-cmp.setup.filetype("toml", {
-  sources = cmp.config.sources {
-    { name = "crates" },
-  },
-  default_sources,
-})
-
-cmp.setup.filetype("gitcommit", {
-  sources = cmp.config.sources {
-    { name = "cmp_git" },
-  },
-  {
-    { name = "buffer" },
+    { name = "path", option = { trailing_slash = true } },
+    -- { name = "treesitter" },
   },
 })
 
-cmp.setup.filetype("NeogitCommit", {
-  sources = cmp.config.sources {
-    { name = "cmp_git" },
-  },
-  {
-    { name = "buffer" },
-  },
-})
+-- cmp.setup.filetype("NeogitCommitMessage", {
+--   sources = cmp.config.sources {
+--     { name = "git" },
+--     { name = "buffer" },
+--   },
+-- })

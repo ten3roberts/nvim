@@ -170,7 +170,7 @@ tree.register({
     name = "term",
     t = {
       function()
-        recipe.execute { cmd = "zsh", kind = "term" }
+        recipe.execute { cmd = "zsh", adapter = "term" }
       end,
       "Open terminal",
     },

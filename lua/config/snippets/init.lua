@@ -4,7 +4,7 @@ local types = require "luasnip.util.types"
 ls.config.set_config {
   history = true,
   -- Update more often, :h events for more info.
-  updateevents = "TextChanged,TextChangedI",
+  update_events = "TextChanged,TextChangedI",
   ext_opts = {
     [types.choiceNode] = {
       active = {
@@ -15,7 +15,7 @@ ls.config.set_config {
   -- treesitter-hl has 100, use something higher (default is 200).
   ext_base_prio = 300,
   -- minimal increase in priority.
-  ext_prio_increase = 1,
+  -- ext_prio_increase = 1,
   enable_autosnippets = true,
 }
 

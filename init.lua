@@ -53,16 +53,10 @@ require("toggle").setup {
   variants = true,
 }
 
+local recipe = require("recipe").Recipe
 require("recipe").setup {
   term = {
     auto_close = true,
   },
-  custom_recipes = {
-    rust = {
-      upgrade = "cargo upgrade --workspace",
-    },
-    global = {
-      open = "xdg-open %:h",
-    },
-  },
+  custom_recipes = {},
 }

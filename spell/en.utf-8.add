@@ -32,3 +32,7 @@ graphene
 dir
 filetype
 nvim
+txt
+memoized
+config
+ProviderDef

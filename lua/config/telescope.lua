@@ -28,7 +28,7 @@ telescope.setup {
       height = 0.5,
     },
     sorting_strategy = "ascending",
-    winblend = 20,
+    winblend = 10,
     border = true,
     borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
     path_display = { "truncate" },
