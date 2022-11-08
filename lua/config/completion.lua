@@ -31,7 +31,7 @@ end
 -- vim.o.completeopt = "menu,menuone"
 
 cmp.setup {
-  -- preselect = cmp.PreselectMode.None,
+  preselect = cmp.PreselectMode.None,
   formatting = {
     fields = { "kind", "abbr", "menu" },
     format = lspkind.cmp_format {
@@ -57,6 +57,7 @@ cmp.setup {
     ["<Tab>"] = confirm(cmp.ConfirmBehavior.Replace),
   },
   sources = cmp.config.sources {
+    { name = "nvim_lsp_signature_help" },
     { name = "git" },
     { name = "luasnip" },
     { name = "nvim_lsp" },

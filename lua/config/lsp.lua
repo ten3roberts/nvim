@@ -4,7 +4,6 @@ end
 
 local diagnostic = vim.diagnostic
 local lspconfig = require "lspconfig"
-local lsp_signature = require "lsp_signature"
 local qf = require "qf"
 local sev = diagnostic.severity
 
@@ -60,6 +59,7 @@ local function on_attach(client)
     client.server_capabilities.documentFormattingProvider = false -- 0.8 and later
   end
 
+  local lsp_signature = require "lsp_signature"
   lsp_signature.on_attach {
     bind = true,
     max_height = 5,
@@ -293,6 +293,12 @@ require("mason-lspconfig").setup_handlers {
 
           -- prefix for all the other hints (type, chaining)
           other_hints_prefix = "=> ",
+
+          -- whether to align to the length of the longest line in the file
+          max_len_align = true,
+
+          -- padding from the left if max_len_align is true
+          max_len_align_padding = 1,
 
           -- padding from the left if max_len_align is true
           -- whether to align to the extreme right or not

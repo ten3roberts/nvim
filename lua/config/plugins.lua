@@ -148,6 +148,7 @@ require("packer").startup(function(use)
     "hrsh7th/nvim-cmp",
     requires = {
       "petertriho/cmp-git",
+      "hrsh7th/cmp-nvim-lsp-signature-help",
       "jose-elias-alvarez/null-ls.nvim",
       "Saecki/crates.nvim",
       "hrsh7th/cmp-buffer",
@@ -498,7 +499,13 @@ require("packer").startup(function(use)
   use "onsails/lspkind-nvim"
   -- use "qxxxb/vim-searchhi" -- Highlight current search match
   use "rafamadriz/friendly-snippets" -- Preconfigured snippets
-  use "ray-x/lsp_signature.nvim" -- Show function signature help
+  -- Show function signature help
+  use {
+    "ray-x/lsp_signature.nvim",
+    config = function()
+      require("lsp_signature").setup {}
+    end,
+  }
   use "rcarriga/nvim-dap-ui"
   use {
     "rcarriga/nvim-notify",
