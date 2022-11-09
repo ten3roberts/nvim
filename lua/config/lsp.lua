@@ -298,7 +298,7 @@ require("mason-lspconfig").setup_handlers {
           max_len_align = true,
 
           -- padding from the left if max_len_align is true
-          max_len_align_padding = 1,
+          max_len_align_padding = 4,
 
           -- padding from the left if max_len_align is true
           -- whether to align to the extreme right or not

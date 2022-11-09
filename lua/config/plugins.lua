@@ -489,13 +489,6 @@ require("packer").startup(function(use)
     end,
   }
 
-  use {
-    "goolord/alpha-nvim",
-    config = function()
-      require("alpha").setup(require("alpha.themes.dashboard").config)
-    end,
-  }
-
   use "onsails/lspkind-nvim"
   -- use "qxxxb/vim-searchhi" -- Highlight current search match
   use "rafamadriz/friendly-snippets" -- Preconfigured snippets

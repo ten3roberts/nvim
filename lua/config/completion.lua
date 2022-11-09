@@ -21,7 +21,11 @@ local function confirm(behavior)
         select = true,
       }
     elseif has_words_before() then
-      cmp.complete()
+      if ls.jumpable(1) then
+        ls.jump(1)
+      else
+        cmp.complete()
+      end
     else
       fallback()
     end
