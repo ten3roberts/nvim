@@ -72,6 +72,7 @@ require("packer").startup(function(use)
   use "sainnhe/sonokai"
   use "rmehri01/onenord.nvim"
   use "folke/tokyonight.nvim"
+  use { "catppuccin/nvim", as = "catppuccin" }
 
   -- Move arguments and elements in list around
   use "AndrewRadev/sideways.vim"

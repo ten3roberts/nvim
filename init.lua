@@ -56,7 +56,7 @@ require("toggle").setup {
 local recipe = require("recipe").Recipe
 require("recipe").setup {
   term = {
-    auto_close = true,
+    auto_close = false,
   },
   custom_recipes = {},
 }
