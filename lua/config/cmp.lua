@@ -66,8 +66,8 @@ cmp.setup {
     { name = "luasnip" },
     { name = "nvim_lsp" },
     { name = "nvim_lua" },
+    { name = "treesitter" },
     { name = "path", option = { trailing_slash = true } },
-    -- { name = "treesitter" },
   },
 }
 

@@ -135,6 +135,10 @@ require("packer").startup(function(use)
     end,
   }
 
+  use {
+    "rhysd/clever-f.vim",
+  }
+
   use "haya14busa/vim-asterisk"
 
   use {
@@ -163,7 +167,7 @@ require("packer").startup(function(use)
       "ray-x/cmp-treesitter",
     },
     config = function()
-      require "config.completion"
+      require "config.cmp"
     end,
   }
 
@@ -641,7 +645,7 @@ require("packer").startup(function(use)
   use "tpope/vim-unimpaired"
   use "tpope/vim-commentary"
 
-  -- use "wellle/targets.vim" -- Better handling and seeking for textobjects
+  use "wellle/targets.vim" -- Better handling and seeking for textobjects
   use {
     "windwp/nvim-autopairs",
     requires = "windwp/nvim-ts-autotag",

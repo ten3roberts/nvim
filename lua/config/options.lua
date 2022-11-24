@@ -79,20 +79,9 @@ g.mkdp_refresh_slow = true
 g.mkdp_auto_close = false
 g.vim_markdown_fenced_languages = { "rust", "lua", "python", "sh", "bash" }
 
-g.vsnip_snippet_dirs = { vim.fn.stdpath "config" .. "/vsnip" }
-
--- Nord
-g.nord_cursor_line_number_background = 1
-g.nord_bold = 1
-g.nord_italic = 1
-g.nord_uniform_diff_background = 1
-g.nord_italic_comments = 1
-g.nord_underline = 1
-g.nord_borders = true
-
 -- Sonokai
 g.sonokai_enable_italic = 1
-g.sonokai_style = "default"
+g.sonokai_style = "andromeda"
 
 -- Set colorscheme from env var or default
-vim.cmd("colorscheme " .. (vim.env.VIM_COLORSCHEME or "nord"))
+vim.cmd("colorscheme " .. (vim.env.VIM_COLORSCHEME or "onenord"))

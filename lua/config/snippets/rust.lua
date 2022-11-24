@@ -64,18 +64,28 @@ local function rust_log_crate()
   end
 end
 
-return {
-  s(
-    "if-some",
+local function pattern_binding(name, prefix)
+  return s(
+    name,
     fmt(
-      [[
-  if let Some({}) = {} {{
+      string.format(
+        [[
+  %s({}) = {} {{
       {}
   }}
   ]],
+        prefix
+      ),
       { i(1, "val"), dl(2, l._1, { 1 }), i(3) }
     )
-  ),
+  )
+end
+
+return {
+  pattern_binding("if-some", "if let Some"),
+  pattern_binding("if-ok", "if let Ok"),
+  pattern_binding("while-some", "while let Some"),
+  pattern_binding("while-ok", "while let Ok"),
   s(
     "modtest",
     fmt(

@@ -12,6 +12,7 @@ ls.config.set_config {
       },
     },
   },
+  delete_check_events = "TextChanged,TextChangedI",
   -- treesitter-hl has 100, use something higher (default is 200).
   ext_base_prio = 300,
   -- minimal increase in priority.
