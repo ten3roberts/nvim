@@ -397,92 +397,104 @@ require("packer").startup(function(use)
   }
 
   use {
-    "ThePrimeagen/harpoon",
+    "cbochs/grapple.nvim",
+    requires = { "nvim-lua/plenary.nvim" },
     config = function()
-      local mark = require "harpoon.mark"
-      local ui = require "harpoon.ui"
-
-      require("harpoon").setup {
-        menu = {
-          width = 50,
-          height = 8,
-          borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
-        },
-      }
-
+      local grapple = require "grapple"
       require("config.treebind").register({
-        a = { mark.add_file },
-        h = { ui.toggle_quick_menu },
+        a = { grapple.tag },
+        h = { grapple.popup_tags },
         q = {
           function()
-            ui.nav_file(1)
+            grapple.select { key = 1 }
           end,
         },
         w = {
           function()
-            ui.nav_file(2)
+            grapple.select { key = 2 }
           end,
         },
         f = {
           function()
-            ui.nav_file(3)
+            grapple.select { key = 3 }
           end,
         },
         p = {
           function()
-            ui.nav_file(4)
-          end,
-        },
-        b = {
-          function()
-            ui.nav_file(4)
+            grapple.select { key = 4 }
           end,
         },
       }, { prefix = "<leader>h" })
-
-      require("telescope").load_extension "harpoon"
     end,
   }
 
   -- use {
-  --   "rmagatti/auto-session",
-  --   requires = { "rmagatti/session-lens" },
+  --   "ThePrimeagen/harpoon",
   --   config = function()
-  --     vim.o.sessionoptions = "buffers,help,tabpages"
-  --     require("auto-session").setup {
-  --       -- log_level = "error",
-  --       auto_session_suppress_dirs = { "~/" },
-  --       -- auto_session_enable_last_session = true,
-  --       -- cwd_change_handling = {
-  --       --   restore_upcoming_session = true,
-  --       --   pre_cwd_changed_hook = nil, -- lua function hook. This is called after auto_session code runs for the `DirChangedPre` autocmd
-  --       --   post_cwd_changed_hook = nil, -- lua function hook. This is called after auto_session code runs for the `DirChanged` autocmd
-  --       -- },
+  --     local mark = require "harpoon.mark"
+  --     local ui = require "harpoon.ui"
+
+  --     require("harpoon").setup {
+  --       menu = {
+  --         width = 50,
+  --         height = 8,
+  --         borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
+  --       },
   --     }
 
-  --     require("session-lens").setup {}
-  --     require("telescope").load_extension "session-lens"
-  --     vim.keymap.set("n", "<leader>ss", ":SearchSession<CR>", { silent = true })
+  --     require("config.treebind").register({
+  --       a = { mark.add_file },
+  --       h = { ui.toggle_quick_menu },
+  --       q = {
+  --         function()
+  --           ui.nav_file(1)
+  --         end,
+  --       },
+  --       w = {
+  --         function()
+  --           ui.nav_file(2)
+  --         end,
+  --       },
+  --       f = {
+  --         function()
+  --           ui.nav_file(3)
+  --         end,
+  --       },
+  --       p = {
+  --         function()
+  --           ui.nav_file(4)
+  --         end,
+  --       },
+  --       b = {
+  --         function()
+  --           ui.nav_file(4)
+  --         end,
+  --       },
+  --     }, { prefix = "<leader>h" })
+
+  --     require("telescope").load_extension "harpoon"
   --   end,
   -- }
 
   use {
-    "Shatur/neovim-session-manager",
+    "rmagatti/auto-session",
+    requires = { "rmagatti/session-lens" },
     config = function()
-      require("session_manager").setup {
-        -- sessions_dir = Path:new(vim.fn.stdpath "data", "sessions"), -- The directory where the session files will be saved.
-        path_replacer = "__", -- The character to which the path separator will be replaced for session files.
-        colon_replacer = "++", -- The character to which the colon symbol will be replaced for session files.
-        autoload_mode = require("session_manager.config").AutoloadMode.CurrentDir, -- Define what to do when Neovim is started without arguments. Possible values: Disabled, CurrentDir, LastSession
-        autosave_last_session = true, -- Automatically save last session on exit and on session switch.
-        autosave_ignore_not_normal = true, -- Plugin will not save a session when no buffers are opened, or all of them aren't writable or listed.
-        autosave_ignore_filetypes = { -- All buffers of these file types will be closed before the session is saved.
-          "gitcommit",
-        },
-        autosave_only_in_session = false, -- Always autosaves session. If true, only autosaves after a session is active.
-        max_path_length = 80, -- Shorten the display path if length exceeds this threshold. Use 0 if don't want to shorten the path at all.
+      vim.o.sessionoptions = "buffers,help,tabpages"
+      require("auto-session").setup {
+        -- log_level = "error",
+        auto_session_suppress_dirs = { "~/" },
+        -- auto_session_enable_last_session = true,
+        -- cwd_change_handling = {
+        --   restore_upcoming_session = true,
+        --   pre_cwd_changed_hook = nil, -- lua function hook. This is called after auto_session code runs for the `DirChangedPre` autocmd
+        --   post_cwd_changed_hook = nil, -- lua function hook. This is called after auto_session code runs for the `DirChanged` autocmd
+        -- },
       }
-      vim.keymap.set("n", "<leader>ss", ":SessionManager load_session<CR>", { silent = true })
+
+      require("session-lens").setup {}
+      require("telescope").load_extension "session-lens"
+      vim.keymap.set("n", "<leader>ss", ":SearchSession<CR>", { silent = true })
     end,
   }
 
@@ -602,16 +614,6 @@ require("packer").startup(function(use)
           },
         },
       }
-    end,
-  }
-
-  use {
-    "stevearc/overseer.nvim",
-    requires = {
-      "mfussenegger/nvim-dap",
-    },
-    config = function()
-      require "config.overseer"
     end,
   }
 

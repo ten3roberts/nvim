@@ -42,6 +42,7 @@ telescope.setup {
         ["<C-n>"] = actions.move_selection_next,
         ["<C-p>"] = actions.move_selection_previous,
         ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
+        ["<c-f>"] = actions.to_fuzzy_refine,
         -- To disable a keymap, put [map] = false
         -- So, to not map "<C-n>", just put
         -- ["<c-x>"] = false,
