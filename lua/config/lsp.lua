@@ -289,7 +289,7 @@ require("mason-lspconfig").setup_handlers {
         inlay_hints = {
           auto = true,
           -- prefix for parameter hints
-          parameter_hints_prefix = "• ",
+          parameter_hints_prefix = "  • ",
 
           -- prefix for all the other hints (type, chaining)
           other_hints_prefix = "=> ",

@@ -14,7 +14,7 @@ aerial.setup {
     -- default_direction = "prefer_left",
   },
 
-  -- attach_mode = "global",
+  attach_mode = "global",
 
   -- default_bindings = true,
 

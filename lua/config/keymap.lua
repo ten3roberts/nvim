@@ -157,6 +157,18 @@ tree.register({
     name = "git",
     g = { neogit.open, "Git status" },
     d = { diffview.open, "Diffview" },
+    D = {
+      function(state)
+        local range
+
+        if state.range > 0 then
+          range = { state.line1, state.line2 }
+        end
+
+        diffview.file_history(range, unpack(state.fargs))
+      end,
+      "DiffviewFileHistory",
+    },
     b = { builtin.git_branches, "Git branches" },
     l = { builtin.git_commits, "Git commits" },
     m = {

@@ -19,9 +19,10 @@ local function parse_mappings(prefix, node, result)
       vim.notify(string.format("Command for mapping: %q is nil", prefix), vim.log.levels.ERROR)
       return
     end
-    local desc = node[2]
+    local desc = node[2] or node.desc
+    local mode = node.mode
 
-    table.insert(result, { lhs = prefix, cmd = cmd, desc = desc })
+    table.insert(result, { lhs = prefix, cmd = cmd, desc = desc, mode = mode })
   end
 end
 
@@ -46,7 +47,7 @@ function M.register(bindings, opts)
       o.remap = true
     end
 
-    vim.keymap.set(opts.mode or "n", v.lhs, v.cmd, o)
+    vim.keymap.set(v.mode or opts.mode or "n", v.lhs, v.cmd, o)
   end
 end
 

@@ -288,7 +288,7 @@ function M.update()
       path,
       sep,
       readonly and "%#Purple#" or "",
-      "%#Normal#%=%#Normal#",
+      "%#Statusline#%=",
       diag,
       "%#Comment#",
       get_session(),

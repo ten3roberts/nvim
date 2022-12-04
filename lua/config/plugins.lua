@@ -590,6 +590,9 @@ require("packer").startup(function(use)
           view = {
             ["q"] = "<cmd>DiffviewClose<CR>",
           },
+          file_history_panel = {
+            ["q"] = "<cmd>DiffviewClose<CR>",
+          },
           file_panel = {
             ["q"] = "<cmd>DiffviewClose<CR>",
           },
