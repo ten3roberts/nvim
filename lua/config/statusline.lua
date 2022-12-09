@@ -157,7 +157,7 @@ local function get_path(highlight)
 
   if highlight then
     return string.format(
-      "%%#%s#%s %s%s%s ",
+      "%%#%s#%s %s%s%s",
       icon_hl or "",
       icon or "",
       modified and "%#Red#" or "%#Normal#",
@@ -165,7 +165,7 @@ local function get_path(highlight)
       modified and " " or ""
     )
   else
-    return string.format("%s %s%s ", icon or "", path, modified and " " or "")
+    return string.format("%s %s%s", icon or "", path, modified and " " or "")
   end
 end
 
@@ -289,6 +289,7 @@ function M.update()
       sep,
       readonly and "%#Purple#" or "",
       "%#Statusline#%=",
+      "%#Normal# ",
       diag,
       "%#Comment#",
       get_session(),
@@ -344,7 +345,11 @@ function M.update_tabline()
       end
     end
 
-    t[#t + 1] = highlight .. "▎ %" .. i .. "T" .. i .. " " .. table.concat(windows, " · ") .. "  "
+    if #windows > 0 then
+      t[#t + 1] = highlight .. "▎ %" .. i .. "T" .. i .. " " .. table.concat(windows, " · ") .. "  "
+    else
+      t[#t + 1] = highlight .. "▎ %" .. i .. "T" .. i .. "  "
+    end
   end
 
   -- after the last tab fill with TabLineFill and reset tab page nr

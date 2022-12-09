@@ -523,7 +523,7 @@ require("packer").startup(function(use)
       require("notify").setup {
         -- timeout = 2000,
         render = "minimal",
-        max_width = 120,
+        -- max_width = 120,
 
         on_open = function(win)
           if vim.api.nvim_win_is_valid(win) then

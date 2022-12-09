@@ -158,16 +158,15 @@ tree.register({
     g = { neogit.open, "Git status" },
     d = { diffview.open, "Diffview" },
     D = {
-      function(state)
-        local range
-
-        if state.range > 0 then
-          range = { state.line1, state.line2 }
+      function()
+        if vim.api.nvim_get_mode().mode == "s" then
+          vim.cmd ":'<,'>DiffviewFileHistory %"
+        else
+          vim.cmd "DiffviewFileHistory %"
         end
-
-        diffview.file_history(range, unpack(state.fargs))
       end,
       "DiffviewFileHistory",
+      mode = { "n", "s" },
     },
     b = { builtin.git_branches, "Git branches" },
     l = { builtin.git_commits, "Git commits" },
