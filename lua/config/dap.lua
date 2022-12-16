@@ -9,18 +9,18 @@ ui.setup {
     edit = "e",
     repl = "r",
   },
-  layouts = {
-    {
-      elements = {
-        "scopes",
-        "watches",
-        "stacks",
-        { id = "breakpoints", size = 0.1 },
-      },
-      size = 8, -- 40 columns
-      position = "bottom",
-    },
-  },
+  -- layouts = {
+  --   {
+  --     elements = {
+  --       "scopes",
+  --       "watches",
+  --       "stacks",
+  --       { id = "breakpoints", size = 0.1 },
+  --     },
+  --     size = 8, -- 40 columns
+  --     -- position = "bottom",
+  --   },
+  -- },
   floating = {
     max_height = nil, -- These can be integers or a float between 0 and 1.
     max_width = nil, -- Floats will be treated as percentage of your screen.
@@ -38,12 +38,12 @@ require("nvim-dap-virtual-text").setup {
   highlight_new_as_changed = true,
 }
 
-dap.defaults.fallback.terminal_win_cmd = "16split new"
+dap.defaults.fallback.terminal_win_cmd = "24split new"
 
 dap.listeners.after.event_initialized["dapui_config"] = function()
-  dap.set_exception_breakpoints "default"
-  require("qf").close "l"
-  require("qf").close "c"
+  -- dap.set_exception_breakpoints "default"
+  -- require("qf").close "l"
+  -- require("qf").close "c"
 
   ui.open {}
 end
@@ -75,7 +75,8 @@ dap.configurations.rust = {
 
 dap.adapters.codelldb = require("config.codelldb").get_codelldb()
 dap.adapters.rust = require("config.codelldb").get_codelldb()
-dap.defaults.rust.exception_breakpoints = { "rust_panic" }
+
+-- dap.defaults.rust.exception_breakpoints = { "rust_panic" }
 dap.defaults.codelldb.exception_breakpoints = { "rust_panic" }
 
 local M = {

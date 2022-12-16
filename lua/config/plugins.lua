@@ -521,9 +521,10 @@ require("packer").startup(function(use)
     "rcarriga/nvim-notify",
     config = function()
       require("notify").setup {
-        -- timeout = 2000,
+        timeout = 1000,
         render = "minimal",
-        -- max_width = 120,
+        top_down = false,
+        max_width = 120,
 
         on_open = function(win)
           if vim.api.nvim_win_is_valid(win) then
@@ -577,13 +578,13 @@ require("packer").startup(function(use)
     requires = { "nvim-lua/plenary.nvim" },
     config = function()
       require("diffview").setup {
-        enhanced_diff_hl = false, -- See ':h diffview-config-enhanced_diff_hl'
+        enhanced_diff_hl = true, -- See ':h diffview-config-enhanced_diff_hl'
         view = {
 
           merge_tool = {
             -- Config for conflicted files in diff views during a merge or rebase.
-            layout = "diff3_mixed",
-            disable_diagnostics = true, -- Temporarily disable diagnostics for conflict buffers while in the view.
+            -- layout = "diff3_mixed",
+            disable_diagnostics = false, -- Temporarily disable diagnostics for conflict buffers while in the view.
           },
         },
         keymaps = {
@@ -600,12 +601,21 @@ require("packer").startup(function(use)
       }
     end,
   }
+
+  use {
+    "stevearc/overseer.nvim",
+    config = function()
+      require("overseer").setup {}
+    end,
+  }
+
+  -- Symbol tree
   use {
     "stevearc/aerial.nvim",
     config = function()
       require "config.aerial"
     end,
-  } -- Symbol tree
+  }
   use {
     "stevearc/dressing.nvim",
     requires = { "telescope.nvim" },

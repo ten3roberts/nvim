@@ -10,11 +10,11 @@ aerial.setup {
 
     -- The maximum width of the aerial window
     max_width = { 30, 0.2 },
-    -- placement = "edge",
-    -- default_direction = "prefer_left",
+    placement = "edge",
+    default_direction = "prefer_left",
   },
 
-  attach_mode = "global",
+  -- attach_mode = "global",
 
   -- default_bindings = true,
 

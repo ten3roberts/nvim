@@ -42,3 +42,5 @@ Convolve
 prev
 ogg
 despawning
+tokio
+waker
