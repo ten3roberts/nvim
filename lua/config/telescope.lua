@@ -46,17 +46,15 @@ telescope.setup {
         -- To disable a keymap, put [map] = false
         -- So, to not map "<C-n>", just put
         -- ["<c-x>"] = false,
-        ["<Esc>"] = actions.close,
+        -- ["<Esc>"] = actions.close,
 
         -- Otherwise, just set the mapping to the function that you want it to be.
         -- ["<C-i>"] = actions.select_horizontal,
 
         -- Add up multiple actions
         -- ["<CR>"] = actions.select_default + actions.center,
-        ["<Tab>"] = actions.select_default + actions.center,
-        ["<C-t>"] = actions.select_tab_drop,
-        ["<C-v>"] = actions.file_vsplit,
-        ["<C-h>"] = actions.file_split,
+
+        -- ["<C-h>"] = actions.file_split,
         -- ["<C-s>"] = custom_actions.file_drop,
 
         -- You can perform as many actions in a row as you like

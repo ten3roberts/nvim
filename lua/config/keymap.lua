@@ -12,6 +12,7 @@ local window_picker = require "window-picker"
 local builtin = require "telescope.builtin"
 local neotest = require "neotest"
 local aerial = require "aerial"
+local telescope = require "telescope"
 
 vim.g.mapleader = " "
 
@@ -79,7 +80,7 @@ tree.register({
   --   "Open root",
   -- },
   e = {
-    recipe.pick,
+    telescope.extensions.recipe.pick_recipe,
     "Pick a recipe",
   },
   n = {
@@ -127,7 +128,7 @@ tree.register({
     q = { "<cmd>tabclose<CR>", "Close tab" },
   },
 
-  o = {
+  go = {
     builtin.lsp_document_symbols,
     "Document symbols",
   },
@@ -181,7 +182,7 @@ tree.register({
     name = "term",
     t = {
       function()
-        recipe.execute { cmd = "zsh", adapter = "term" }
+        recipe.execute(recipe.make_recipe { cmd = "zsh", adapter = "term" }):focus {}
       end,
       "Open terminal",
     },

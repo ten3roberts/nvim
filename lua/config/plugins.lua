@@ -30,7 +30,7 @@ require("packer").startup(function(use)
     end,
   }
   use { "~/dev/nvim/wgsl.vim", opt = false }
-  use "~/dev/nvim/recipe.nvim"
+  use { "~/dev/nvim/recipe.nvim", requires = { "nvim-lua/plenary.nvim", "MunifTanjim/nui.nvim" } }
   use {
     "~/dev/nvim/darken.nvim",
     config = function()
@@ -229,8 +229,8 @@ require("packer").startup(function(use)
           end
 
           -- Navigation
-          map("n", "]c", "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", { expr = true })
-          map("n", "[c", "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", { expr = true })
+          map("n", "]c", gs.next_hunk)
+          map("n", "[c", gs.prev_hunk)
 
           -- Actions
           map({ "n", "v" }, "<leader>hs", gs.stage_hunk)
@@ -393,6 +393,22 @@ require("packer").startup(function(use)
       require("spellsitter").setup {
         enable = true,
       }
+    end,
+  }
+
+  use {
+    "cbochs/portal.nvim",
+    requires = {
+      "cbochs/grapple.nvim", -- Optional: provides the "grapple" query item
+    },
+    config = function()
+      local portal = require "portal"
+      portal.setup {
+        query = { "grapple", "modified", "different", "valid" },
+      }
+
+      vim.keymap.set("n", "<leader>o", portal.jump_backward, {})
+      vim.keymap.set("n", "<leader>i", portal.jump_forward, {})
     end,
   }
 

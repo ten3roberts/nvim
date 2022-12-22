@@ -34,17 +34,15 @@ a.nvim_create_user_command("CargoUpgrade", function(c)
 end, { nargs = "*" })
 
 a.nvim_create_user_command("CargoAdd", function(c)
-  recipe.execute(
-    {
+  recipe
+    .execute({
       cmd = "cargo add " .. c.args,
       kind = "term",
       action = {},
-    },
-    nil,
-    function(_)
+    })
+    :attach_callback(function(_)
       vim.cmd "CargoReload"
-    end
-  )
+    end)
 end, { nargs = "*" })
 
 a.nvim_create_user_command("CargoVersion", function(c)

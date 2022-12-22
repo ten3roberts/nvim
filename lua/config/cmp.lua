@@ -65,8 +65,8 @@ cmp.setup {
     { name = "git" },
     { name = "luasnip" },
     { name = "nvim_lsp" },
-    { name = "nvim_lua" },
     { name = "treesitter" },
+    { name = "nvim_lua" },
     { name = "path", option = { trailing_slash = true } },
   },
 }

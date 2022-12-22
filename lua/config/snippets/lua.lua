@@ -29,6 +29,8 @@ return {
     )
   ),
 
+  s("append", fmt([[ table.insert({}, {}) ]], { i(1, "t"), i(2) })),
+
   s(
     "req",
     fmt([[require("{}")]], {

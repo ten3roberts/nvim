@@ -1,14 +1,14 @@
 local ui = require "dapui"
 ui.setup {
   icons = { expanded = "▾", collapsed = "▸" },
-  mappings = {
-    -- Use a table to apply multiple mappings
-    expand = { "<CR>", "<2-LeftMouse>", "<Tab>" },
-    open = { "o" },
-    remove = "d",
-    edit = "e",
-    repl = "r",
-  },
+  -- mappings = {
+  --   -- Use a table to apply multiple mappings
+  --   expand = { "<CR>", "<2-LeftMouse>", "<Tab>" },
+  --   open = { "o" },
+  --   remove = "d",
+  --   edit = "e",
+  --   repl = "r",
+  -- },
   -- layouts = {
   --   {
   --     elements = {
@@ -21,6 +21,20 @@ ui.setup {
   --     -- position = "bottom",
   --   },
   -- },
+  layouts = {
+    {
+      elements = {
+        -- Elements can be strings or table with id and size keys.
+        -- { id = "scopes", size = 0.25 },
+        "scopes",
+        "breakpoints",
+        "stacks",
+        "watches",
+      },
+      size = 40, -- 40 columns
+      position = "right",
+    },
+  },
   floating = {
     max_height = nil, -- These can be integers or a float between 0 and 1.
     max_width = nil, -- Floats will be treated as percentage of your screen.
