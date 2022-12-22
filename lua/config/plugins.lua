@@ -54,7 +54,6 @@ require("packer").startup(function(use)
   --         buftype = { "quickfix" },
   --         filetype = { "NvimTree", "neo-tree", "undotree", "gundo", "aerial" },
   --       },
-  --     }
   --   end,
   -- }
 
