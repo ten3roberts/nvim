@@ -321,7 +321,6 @@ require("packer").startup(function(use)
 
       require("config.auto_install").ensure_installed {
         "prettier",
-        "jq",
         "stylua",
         -- "yamllint",
       }
@@ -403,7 +402,7 @@ require("packer").startup(function(use)
     config = function()
       local portal = require "portal"
       portal.setup {
-        query = { "grapple", "modified", "different", "valid" },
+        -- query = { "grapple", "modified", "different", "valid" },
       }
 
       vim.keymap.set("n", "<leader>o", portal.jump_backward, {})
@@ -513,24 +512,24 @@ require("packer").startup(function(use)
     end,
   }
 
-  use {
-    "nvim-neotest/neotest",
-    requires = { "rouge8/neotest-rust" },
-    config = function()
-      require "config.neotest"
-    end,
-  }
+  -- use {
+  --   "nvim-neotest/neotest",
+  --   requires = { "rouge8/neotest-rust" },
+  --   config = function()
+  --     require "config.neotest"
+  --   end,
+  -- }
 
   use "onsails/lspkind-nvim"
   -- use "qxxxb/vim-searchhi" -- Highlight current search match
   use "rafamadriz/friendly-snippets" -- Preconfigured snippets
   -- Show function signature help
-  use {
-    "ray-x/lsp_signature.nvim",
-    config = function()
-      require("lsp_signature").setup {}
-    end,
-  }
+  -- use {
+  --   "ray-x/lsp_signature.nvim",
+  --   config = function()
+  --     require("lsp_signature").setup {}
+  --   end,
+  -- }
   use "rcarriga/nvim-dap-ui"
   use {
     "rcarriga/nvim-notify",

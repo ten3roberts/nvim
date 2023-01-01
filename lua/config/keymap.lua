@@ -10,7 +10,7 @@ local recipe = require "recipe"
 local neogit = require "neogit"
 local window_picker = require "window-picker"
 local builtin = require "telescope.builtin"
-local neotest = require "neotest"
+-- local neotest = require "neotest"
 local aerial = require "aerial"
 local telescope = require "telescope"
 
@@ -83,18 +83,18 @@ tree.register({
     telescope.extensions.recipe.pick_recipe,
     "Pick a recipe",
   },
-  n = {
-    r = {
-      function()
-        neotest.run.run()
-      end,
-    },
-    f = {
-      function()
-        neotest.run.run(vim.fn.expand "%")
-      end,
-    },
-  },
+  -- n = {
+  --   r = {
+  --     function()
+  --       neotest.run.run()
+  --     end,
+  --   },
+  --   f = {
+  --     function()
+  --       neotest.run.run(vim.fn.expand "%")
+  --     end,
+  --   },
+  -- },
   E = {
     name = "recipe",
     r = {

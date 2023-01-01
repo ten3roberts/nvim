@@ -16,13 +16,13 @@ require("lspkind").init {
 local M = { buffers = {}, statusline_cache = {} }
 
 -- Sets the location list with predefined options. Does not focus list.
-function M.set_loc()
+function M.set_loc(open)
   if vim.o.buftype == "quickfix" then
     return
   end
 
   diagnostic.setloclist {
-    open = false,
+    open = open,
     severity = { min = diagnostic.severity.WARN },
   }
 
@@ -60,18 +60,18 @@ local function on_attach(client)
     client.server_capabilities.documentFormattingProvider = false -- 0.8 and later
   end
 
-  local lsp_signature = require "lsp_signature"
-  lsp_signature.on_attach {
-    bind = true,
-    max_height = 5,
-    max_width = 20,
-    hint_enable = false,
-    -- hint_scheme = "String",
-    zindex = 1,
-    handler_opts = {
-      border = border, -- double, single, shadow, none
-    },
-  }
+  -- local lsp_signature = require "lsp_signature"
+  -- lsp_signature.on_attach {
+  --   bind = true,
+  --   max_height = 5,
+  --   max_width = 20,
+  --   hint_enable = false,
+  --   -- hint_scheme = "String",
+  --   zindex = 1,
+  --   handler_opts = {
+  --     border = border, -- double, single, shadow, none
+  --   },
+  -- }
 
   -- local aerial = require "aerial"
   -- aerial.on_attach(client)
@@ -89,6 +89,9 @@ local function on_attach(client)
   end)
   buf_map(0, "", "<leader>cwr", vim.lsp.buf.remove_workspace_folder)
   buf_map(0, "", "<leader>q", require("config.lsp").set_qf)
+  buf_map(0, "", "<leader>ll", function()
+    require("config.lsp").set_loc(true)
+  end)
   buf_map(0, "", "<leader>rn", vim.lsp.buf.rename)
   buf_map(0, { "n", "x" }, "<leader>a", keymap.code_action or vim.lsp.buf.code_action)
 
@@ -148,8 +151,6 @@ function M.on_publish_diagnostics(err, result, ctx, cfg)
   end
 
   M.buffers[bufnr] = diagnostic_count
-
-  M.set_loc()
 
   old_diagnostics(err, result, ctx, cfg)
 end
@@ -288,7 +289,7 @@ require("mason-lspconfig").setup_handlers {
     require("rust-tools").setup {
       tools = { -- rust-tools options
         inlay_hints = {
-          auto = true,
+          auto = false,
           -- prefix for parameter hints
           parameter_hints_prefix = "  • ",
 
