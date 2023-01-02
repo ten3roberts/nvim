@@ -30,7 +30,7 @@ require("packer").startup(function(use)
     end,
   }
   use { "~/dev/nvim/wgsl.vim", opt = false }
-  use { "~/dev/nvim/recipe.nvim", requires = { "nvim-lua/plenary.nvim", "MunifTanjim/nui.nvim" } }
+  use { "~/dev/nvim/recipe.nvim", dependencies = { "nvim-lua/plenary.nvim", "MunifTanjim/nui.nvim" } }
   use {
     "~/dev/nvim/darken.nvim",
     config = function()
@@ -42,7 +42,7 @@ require("packer").startup(function(use)
 
   -- use {
   --   "anuvyklack/windows.nvim",
-  --   requires = {
+  --   dependencies = {
   --     "anuvyklack/middleclass",
   --     "anuvyklack/animation.nvim",
   --   },
@@ -77,7 +77,7 @@ require("packer").startup(function(use)
   use "AndrewRadev/sideways.vim"
   use {
     "~/dev/nvim/neogit",
-    requires = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim" },
+    dependencies = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim" },
     config = function()
       require "config.neogit"
     end,
@@ -150,7 +150,7 @@ require("packer").startup(function(use)
   -- Autocompletion plugin
   use {
     "hrsh7th/nvim-cmp",
-    requires = {
+    dependencies = {
       "petertriho/cmp-git",
       "hrsh7th/cmp-nvim-lsp-signature-help",
       "jose-elias-alvarez/null-ls.nvim",
@@ -213,7 +213,7 @@ require("packer").startup(function(use)
   -- Show changed lines
   use {
     "lewis6991/gitsigns.nvim",
-    requires = { "nvim-lua/plenary.nvim" },
+    dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
       require("gitsigns").setup {
         current_line_blame = false,
@@ -259,7 +259,7 @@ require("packer").startup(function(use)
 
   use {
     "mfussenegger/nvim-dap",
-    requires = {
+    dependencies = {
       "rcarriga/nvim-dap-ui",
       "theHamsta/nvim-dap-virtual-text",
     },
@@ -297,7 +297,7 @@ require("packer").startup(function(use)
   -- LSP configurations
   use {
     "neovim/nvim-lspconfig",
-    requires = {
+    dependencies = {
       "hrsh7th/nvim-cmp",
       "tjdevries/nlua.nvim",
       "williamboman/mason.nvim",
@@ -310,7 +310,7 @@ require("packer").startup(function(use)
 
   use {
     "williamboman/mason.nvim",
-    requires = {
+    dependencies = {
       "williamboman/mason-lspconfig.nvim",
     },
     config = function()
@@ -358,7 +358,7 @@ require("packer").startup(function(use)
 
   use {
     "nvim-telescope/telescope.nvim",
-    requires = {
+    dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope-dap.nvim",
       "nvim-telescope/telescope-fzf-native.nvim",
@@ -370,7 +370,7 @@ require("packer").startup(function(use)
 
   use {
     "nvim-treesitter/nvim-treesitter",
-    requires = {
+    dependencies = {
       -- "p00f/nvim-ts-rainbow",
       "RRethy/nvim-treesitter-textsubjects",
       "nvim-treesitter/playground",
@@ -386,7 +386,7 @@ require("packer").startup(function(use)
 
   use {
     "lewis6991/spellsitter.nvim",
-    requires = { " nvim-treesitter/nvim-treesitter" },
+    dependencies = { " nvim-treesitter/nvim-treesitter" },
     config = function()
       require("spellsitter").setup {
         enable = true,
@@ -396,7 +396,7 @@ require("packer").startup(function(use)
 
   use {
     "cbochs/portal.nvim",
-    requires = {
+    dependencies = {
       "cbochs/grapple.nvim", -- Optional: provides the "grapple" query item
     },
     config = function()
@@ -412,7 +412,7 @@ require("packer").startup(function(use)
 
   use {
     "cbochs/grapple.nvim",
-    requires = { "nvim-lua/plenary.nvim" },
+    dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
       local grapple = require "grapple"
       require("config.treebind").register({
@@ -492,7 +492,7 @@ require("packer").startup(function(use)
 
   use {
     "rmagatti/auto-session",
-    requires = { "rmagatti/session-lens" },
+    dependencies = { "rmagatti/session-lens" },
     config = function()
       vim.o.sessionoptions = "buffers,help,tabpages"
       require("auto-session").setup {
@@ -514,7 +514,7 @@ require("packer").startup(function(use)
 
   -- use {
   --   "nvim-neotest/neotest",
-  --   requires = { "rouge8/neotest-rust" },
+  --   dependencies = { "rouge8/neotest-rust" },
   --   config = function()
   --     require "config.neotest"
   --   end,
@@ -559,7 +559,7 @@ require("packer").startup(function(use)
   use { "simrat39/rust-tools.nvim" }
   use {
     "Saecki/crates.nvim",
-    requires = {
+    dependencies = {
       "jose-elias-alvarez/null-ls.nvim",
       "nvim-lua/plenary.nvim",
     },
@@ -589,7 +589,7 @@ require("packer").startup(function(use)
 
   use {
     "sindrets/diffview.nvim",
-    requires = { "nvim-lua/plenary.nvim" },
+    dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
       require("diffview").setup {
         enhanced_diff_hl = true, -- See ':h diffview-config-enhanced_diff_hl'
@@ -632,7 +632,7 @@ require("packer").startup(function(use)
   }
   use {
     "stevearc/dressing.nvim",
-    requires = { "telescope.nvim" },
+    dependencies = { "telescope.nvim" },
     config = function()
       require("dressing").setup {
         select = {
@@ -677,7 +677,7 @@ require("packer").startup(function(use)
   use "wellle/targets.vim" -- Better handling and seeking for textobjects
   use {
     "windwp/nvim-autopairs",
-    requires = "windwp/nvim-ts-autotag",
+    dependencies = "windwp/nvim-ts-autotag",
     config = function()
       require "config.pairs"
     end,

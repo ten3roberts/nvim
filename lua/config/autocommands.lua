@@ -73,12 +73,3 @@ au({ "BufUnload", "BufDelete" }, {
     lsp.clear_buffer_cache(fn.expand "<abuf>")
   end,
 })
-
-au({ "BufWritePost" }, {
-  callback = function(opts)
-    vim.notify("Compiling " .. opts.file)
-    vim.cmd("source " .. opts.file)
-    require("packer").compile()
-  end,
-  pattern = "*/plugins.lua",
-})

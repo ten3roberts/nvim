@@ -306,25 +306,25 @@ map("n", "<Esc>", "<cmd>nohl<CR>", {})
 map("x", "ga", "<plug>(EasyAlign)")
 map("n", "ga", "<plug>(EasyAlign)")
 
-tree.register({
-  y = { "<Plug>(YankyYank)", "Yank" },
-  p = { "<Plug>(YankyPutAfter)", "Put" },
-  P = { "<Plug>(YankyPutBefore)", "Put before" },
-  gp = { "<Plug>(YankyGPutAfter)", "Gput" },
-  gP = { "<Plug>(YankyGPutBefore)", "Gput after" },
-  ["<A-n>"] = { "<Plug>(YankyCycleForward)", "Yankring forward" },
-  ["<A-p>"] = { "<Plug>(YankyCycleBackward)", "Yankring backward" },
-}, { mode = "n" })
+-- tree.register({
+--   y = { "<Plug>(YankyYank)", "Yank" },
+--   p = { "<Plug>(YankyPutAfter)", "Put" },
+--   P = { "<Plug>(YankyPutBefore)", "Put before" },
+--   gp = { "<Plug>(YankyGPutAfter)", "Gput" },
+--   gP = { "<Plug>(YankyGPutBefore)", "Gput after" },
+--   ["<A-n>"] = { "<Plug>(YankyCycleForward)", "Yankring forward" },
+--   ["<A-p>"] = { "<Plug>(YankyCycleBackward)", "Yankring backward" },
+-- }, { mode = "n" })
 
-tree.register({
-  y = { "<Plug>(YankyYank)", "Yank" },
-  p = { "<Plug>(YankyPutAfter)", "Put" },
-  -- P = { "<Plug>(YankyPutBefore)", "Put before" },
-  gp = { "<Plug>(YankyGPutAfter)", "Gput" },
-  gP = { "<Plug>(YankyGPutBefore)", "Gput after" },
-  ["<A-n>"] = { "<Plug>(YankyCycleForward)", "Yankring forward" },
-  ["<A-p>"] = { "<Plug>(YankyCycleBackward)", "Yankring backward" },
-}, { mode = "x" })
+-- tree.register({
+--   y = { "<Plug>(YankyYank)", "Yank" },
+--   p = { "<Plug>(YankyPutAfter)", "Put" },
+--   -- P = { "<Plug>(YankyPutBefore)", "Put before" },
+--   gp = { "<Plug>(YankyGPutAfter)", "Gput" },
+--   gP = { "<Plug>(YankyGPutBefore)", "Gput after" },
+--   ["<A-n>"] = { "<Plug>(YankyCycleForward)", "Yankring forward" },
+--   ["<A-p>"] = { "<Plug>(YankyCycleBackward)", "Yankring backward" },
+-- }, { mode = "x" })
 
 -- map("n", "y", "<Plug>(YankyYank)")
 -- map("x", "y", "<Plug>(YankyYank)")

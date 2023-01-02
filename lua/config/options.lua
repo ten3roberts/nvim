@@ -82,6 +82,3 @@ g.vim_markdown_fenced_languages = { "rust", "lua", "python", "sh", "bash" }
 -- Sonokai
 g.sonokai_enable_italic = 1
 g.sonokai_style = "andromeda"
-
--- Set colorscheme from env var or default
-vim.cmd("colorscheme " .. (vim.env.VIM_COLORSCHEME or "onenord"))

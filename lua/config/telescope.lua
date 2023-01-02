@@ -98,8 +98,7 @@ telescope.setup {
   },
 }
 
-telescope.load_extension "fzf"
-telescope.load_extension "dap"
+-- telescope.load_extension "fzf"
 
 local function map(mode, lhs, rhs, opts)
   vim.keymap.set(mode, lhs, rhs, opts)
