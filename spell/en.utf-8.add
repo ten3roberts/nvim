@@ -46,3 +46,7 @@ tokio
 waker
 cb
 bufnr
+colorscheme
+nord
+andromeda
+sonokai

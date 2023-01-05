@@ -6,19 +6,12 @@ local qf = require "qf"
 local graphene = require "graphene"
 
 local diffview = require "diffview"
-local builtin = require "telescope.builtin"
 -- local neotest = require "neotest"
 local aerial = require "aerial"
 
 local tree = require "config.treebind"
 
 tree.register({
-  ["<leader>"] = {
-    function()
-      builtin.find_files {}
-    end,
-    "Find files",
-  },
   p = {
     o = {
       aerial.open,
@@ -94,32 +87,6 @@ tree.register({
     q = { "<cmd>tabclose<CR>", "Close tab" },
   },
 
-  go = {
-    builtin.lsp_document_symbols,
-    "Document symbols",
-  },
-
-  O = {
-    builtin.lsp_dynamic_workspace_symbols,
-    "Workspace symbols",
-  },
-
-  r = {
-    g = { builtin.live_grep, "Live grep" },
-    h = { builtin.help_tags, "Help grep" },
-    G = { builtin.grep_string, "Grep string" },
-  },
-
-  ["/"] = {
-    builtin.current_buffer_fuzzy_find,
-    "Buffer fuzzy find",
-  },
-
-  [","] = {
-    builtin.buffers,
-    "Buffers",
-  },
-
   g = {
     name = "git",
     d = { diffview.open, "Diffview" },
@@ -134,8 +101,6 @@ tree.register({
       "DiffviewFileHistory",
       mode = { "n", "s" },
     },
-    b = { builtin.git_branches, "Git branches" },
-    l = { builtin.git_commits, "Git commits" },
     m = {
       function()
         diffview.open "@{u}...HEAD"
@@ -177,10 +142,6 @@ tree.register({
 }, { prefix = "<leader>" })
 
 tree.register {
-  ["<M-x>"] = {
-    builtin.command_history,
-    "Command history",
-  },
   ["]l"] = {
     function()
       qf.next "l"

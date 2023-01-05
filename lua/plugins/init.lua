@@ -437,8 +437,6 @@ return {
         -- },
       }
 
-      local telescope = require "telescope"
-      telescope.load_extension "yank_history"
       -- vim.keymap.set("n", "<leader>pp", function()
       --   telescope.extensions.yank_history.yank_history {}
       -- end)

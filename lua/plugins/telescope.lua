@@ -7,6 +7,57 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope-fzf-native.nvim",
     },
+    keys = {
+      { "z=", "<cmd>Telescope spell_suggest<CR>" },
+      {
+        "<leader><leader>",
+        function()
+          require("telescope.builtin").find_files {}
+        end,
+      },
+      {
+        "<leader>go",
+        function()
+          require("telescope.builtin").lsp_document_symbols {}
+        end,
+      },
+      {
+        "<leader>O",
+        function()
+          require("telescope.builtin").lsp_dynamic_workspace_symbols {}
+        end,
+      },
+      {
+        "<leader>rg",
+        function()
+          require("telescope.builtin").live_grep {}
+        end,
+      },
+      {
+        "<leader>rh",
+        function()
+          require("telescope.builtin").help_grep {}
+        end,
+      },
+      {
+        "<leader>rG",
+        function()
+          require("telescope.builtin").grep_string {}
+        end,
+      },
+      {
+        "<leader>/",
+        function()
+          require("telescope.builtin").current_buffer_fuzzy_find {}
+        end,
+      },
+      {
+        "<leader>,",
+        function()
+          require("telescope.builtin").buffers {}
+        end,
+      },
+    },
     config = function()
       local actions = require "telescope.actions"
 
@@ -110,8 +161,5 @@ return {
 
       telescope.load_extension "fzf"
     end,
-  },
-  keys = {
-    { "z=", "<cmd>Telescope spell_suggest<CR>" },
   },
 }
