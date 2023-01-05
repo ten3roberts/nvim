@@ -6,15 +6,9 @@ local qf = require "qf"
 local graphene = require "graphene"
 
 local diffview = require "diffview"
-local recipe = require "recipe"
-local neogit = require "neogit"
-local window_picker = require "window-picker"
 local builtin = require "telescope.builtin"
 -- local neotest = require "neotest"
 local aerial = require "aerial"
-local telescope = require "telescope"
-
-vim.g.mapleader = " "
 
 local tree = require "config.treebind"
 
@@ -79,10 +73,6 @@ tree.register({
   --   end,
   --   "Open root",
   -- },
-  e = {
-    telescope.extensions.recipe.pick_recipe,
-    "Pick a recipe",
-  },
   -- n = {
   --   r = {
   --     function()
@@ -95,30 +85,6 @@ tree.register({
   --     end,
   --   },
   -- },
-  E = {
-    name = "recipe",
-    r = {
-      function()
-        recipe.bake "run"
-      end,
-      "Run",
-    },
-    b = {
-      function()
-        recipe.bake "build"
-      end,
-      "Build",
-    },
-
-    E = {
-      function()
-        qf.filter("visible", function(v)
-          return v.type == "E"
-        end)
-      end,
-      "Filter errors",
-    },
-  },
 
   t = {
     name = "tabs",
@@ -156,7 +122,6 @@ tree.register({
 
   g = {
     name = "git",
-    g = { neogit.open, "Git status" },
     d = { diffview.open, "Diffview" },
     D = {
       function()
@@ -182,6 +147,7 @@ tree.register({
     name = "term",
     t = {
       function()
+        local recipe = require "recipe"
         recipe.execute(recipe.make_recipe { cmd = "zsh", adapter = "term" }):focus {}
       end,
       "Open terminal",
@@ -198,15 +164,6 @@ tree.register({
       require("config.bclose").close_hidden,
       "Close all hidden buffers",
     },
-  },
-
-  w = {
-    window_picker.pick,
-    "Navigate to window",
-  },
-  W = {
-    window_picker.swap,
-    "Swap window",
   },
 
   j = {
@@ -250,15 +207,6 @@ tree.register {
   },
 }
 
-tree.register({
-  ["<CR>"] = {
-    function()
-      recipe.bake "check"
-    end,
-    "Check",
-  },
-}, { prefix = "`" })
-
 local silent = { silent = true }
 
 for i = 0, 9 do
@@ -289,15 +237,15 @@ map("n", "<A->>", ":tabmove +1<CR>")
 -- map("x", "gd", "<plug>(searchhi-v-gd)")
 -- map("x", "gD", "<plug>(searchhi-v-gD)")
 
-map({ "n", "x" }, "*", "<Plug>(asterisk-z*)")
-map({ "n", "x" }, "#", "<Plug>(asterisk-z#)")
-map({ "n", "x" }, "g*", "<Plug>(asterisk-gz*)")
-map({ "n", "x" }, "g#", "<Plug>(asterisk-gz#)")
+-- map({ "n", "x" }, "*", "<Plug>(asterisk-z*)")
+-- map({ "n", "x" }, "#", "<Plug>(asterisk-z#)")
+-- map({ "n", "x" }, "g*", "<Plug>(asterisk-gz*)")
+-- map({ "n", "x" }, "g#", "<Plug>(asterisk-gz#)")
 
-map({ "n", "x" }, "z*", "<Plug>(asterisk-z*)")
-map({ "n", "x" }, "z#", "<Plug>(asterisk-z#)")
-map({ "n", "x" }, "gz*", "<Plug>(asterisk-gz*)")
-map({ "n", "x" }, "gz#", "<Plug>(asterisk-gz#)")
+-- map({ "n", "x" }, "z*", "<Plug>(asterisk-z*)")
+-- map({ "n", "x" }, "z#", "<Plug>(asterisk-z#)")
+-- map({ "n", "x" }, "gz*", "<Plug>(asterisk-gz*)")
+-- map({ "n", "x" }, "gz#", "<Plug>(asterisk-gz#)")
 
 -- Clear search highlight
 map("n", "<Esc>", "<cmd>nohl<CR>", {})
@@ -306,52 +254,21 @@ map("n", "<Esc>", "<cmd>nohl<CR>", {})
 map("x", "ga", "<plug>(EasyAlign)")
 map("n", "ga", "<plug>(EasyAlign)")
 
--- tree.register({
---   y = { "<Plug>(YankyYank)", "Yank" },
---   p = { "<Plug>(YankyPutAfter)", "Put" },
---   P = { "<Plug>(YankyPutBefore)", "Put before" },
---   gp = { "<Plug>(YankyGPutAfter)", "Gput" },
---   gP = { "<Plug>(YankyGPutBefore)", "Gput after" },
---   ["<A-n>"] = { "<Plug>(YankyCycleForward)", "Yankring forward" },
---   ["<A-p>"] = { "<Plug>(YankyCycleBackward)", "Yankring backward" },
--- }, { mode = "n" })
-
--- tree.register({
---   y = { "<Plug>(YankyYank)", "Yank" },
---   p = { "<Plug>(YankyPutAfter)", "Put" },
---   -- P = { "<Plug>(YankyPutBefore)", "Put before" },
---   gp = { "<Plug>(YankyGPutAfter)", "Gput" },
---   gP = { "<Plug>(YankyGPutBefore)", "Gput after" },
---   ["<A-n>"] = { "<Plug>(YankyCycleForward)", "Yankring forward" },
---   ["<A-p>"] = { "<Plug>(YankyCycleBackward)", "Yankring backward" },
--- }, { mode = "x" })
-
--- map("n", "y", "<Plug>(YankyYank)")
--- map("x", "y", "<Plug>(YankyYank)")
--- map('', '<C-a>', '^')
--- map('', '<C-e>', '$')
-
--- Transpose word
--- map('', 'L', 'daWWPB')
--- map('', 'H', 'daWBPB')
--- map('', 'M', '2dWBhP')
-
 -- Move lines
-
 map("n", "<A-k>", ":m .-2<CR>==", silent)
 map("n", "<A-j>", ":m .+1<CR>==", silent)
 map("x", "<A-k>", ":m '<-2<CR>gv=gv", silent)
 map("x", "<A-j>", ":m '>+1<CR>gv=gv", silent)
 
-map("n", "<A-h>", ":SidewaysLeft<CR>", silent)
-map("n", "<A-l>", ":SidewaysRight<CR>", silent)
+-- map("n", "<A-h>", ":SidewaysLeft<CR>", silent)
+-- map("n", "<A-l>", ":SidewaysRight<CR>", silent)
 
 -- Textobjects for inside and around arguments/lists,paramater constraints
 -- map({ "x", "o" }, "aa", "<Plug>SidewaysArgumentTextobjA", silent)
-map({ "x", "o" }, "a,", "<Plug>SidewaysArgumentTextobjA", silent)
+-- map({ "x", "o" }, "a,", "<Plug>SidewaysArgumentTextobjA", silent)
 
--- map({ "x", "o" }, "ia", "<Plug>SidewaysArgumentTextobjI", silent)
-map({ "x", "o" }, "i,", "<Plug>SidewaysArgumentTextobjI", silent)
+-- -- map({ "x", "o" }, "ia", "<Plug>SidewaysArgumentTextobjI", silent)
+-- map({ "x", "o" }, "i,", "<Plug>SidewaysArgumentTextobjI", silent)
 
 -- map('x', 'x', ':lua require"treesitter-unit".select()<CR>',      silent)
 -- map('o', 'x', ':<c-u>lua require"treesitter-unit".select()<CR>', silent)
@@ -371,32 +288,10 @@ map("n", "<leader>ci", "mggg=G`g")
 
 -- Dev utils
 map("n", "<leader>xx", '<cmd>lua require"config.dev_utils".save_and_exec()<CR>')
-tree.register({
-  ["<C-a>"] = {
-    require("dial.map").inc_normal(),
-    "Increment",
-  },
-  ["<C-x>"] = {
-    require("dial.map").dec_normal(),
-    "Decrement",
-  },
-}, { mode = "n" })
 
-tree.register({
-  ["<C-a>"] = {
-    require("dial.map").inc_visual(),
-    "Increment",
-  },
-  ["<C-x>"] = {
-    require("dial.map").dec_visual(),
-    "Decrement",
-  },
-  ["g<C-a>"] = {
-    require("dial.map").inc_gvisual(),
-    "Increment",
-  },
-  ["g<C-x>"] = {
-    require("dial.map").dec_gvisual(),
-    "Decrement",
-  },
-}, { mode = "x" })
+require("config.treebind").register({
+  r = { "<cmd>RustRunnables<CR>", "Rust runnables" },
+  d = { "<cmd>RustDebuggables<CR>", "Rust debuggables" },
+  u = { "<cmd>RustParentModule<CR>", "Rust parent module" },
+  U = { "<cmd>RustOpenCargo<CR>", "Open Cargo.toml" },
+}, { prefix = "<leader>r" })

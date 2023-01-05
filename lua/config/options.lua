@@ -68,6 +68,8 @@ o.updatetime = 500
 o.wildmenu = true -- Command line completion mode
 o.wildmode = "full" -- Command line completion mode
 
+g.mapleader = " "
+
 g.termdebug_wide = 1
 g.termdebugger = "rust-gdb"
 g.rooter_cd_cmd = "tcd"
@@ -78,7 +80,3 @@ g.rooter_patterns = { ".git", "Cargo.lock" }
 g.mkdp_refresh_slow = true
 g.mkdp_auto_close = false
 g.vim_markdown_fenced_languages = { "rust", "lua", "python", "sh", "bash" }
-
--- Sonokai
-g.sonokai_enable_italic = 1
-g.sonokai_style = "andromeda"

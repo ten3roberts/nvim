@@ -7,7 +7,6 @@ local function au(event, opts)
   a.nvim_create_autocmd(event, opts)
 end
 
-local lsp = require "config.lsp"
 
 local function format(opts)
   local bufnr = opts.bufnr
@@ -70,6 +69,7 @@ au({ "BufReadPost" }, {
 
 au({ "BufUnload", "BufDelete" }, {
   callback = function()
+local lsp = require "config.lsp"
     lsp.clear_buffer_cache(fn.expand "<abuf>")
   end,
 })
