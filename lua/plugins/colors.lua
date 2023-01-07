@@ -35,6 +35,6 @@ local colorschemes = {
   },
 }
 
-local current_colorscheme = "nvim_nord"
+local current_colorscheme = "sonokai"
 
 return colorschemes[current_colorscheme] or {}
