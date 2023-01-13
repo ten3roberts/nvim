@@ -1,7 +1,3 @@
-local function buf_map(buf, mod, lhs, rhs)
-  vim.keymap.set(mod, lhs, rhs, { silent = true, buffer = buf })
-end
-
 local diagnostic = vim.diagnostic
 
 local M = {
@@ -24,7 +20,7 @@ local M = {
 
 local border = "single"
 
-local function on_attach(client)
+local function on_attach(client, bufnr)
   local opts = client.config
 
   local keymap = {}
@@ -37,6 +33,10 @@ local function on_attach(client)
   -- Lsp signature
   if client.name == "sumneko_lua" then
     client.server_capabilities.documentFormattingProvider = false -- 0.8 and later
+  end
+
+  local function buf_map(mod, lhs, rhs)
+    vim.keymap.set(mod, lhs, rhs, { silent = true, buffer = bufnr })
   end
 
   -- local lsp_signature = require "lsp_signature"
@@ -61,30 +61,30 @@ local function on_attach(client)
 
   local builtin = require "telescope.builtin"
 
-  buf_map(0, "", "<leader>ce", vim.diagnostic.open_float)
-  buf_map(0, "", "<leader>cwa", vim.lsp.buf.add_workspace_folder)
-  buf_map(0, "", "<leader>cwl", function()
+  buf_map("n", "<leader>ce", vim.diagnostic.open_float)
+  buf_map("n", "<leader>cwa", vim.lsp.buf.add_workspace_folder)
+  buf_map("n", "<leader>cwl", function()
     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
   end)
-  buf_map(0, "", "<leader>cwr", vim.lsp.buf.remove_workspace_folder)
-  buf_map(0, "", "<leader>q", require("config.lsp").set_qf)
-  buf_map(0, "", "<leader>ll", function()
-    require("config.lsp").set_loc(true)
+  buf_map("n", "<leader>cwr", vim.lsp.buf.remove_workspace_folder)
+  buf_map("n", "<leader>Q", require("config.lsp").set_qf)
+  buf_map("n", "<leader>q", function()
+    require("config.lsp").set_loc()
   end)
-  buf_map(0, "", "<leader>rn", vim.lsp.buf.rename)
-  buf_map(0, { "n", "x" }, "<leader>a", keymap.code_action or vim.lsp.buf.code_action)
+  buf_map("n", "<leader>rn", vim.lsp.buf.rename)
+  buf_map({ "n", "x" }, "<leader>a", keymap.code_action or vim.lsp.buf.code_action)
 
-  buf_map(0, "", "K", keymap.hover or vim.lsp.buf.hover)
+  buf_map("", "K", keymap.hover or vim.lsp.buf.hover)
 
-  -- buf_map(0, '', '[d', vim.lsp.diagnostic.goto_prev)
-  -- buf_map(0, '', ']d', vim.lsp.diagnostic.goto_next)
-  buf_map(0, "n", "go", builtin.lsp_outgoing_calls)
-  buf_map(0, "n", "gi", builtin.lsp_incoming_calls)
-  buf_map(0, "", "gD", vim.lsp.buf.declaration)
-  buf_map(0, "", "gd", builtin.lsp_definitions)
-  buf_map(0, "", "gI", builtin.lsp_implementations)
-  buf_map(0, "", "gr", builtin.lsp_references)
-  buf_map(0, "", "gy", builtin.lsp_type_definitions)
+  -- buf_map('', '[d', vim.lsp.diagnostic.goto_prev)
+  -- buf_map('', ']d', vim.lsp.diagnostic.goto_next)
+  buf_map("n", "go", builtin.lsp_outgoing_calls)
+  buf_map("n", "gi", builtin.lsp_incoming_calls)
+  buf_map("n", "gD", vim.lsp.buf.declaration)
+  buf_map("n", "gd", builtin.lsp_definitions)
+  buf_map("n", "gI", builtin.lsp_implementations)
+  buf_map("n", "gr", builtin.lsp_references)
+  buf_map("n", "gy", builtin.lsp_type_definitions)
 end
 
 function M.config()
@@ -185,7 +185,7 @@ function M.config()
       require("rust-tools").setup {
         tools = { -- rust-tools options
           inlay_hints = {
-            auto = false,
+            auto = true,
             -- prefix for parameter hints
             parameter_hints_prefix = "  • ",
 

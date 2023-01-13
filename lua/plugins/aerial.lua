@@ -1,6 +1,8 @@
 return {
 
   "stevearc/aerial.nvim",
+  keys = { { "<leader>po", "<cmd>AerialOpen<CR>" }, { "<leader>pp", "<cmd>AerialToggle!<CR>" } },
+  event = "BufWinEnter",
   config = function()
     local aerial = require "aerial"
     aerial.setup {
@@ -37,7 +39,7 @@ return {
       post_jump_cmd = "normal! zz",
 
       -- -- Show box drawing characters for the tree hierarchy
-      show_guides = false,
+      show_guides = true,
     }
   end,
 }

@@ -36,7 +36,7 @@ return {
       {
         "<leader>rh",
         function()
-          require("telescope.builtin").help_grep {}
+          require("telescope.builtin").help_tags {}
         end,
       },
       {
@@ -132,7 +132,6 @@ return {
             sort_lastused = true,
             ignore_current_buffer = true,
             selection_strategy = "reset",
-            previewer = false,
             bufnr_width = 2,
             mappings = {
               i = {

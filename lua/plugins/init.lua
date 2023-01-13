@@ -205,6 +205,7 @@ return {
   { "andymass/vim-matchup" },
   {
     "declancm/cinnamon.nvim",
+    enabled = true,
     config = function()
       require("cinnamon").setup {
         extra_keymaps = true,
@@ -226,6 +227,7 @@ return {
 
   {
     "cbochs/grapple.nvim",
+    enabled = false,
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
       local grapple = require "grapple"
@@ -451,9 +453,7 @@ return {
     end,
   },
 
-  "wellle/targets.vim", -- Better handling and seeking for textobjects
-
-  "haya14busa/vim-asterisk",
+  -- "haya14busa/vim-asterisk",
   "tpope/vim-commentary",
   "tpope/vim-abolish",
   "tpope/vim-rsi",

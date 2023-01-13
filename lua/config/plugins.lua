@@ -138,7 +138,7 @@ require("packer").startup(function(use)
     "rhysd/clever-f.vim",
   }
 
-  use "haya14busa/vim-asterisk"
+  -- use "haya14busa/vim-asterisk"
 
   use {
     "L3MON4D3/LuaSnip",

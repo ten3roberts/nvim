@@ -7,19 +7,10 @@ local graphene = require "graphene"
 
 local diffview = require "diffview"
 -- local neotest = require "neotest"
-local aerial = require "aerial"
 
 local tree = require "config.treebind"
 
 tree.register({
-  p = {
-    o = {
-      aerial.open,
-    },
-    p = {
-      aerial.toggle,
-    },
-  },
   c = {
     name = "Quickfix",
     c = {

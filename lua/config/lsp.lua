@@ -62,11 +62,12 @@ end
 function M.set_loc(open)
   print "Setting location list"
   diagnostic.setloclist {
-    open = open,
+    open = false,
     severity = { min = diagnostic.severity.WARN },
   }
 
-  -- qf.tally "l"
+  qf.tally "l"
+  qf.open("l", false, true)
 end
 
 function M.set_qf()

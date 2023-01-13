@@ -43,12 +43,12 @@ local mode_map = {
 
 ---@param info SL
 local function qf_func(info)
-  local wininfo = fn.getwininfo(info.winid)
+  local wininfo = fn.getwininfo(info.winid)[1]
   local q = {}
   if wininfo.loclist == 1 then
-    q = fn.getloclist(info.winid, { title = 1, idx = 0, size = 1 })
+    q = fn.getloclist(info.winid, { idx = 0, size = 1 })
   else
-    q = fn.getqflist { title = 1, idx = 0, size = 1 }
+    q = fn.getqflist { idx = 0, size = 1 }
   end
 
   local idx = q.idx
@@ -59,7 +59,7 @@ local function qf_func(info)
   end
   return table.concat {
     "%#Purple# ﴯ %#Normal#",
-    q.title,
+    wininfo.variables.quickfix_title,
     "%=",
     "%#Purple#",
     percent,

@@ -12,7 +12,7 @@ local colorschemes = {
   },
   {
     "shaunsingh/nord.nvim",
-    lazy = false,
+    lazy = true,
     config = function()
       g.nord_bold = false
       g.nord_borders = true
@@ -21,7 +21,7 @@ local colorschemes = {
   },
   {
     "rmehri01/onenord.nvim",
-    lazy = false,
+    lazy = true,
     config = function()
       -- vim.cmd "colorscheme onenord"
     end,
