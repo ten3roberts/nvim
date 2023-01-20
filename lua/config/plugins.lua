@@ -31,6 +31,7 @@ require("packer").startup(function(use)
   }
   use { "~/dev/nvim/wgsl.vim", opt = false }
   use { "~/dev/nvim/recipe.nvim", dependencies = { "nvim-lua/plenary.nvim", "MunifTanjim/nui.nvim" } }
+
   use {
     "~/dev/nvim/darken.nvim",
     config = function()
@@ -264,7 +265,7 @@ require("packer").startup(function(use)
       "theHamsta/nvim-dap-virtual-text",
     },
     config = function()
-      require "config.dap"
+      -- require "config.dap"
     end,
   }
 

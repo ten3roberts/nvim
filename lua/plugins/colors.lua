@@ -1,29 +1,33 @@
-local current_colorscheme = "sonokai"
+local current_colorscheme = "catppuccin"
 local g = vim.g
 local colorschemes = {
-  {
+  sonokai = {
     "sainnhe/sonokai",
-    lazy = false,
     config = function()
       g.sonokai_enable_italic = 1
       g.sonokai_style = "andromeda"
-      vim.cmd "colorscheme sonokai"
+      vim.cmd.colorscheme "sonokai"
     end,
   },
-  {
+  nord = {
     "shaunsingh/nord.nvim",
-    lazy = true,
     config = function()
       g.nord_bold = false
       g.nord_borders = true
-      -- vim.cmd "colorscheme nord"
+      vim.cmd "colorscheme nord"
     end,
   },
-  {
+  onenord = {
     "rmehri01/onenord.nvim",
-    lazy = true,
     config = function()
-      -- vim.cmd "colorscheme onenord"
+      vim.cmd.colorscheme "onenord"
+    end,
+  },
+  catppuccin = {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    config = function()
+      vim.cmd.colorscheme "catppuccin"
     end,
   },
 
@@ -36,4 +40,17 @@ local colorschemes = {
   -- },
 }
 
-return colorschemes
+local t = {}
+
+for k, v in pairs(colorschemes) do
+  if k == current_colorscheme then
+    v.lazy = false
+    v.priority = 1000
+  else
+    v.lazy = true
+  end
+
+  table.insert(t, v)
+end
+
+return t

@@ -55,9 +55,9 @@ require("nvim-dap-virtual-text").setup {
 dap.defaults.fallback.terminal_win_cmd = "24split new"
 
 dap.listeners.after.event_initialized["dapui_config"] = function()
-  -- dap.set_exception_breakpoints "default"
+  dap.set_exception_breakpoints "default"
   -- require("qf").close "l"
-  -- require("qf").close "c"
+  require("qf").close "c"
 
   ui.open {}
 end
@@ -131,16 +131,6 @@ end
 local tree = require "config.treebind"
 
 tree.register({
-  n = { dap.step_over, "Step over" },
-  i = { dap.step_into, "Step into" },
-  o = { dap.step_out, "Step out" },
-  d = { dap.down, "Down" },
-  u = { dap.up, "Up" },
-  s = { dap.pause, "Pause" },
-  q = { dap.terminate, "Terminate" },
-  c = { dap.continue, "Continue" },
-  g = { dap.run_to_cursor, "Run to cursor" },
-  r = { dap.run_last, "Run last" },
   O = { ui.toggle, "Toggle dap ui" },
 
   e = {
@@ -156,12 +146,6 @@ tree.register({
       require("dap.ui.widgets").hover()
     end,
     "Hover",
-  },
-
-  b = {
-    b = { dap.toggle_breakpoint, "Toggle breakpoint" },
-    B = { M.conditional_breakpoint, "Conditional breakpoint" },
-    e = { dap.set_exception_breakpoints, "Exception breakpoints" },
   },
 
   l = {

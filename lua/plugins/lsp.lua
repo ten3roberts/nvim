@@ -4,7 +4,7 @@ local M = {
 
   "neovim/nvim-lspconfig",
   dependencies = {
-    "mfussenegger/nvim-dap",
+    -- "mfussenegger/nvim-dap",
     "tjdevries/nlua.nvim",
     "hrsh7th/cmp-nvim-lsp",
     "simrat39/rust-tools.nvim",
@@ -161,7 +161,7 @@ function M.config()
             procMacro = {
               enable = true,
             },
-            checkOnSave = {
+            check = {
               command = "clippy",
             },
             diagnostics = {

@@ -39,7 +39,7 @@ return {
     "ten3roberts/darken.nvim",
     config = function()
       require("darken").setup {
-        filetypes = { "qf", "aerial" },
+        filetypes = { "qf", "help", "dap.*", "aerial" },
       }
     end,
   },
@@ -73,6 +73,12 @@ return {
         end,
       },
       {
+        "<leader><A-w>",
+        function()
+          require("window-picker").zap()
+        end,
+      },
+      {
         "<leader>W",
         function()
           require("window-picker").swap(false)
@@ -95,6 +101,7 @@ return {
       require("notify").setup {
         timeout = 1000,
         render = "minimal",
+        stages = "slide",
         top_down = false,
         max_width = 120,
 
@@ -179,17 +186,6 @@ return {
           },
         },
       }
-    end,
-  },
-
-  {
-    "mfussenegger/nvim-dap",
-    dependencies = {
-      "rcarriga/nvim-dap-ui",
-      "theHamsta/nvim-dap-virtual-text",
-    },
-    config = function()
-      require "config.dap"
     end,
   },
 
@@ -452,6 +448,8 @@ return {
       require("tidy").setup()
     end,
   },
+
+  "stevearc/stickybuf.nvim",
 
   -- "haya14busa/vim-asterisk",
   "tpope/vim-commentary",

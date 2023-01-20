@@ -26,8 +26,7 @@ add "$VIMRUNTIME"
 add "~/.config/nvim"
 
 -- add plugins from paq
-add "~/.local/share/nvim/site/pack/packer/opt/*"
-add "~/.local/share/nvim/site/pack/packer/start/*"
+add "~/.local/share/nvim/lazy/*"
 
 return {
   -- delete root from workspace to make sure we don't trigger duplicate warnings

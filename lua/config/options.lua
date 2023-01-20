@@ -3,7 +3,7 @@ local opt = vim.opt
 local g = vim.g
 
 -- Vim Options
-opt.guifont = "JetBrains Mono:h12:#h-slight:#e-ixelantialias"
+opt.guifont = "JetBrainsMono Nerd Font:h11"
 -- o.guifont = "JetBrains Mono Nerd Font:h12"
 -- opt.guifont = "JetBrainsMono Nerd Font:h12"
 
@@ -57,7 +57,7 @@ o.smartcase = true
 o.smartindent = true
 o.splitbelow = false -- Splits open on the bottom
 o.splitright = true -- Splits open on the right
-o.switchbuf = "useopen"
+-- o.switchbuf = "useopen"
 o.tabstop = 2
 o.termguicolors = true
 o.textwidth = 80

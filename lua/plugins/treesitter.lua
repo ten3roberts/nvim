@@ -17,6 +17,8 @@ return {
         trim_scope = "outer", -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
         -- mode = "cursor", -- Line used to calculate context. Choices: 'cursor', 'topline'
       }
+
+      vim.cmd.hi("TreesitterContextBottom", "gui=underline", "guisp=Grey")
     end,
   },
   "RRethy/nvim-treesitter-textsubjects",
@@ -34,10 +36,10 @@ return {
         incremental_selection = {
           enable = true,
           keymaps = {
-            init_selection = "gnn",
-            node_incremental = "+",
-            scope_incremental = "grc",
-            node_decremental = "-",
+            init_selection = "<CR>",
+            node_incremental = "<CR>",
+            scope_incremental = "<S-CR>",
+            node_decremental = "<BS>",
           },
         },
         refactor = {

@@ -1,4 +1,3 @@
-require "config.dap"
 local overseer = require "overseer"
 overseer.setup {
   dap = true,

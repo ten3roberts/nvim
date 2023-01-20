@@ -171,6 +171,8 @@ function M.setup()
   link("STWarning", "Orange")
   link("STInfo", "Blue")
   link("STHint", "Green")
+
+  -- link("AerialLine", "QuickFixLine")
   -- link("GitSignsCurrentLineBlame", "Comment")
   -- link("FocusedSymbol", "GreenInv")
 

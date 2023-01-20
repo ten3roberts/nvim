@@ -104,7 +104,7 @@ tree.register({
     t = {
       function()
         local recipe = require "recipe"
-        recipe.execute(recipe.make_recipe { cmd = "zsh", adapter = "term" }):focus {}
+        recipe.execute({ cmd = "zsh", adapter = "term" }):focus {}
       end,
       "Open terminal",
     },
@@ -147,13 +147,13 @@ tree.register {
   },
   ["]q"] = {
     function()
-      qf.next "c"
+      qf.next "visible"
     end,
     "Next quickfix item",
   },
   ["[q"] = {
     function()
-      qf.prev "c"
+      qf.prev "visible"
     end,
     "Prev quickfix item",
   },
@@ -201,10 +201,6 @@ map("n", "<A->>", ":tabmove +1<CR>")
 
 -- Clear search highlight
 map("n", "<Esc>", "<cmd>nohl<CR>", {})
-
--- Easy align
-map("x", "ga", "<plug>(EasyAlign)")
-map("n", "ga", "<plug>(EasyAlign)")
 
 -- Move lines
 map("n", "<A-k>", ":m .-2<CR>==", silent)

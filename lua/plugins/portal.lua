@@ -1,7 +1,8 @@
 local M = {
   "cbochs/portal.nvim",
   dependencies = {
-    "cbochs/grapple.nvim", -- Optional: provides the "grapple" query item
+    -- "cbochs/grapple.nvim", -- Optional: provides the "grapple" query item
+    "ThePrimeagen/harpoon",
   },
   keys = {
     {
@@ -59,7 +60,7 @@ function M.config()
         },
       },
     },
-    query = { "grapple", "modified", "different", "valid" },
+    query = { "harpoon", "modified", "different", "valid" },
   }
 end
 
