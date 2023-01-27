@@ -1,4 +1,5 @@
 local M = {
+  enable = false,
   "cbochs/portal.nvim",
   dependencies = {
     -- "cbochs/grapple.nvim", -- Optional: provides the "grapple" query item

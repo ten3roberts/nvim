@@ -1,23 +1,5 @@
 local diagnostic = vim.diagnostic
 
-local M = {
-
-  "neovim/nvim-lspconfig",
-  dependencies = {
-    -- "mfussenegger/nvim-dap",
-    "tjdevries/nlua.nvim",
-    "hrsh7th/cmp-nvim-lsp",
-    "simrat39/rust-tools.nvim",
-    "williamboman/mason.nvim",
-    "williamboman/mason-lspconfig.nvim",
-    "jose-elias-alvarez/null-ls.nvim",
-  },
-  config = function()
-    require "config.null"
-    require "config.lsp"
-  end,
-}
-
 local border = "single"
 
 local function on_attach(client, bufnr)
@@ -87,163 +69,192 @@ local function on_attach(client, bufnr)
   buf_map("n", "gy", builtin.lsp_type_definitions)
 end
 
-function M.config()
-  require("lspkind").init {
-    symbol_map = {
-      -- Function = "ﬦ",
-    },
-  }
+return {
+  {
+    "j-hui/fidget.nvim",
+    config = function()
+      require("fidget").setup {
 
-  local handlers = {
-    ["textDocument/publishDiagnostics"] = require("config.lsp").on_publish_diagnostics,
-    -- ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
-    ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
-  }
-
-  local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
-  diagnostic.config {
-    -- Only show virtual text if window is large enough
-    -- virtual_text = function()
-    --   return winwidth(0) >= 80
-    -- end,
-    virtual_text = {
-      spacing = 16,
-      prefix = "~",
-    },
-    -- update_in_insert = true,
-    severity_sort = true,
-  }
-
-  local default_conf = {
-    on_attach = on_attach,
-    capabilities = capabilities,
-    handlers = handlers,
-    keymap = {},
-  }
-
-  local lspconfig = require "lspconfig"
-  require("mason-lspconfig").setup_handlers {
-    -- The first entry (without a key) will be the default handler
-    -- and will be called for each installed server that doesn't have
-    -- a dedicated handler.
-    function(server_name) -- default handler (optional)
-      lspconfig[server_name].setup(default_conf)
-    end,
-    taplo = function()
-      lspconfig.taplo.setup(vim.tbl_deep_extend("force", default_conf, {
-        keymap = function()
-          return { hover = require("crates").show_crate_popup }
-        end,
-      }))
-    end,
-    sumneko_lua = function()
-      lspconfig.sumneko_lua.setup(vim.tbl_deep_extend("force", default_conf, require "config.lua-lsp"))
-    end,
-    -- Next, you can provide targeted overrides for specific servers.
-    -- For example, a handler override for the `rust_analyzer`:
-    ["rust_analyzer"] = function()
-      local conf = vim.tbl_deep_extend("force", default_conf, {
-        keymap = function()
-          local rt = require "rust-tools"
-          return { hover = rt.hover_actions.hover_actions }
-        end,
-        standalone = false,
-        settings = {
-          ["rust-analyzer"] = {
-            cargo = {
-              loadOutDirsFromCheck = true,
-              features = "all",
-            },
-            references = {
-              excludeImports = true,
-            },
-            procMacro = {
-              enable = true,
-            },
-            check = {
-              command = "clippy",
-            },
-            diagnostics = {
-              enable = true,
-              --   disabled = { "unresolved-proc-macro" },
-              enableExperimental = true,
-            },
-            -- cargo = {
-            --   loadOutDirsFromCheck = true,
-            --   buildScripts = {
-            --     enable = false,
-            --   },
-            -- },
-            -- procMacro = {
-            --   enable = false,
-            -- },
-          },
+        text = {
+          spinner = "dots",
         },
-      })
-
-      require("rust-tools").setup {
-        tools = { -- rust-tools options
-          inlay_hints = {
-            auto = true,
-            -- prefix for parameter hints
-            parameter_hints_prefix = "  • ",
-
-            -- prefix for all the other hints (type, chaining)
-            other_hints_prefix = "=> ",
-
-            -- whether to align to the length of the longest line in the file
-            max_len_align = true,
-
-            -- padding from the left if max_len_align is true
-            max_len_align_padding = 4,
-
-            -- padding from the left if max_len_align is true
-            -- whether to align to the extreme right or not
-            right_align = false,
-
-            -- padding from the right if right_align is true
-            right_align_padding = 8,
-
-            -- The color of the hints
-            highlight = "InlayHint",
-          },
-          hover_actions = {
-            border = "single",
-          },
-        },
-        dap = {
-          -- adapter = require("config.codelldb").get_codelldb(),
-        },
-
-        -- all the opts to send to nvim-lspconfig
-        -- these override the defaults set by rust-tools.nvim
-        -- see https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#rust_analyzer
-        server = conf,
       }
     end,
-  }
+  },
+  {
 
-  local null_ls = require "null-ls"
-  null_ls.setup {
-    sources = {
-      -- shell
-      -- null_ls.builtins.diagnostics.shellcheck,
-      -- null_ls.builtins.formatting.shfmt.with {
-      --   extra_args = { "-i", "2", "-ci" },
-      -- },
-      -- md
-      -- null_ls.builtins.diagnostics.markdownlint,
-      -- null_ls.builtins.completion.spell,
-
-      -- null_ls.builtins.diagnostics.alex,
-      null_ls.builtins.diagnostics.jsonlint,
-      null_ls.builtins.diagnostics.yamllint,
-      -- null_ls.builtins.diagnostics.selene,
-      null_ls.builtins.formatting.stylua,
-      null_ls.builtins.formatting.prettier,
+    "neovim/nvim-lspconfig",
+    dependencies = {
+      -- "mfussenegger/nvim-dap",
+      "tjdevries/nlua.nvim",
+      "hrsh7th/cmp-nvim-lsp",
+      "simrat39/rust-tools.nvim",
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+      "jose-elias-alvarez/null-ls.nvim",
     },
-  }
-end
+    config = function()
+      require("lspkind").init {
+        symbol_map = {
+          -- Function = "ﬦ",
+        },
+      }
 
-return M
+      local handlers = {
+        ["textDocument/publishDiagnostics"] = require("config.lsp").on_publish_diagnostics,
+        -- ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
+        ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
+      }
+
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+      diagnostic.config {
+        -- Only show virtual text if window is large enough
+        -- virtual_text = function()
+        --   return winwidth(0) >= 80
+        -- end,
+        virtual_text = {
+          spacing = 16,
+          prefix = "~",
+        },
+        -- update_in_insert = true,
+        severity_sort = true,
+      }
+
+      local default_conf = {
+        on_attach = on_attach,
+        capabilities = capabilities,
+        handlers = handlers,
+        keymap = {},
+      }
+
+      local lspconfig = require "lspconfig"
+      require("mason-lspconfig").setup_handlers {
+        -- The first entry (without a key) will be the default handler
+        -- and will be called for each installed server that doesn't have
+        -- a dedicated handler.
+        function(server_name) -- default handler (optional)
+          lspconfig[server_name].setup(default_conf)
+        end,
+        taplo = function()
+          lspconfig.taplo.setup(vim.tbl_deep_extend("force", default_conf, {
+            keymap = function()
+              return { hover = require("crates").show_crate_popup }
+            end,
+          }))
+        end,
+        sumneko_lua = function()
+          lspconfig.sumneko_lua.setup(vim.tbl_deep_extend("force", default_conf, require "config.lua-lsp"))
+        end,
+        -- Next, you can provide targeted overrides for specific servers.
+        -- For example, a handler override for the `rust_analyzer`:
+        ["rust_analyzer"] = function()
+          local conf = vim.tbl_deep_extend("force", default_conf, {
+            keymap = function()
+              local rt = require "rust-tools"
+              return { hover = rt.hover_actions.hover_actions }
+            end,
+            standalone = false,
+            settings = {
+              ["rust-analyzer"] = {
+                -- cargo = {
+                --   loadOutDirsFromCheck = true,
+                --   features = "all",
+                -- },
+                -- references = {
+                --   excludeImports = true,
+                -- },
+                -- procMacro = {
+                --   enable = true,
+                -- },
+                check = {
+                  command = "clippy",
+                },
+                -- diagnostics = {
+                -- enable = true,
+                -- --   disabled = { "unresolved-proc-macro" },
+                -- enableExperimental = true,
+                -- },
+                -- cargo = {
+                --   loadOutDirsFromCheck = true,
+                --   buildScripts = {
+                --     enable = false,
+                --   },
+                -- },
+                -- procMacro = {
+                --   enable = false,
+                -- },
+              },
+            },
+          })
+
+          require("rust-tools").setup {
+            tools = { -- rust-tools options
+              inlay_hints = {
+                auto = true,
+                -- prefix for parameter hints
+                parameter_hints_prefix = "  • ",
+
+                -- prefix for all the other hints (type, chaining)
+                other_hints_prefix = "=> ",
+
+                -- whether to align to the length of the longest line in the file
+                max_len_align = true,
+
+                -- padding from the left if max_len_align is true
+                max_len_align_padding = 4,
+
+                -- padding from the left if max_len_align is true
+                -- whether to align to the extreme right or not
+                right_align = false,
+
+                -- padding from the right if right_align is true
+                right_align_padding = 8,
+
+                -- The color of the hints
+                highlight = "InlayHint",
+              },
+              hover_actions = {
+                border = "single",
+              },
+            },
+            dap = {
+              -- adapter = require("config.codelldb").get_codelldb(),
+            },
+
+            -- all the opts to send to nvim-lspconfig
+            -- these override the defaults set by rust-tools.nvim
+            -- see https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#rust_analyzer
+            server = conf,
+          }
+        end,
+      }
+    end,
+  },
+  {
+
+    "jose-elias-alvarez/null-ls.nvim",
+    config = function()
+      local null_ls = require "null-ls"
+      null_ls.setup {
+        sources = {
+          -- shell
+          -- null_ls.builtins.diagnostics.shellcheck,
+          -- null_ls.builtins.formatting.shfmt.with {
+          --   extra_args = { "-i", "2", "-ci" },
+          -- },
+          -- md
+          -- null_ls.builtins.diagnostics.markdownlint,
+          -- null_ls.builtins.completion.spell,
+
+          -- null_ls.builtins.diagnostics.alex,
+          null_ls.builtins.diagnostics.jsonlint,
+          -- null_ls.builtins.diagnostics.yamllint,
+          -- null_ls.builtins.diagnostics.selene,
+          null_ls.builtins.formatting.stylua,
+          -- null_ls.builtins.formatting.prettier,
+        },
+      }
+    end,
+  },
+}

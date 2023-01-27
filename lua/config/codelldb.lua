@@ -10,7 +10,7 @@ function M.get_codelldb()
     return {}
   end
 
-  return {
+  local adapter = {
     type = "server",
     port = "${port}",
     executable = {
@@ -18,6 +18,9 @@ function M.get_codelldb()
       args = { "--port", "${port}" },
     },
   }
+
+  -- vim.notify("Codelldb adapter: " .. vim.inspect(adapter))
+  return adapter
 end
 
 return M

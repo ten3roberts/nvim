@@ -55,7 +55,7 @@ require("nvim-dap-virtual-text").setup {
 dap.defaults.fallback.terminal_win_cmd = "24split new"
 
 dap.listeners.after.event_initialized["dapui_config"] = function()
-  dap.set_exception_breakpoints "default"
+  dap.set_exception_breakpoints { "rust_panic" }
   -- require("qf").close "l"
   require("qf").close "c"
 
@@ -70,10 +70,15 @@ end
 
 dap.configurations.rust = {
   {
-    name = "codelldb",
+    name = "Launch",
     type = "codelldb",
     request = "launch",
-
+    program = function()
+      return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+    end,
+    cwd = "${workspaceFolder}",
+    stopOnEntry = false,
+    justMyCode = true,
     -- if you change `runInTerminal` to true, you might need to change the yama/ptrace_scope setting:
     --
     --    echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
@@ -87,11 +92,12 @@ dap.configurations.rust = {
   },
 }
 
+require("dap").defaults.fallback.exception_breakpoints = { "rust_panic" }
+-- dap.defaults.codelldb.exception_breakpoints = { "rust_panic" }
+-- dap.defaults.rust.exception_breakpoints = { "rust_panic" }
 dap.adapters.codelldb = require("config.codelldb").get_codelldb()
-dap.adapters.rust = require("config.codelldb").get_codelldb()
 
 -- dap.defaults.rust.exception_breakpoints = { "rust_panic" }
-dap.defaults.codelldb.exception_breakpoints = { "rust_panic" }
 
 local M = {
   dap = dap,

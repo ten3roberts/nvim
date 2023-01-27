@@ -1,4 +1,5 @@
 return {
+  enabled = false,
   "AndrewRadev/sideways.vim",
   keys = {
     { "<c-h>", "<cmd>:SidewaysLeft<CR>" },
