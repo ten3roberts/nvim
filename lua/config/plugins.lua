@@ -397,6 +397,7 @@ require("packer").startup(function(use)
 
   use {
     "cbochs/portal.nvim",
+    enabled = false,
     dependencies = {
       "cbochs/grapple.nvim", -- Optional: provides the "grapple" query item
     },
