@@ -287,7 +287,7 @@ function M.update()
       sep,
       path,
       sep,
-      readonly and "%#Purple#" or "",
+      readonly and " %#Purple#" or "",
       "%#Statusline#%=",
       "%#Normal# ",
       diag,

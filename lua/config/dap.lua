@@ -78,7 +78,7 @@ dap.configurations.rust = {
     end,
     cwd = "${workspaceFolder}",
     stopOnEntry = false,
-    justMyCode = true,
+    -- justMyCode = true,
     -- if you change `runInTerminal` to true, you might need to change the yama/ptrace_scope setting:
     --
     --    echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
@@ -95,8 +95,7 @@ dap.configurations.rust = {
 require("dap").defaults.fallback.exception_breakpoints = { "rust_panic" }
 -- dap.defaults.codelldb.exception_breakpoints = { "rust_panic" }
 -- dap.defaults.rust.exception_breakpoints = { "rust_panic" }
-dap.adapters.codelldb = require("config.codelldb").get_codelldb()
-
+dap.adapters.rust = require("config.codelldb").get_codelldb()
 -- dap.defaults.rust.exception_breakpoints = { "rust_panic" }
 
 local M = {

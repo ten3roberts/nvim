@@ -219,7 +219,7 @@ return {
               },
             },
             dap = {
-              -- adapter = require("config.codelldb").get_codelldb(),
+              adapter = require("config.codelldb").get_codelldb(),
             },
 
             -- all the opts to send to nvim-lspconfig
