@@ -1,6 +1,7 @@
 local ls = require "luasnip"
 local s = ls.snippet
 local sn = ls.snippet_node
+local isn = ls.indent_snippet_node
 local i = ls.insert_node
 local t = ls.text_node
 local f = ls.function_node
@@ -32,6 +33,7 @@ local function get_impl()
     node = node:parent()
   end
 end
+
 local function find_pattern(pattern, extra)
   if cache_dir ~= vim.fn.getcwd() then
     cache = {}
@@ -81,6 +83,34 @@ local function pattern_binding(name, prefix)
   )
 end
 
+local function fn_args(idx)
+  return c(idx, {
+    i(1),
+    fmt("&self{}", i(1)),
+    fmt("&mut self{}", i(1)),
+    fmt("self{}", i(1)),
+  })
+end
+local function fn_like(trig, vis, name, args, ret, body)
+  return s(
+    trig,
+    fmt(
+      [[
+      {}fn {}({}){} {{
+          {}
+      }}
+      ]],
+      {
+        vis,
+        name,
+        args,
+        ret,
+        body,
+      }
+    )
+  )
+end
+
 return {
   pattern_binding("if-some", "if let Some"),
   pattern_binding("if-ok", "if let Ok"),
@@ -116,20 +146,25 @@ return {
     )
   ),
 
-  s(
-    "fn",
-    fmt(
-      [[
-      pub fn {}({}){} {{
-            {}
-        }}
-      ]],
-      {
-        i(1, "name"),
-        i(2),
-        c(3, { t "", sn(1, { t " -> ", i(1, "_") }), sn(1, { t " -> Result<", i(1, "_"), t ">" }) }),
-        i(4, "todo!()"),
-      }
+  fn_like("fn", t "", i(1, "name"), fn_args(2), i(3, "-> _"), i(4, "todo!()")),
+  fn_like("pfn", t "pub ", i(1, "name"), fn_args(2), i(3, "-> _"), i(4, "todo!()")),
+  fn_like(
+    "fnew",
+    t "pub ",
+    t "new",
+    fn_args(1),
+    " -> Self",
+    isn(
+      2,
+      fmt(
+        [[
+Self {{
+  {}
+}}
+  ]],
+        { i(1) }
+      ),
+      "$PARENT_INDENT    "
     )
   ),
 
@@ -228,7 +263,7 @@ return {
     "with",
     fmt(
       [[
-        {} 
+        {}
         pub fn with_{}(&mut self, {}: {}) -> &mut Self {{
           self.{} = {};
           self

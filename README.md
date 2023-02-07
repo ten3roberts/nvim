@@ -8,3 +8,7 @@ This is my personal configuration of neovim
 - Telescope
 - Nvim lua Development utils
 - Completion
+
+# TODO
+- fn snippet
+- non-empty
