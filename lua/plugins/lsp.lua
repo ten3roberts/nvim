@@ -13,7 +13,7 @@ local function on_attach(client, bufnr)
   end
 
   -- Lsp signature
-  if client.name == "sumneko_lua" then
+  if client.name == "lua_ls" then
     client.server_capabilities.documentFormattingProvider = false -- 0.8 and later
   end
 
@@ -143,8 +143,8 @@ return {
             end,
           }))
         end,
-        sumneko_lua = function()
-          lspconfig.sumneko_lua.setup(vim.tbl_deep_extend("force", default_conf, require "config.lua-lsp"))
+        lua_ls = function()
+          lspconfig.lua_ls.setup(vim.tbl_deep_extend("force", default_conf, require "config.lua-lsp"))
         end,
         -- Next, you can provide targeted overrides for specific servers.
         -- For example, a handler override for the `rust_analyzer`:
@@ -161,9 +161,9 @@ return {
                   -- loadOutDirsFromCheck = true,
                   features = "all",
                 },
-                -- references = {
-                --   excludeImports = true,
-                -- },
+                references = {
+                  excludeImports = true,
+                },
                 -- procMacro = {
                 --   enable = true,
                 -- },

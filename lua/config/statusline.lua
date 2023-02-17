@@ -291,7 +291,7 @@ function M.update()
       "%#Statusline#%=",
       "%#Normal# ",
       diag,
-      "%#Comment#",
+      "%#Comment# ",
       get_session(),
       sep,
       "%#Purple#",

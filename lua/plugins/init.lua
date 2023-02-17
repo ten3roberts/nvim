@@ -30,6 +30,7 @@ return {
       require("recipe").setup {
         term = {
           auto_close = false,
+          kind = "float",
         },
       }
     end,
@@ -416,6 +417,12 @@ return {
       { "gp", "<Plug>(YankyGPutAfter)", mode = { "n", "x" } },
       { "<A-n>", "<Plug>(YankyCycleForward)" },
       { "<A-p>", "<Plug>(YankyCycleBackward)" },
+      {
+        "<C-p>",
+        function()
+          require("telescope").extensions.yank_history.yank_history {}
+        end,
+      },
     },
     config = function()
       require("yanky").setup {
@@ -432,10 +439,6 @@ return {
         --   enabled = true,
         -- },
       }
-
-      -- vim.keymap.set("n", "<leader>pp", function()
-      --   telescope.extensions.yank_history.yank_history {}
-      -- end)
     end,
   },
 

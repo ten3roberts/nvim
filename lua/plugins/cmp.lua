@@ -85,6 +85,7 @@ function M.config()
       { name = "luasnip" },
       { name = "nvim_lsp" },
       { name = "treesitter" },
+      { name = "buffer" },
       { name = "nvim_lua" },
       { name = "path", option = { trailing_slash = true } },
     },

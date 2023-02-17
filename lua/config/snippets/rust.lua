@@ -83,6 +83,10 @@ local function pattern_binding(name, prefix)
   )
 end
 
+local function rust_ret(idx, placeholder)
+  return sn(idx, fmt("-> {}", { placeholder }))
+end
+
 local function fn_args(idx)
   return c(idx, {
     i(1),
@@ -96,7 +100,7 @@ local function fn_like(trig, vis, name, args, ret, body)
     trig,
     fmt(
       [[
-      {}fn {}({}){} {{
+      {}fn {}({}) {} {{
           {}
       }}
       ]],
@@ -145,15 +149,31 @@ return {
       { i(1), i(2), i(0) }
     )
   ),
+  s("cowstr", fmt("Cow<'{}, {}>", { i(1, "static"), i(2, "str") })),
+  s("icowstr", fmt("Into<Cow<'{}, {}>>", { i(1, "static"), i(2, "str") })),
 
-  fn_like("fn", t "", i(1, "name"), fn_args(2), i(3, "-> _"), i(4, "todo!()")),
-  fn_like("pfn", t "pub ", i(1, "name"), fn_args(2), i(3, "-> _"), i(4, "todo!()")),
+  s(
+    "struct-pod",
+    fmt(
+      [[
+    #[repr(C)]
+    #[derive(bytemuck::Pod, bytemuck::Zeroable, Clone, Copy, Debug)]
+    pub struct {} {{
+      {}
+    }}
+  ]],
+      { i(1, "name"), i(2) }
+    )
+  ),
+
+  fn_like("fn", t "", i(1, "name"), fn_args(2), rust_ret(3, i(1, "_")), i(4, "todo!()")),
+  fn_like("pf", t "pub ", i(1, "name"), fn_args(2), rust_ret(3, i(1, "_")), i(4, "todo!()")),
   fn_like(
     "fnew",
     t "pub ",
     t "new",
     fn_args(1),
-    " -> Self",
+    rust_ret(nil, t "Self"),
     isn(
       2,
       fmt(
