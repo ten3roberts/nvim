@@ -34,6 +34,11 @@ ui.setup {
       size = 40, -- 40 columns
       position = "right",
     },
+    -- {
+    --   elements = { "console" },
+    --   position = "bottom",
+    --   size = 16,
+    -- },
   },
   floating = {
     max_height = nil, -- These can be integers or a float between 0 and 1.

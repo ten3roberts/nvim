@@ -254,22 +254,6 @@ return {
   },
 
   {
-    "rmagatti/auto-session",
-    config = function()
-      vim.o.sessionoptions = "buffers,help,tabpages"
-      require("auto-session").setup {
-        log_level = "warn",
-        auto_session_suppress_dirs = { "~/" },
-        -- auto_session_enable_last_session = true,
-        -- cwd_change_handling = {
-        --   restore_upcoming_session = true,
-        --   pre_cwd_changed_hook = nil, -- lua function hook. This is called after auto_session code runs for the `DirChangedPre` autocmd
-        --   post_cwd_changed_hook = nil, -- lua function hook. This is called after auto_session code runs for the `DirChanged` autocmd
-        -- },
-      }
-    end,
-  },
-  {
     "Saecki/crates.nvim",
     dependencies = {
       "jose-elias-alvarez/null-ls.nvim",
@@ -399,13 +383,6 @@ return {
       }
     end,
   },
-  {
-    "windwp/nvim-autopairs",
-    dependencies = "windwp/nvim-ts-autotag",
-    config = function()
-      require "config.pairs"
-    end,
-  },
 
   {
     "gbprod/yanky.nvim",
@@ -450,7 +427,7 @@ return {
     end,
   },
 
-  "stevearc/stickybuf.nvim",
+  { "stevearc/stickybuf.nvim", config = function() end },
 
   -- "haya14busa/vim-asterisk",
   "tpope/vim-commentary",

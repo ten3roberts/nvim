@@ -164,9 +164,9 @@ return {
                 references = {
                   excludeImports = true,
                 },
-                -- procMacro = {
-                --   enable = true,
-                -- },
+                procMacro = {
+                  enable = true,
+                },
                 check = {
                   command = "clippy",
                 },

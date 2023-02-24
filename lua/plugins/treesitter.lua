@@ -38,6 +38,9 @@ return {
       require("nvim-treesitter.configs").setup {
         ensure_installed = "all",
         autopairs = { enable = true },
+        autotag = {
+          enable = true,
+        },
         playground = { enable = true },
         matchup = { enable = true },
         highlight = {

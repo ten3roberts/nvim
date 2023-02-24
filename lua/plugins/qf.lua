@@ -15,11 +15,11 @@ return {
     require("qf").setup {
       -- Location list configuration
       ["l"] = {
-        auto_follow = "prev", -- Follow current entry, possible values: prev,next,nearest
+        auto_follow = "nearest",
       },
       -- Quickfix list configuration
       ["c"] = {
-        auto_follow = "prev", -- Follow current entry, possible values: prev,next,nearest
+        auto_follow = "nearest",
         auto_resize = false,
         wide = true,
       },

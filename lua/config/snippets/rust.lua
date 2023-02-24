@@ -319,6 +319,12 @@ Self {{
   s("instrument_warn", t('#[tracing::instrument(level = "warn")]', {})),
   s("instrument_error", t('#[tracing::instrument(level = "error")]', {})),
   s("doc_hidden", t("#[doc(hidden)]", {})),
+
+  s("cfg_unknown", fmt([[ #[cfg(target_os = "unknown")] ]], {})),
+  s("cfg_not_unknown", fmt([[ #[cfg(not(target_os = "unknown"))] ]], {})),
+  s("cfg_arch", fmt([[ #[cfg(target_arch = "{}")] ]], { i(1, "") })),
+  s("cfg_not_arch", fmt([[ #[cfg(not(target_arch = "{}"))] ]], { i(1, "") })),
+  s("cfg_feature", fmt([[ #[cfg(feature = "{}")] ]], { i(1, "") })),
   s(
     "ANCHOR",
     fmt(
