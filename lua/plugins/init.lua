@@ -75,6 +75,7 @@ return {
         timeout = 1000,
         render = "minimal",
         stages = "slide",
+        level = "debug",
         top_down = false,
         max_width = 120,
 
@@ -172,6 +173,7 @@ return {
   -- },
 
   { "andymass/vim-matchup" },
+
   {
     "karb94/neoscroll.nvim",
     config = function()

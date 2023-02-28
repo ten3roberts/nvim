@@ -11,10 +11,10 @@ return {
   {
     "rmagatti/auto-session",
     config = function()
-      vim.o.sessionoptions = "buffers,help,tabpages"
+      -- vim.o.sessionoptions = "buffers,help,tabpages"
       require("auto-session").setup {
-        log_level = "warn",
-        auto_session_suppress_dirs = { "~/" },
+        log_level = "debug",
+        -- auto_session_suppress_dirs = { "~/" },
         -- auto_session_enable_last_session = true,
         -- cwd_change_handling = {
         --   restore_upcoming_session = true,

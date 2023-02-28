@@ -3,7 +3,8 @@ local opt = vim.opt
 local g = vim.g
 
 -- Vim Options
-opt.guifont = "JetBrainsMono Nerd Font:h11"
+
+o.guifont = "JetbrainsMono Nerd Font Mono:h12:#h-slight"
 -- o.guifont = "JetBrains Mono Nerd Font:h12"
 -- opt.guifont = "JetBrainsMono Nerd Font:h12"
 
