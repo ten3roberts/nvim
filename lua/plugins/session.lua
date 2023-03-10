@@ -10,10 +10,11 @@ return {
   -- },
   {
     "rmagatti/auto-session",
+    branch = "merge-session-lens",
     config = function()
-      -- vim.o.sessionoptions = "buffers,help,tabpages"
+      vim.o.sessionoptions = "buffers,help,tabpages"
       require("auto-session").setup {
-        log_level = "debug",
+        log_level = "info",
         -- auto_session_suppress_dirs = { "~/" },
         -- auto_session_enable_last_session = true,
         -- cwd_change_handling = {
