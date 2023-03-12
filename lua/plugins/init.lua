@@ -30,6 +30,7 @@ return {
       require("recipe").setup {
         term = {
           auto_close = false,
+          kind = "float",
         },
       }
     end,
@@ -74,6 +75,7 @@ return {
         timeout = 1000,
         render = "minimal",
         stages = "slide",
+        level = "debug",
         top_down = false,
         max_width = 120,
 
@@ -171,6 +173,7 @@ return {
   -- },
 
   { "andymass/vim-matchup" },
+
   {
     "karb94/neoscroll.nvim",
     config = function()
@@ -252,22 +255,6 @@ return {
     end,
   },
 
-  {
-    "rmagatti/auto-session",
-    config = function()
-      vim.o.sessionoptions = "buffers,help,tabpages"
-      require("auto-session").setup {
-        log_level = "warn",
-        auto_session_suppress_dirs = { "~/" },
-        -- auto_session_enable_last_session = true,
-        -- cwd_change_handling = {
-        --   restore_upcoming_session = true,
-        --   pre_cwd_changed_hook = nil, -- lua function hook. This is called after auto_session code runs for the `DirChangedPre` autocmd
-        --   post_cwd_changed_hook = nil, -- lua function hook. This is called after auto_session code runs for the `DirChanged` autocmd
-        -- },
-      }
-    end,
-  },
   {
     "Saecki/crates.nvim",
     dependencies = {
@@ -398,13 +385,6 @@ return {
       }
     end,
   },
-  {
-    "windwp/nvim-autopairs",
-    dependencies = "windwp/nvim-ts-autotag",
-    config = function()
-      require "config.pairs"
-    end,
-  },
 
   {
     "gbprod/yanky.nvim",
@@ -416,6 +396,12 @@ return {
       { "gp", "<Plug>(YankyGPutAfter)", mode = { "n", "x" } },
       { "<A-n>", "<Plug>(YankyCycleForward)" },
       { "<A-p>", "<Plug>(YankyCycleBackward)" },
+      {
+        "<C-p>",
+        function()
+          require("telescope").extensions.yank_history.yank_history {}
+        end,
+      },
     },
     config = function()
       require("yanky").setup {
@@ -432,10 +418,6 @@ return {
         --   enabled = true,
         -- },
       }
-
-      -- vim.keymap.set("n", "<leader>pp", function()
-      --   telescope.extensions.yank_history.yank_history {}
-      -- end)
     end,
   },
 
@@ -447,7 +429,7 @@ return {
     end,
   },
 
-  "stevearc/stickybuf.nvim",
+  { "stevearc/stickybuf.nvim", config = function() end },
 
   -- "haya14busa/vim-asterisk",
   "tpope/vim-commentary",

@@ -3,7 +3,8 @@ local opt = vim.opt
 local g = vim.g
 
 -- Vim Options
-opt.guifont = "JetBrainsMono Nerd Font:h11"
+
+o.guifont = "JetbrainsMono Nerd Font Mono:h12:#h-slight"
 -- o.guifont = "JetBrains Mono Nerd Font:h12"
 -- opt.guifont = "JetBrainsMono Nerd Font:h12"
 
@@ -21,7 +22,7 @@ opt.confirm = true -- Disable 'no write'
 opt.cursorline = true
 opt.laststatus = 2
 opt.spelllang = { "en_us" }
--- opt.spell = true
+opt.spell = true
 opt.equalalways = true
 opt.foldlevelstart = 99
 opt.foldmethod = "indent"
@@ -60,13 +61,15 @@ o.splitright = true -- Splits open on the right
 -- o.switchbuf = "useopen"
 o.tabstop = 2
 o.termguicolors = true
-o.textwidth = 80
+-- o.textwidth = 80
 o.title = true
 o.titlestring = "nvim %{fnamemodify(getcwd(), ':~')}"
 o.undofile = true
 o.updatetime = 500
 o.wildmenu = true -- Command line completion mode
 o.wildmode = "full" -- Command line completion mode
+
+opt.fillchars:append "diff:╱"
 
 g.mapleader = " "
 
