@@ -22,18 +22,7 @@ ls.config.set_config {
 
 _G.get_impl = get_impl
 
-local fts = {
-  javascript = require "config.snippets.js",
-  markdown = require "config.snippets.markdown",
-  rust = require "config.snippets.rust",
-  lua = require "config.snippets.lua",
-  json = require "config.snippets.json",
-  all = require "config.snippets.all",
-}
-
-for ft, snippets in pairs(fts) do
-  ls.add_snippets(ft, snippets, {})
-end
+require("luasnip.loaders.from_lua").load { paths = vim.fn.stdpath "config" .. "/lua/snippets" }
 
 ls.filetype_extend("svelte", { "javascript" })
 ls.filetype_extend("typescript", { "javascript" })

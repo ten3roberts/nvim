@@ -5,10 +5,10 @@ local M = {
     "petertriho/cmp-git",
 
     "onsails/lspkind-nvim",
-    "hrsh7th/cmp-nvim-lsp-signature-help",
+    -- "hrsh7th/cmp-nvim-lsp-signature-help",
     "jose-elias-alvarez/null-ls.nvim",
     "Saecki/crates.nvim",
-    "hrsh7th/cmp-buffer",
+    -- "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-nvim-lsp",
     "saadparwaiz1/cmp_luasnip",
     "hrsh7th/cmp-nvim-lua",
@@ -56,6 +56,16 @@ function M.config()
 
   -- vim.o.completeopt = "menu,menuone"
 
+  local menu = {
+    treesitter = "󰌪",
+    nvim_lsp = "󰀘",
+    luasnip = "󰅴",
+    path = "󰉋",
+    __index = function(_, k)
+      return k
+    end,
+  }
+  setmetatable(menu, menu)
   cmp.setup {
     preselect = cmp.PreselectMode.None,
     formatting = {
@@ -63,6 +73,7 @@ function M.config()
       format = lspkind.cmp_format {
         mode = "symbol", -- show only symbol annotations
         maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+        menu = menu,
       },
     },
     snippet = {
@@ -80,7 +91,7 @@ function M.config()
       ["<Tab>"] = confirm(cmp.ConfirmBehavior.Replace),
     },
     sources = cmp.config.sources {
-      { name = "nvim_lsp_signature_help" },
+      -- { name = "nvim_lsp_signature_help" },
       { name = "git" },
       { name = "luasnip" },
       { name = "nvim_lsp" },
@@ -88,6 +99,7 @@ function M.config()
       -- { name = "buffer" },
       { name = "nvim_lua" },
       { name = "path", option = { trailing_slash = true } },
+      { name = "crates" },
     },
   }
 

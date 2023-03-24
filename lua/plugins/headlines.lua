@@ -1,4 +1,5 @@
 return {
+  enabled = false,
   "lukas-reineke/headlines.nvim",
   filetype = { "markdown", "neorg", "orgmode" },
   config = function()

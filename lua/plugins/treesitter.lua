@@ -27,13 +27,13 @@ return {
     config = function()
       vim.filetype.add { extension = { wgsl = "wgsl" } }
 
-      local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
-      parser_config.wgsl = {
-        install_info = {
-          url = "https://github.com/szebniok/tree-sitter-wgsl",
-          files = { "src/parser.c" },
-        },
-      }
+      -- local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+      -- parser_config.wgsl = {
+      --   install_info = {
+      --     url = "https://github.com/szebniok/tree-sitter-wgsl",
+      --     files = { "src/parser.c" },
+      --   },
+      -- }
 
       require("nvim-treesitter.configs").setup {
         ensure_installed = "all",
@@ -88,8 +88,8 @@ return {
               goto_definition = "gnd",
               list_definitions = "gnD",
               list_definitions_toc = "gO",
-              goto_next_usage = ")",
-              goto_previous_usage = "(",
+              -- goto_next_usage = ")",
+              -- goto_previous_usage = "(",
             },
           },
         },

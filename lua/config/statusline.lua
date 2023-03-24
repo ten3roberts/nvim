@@ -71,10 +71,10 @@ local special_map = {
   qf = qf_func,
   aerial = {
     [true] = function(_)
-      return "%#Purple#  Aerial "
+      return "%#Purple# 󰀘 Aerial "
     end,
     [false] = function(_)
-      return "  Aerial "
+      return "󰀘 Aerial "
     end,
   },
   graphene = {

@@ -1,5 +1,5 @@
 local M = {
-  enabled = false,
+  enabled = true,
   "cbochs/portal.nvim",
   dependencies = {
     -- "cbochs/grapple.nvim", -- Optional: provides the "grapple" query item
@@ -8,16 +8,12 @@ local M = {
   keys = {
     {
       "<leader>i",
-      function()
-        require("portal").jump_forward()
-      end,
+      "<cmd>Portal jumplist forward<cr>",
     },
     {
 
       "<leader>o",
-      function()
-        require("portal").jump_backward()
-      end,
+      "<cmd>Portal jumplist backward<cr>",
     },
   },
 }
