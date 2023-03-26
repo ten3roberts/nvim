@@ -30,7 +30,6 @@ return {
       require("recipe").setup {
         term = {
           auto_close = false,
-          kind = "float",
         },
       }
     end,
@@ -177,6 +176,9 @@ return {
   {
     "karb94/neoscroll.nvim",
     config = function()
+      if vim.g.neovide then
+        return
+      end
       require("neoscroll").setup {
         -- All these keys will be mapped to their corresponding default scrolling animation
         -- mappings = { "<C-u>", "<C-d>", "<C-b>", "<C-f>", "<C-y>", "<C-e>", "zt", "zz", "zb" },
@@ -429,7 +431,12 @@ return {
     end,
   },
 
-  { "stevearc/stickybuf.nvim", config = function() end },
+  {
+    "stevearc/stickybuf.nvim",
+    config = function()
+      require("stickybuf").setup()
+    end,
+  },
 
   -- "haya14busa/vim-asterisk",
   "tpope/vim-commentary",

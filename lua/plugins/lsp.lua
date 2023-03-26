@@ -184,6 +184,11 @@ return {
                 -- procMacro = {
                 --   enable = false,
                 -- },
+                workspace = {
+                  symbol = {
+                    search_kind = "all_symbols",
+                  },
+                },
               },
             },
           })

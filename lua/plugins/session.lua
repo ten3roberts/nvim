@@ -1,10 +1,10 @@
 return {
   -- {
-  --   "https://github.com/ahmedkhalf/project.nvim",
+  --   "ahmedkhalf/project.nvim",
   --   config = function()
   --     require("project_nvim").setup {
   --       -- detection_methods = { "pattern", "lsp" },
-  --       detection_methods = { "pattern" },
+  --       -- detection_methods = { "pattern" },
   --     }
   --   end,
   -- },
@@ -14,7 +14,7 @@ return {
     config = function()
       vim.o.sessionoptions = "buffers,help,tabpages"
       require("auto-session").setup {
-        log_level = "info",
+        -- log_level = "debug",
         -- auto_session_suppress_dirs = { "~/" },
         -- auto_session_enable_last_session = true,
         -- cwd_change_handling = {
