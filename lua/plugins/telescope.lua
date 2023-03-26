@@ -1,60 +1,71 @@
+local mf = function()
+  return require("telescope").extensions.menufacture
+end
+local builtin = function()
+  return require "telescope.builtin"
+end
+
 return {
 
   { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+  {
+    "molecule-man/telescope-menufacture",
+  },
   {
     "nvim-telescope/telescope.nvim",
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope-fzf-native.nvim",
+      "molecule-man/telescope-menufacture",
     },
     keys = {
       { "z=", "<cmd>Telescope spell_suggest<CR>" },
       {
         "<leader><leader>",
         function()
-          require("telescope.builtin").find_files {}
+          mf().find_files {}
         end,
       },
       {
-        "<leader>o",
+        "<leader>go",
         function()
-          require("telescope.builtin").lsp_document_symbols {}
+          builtin().lsp_document_symbols {}
         end,
       },
       {
         "<leader>O",
         function()
-          require("telescope.builtin").lsp_dynamic_workspace_symbols {}
+          builtin().lsp_dynamic_workspace_symbols {}
         end,
       },
       {
         "<leader>rg",
         function()
-          require("telescope.builtin").live_grep {}
+          mf().live_grep {}
         end,
       },
       {
         "<leader>rh",
         function()
-          require("telescope.builtin").help_tags {}
+          builtin().help_tags {}
         end,
       },
       {
         "<leader>rG",
         function()
-          require("telescope.builtin").grep_string {}
+          mf().grep_string {}
         end,
       },
       {
         "<leader>/",
         function()
-          require("telescope.builtin").current_buffer_fuzzy_find {}
+          builtin().current_buffer_fuzzy_find {}
         end,
       },
       {
         "<leader>,",
         function()
-          require("telescope.builtin").buffers {}
+          builtin().buffers {}
         end,
       },
     },
@@ -63,22 +74,24 @@ return {
 
       local telescope = require "telescope"
 
+      telescope.load_extension "menufacture"
+
       local ivy = require("telescope.themes").get_ivy {
         layout_config = { width = 0.7, height = 0.7 },
       }
 
       telescope.setup {
         defaults = {
-          vimgrep_arguments = {
-            "rg",
-            "--fixed-strings",
-            "--color=never",
-            "--no-heading",
-            "--with-filename",
-            "--line-number",
-            "--column",
-            "--smart-case",
-          },
+          -- vimgrep_arguments = {
+          --   "rg",
+          --   "--fixed-strings",
+          --   "--color=never",
+          --   "--no-heading",
+          --   "--with-filename",
+          --   "--line-number",
+          --   "--column",
+          --   "--smart-case",
+          -- },
           layout_config = {
             horizontal = {
               prompt_position = "top",

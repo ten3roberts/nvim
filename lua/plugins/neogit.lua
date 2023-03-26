@@ -16,9 +16,10 @@ return {
       integrations = {
         diffview = true,
       },
+      ignored_settings = { "NeogitPushPopup--force-with-lease" },
       disable_builtin_notifications = true,
       auto_show_console = false,
-      disable_commit_confirmation = false,
+      disable_commit_confirmation = true,
       sections = {
         -- untracked = {
         --   folded = true,

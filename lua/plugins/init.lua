@@ -1,5 +1,4 @@
 return {
-
   {
     "ten3roberts/graphene.nvim",
     config = function()
@@ -36,7 +35,6 @@ return {
   },
   {
     "ten3roberts/window-picker.nvim",
-
     keys = {
       {
         "<leader>w",
@@ -64,104 +62,6 @@ return {
     end,
   },
 
-  {
-    "rcarriga/nvim-notify",
-    lazy = false,
-
-    keys = { { "<leader>pn", "<cmd>Telescope notify notify<CR>" } },
-    config = function()
-      require("notify").setup {
-        timeout = 1000,
-        render = "minimal",
-        stages = "slide",
-        level = "debug",
-        top_down = false,
-        max_width = 120,
-
-        on_open = function(win)
-          if vim.api.nvim_win_is_valid(win) then
-            vim.api.nvim_win_set_config(win, { border = "single" })
-          end
-        end,
-      }
-
-      vim.notify = require "notify"
-    end,
-  },
-  {
-
-    "lewis6991/gitsigns.nvim",
-
-    config = function()
-      require("gitsigns").setup {
-
-        -- current_line_blame = false,
-
-        on_attach = function(bufnr)
-          local gs = package.loaded.gitsigns
-
-          local function map(mode, l, r, opts)
-            opts = opts or {}
-            opts.buffer = bufnr
-            vim.keymap.set(mode, l, r, opts)
-          end
-
-          -- Navigation
-          map("n", "]c", gs.next_hunk)
-          map("n", "[c", gs.prev_hunk)
-
-          -- Actions
-          map({ "n", "v" }, "<leader>hs", gs.stage_hunk)
-          map({ "n", "v" }, "<leader>hr", gs.reset_hunk)
-          map("n", "<leader>hS", gs.stage_buffer)
-          map("n", "<leader>hu", gs.undo_stage_hunk)
-          map("n", "<leader>hR", gs.reset_buffer)
-          map("n", "<leader>hp", gs.preview_hunk)
-          map("n", "<leader>hb", function()
-            gs.blame_line { full = true }
-          end)
-          map("n", "<leader>tb", gs.toggle_current_line_blame)
-          map("n", "<leader>hd", gs.diffthis)
-          map("n", "<leader>hD", function()
-            gs.diffthis "~"
-          end)
-          map("n", "<leader>td", gs.toggle_deleted)
-
-          -- Text object
-          map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>")
-        end,
-      }
-    end,
-  },
-  {
-    "sindrets/diffview.nvim",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    config = function()
-      require("diffview").setup {
-        enhanced_diff_hl = true, -- See ':h diffview-config-enhanced_diff_hl'
-        view = {
-
-          merge_tool = {
-            -- Config for conflicted files in diff views during a merge or rebase.
-            -- layout = "diff3_mixed",
-            disable_diagnostics = false, -- Temporarily disable diagnostics for conflict buffers while in the view.
-          },
-        },
-        keymaps = {
-          view = {
-            ["q"] = "<cmd>DiffviewClose<CR>",
-          },
-          file_history_panel = {
-            ["q"] = "<cmd>DiffviewClose<CR>",
-          },
-          file_panel = {
-            ["q"] = "<cmd>DiffviewClose<CR>",
-          },
-        },
-      }
-    end,
-  },
-
   -- {
   --   "https://github.com/ahmedkhalf/project.nvim",
   --   config = function()
@@ -182,7 +82,7 @@ return {
       require("neoscroll").setup {
         -- All these keys will be mapped to their corresponding default scrolling animation
         -- mappings = { "<C-u>", "<C-d>", "<C-b>", "<C-f>", "<C-y>", "<C-e>", "zt", "zz", "zb" },
-        easing_function = "quadratic",
+        -- easing_function = "quadratic",
 
         -- hide_cursor = true, -- Hide cursor while scrolling
         -- stop_eof = true, -- Stop at <EOF> when scrolling downwards
@@ -366,20 +266,6 @@ return {
   },
 
   {
-    "stevearc/dressing.nvim",
-    dependencies = { "telescope.nvim" },
-    config = function()
-      require("dressing").setup {
-        select = {
-          telescope = require("telescope.themes").get_dropdown {
-            border = false,
-          },
-        },
-      }
-    end,
-  },
-
-  {
     "kylechui/nvim-surround",
     config = function()
       require("nvim-surround").setup {
@@ -434,7 +320,7 @@ return {
   {
     "stevearc/stickybuf.nvim",
     config = function()
-      require("stickybuf").setup()
+      require("stickybuf").setup {}
     end,
   },
 

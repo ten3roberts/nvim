@@ -1,6 +1,6 @@
 local ui = require "dapui"
 ui.setup {
-  icons = { expanded = "▾", collapsed = "▸" },
+  -- icons = { expanded = "▾", collapsed = "▸" },
   -- mappings = {
   --   -- Use a table to apply multiple mappings
   --   expand = { "<CR>", "<2-LeftMouse>", "<Tab>" },
@@ -31,7 +31,7 @@ ui.setup {
         "stacks",
         "watches",
       },
-      size = 40, -- 40 columns
+      size = 50, -- 40 columns
       position = "right",
     },
     -- {
@@ -41,14 +41,14 @@ ui.setup {
     -- },
   },
   floating = {
-    max_height = nil, -- These can be integers or a float between 0 and 1.
-    max_width = nil, -- Floats will be treated as percentage of your screen.
+    -- max_height = nil, -- These can be integers or a float between 0 and 1.
+    -- max_width = nil, -- Floats will be treated as percentage of your screen.
     border = "none",
     mappings = {
       close = { "q", "<Esc>" },
     },
   },
-  windows = { indent = 0 },
+  -- windows = { indent = 0 },
 }
 
 local dap = require "dap"
@@ -83,7 +83,7 @@ dap.configurations.rust = {
     end,
     cwd = "${workspaceFolder}",
     stopOnEntry = false,
-    -- justMyCode = true,
+    justMyCode = true,
     -- if you change `runInTerminal` to true, you might need to change the yama/ptrace_scope setting:
     --
     --    echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope

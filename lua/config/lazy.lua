@@ -16,5 +16,6 @@ require("lazy").setup("plugins", {
     path = "~/dev/nvim",
     ---@type string[] plugins that match these patterns will use your local versions instead of being fetched from GitHub
     patterns = { "ten3roberts" }, -- For example {"folke"}
+    fallback = true,
   },
 })

@@ -107,6 +107,39 @@ return {
           require("dap").set_exception_breakpoints()
         end,
       },
+      {
+        "<leader>dl",
+        function()
+          require("dap").run_last()
+        end,
+      },
+
+      {
+        "<leader>dh",
+        function()
+          require("dap.ui.widgets").hover()
+        end,
+      },
+      {
+        "<leader>dp",
+        function()
+          require("dap.ui.widgets").preview()
+        end,
+      },
+      {
+        "<leader>df",
+        function()
+          local widgets = require "dap.ui.widgets"
+          widgets.centered_float(widgets.frames)
+        end,
+      },
+      {
+        "<leader>ds",
+        function()
+          local widgets = require "dap.ui.widgets"
+          widgets.centered_float(widgets.scopes)
+        end,
+      },
     },
     config = function()
       require "config.dap"

@@ -5,7 +5,6 @@ end
 local qf = require "qf"
 local graphene = require "graphene"
 
-local diffview = require "diffview"
 -- local neotest = require "neotest"
 
 local tree = require "config.treebind"
@@ -78,27 +77,27 @@ tree.register({
     q = { "<cmd>tabclose<CR>", "Close tab" },
   },
 
-  g = {
-    name = "git",
-    d = { diffview.open, "Diffview" },
-    D = {
-      function()
-        if vim.api.nvim_get_mode().mode == "s" then
-          vim.cmd ":'<,'>DiffviewFileHistory %"
-        else
-          vim.cmd "DiffviewFileHistory %"
-        end
-      end,
-      "DiffviewFileHistory",
-      mode = { "n", "s" },
-    },
-    m = {
-      function()
-        diffview.open "@{u}...HEAD"
-      end,
-      "Diff against parent branch",
-    },
-  },
+  -- g = {
+  --   name = "git",
+  --   d = { diffview.open, "Diffview" },
+  --   D = {
+  --     function()
+  --       if vim.api.nvim_get_mode().mode == "s" then
+  --         vim.cmd ":'<,'>DiffviewFileHistory %"
+  --       else
+  --         vim.cmd "DiffviewFileHistory %"
+  --       end
+  --     end,
+  --     "DiffviewFileHistory",
+  --     mode = { "n", "s" },
+  --   },
+  --   m = {
+  --     function()
+  --       diffview.open "@{u}...HEAD"
+  --     end,
+  --     "Diff against parent branch",
+  --   },
+  -- },
   h = {
     name = "term",
     t = {
