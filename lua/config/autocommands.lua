@@ -7,35 +7,23 @@ local function au(event, opts)
   a.nvim_create_autocmd(event, opts)
 end
 
-local function format(opts)
-  local bufnr = opts.bufnr
-  local clients = vim.lsp.buf_get_clients(bufnr)
-  clients = vim.tbl_filter(function(client)
-    return client.supports_method "textDocument/formatting"
-  end, clients)
-
-  if #clients == 0 then
-    return
-  end
-
-  vim.lsp.buf.format { bufnr = bufnr }
-end
-
-au({ "BufWinEnter", "FileType", "BufEnter" }, {
+au({ "FileType", "BufWinEnter" }, {
   callback = function(o)
-    -- local ft = vim.api.nvim_buf_get_option(o.buf, "filetype")
-    if vim.api.nvim_buf_get_option(o.buf, "buftype") == "" then
-      vim.opt.spell = true
+    local buftype = a.nvim_buf_get_option(o.buf, "buftype");
+    local filetype = a.nvim_buf_get_option(o.buf, "filetype");
+    local bufname = a.nvim_buf_get_name(o.buf)
+
+    local info  = { filetype = filetype, buftype = buftype, bufname  = bufname }
+    if filetype ~= "" and buftype == "" then
+      -- print("Enabling spell " .. vim.inspect(info))
+      vim.wo.spell = true
     else
-      vim.opt.spell = false
+      -- print("Disabling spell " .. vim.inspect(info))
+      vim.wo.spell = false
     end
   end,
 })
-au({ "VimResized" }, {
-  callback = function()
-    vim.cmd "wincmd ="
-  end,
-})
+
 au({ "ColorScheme" }, { callback = require("config.palette").setup })
 au({ "BufRead", "BufNewFile" }, {
   callback = function()
@@ -43,7 +31,7 @@ au({ "BufRead", "BufNewFile" }, {
   end,
   pattern = ".gltf",
 })
-au({ "BufWritePre" }, { callback = format })
+
 au({ "BufWritePre" }, {
   callback = function()
     if vim.o.buftype == "" then
@@ -51,6 +39,8 @@ au({ "BufWritePre" }, {
     end
   end,
 })
+
+
 au({ "TermEnter" }, {
   callback = function()
     vim.keymap.set("t", "<esc>", "<C-\\><C-n>", { buffer = true })

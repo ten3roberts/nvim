@@ -164,10 +164,10 @@ for i = 0, 9 do
   map("n", "<leader>" .. i, i .. "gt")
 end
 
-map("n", "<A-,>", ":tabprevious<CR>")
-map("n", "<A-.>", ":tabnext<CR>")
-map("n", "<A-<>", ":tabmove -1<CR>")
-map("n", "<A->>", ":tabmove +1<CR>")
+map("n", "<A-,>", "<cmd>tabprevious<CR>")
+map("n", "<A-.>", "<cmd>tabnext<CR>")
+map("n", "<A-<>", "<cmd>tabmove -1<CR>")
+map("n", "<A->>", "<cmd>tabmove +1<CR>")
 
 -- Search highlighting
 -- map("n", "n", "<plug>(searchhi-n)")

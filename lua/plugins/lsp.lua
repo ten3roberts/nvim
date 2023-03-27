@@ -5,6 +5,8 @@ local border = "single"
 local function on_attach(client, bufnr)
   local opts = client.config
 
+  require("lsp-format").on_attach(client)
+
   local keymap = {}
   if type(opts.keymap) == "function" then
     keymap = opts.keymap()
@@ -161,6 +163,7 @@ return {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
       "jose-elias-alvarez/null-ls.nvim",
+      "lukas-reineke/lsp-format.nvim",
     },
     config = function()
       require("lspkind").init {}
