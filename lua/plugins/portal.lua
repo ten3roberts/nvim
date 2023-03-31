@@ -22,42 +22,42 @@ function M.config()
   print "Setting up portal"
   require("portal").setup {
     portal = {
-      title = {
-        --- When a portal is empty, render an default portal title
-        render_empty = true,
+      -- title = {
+      --   --- When a portal is empty, render an default portal title
+      --   render_empty = true,
 
-        --- The raw window options used for the portal title window
-        options = {
-          relative = "cursor",
-          width = 80,
-          height = 1,
-          col = 2,
-          style = "minimal",
-          focusable = false,
-          border = "single",
-          noautocmd = true,
-          zindex = 98,
-        },
-      },
+      --   --- The raw window options used for the portal title window
+      --   options = {
+      --     relative = "cursor",
+      --     width = 80,
+      --     height = 1,
+      --     col = 2,
+      --     style = "minimal",
+      --     focusable = false,
+      --     border = "single",
+      --     noautocmd = true,
+      --     zindex = 98,
+      --   },
+      -- },
 
-      body = {
-        -- When a portal is empty, render an empty buffer body
-        render_empty = true,
+      -- body = {
+      --   -- When a portal is empty, render an empty buffer body
+      --   render_empty = true,
 
-        --- The raw window options used for the portal body window
-        options = {
-          relative = "cursor",
-          width = 80,
-          height = 6,
-          col = 2,
-          focusable = false,
-          border = "single",
-          noautocmd = true,
-          zindex = 99,
-        },
-      },
+      --   --- The raw window options used for the portal body window
+      --   options = {
+      --     relative = "cursor",
+      --     width = 80,
+      --     height = 6,
+      --     col = 2,
+      --     focusable = false,
+      --     border = "single",
+      --     noautocmd = true,
+      --     zindex = 99,
+      --   },
+      -- },
     },
-    query = { "harpoon", "modified", "different", "valid" },
+    -- query = { "harpoon", "modified", "different", "valid" },
   }
 end
 

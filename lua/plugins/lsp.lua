@@ -229,7 +229,7 @@ return {
             end,
             standalone = false,
 
-            root_dir = rust_analyzer_root_dir,
+            -- root_dir = rust_analyzer_root_dir,
             --   local startpath_uri = vim.uri_from_fname(startpath)
             --   if not is_in_workspace(startpath) then
             --     vim.notify(string.format("%q is not in the workspace", startpath))
@@ -245,16 +245,16 @@ return {
                 cargo = {
                   loadOutDirsFromCheck = true,
                   buildScripts = {
-                    enable = false,
+                    enable = true,
                   },
                   -- features = "all",
                 },
                 references = {
                   excludeImports = true,
                 },
-                -- procMacro = {
-                --   enable = true,
-                -- },
+                procMacro = {
+                  enable = true,
+                },
                 check = {
                   command = "clippy",
                 },
