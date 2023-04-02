@@ -1,6 +1,7 @@
 return {
 
   -- Better handling and seeking for textobjects
+  enabled = false,
   "wellle/targets.vim",
   config = function()
     vim.api.nvim_create_autocmd("User", {

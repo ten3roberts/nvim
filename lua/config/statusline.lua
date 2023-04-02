@@ -362,7 +362,7 @@ _G.config_sl_update = M.update
 
 function M.setup()
   vim.g.qf_disable_statusline = 1
-  vim.o.statusline = "%{%v:lua.config_sl_update()%}"
+  -- vim.o.statusline = "%{%v:lua.config_sl_update()%}"
   vim.o.tabline = "%{%v:lua.require'config.statusline'.update_tabline()%}"
 
   -- cmd [[

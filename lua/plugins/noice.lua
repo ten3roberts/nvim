@@ -1,4 +1,5 @@
 return {
+  enabled = false,
   "folke/noice.nvim",
   config = function()
     require("noice").setup {

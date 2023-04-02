@@ -247,7 +247,7 @@ return {
                   buildScripts = {
                     enable = true,
                   },
-                  -- features = "all",
+                  features = "all",
                 },
                 references = {
                   excludeImports = true,

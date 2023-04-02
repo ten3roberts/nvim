@@ -213,6 +213,8 @@ function M.setup()
 
   fn.sign_define("DapBreakpoint", { text = "●", texthl = "DiagnosticSignError", linehl = "", numhl = "" })
   fn.sign_define("DapStopped", { text = "", texthl = "Green", linehl = "DapStopped", numhl = "" })
+
+  require("config.heirline").setup()
 end
 
 return M
