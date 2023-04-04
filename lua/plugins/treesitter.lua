@@ -100,12 +100,12 @@ return {
             lookahead = true,
             keymaps = {
               -- You can use the capture groups defined in textobjects.scm
-              ["af"] = "@function.outer",
-              ["if"] = "@function.inner",
-              ["ac"] = "@class.outer",
-              ["ic"] = "@class.inner",
-              ["iA"] = "@parameter.inner",
-              ["aA"] = "@parameter.outer",
+              -- ["af"] = "@function.outer",
+              -- ["if"] = "@function.inner",
+              -- ["ac"] = "@class.outer",
+              -- ["ic"] = "@class.inner",
+              -- ["iA"] = "@parameter.inner",
+              -- ["aA"] = "@parameter.outer",
               ["i;"] = "@call.inner",
               ["a;"] = "@call.outer",
             },

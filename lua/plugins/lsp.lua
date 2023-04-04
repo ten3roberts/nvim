@@ -98,7 +98,7 @@ local function rust_analyzer_root_dir(fname)
   end
 
   vim.notify "Directory is local"
-  local cargo_crate_dir = util.root_pattern "Cargo.toml"(fname)
+  local cargo_crate_dir = util.root_pattern "Cargo.toml" (fname)
   local cmd = { "cargo", "metadata", "--no-deps", "--format-version", "1" }
   if cargo_crate_dir ~= nil then
     cmd[#cmd + 1] = "--manifest-path"
@@ -134,14 +134,14 @@ local function rust_analyzer_root_dir(fname)
     )
   end
   return cargo_workspace_dir
-    or cargo_crate_dir
-    or util.root_pattern "rust-project.json"(fname)
-    or util.find_git_ancestor(fname)
+      or cargo_crate_dir
+      or util.root_pattern "rust-project.json" (fname)
+      or util.find_git_ancestor(fname)
 end
 
 return {
   {
-    enabled = false,
+    enabled = true,
     "j-hui/fidget.nvim",
     config = function()
       require("fidget").setup {
@@ -153,7 +153,6 @@ return {
     end,
   },
   {
-
     "neovim/nvim-lspconfig",
     dependencies = {
       -- "mfussenegger/nvim-dap",
@@ -169,9 +168,9 @@ return {
       require("lspkind").init {}
 
       local handlers = {
-        ["textDocument/publishDiagnostics"] = require("config.lsp").on_publish_diagnostics,
-        -- ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
-        ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
+        -- ["textDocument/publishDiagnostics"] = require("config.lsp").on_publish_diagnostics,
+        -- -- ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
+        -- ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
       }
 
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -228,7 +227,6 @@ return {
               return { hover = rt.hover_actions.hover_actions }
             end,
             standalone = false,
-
             -- root_dir = rust_analyzer_root_dir,
             --   local startpath_uri = vim.uri_from_fname(startpath)
             --   if not is_in_workspace(startpath) then
@@ -282,29 +280,24 @@ return {
           })
 
           require("rust-tools").setup {
-            tools = { -- rust-tools options
+            tools = {
+                      -- rust-tools options
               inlay_hints = {
                 auto = true,
                 only_current_line = true,
                 -- prefix for parameter hints
                 parameter_hints_prefix = "  • ",
-
                 -- prefix for all the other hints (type, chaining)
                 other_hints_prefix = "  => ",
-
                 -- whether to align to the length of the longest line in the file
                 max_len_align = false,
-
                 -- padding from the left if max_len_align is true
                 max_len_align_padding = 4,
-
                 -- padding from the left if max_len_align is true
                 -- whether to align to the extreme right or not
                 right_align = false,
-
                 -- padding from the right if right_align is true
                 right_align_padding = 8,
-
                 -- The color of the hints
                 highlight = "InlayHint",
               },
@@ -326,7 +319,6 @@ return {
     end,
   },
   {
-
     "jose-elias-alvarez/null-ls.nvim",
     config = function()
       local null_ls = require "null-ls"
