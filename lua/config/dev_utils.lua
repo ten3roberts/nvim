@@ -68,4 +68,8 @@ function M.save_and_exec()
   end
 end
 
+_G.P = function(...)
+ print(vim.inspect(...))
+end
+
 return M

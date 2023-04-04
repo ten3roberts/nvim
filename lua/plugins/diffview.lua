@@ -2,8 +2,8 @@ return {
   "sindrets/diffview.nvim",
   dependencies = { "nvim-lua/plenary.nvim" },
   keys = {
-    { "<leader>gd", "<cmd>DiffViewOpen<cr>" },
-    -- { "<leader>gD", "<cmd>DiffviewFileHistory %<cr>" },
+    { "<leader>gd", "<cmd>DiffviewOpen<cr>" },
+    { "<leader>gD", "<cmd>DiffviewFileHistory %<cr>" },
     {
       "<leader>gD",
       "<cmd>DiffviewFileHistory<cr>",

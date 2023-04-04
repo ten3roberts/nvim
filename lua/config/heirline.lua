@@ -1,6 +1,12 @@
 local conditions = require("heirline.conditions")
 local utils = require("heirline.utils")
 
+
+local function pill(component, color)
+  return utils.surround({ "", "" },
+    color,
+    component)
+end
 local M = {}
 
 function M.setup_colors()
@@ -97,11 +103,8 @@ function M.setup()
     provider = function(self)
       return " %-2(" .. self.mode_names[self.mode] .. "%)"
     end,
-    -- Same goes for the highlight. Now the foreground will change according to the current mode.
-    hl = function(self)
-      local mode = self.mode:sub(1, 1) -- get only the first mode character
-      return { fg = "normal_bg", bold = true, }
-    end,
+    hl =
+    { fg = "normal_bg", bold = true, },
     -- Re-evaluate the component only on ModeChanged event!
     -- Also allorws the statusline to be re-evaluated when entering operator-pending mode
     update = {
@@ -136,20 +139,24 @@ function M.setup()
     end
   }
 
+
   local FileName = {
-    provider = function(self)
-      -- first, trim the pattern relative to the current directory. For other
-      -- options, see :h filename-modifers
+    init = function(self)
       local filename = vim.fn.fnamemodify(self.filename, ":.")
-      if filename == "" then return "[No Name]" end
-      -- now, if the filename would occupy more than 1/4th of the available
-      -- space, we trim the file path to its initials
-      -- See Flexible Components section below for dynamic truncation
-      if not conditions.width_percent_below(#filename, 0.25) then
-        filename = vim.fn.pathshorten(filename)
-      end
-      return filename
+      if filename == "" then filename = "[No Name]" end
+      self.lfilename = filename
     end,
+    flexible = 20,
+    {
+      provider = function(self)
+        return self.lfilename
+      end,
+    },
+    {
+      provider = function(self)
+        return vim.fn.pathshorten(self.lfilename)
+      end,
+    },
   }
 
   local FileFlags = {
@@ -203,13 +210,13 @@ function M.setup()
     -- %L = number of lines in the buffer
     -- %c = column number
     -- %P = percentage through file of displayed window
-    provider = "%6(%l:%3L%)",
+    provider = "%3l:%-3L",
     hl = { fg = "normal_bg", bold = true }
     -- hl = { bg = "blue" , fg = "normal_bg", bold = true},
   }
-  Ruler = utils.surround({ "", "" }, function(self)
+  Ruler = pill(Ruler, function(self)
     return self:mode_color()
-  end, { Ruler })
+  end)
 
   -- I take no credits for this! :lion:
   local ScrollBar = {
@@ -230,21 +237,24 @@ function M.setup()
 
   local LSPActive = {
     condition = conditions.lsp_attached,
-    update    = { 'LspAttach', 'LspDetach' },
     -- You can keep it simple,
     -- provider = " [LSP]",
 
     -- Or complicate things a bit and get the servers names
-    {
-      provider = function()
-        local names = {}
-        for _, server in pairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
-          table.insert(names, server.name)
-        end
-        return " [" .. table.concat(names, " ") .. "]"
-      end
-    },
-    hl = { fg = "green", bold = true },
+    flexible  = 5,
+    pill({
+        update   = { 'LspAttach', 'LspDetach' },
+        provider = function()
+          local names = {}
+          for _, server in pairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
+            table.insert(names, server.name)
+          end
+          return " " .. table.concat(names, " ")
+        end,
+        hl       = { fg = "green" },
+      },
+      "bright_bg"),
+    { provider = "" },
   }
 
   -- I personally use it only to display progress messages!
@@ -256,6 +266,7 @@ function M.setup()
   --   hl = { fg = "gray" },
   -- }
   local Diagnostics = {
+    update = { "DiagnosticChanged", "BufEnter", "WinResized" },
     condition = conditions.has_diagnostics,
     static = {
       error_icon = vim.fn.sign_getdefined("DiagnosticSignError")[1].text,
@@ -269,33 +280,49 @@ function M.setup()
       self.hints = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.HINT })
       self.info = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.INFO })
     end,
-    update = { "DiagnosticChanged", "BufEnter" },
+    flexible = 10,
     {
-      provider = function(self)
-        -- 0 is just another output, we can decide to print it or not!
-        return self.errors > 0 and (self.error_icon .. self.errors .. " ")
-      end,
-      hl = { fg = "diag_error" },
+      {
+        provider = function(self)
+          -- 0 is just another output, we can decide to print it or not!
+          return self.errors > 0 and (self.error_icon .. self.errors .. " ")
+        end,
+        hl = { fg = "diag_error" },
+      },
+      {
+        provider = function(self)
+          return self.warnings > 0 and (self.warn_icon .. self.warnings .. " ")
+        end,
+        hl = { fg = "diag_warn" },
+      },
+      {
+        provider = function(self)
+          return self.info > 0 and (self.info_icon .. self.info .. " ")
+        end,
+        hl = { fg = "diag_info" },
+      },
+      {
+        provider = function(self)
+          return self.hints > 0 and (self.hint_icon .. self.hints)
+        end,
+        hl = { fg = "diag_hint" },
+      },
     },
     {
       provider = function(self)
-        return self.warnings > 0 and (self.warn_icon .. self.warnings .. " ")
+        local total = self.errors + self.warnings + self.info + self.hints
+        return total > 0 and " " .. total
       end,
-      hl = { fg = "diag_warn" },
-    },
-    {
-      provider = function(self)
-        return self.info > 0 and (self.info_icon .. self.info .. " ")
-      end,
-      hl = { fg = "diag_info" },
-    },
-    {
-      provider = function(self)
-        return self.hints > 0 and (self.hint_icon .. self.hints)
-      end,
-      hl = { fg = "diag_hint" },
-    },
+      hl = { fg = "orange" },
+    }
   }
+
+local function diff_indicator(sign, count, total)
+        if count == 0 then return "" end
+        local n = math.ceil(math.min((3 * count  / total), math.log(count + 1, 2)));
+        return string.rep(sign, n)
+
+end
 
   local Git = {
     condition = conditions.is_git_repo,
@@ -305,45 +332,59 @@ function M.setup()
           (self.status_dict.changed or 0)
     end,
     hl = { fg = "orange" },
+    flexible = 5,
+    -- You could handle delimiters, icons and counts similar to Diagnostics
+    {
+      {
+        -- git branch name
+        provider = function(self)
+          return " " .. self.status_dict.head
+        end,
+      },
+
+      {
+        condition = function(self)
+          return self.total_changes > 0
+        end,
+        provider = "("
+      },
+      {
+        provider = function(self)
+            return diff_indicator("+", (self.status_dict.added or 0), self.total_changes)
+        end,
+        hl = { fg = "git_add" },
+      },
+      {
+        provider = function(self)
+            return diff_indicator("~", (self.status_dict.changed or 0), self.total_changes)
+        end,
+        hl = { fg = "git_change" },
+      },
+      {
+        provider = function(self)
+            return diff_indicator("-", (self.status_dict.removed or 0), self.total_changes)
+        end,
+        hl = { fg = "git_del" },
+      },
+      {
+        condition = function(self)
+          return self.total_changes > 0
+        end,
+        provider = ")"
+      },
+
+    },
     {
       -- git branch name
       provider = function(self)
         return " " .. self.status_dict.head
       end,
     },
-    -- You could handle delimiters, icons and counts similar to Diagnostics
     {
-      condition = function(self)
-        return self.total_changes > 0
+      -- git branch name
+      provider = function()
+        return ""
       end,
-      provider = "("
-    },
-    {
-      provider = function(self)
-        local count = math.ceil(3 * (self.status_dict.added or 0) / self.total_changes);
-        return string.rep("+", count)
-      end,
-      hl = { fg = "git_add" },
-    },
-    {
-      provider = function(self)
-        local count = math.ceil(3 * (self.status_dict.changed or 0) / self.total_changes);
-        return string.rep("~", count)
-      end,
-      hl = { fg = "git_change" },
-    },
-    {
-      provider = function(self)
-        local count = math.ceil(3 * (self.status_dict.removed or 0) / self.total_changes);
-        return string.rep("-", count)
-      end,
-      hl = { fg = "git_del" },
-    },
-    {
-      condition = function(self)
-        return self.total_changes > 0
-      end,
-      provider = ")",
     },
   }
 
@@ -359,6 +400,7 @@ function M.setup()
     -- see Click-it! section for clickable actions
   }
 
+
   local TerminalName = {
     -- we could add a condition to check that buftype == 'terminal'
     -- or we could do that later (see #conditional-statuslines below)
@@ -373,7 +415,7 @@ function M.setup()
   local Space = { provider = " " }
 
 
-  ViMode = utils.surround({ "", "" }, function(self) return self:mode_color() end, { ViMode })
+  ViMode = pill(ViMode, function(self) return self:mode_color() end)
 
   local DefaultStatusline = {
     ViMode, Space, Git, Space, FileNameBlock, Space, Align,
@@ -428,42 +470,38 @@ function M.setup()
       return conditions.buffer_matches({ filetype = { "qf" } })
     end,
     init = function(self)
-      local wininfo = vim.fn.getwininfo(vim.api.nvim_get_current_win())[1]
-      local q = {}
-      if wininfo.loclist == 1 then
-        q = vim.fn.getloclist(0, { idx = 0, size = 1 })
-      else
-        q = vim.fn.getqflist { idx = 0, size = 1 }
-      end
+      local info = qf.inspect_win(vim.api.nvim_get_current_win())
 
-      local idx = q.idx
-      local size = q.size
-      local percent = ""
-      if size > 0 then
-        percent = string.format("%3d", idx / size * 100) .. "%%"
-      end
-
-      self.percent = percent
-      self.title = wininfo.variables.quickfix_title or "no title"
-      self.idx = idx
-      self.size = size
+      print("Info: " .. vim.inspect(info))
+      self.info = info
     end,
     {
       { provider = "ﴯ", hl = { fg = "purple" } },
       Space,
       {
         provider = function(self)
-          return self.title
+          return self.info.title or "no title"
         end
-      }, Align,
-      utils.surround({ "", "" }, function(self)
-        return self:mode_color()
-      end, {
+      },
+      Space,
+      {
+        flexible = 5,
+        pill({
+          provider = function(self)
+            return self.info.tally_str
+          end
+        }, "bright_bg"),
+        { provider = "" }
+      },
+      Align,
+      pill({
         provider = function(self)
-          return string.format("%2d / %-2d", self.idx, self.size)
+          return string.format("%2d / %-2d", self.info.idx, self.info.size)
         end,
         hl = { fg = "normal_bg", bold = true }
-      })
+      }, function(self)
+        return self:mode_color()
+      end)
     }
   }
 

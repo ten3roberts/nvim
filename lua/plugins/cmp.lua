@@ -1,5 +1,4 @@
 local M = {
-
   "hrsh7th/nvim-cmp",
   dependencies = {
     "petertriho/cmp-git",
@@ -91,13 +90,13 @@ function M.config()
       ["<Tab>"] = confirm(cmp.ConfirmBehavior.Replace),
     },
     sources = cmp.config.sources {
-      { name = "git" },
+      -- { name = "git" },
       { name = "luasnip" },
       { name = "nvim_lsp" },
       { name = "treesitter" },
       -- { name = "buffer" },
       { name = "nvim_lua" },
-      { name = "path", option = { trailing_slash = true } },
+      -- { name = "path", option = { trailing_slash = true } },
       { name = "crates" },
     },
   }

@@ -312,6 +312,7 @@ return {
 
   {
     "mcauley-penney/tidy.nvim",
+    enabled = false,
     event = "BufWritePre",
     config = function()
       require("tidy").setup()
@@ -341,7 +342,7 @@ return {
   "tpope/vim-commentary",
   "tpope/vim-abolish",
   "tpope/vim-rsi",
-  "tpope/vim-sleuth",
+  -- "tpope/vim-sleuth",
   "tpope/vim-repeat",
   "mg979/vim-visual-multi",
 }

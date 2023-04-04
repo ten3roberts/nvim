@@ -38,8 +38,6 @@ return {
       -- Run this command after jumping to a symbol (false will disable)
       post_jump_cmd = "normal! zz",
 
-      -- -- Show box drawing characters for the tree hierarchy
-      show_guides = true,
     }
   end,
 }

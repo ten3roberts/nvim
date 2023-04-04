@@ -66,13 +66,11 @@ end
 
 -- Sets the location list with predefined options. Does not focus list.
 function M.set_loc(open)
-  print "Setting location list"
   diagnostic.setloclist {
     open = false,
     severity = { min = diagnostic.severity.WARN },
   }
 
-  qf.tally "l"
   qf.open("l", false, true)
 end
 
@@ -86,41 +84,7 @@ function M.set_qf()
     severity = { min = diagnostic.severity.WARN },
   }
 
-  qf.tally "c"
   qf.open("c", false, true)
-end
-
-local old_diagnostics = vim.lsp.handlers["textDocument/publishDiagnostics"]
--- function M.on_publish_diagnostics(err, method, result, client_id, _, _)
-function M.on_publish_diagnostics(err, result, ctx, cfg)
-  local uri = result.uri
-  local bufnr = vim.uri_to_bufnr(uri)
-
-  if not bufnr then
-    vim.notify "No bufnr for diagnostic callback"
-    return
-  end
-
-  -- Reset cache for current buffer
-  M.clear_buffer_cache(bufnr)
-
-  -- Tally up diagnostics
-  local diagnostic_count = {
-    [sev.ERROR] = 0,
-    [sev.WARN] = 0,
-    [sev.INFO] = 0,
-    [sev.HINT] = 0,
-  }
-
-  for _, v in ipairs(result.diagnostics) do
-    local severity = v.severity
-
-    diagnostic_count[severity] = diagnostic_count[severity] + 1
-  end
-
-  buffers[bufnr] = diagnostic_count
-
-  old_diagnostics(err, result, ctx, cfg)
 end
 
 return M

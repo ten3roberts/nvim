@@ -2,7 +2,7 @@ local ls = require "luasnip"
 local types = require "luasnip.util.types"
 
 ls.config.set_config {
-  history = true,
+  history = false,
   -- Update more often, :h events for more info.
   -- update_events = "TextChanged,TextChangedI",
   ext_opts = {
@@ -12,12 +12,12 @@ ls.config.set_config {
       },
     },
   },
-  delete_check_events = "TextChanged",
+  -- delete_check_events = "TextChanged",
   -- treesitter-hl has 100, use something higher (default is 200).
   -- ext_base_prio = 300,
   -- minimal increase in priority.
   -- ext_prio_increase = 1,
-  enable_autosnippets = true,
+  -- enable_autosnippets = true,
 }
 
 _G.get_impl = get_impl
