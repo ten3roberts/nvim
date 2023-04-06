@@ -1,11 +1,8 @@
-local conditions = require("heirline.conditions")
-local utils = require("heirline.utils")
-
+local conditions = require "heirline.conditions"
+local utils = require "heirline.utils"
 
 local function pill(component, color)
-  return utils.surround({ "", "" },
-    color,
-    component)
+  return utils.surround({ "", "" }, color, component)
 end
 local M = {}
 
@@ -42,7 +39,6 @@ function M.setup()
   })
 
   require("heirline").load_colors(M.setup_colors())
-
 
   local ViMode = {
     -- get vim current mode, this information will be required by the provider
@@ -103,19 +99,17 @@ function M.setup()
     provider = function(self)
       return " %-2(" .. self.mode_names[self.mode] .. "%)"
     end,
-    hl =
-    { fg = "normal_bg", bold = true, },
+    hl = { fg = "normal_bg", bold = true },
     -- Re-evaluate the component only on ModeChanged event!
     -- Also allorws the statusline to be re-evaluated when entering operator-pending mode
     update = {
       "ModeChanged",
       pattern = "*:*",
       callback = vim.schedule_wrap(function()
-        vim.cmd("redrawstatus")
+        vim.cmd "redrawstatus"
       end),
     },
   }
-
 
   local FileNameBlock = {
     -- let's first set up some attributes needed by this component and it's children
@@ -136,14 +130,15 @@ function M.setup()
     end,
     hl = function(self)
       return { fg = self.icon_color }
-    end
+    end,
   }
-
 
   local FileName = {
     init = function(self)
       local filename = vim.fn.fnamemodify(self.filename, ":.")
-      if filename == "" then filename = "[No Name]" end
+      if filename == "" then
+        filename = "[No Name]"
+      end
       self.lfilename = filename
     end,
     flexible = 20,
@@ -176,16 +171,16 @@ function M.setup()
     },
   }
 
-
   -- let's add the children to our FileNameBlock component
-  FileNameBlock = utils.insert(FileNameBlock,
+  FileNameBlock = utils.insert(
+    FileNameBlock,
     FileIcon,
     FileName,
     FileFlags,
-    { provider = '%<' } -- this means that the statusline is cut here when there's not enough space
+    { provider = "%<" } -- this means that the statusline is cut here when there's not enough space
   )
 
-  local nvim_web_devicons = require("nvim-web-devicons")
+  local nvim_web_devicons = require "nvim-web-devicons"
 
   local FileType = {
     init = function(self)
@@ -201,7 +196,7 @@ function M.setup()
     end,
     hl = function(self)
       return self.color
-    end
+    end,
   }
 
   -- We're getting minimalists here!
@@ -211,7 +206,7 @@ function M.setup()
     -- %c = column number
     -- %P = percentage through file of displayed window
     provider = "%3l:%-3L",
-    hl = { fg = "normal_bg", bold = true }
+    hl = { fg = "normal_bg", bold = true },
     -- hl = { bg = "blue" , fg = "normal_bg", bold = true},
   }
   Ruler = pill(Ruler, function(self)
@@ -223,7 +218,7 @@ function M.setup()
     static = {
       -- sbar = { '▁', '▂', '▃', '▄', '▅', '▆', '▇', '█' }
       -- Another variant, because the more choice the better.
-      sbar = { '🭶', '🭷', '🭸', '🭹', '🭺', '🭻' }
+      sbar = { "🭶", "🭷", "🭸", "🭹", "🭺", "🭻" },
     },
     provider = function(self)
       local curr_line = vim.api.nvim_win_get_cursor(0)[1]
@@ -234,26 +229,24 @@ function M.setup()
     hl = { fg = "blue", bg = "bright_bg" },
   }
 
-
   local LSPActive = {
     condition = conditions.lsp_attached,
     -- You can keep it simple,
     -- provider = " [LSP]",
 
     -- Or complicate things a bit and get the servers names
-    flexible  = 5,
+    flexible = 5,
     pill({
-        update   = { 'LspAttach', 'LspDetach' },
-        provider = function()
-          local names = {}
-          for _, server in pairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
-            table.insert(names, server.name)
-          end
-          return " " .. table.concat(names, " ")
-        end,
-        hl       = { fg = "green" },
-      },
-      "bright_bg"),
+      update = { "LspAttach", "LspDetach" },
+      provider = function()
+        local names = {}
+        for _, server in pairs(vim.lsp.get_active_clients { bufnr = 0 }) do
+          table.insert(names, server.name)
+        end
+        return " " .. table.concat(names, " ")
+      end,
+      hl = { fg = "green" },
+    }, "bright_bg"),
     { provider = "" },
   }
 
@@ -268,12 +261,6 @@ function M.setup()
   local Diagnostics = {
     update = { "DiagnosticChanged", "BufEnter", "WinResized" },
     condition = conditions.has_diagnostics,
-    static = {
-      error_icon = vim.fn.sign_getdefined("DiagnosticSignError")[1].text,
-      warn_icon = vim.fn.sign_getdefined("DiagnosticSignWarn")[1].text,
-      info_icon = vim.fn.sign_getdefined("DiagnosticSignInfo")[1].text,
-      hint_icon = vim.fn.sign_getdefined("DiagnosticSignHint")[1].text,
-    },
     init = function(self)
       self.errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
       self.warnings = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
@@ -314,22 +301,24 @@ function M.setup()
         return total > 0 and " " .. total
       end,
       hl = { fg = "orange" },
-    }
+    },
   }
 
-local function diff_indicator(sign, count, total)
-        if count == 0 then return "" end
-        local n = math.ceil(math.min((3 * count  / total), math.log(count + 1, 2)));
-        return string.rep(sign, n)
-
-end
+  local function diff_indicator(sign, count, total)
+    if count == 0 then
+      return ""
+    end
+    local n = math.min(math.ceil((3 * count / total)), math.ceil(math.log(count + 1, 2)))
+    return string.rep(sign, n)
+  end
 
   local Git = {
     condition = conditions.is_git_repo,
     init = function(self)
       self.status_dict = vim.b.gitsigns_status_dict
-      self.total_changes = (self.status_dict.added or 0) + (self.status_dict.removed or 0) +
-          (self.status_dict.changed or 0)
+      self.total_changes = (self.status_dict.added or 0)
+        + (self.status_dict.removed or 0)
+        + (self.status_dict.changed or 0)
     end,
     hl = { fg = "orange" },
     flexible = 5,
@@ -346,23 +335,23 @@ end
         condition = function(self)
           return self.total_changes > 0
         end,
-        provider = "("
+        provider = "(",
       },
       {
         provider = function(self)
-            return diff_indicator("+", (self.status_dict.added or 0), self.total_changes)
+          return diff_indicator("+", (self.status_dict.added or 0), self.total_changes)
         end,
         hl = { fg = "git_add" },
       },
       {
         provider = function(self)
-            return diff_indicator("~", (self.status_dict.changed or 0), self.total_changes)
+          return diff_indicator("~", (self.status_dict.changed or 0), self.total_changes)
         end,
         hl = { fg = "git_change" },
       },
       {
         provider = function(self)
-            return diff_indicator("-", (self.status_dict.removed or 0), self.total_changes)
+          return diff_indicator("-", (self.status_dict.removed or 0), self.total_changes)
         end,
         hl = { fg = "git_del" },
       },
@@ -370,9 +359,8 @@ end
         condition = function(self)
           return self.total_changes > 0
         end,
-        provider = ")"
+        provider = ")",
       },
-
     },
     {
       -- git branch name
@@ -396,10 +384,9 @@ end
     provider = function()
       return " " .. require("dap").status()
     end,
-    hl = "Debug"
+    hl = "Debug",
     -- see Click-it! section for clickable actions
   }
-
 
   local TerminalName = {
     -- we could add a condition to check that buftype == 'terminal'
@@ -414,13 +401,27 @@ end
   local Align = { provider = "%=" }
   local Space = { provider = " " }
 
-
-  ViMode = pill(ViMode, function(self) return self:mode_color() end)
+  ViMode = pill(ViMode, function(self)
+    return self:mode_color()
+  end)
 
   local DefaultStatusline = {
-    ViMode, Space, Git, Space, FileNameBlock, Space, Align,
-    DAPMessages, Align,
-    Diagnostics, Space, LSPActive, Space, ScrollBar, Space, Ruler
+    ViMode,
+    Space,
+    Git,
+    Space,
+    FileNameBlock,
+    Space,
+    Align,
+    DAPMessages,
+    Align,
+    Diagnostics,
+    Space,
+    LSPActive,
+    Space,
+    ScrollBar,
+    Space,
+    Ruler,
   }
 
   local InactiveStatusline = {
@@ -432,20 +433,20 @@ end
 
   local SpecialStatusline = {
     condition = function()
-      return conditions.buffer_matches({
+      return conditions.buffer_matches {
         buftype = { "nofile", "prompt", "help", "quickfix" },
         filetype = { "^git.*", "fugitive" },
-      })
+      }
     end,
     FileType,
     Space,
     -- HelpFileName,
-    Align
+    Align,
   }
 
   local TerminalStatusline = {
     condition = function()
-      return conditions.buffer_matches({ buftype = { "terminal" } })
+      return conditions.buffer_matches { buftype = { "terminal" } }
     end,
     -- hl = { bg = "dark_red" },
     -- Quickly add a condition to the ViMode to only show it when buffer is active!
@@ -458,21 +459,20 @@ end
 
   local AerialStatusline = {
     condition = function()
-      return conditions.buffer_matches({ filetype = { "aerial" } })
+      return conditions.buffer_matches { filetype = { "aerial" } }
     end,
     provider = "󰀘 Aerial",
-    hl = { fg = "purple" }
+    hl = { fg = "purple" },
   }
 
-  local qf = require("qf")
+  local qf = require "qf"
   local QfStatusline = {
     condition = function()
-      return conditions.buffer_matches({ filetype = { "qf" } })
+      return conditions.buffer_matches { filetype = { "qf" } }
     end,
     init = function(self)
       local info = qf.inspect_win(vim.api.nvim_get_current_win())
 
-      print("Info: " .. vim.inspect(info))
       self.info = info
     end,
     {
@@ -481,32 +481,66 @@ end
       {
         provider = function(self)
           return self.info.title or "no title"
-        end
+        end,
       },
       Space,
       {
         flexible = 5,
+        condition = function(self)
+          return self.info.tally.total > 0
+        end,
         pill({
-          provider = function(self)
-            return self.info.tally_str
-          end
+          {
+            provider = function(self)
+              return self.info.tally.error > 0 and (self.error_icon .. self.info.tally.error .. " ")
+            end,
+            hl = { fg = "diag_error" },
+          },
+          {
+            provider = function(self)
+              return self.info.tally.warn > 0 and (self.warn_icon .. self.info.tally.warn .. " ")
+            end,
+            hl = { fg = "diag_warn" },
+          },
+          {
+            provider = function(self)
+              return self.info.tally.info > 0 and (self.info_icon .. self.info.tally.info .. " ")
+            end,
+            hl = { fg = "diag_info" },
+          },
+          {
+            provider = function(self)
+              return self.info.tally.hint > 0 and (self.hint_icon .. self.info.tally.hint .. " ")
+            end,
+            hl = { fg = "diag_hint" },
+          },
+          {
+            provider = function(self)
+              return self.info.tally.text > 0 and ("󰌪" .. self.info.tally.text .. " ")
+            end,
+            hl = { fg = "diag_hint" },
+          },
         }, "bright_bg"),
-        { provider = "" }
+        { provider = "" },
       },
       Align,
       pill({
         provider = function(self)
           return string.format("%2d / %-2d", self.info.idx, self.info.size)
         end,
-        hl = { fg = "normal_bg", bold = true }
+        hl = { fg = "normal_bg", bold = true },
       }, function(self)
         return self:mode_color()
-      end)
-    }
+      end),
+    },
   }
 
   local StatusLines = {
     static = {
+      error_icon = vim.fn.sign_getdefined("DiagnosticSignError")[1].text,
+      warn_icon = vim.fn.sign_getdefined("DiagnosticSignWarn")[1].text,
+      info_icon = vim.fn.sign_getdefined("DiagnosticSignInfo")[1].text,
+      hint_icon = vim.fn.sign_getdefined("DiagnosticSignHint")[1].text,
       mode_colors_map = {
         n = "blue",
         i = "green",

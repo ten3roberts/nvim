@@ -22,18 +22,24 @@ function M.highlight(name, opt)
   )
 end
 
-M.signs = {
-  -- E = { name = "Error", hl = "DiagnosticSignError", sign = "" },
-  -- W = { name = "Warn", hl = "DiagnosticSignWarn", sign = "" },
-  -- I = { name = "Info", hl = "DiagnosticSignInfo", sign = "" },
-  -- H = { name = "Warn", hl = "DiagnosticSignHint", sign = "" },
-  -- T = { name = "Text", hl = "DiagnosticSignHint", sign = "" },
-  E = { name = "Error", hl = "DiagnosticSignError", sign = "" },
-  W = { name = "Warn", hl = "DiagnosticSignWarn", sign = "" },
-  I = { name = "Info", hl = "DiagnosticSignInfo", sign = "" },
-  H = { name = "Warn", hl = "DiagnosticSignHint", sign = "" },
-  T = { name = "Text", hl = "DiagnosticSignHint", sign = "" },
+local md_icons = {
+  E = { name = "Error", hl = "DiagnosticSignError", sign = "󰅙" },
+  W = { name = "Warn", hl = "DiagnosticSignWarn", sign = "󱈸" },
+  I = { name = "Info", hl = "DiagnosticSignInfo", sign = "󰋼" },
+  H = { name = "Warn", hl = "DiagnosticSignHint", sign = "󰌵" },
+  T = { name = "Text", hl = "DiagnosticSignHint", sign = "󰌪 " },
 }
+
+local cod_icons = {
+  E = { name = "Error", hl = "DiagnosticSignError", sign = "" },
+  W = { name = "Warn", hl = "DiagnosticSignWarn", sign = "" },
+  I = { name = "Info", hl = "DiagnosticSignInfo", sign = "" },
+  H = { name = "Warn", hl = "DiagnosticSignHint", sign = "" },
+  T = { name = "Text", hl = "DiagnosticSignHint", sign = "" },
+}
+
+M.signs = md_icons
+
 M.signs.N = M.signs.H
 
 local palettes = {

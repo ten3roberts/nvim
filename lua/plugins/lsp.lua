@@ -14,11 +14,6 @@ local function on_attach(client, bufnr)
     keymap = opts.keymap
   end
 
-  -- Lsp signature
-  if client.name == "lua_ls" then
-    client.server_capabilities.documentFormattingProvider = false -- 0.8 and later
-  end
-
   local function buf_map(mod, lhs, rhs)
     vim.keymap.set(mod, lhs, rhs, { silent = true, buffer = bufnr })
   end
@@ -98,7 +93,7 @@ local function rust_analyzer_root_dir(fname)
   end
 
   vim.notify "Directory is local"
-  local cargo_crate_dir = util.root_pattern "Cargo.toml" (fname)
+  local cargo_crate_dir = util.root_pattern "Cargo.toml"(fname)
   local cmd = { "cargo", "metadata", "--no-deps", "--format-version", "1" }
   if cargo_crate_dir ~= nil then
     cmd[#cmd + 1] = "--manifest-path"
@@ -134,9 +129,9 @@ local function rust_analyzer_root_dir(fname)
     )
   end
   return cargo_workspace_dir
-      or cargo_crate_dir
-      or util.root_pattern "rust-project.json" (fname)
-      or util.find_git_ancestor(fname)
+    or cargo_crate_dir
+    or util.root_pattern "rust-project.json"(fname)
+    or util.find_git_ancestor(fname)
 end
 
 return {
@@ -281,7 +276,7 @@ return {
 
           require("rust-tools").setup {
             tools = {
-                      -- rust-tools options
+              -- rust-tools options
               inlay_hints = {
                 auto = true,
                 only_current_line = true,
@@ -323,6 +318,7 @@ return {
     config = function()
       local null_ls = require "null-ls"
       null_ls.setup {
+        on_attach = on_attach,
         sources = {
           -- shell
           -- null_ls.builtins.diagnostics.shellcheck,
