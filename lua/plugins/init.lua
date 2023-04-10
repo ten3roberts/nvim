@@ -110,19 +110,6 @@ return {
     -- File icons
     "kyazdani42/nvim-web-devicons",
   },
-  {
-    "ggandor/leap.nvim",
-    config = function()
-      require("leap").set_default_keymaps()
-    end,
-  },
-  {
-    "ggandor/flit.nvim",
-    dependencies = { "ggandor/leap.nvim" },
-    config = function()
-      require("flit").setup {}
-    end,
-  },
 
   {
     "cbochs/grapple.nvim",
