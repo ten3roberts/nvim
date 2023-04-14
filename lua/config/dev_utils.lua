@@ -43,7 +43,7 @@ function M.reload(module)
 end
 
 function M.save_and_exec()
-  vim.cmd "silent! write"
+  vim.cmd "write"
 
   if vim.o.ft == "vim" then
     vim.cmd "w | source %"
@@ -69,7 +69,7 @@ function M.save_and_exec()
 end
 
 _G.P = function(...)
- print(vim.inspect(...))
+  print(vim.inspect(...))
 end
 
 return M

@@ -304,11 +304,12 @@ function M.setup()
     },
   }
 
-  local function diff_indicator(sign, count, total)
+  local function diff_indicator(sign, count, _)
     if count == 0 then
       return ""
     end
-    local n = math.min(math.ceil((3 * count / total)), math.ceil(math.log(count + 1, 2)))
+
+    local n = math.ceil(math.log(count + 1, 2))
     return string.rep(sign, n)
   end
 
