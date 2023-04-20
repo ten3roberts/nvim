@@ -151,6 +151,8 @@ return {
   ),
   s("cowstr", fmt("Cow<'{}, {}>", { i(1, "static"), i(2, "str") })),
   s("icowstr", fmt("Into<Cow<'{}, {}>>", { i(1, "static"), i(2, "str") })),
+  s(".map_into", c(1, { t ".map(Into::into)", t ".map(|v| v.into())" })),
+  s(".map_err", c(1, { t ".map_err(Into::into)", t ".map_err(|v| v.into())" })),
 
   s(
     "struct-pod",

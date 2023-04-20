@@ -151,7 +151,7 @@ return {
     "neovim/nvim-lspconfig",
     dependencies = {
       -- "mfussenegger/nvim-dap",
-      "tjdevries/nlua.nvim",
+      "folke/neodev.nvim",
       "hrsh7th/cmp-nvim-lsp",
       "simrat39/rust-tools.nvim",
       "williamboman/mason.nvim",
@@ -160,7 +160,11 @@ return {
       "lukas-reineke/lsp-format.nvim",
     },
     config = function()
-      require("lspkind").init {}
+      require("lspkind").init {
+        symbol_map = {
+          Copilot = "",
+        },
+      }
 
       local handlers = {
         -- ["textDocument/publishDiagnostics"] = require("config.lsp").on_publish_diagnostics,
@@ -211,7 +215,30 @@ return {
           }))
         end,
         lua_ls = function()
-          lspconfig.lua_ls.setup(vim.tbl_deep_extend("force", default_conf, require "config.lua-lsp"))
+          local path = vim.split(package.path, ";")
+          lspconfig.lua_ls.setup(vim.tbl_deep_extend("force", default_conf, {
+            settings = {
+              Lua = {
+                runtime = {
+                  -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+                  version = "LuaJIT",
+                  -- Setup your lua path
+                  path = path,
+                },
+                workspace = {
+                  checkThirdParty = false,
+                },
+                completion = {
+                  callSnippet = "Replace",
+                },
+                telemetry = { enable = false },
+                diagnostics = {
+                  -- Get the language server to recognize the `vim` global
+                  globals = { "vim" },
+                },
+              },
+            },
+          }))
         end,
         -- Next, you can provide targeted overrides for specific servers.
         -- For example, a handler override for the `rust_analyzer`:

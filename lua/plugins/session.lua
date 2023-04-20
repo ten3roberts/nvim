@@ -10,7 +10,7 @@ return {
   -- },
   {
     "rmagatti/auto-session",
-    branch = "merge-session-lens",
+    -- branch = "merge-session-lens",
     config = function()
       -- vim.o.sessionoptions = "buffers,help,tabpages,folds"
       vim.o.sessionoptions = "buffers,folds,tabpages"

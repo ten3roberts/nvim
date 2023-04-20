@@ -36,6 +36,9 @@ function M.config()
 
   local function confirm(behavior)
     return cmp.mapping(function(fallback)
+      -- local suggestion = require "copilot.suggestion"
+      -- if suggestion.is_visible() then
+      --   suggestion.accept()
       if cmp.visible() then
         cmp.confirm {
           behavior = behavior,
@@ -53,7 +56,7 @@ function M.config()
     end)
   end
 
-  -- vim.o.completeopt = "menu,menuone"
+  vim.o.completeopt = "menu,menuone"
 
   local menu = {
     treesitter = "󰌪",
@@ -83,19 +86,25 @@ function M.config()
     mapping = {
       ["<C-p>"] = cmp.mapping.select_prev_item(),
       ["<C-n>"] = cmp.mapping.select_next_item(),
+      -- ["<C-e>"] = cmp.mapping(function()
+      --   vim.api.nvim_feedkeys(
+      --     vim.fn["copilot#Accept"](vim.api.nvim_replace_termcodes("<Tab>", true, true, true)),
+      --     "n",
+      --     true
+      --   )
+      -- end),
       ["<C-d>"] = cmp.mapping.scroll_docs(-4),
-      ["<C-f>"] = cmp.mapping.scroll_docs(4),
+      ["<C-u>"] = cmp.mapping.scroll_docs(4),
       ["<C-Space>"] = cmp.mapping.complete {},
       ["<C-y>"] = confirm(cmp.ConfirmBehavior.Insert),
       ["<Tab>"] = confirm(cmp.ConfirmBehavior.Replace),
     },
     sources = cmp.config.sources {
-      -- { name = "git" },
       { name = "luasnip" },
       { name = "nvim_lsp" },
-      { name = "treesitter" },
+      -- { name = "treesitter" },
       -- { name = "buffer" },
-      { name = "nvim_lua" },
+      -- { name = "nvim_lua" },
       -- { name = "path", option = { trailing_slash = true } },
       { name = "crates" },
     },

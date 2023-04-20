@@ -7,24 +7,12 @@ function M.highlight(name, opt)
   -- for k, v in pairs(opts) do
   --   t[#t + 1] = string.format("%s=%s", k, v)
   -- end
-
-  vim.cmd(
-    string.format(
-      "hi %s %s guifg=%s guibg=%s gui=%s guisp=%s blend=%s",
-      opt.default and "default" or "",
-      name,
-      opt.guifg or "NONE",
-      opt.guibg or "NONE",
-      opt.gui or "NONE",
-      opt.guisp or "NONE",
-      opt.blend or "NONE"
-    )
-  )
+  vim.api.nvim_set_hl(0, name, opt)
 end
 
 local md_icons = {
   E = { name = "Error", hl = "DiagnosticSignError", sign = "󰅙" },
-  W = { name = "Warn", hl = "DiagnosticSignWarn", sign = "󱈸" },
+  W = { name = "Warn", hl = "DiagnosticSignWarn", sign = "󰀦" },
   I = { name = "Info", hl = "DiagnosticSignInfo", sign = "󰋼" },
   H = { name = "Warn", hl = "DiagnosticSignHint", sign = "󰌵" },
   T = { name = "Text", hl = "DiagnosticSignHint", sign = "󰌪 " },
@@ -89,17 +77,11 @@ function M.generate_palette()
 end
 
 function M.link(dst, src)
-  cmd("hi! link " .. dst .. " " .. src)
+  vim.api.nvim_set_hl(0, dst, { link = src })
 end
 
 function M.get_hl(name)
-  local id = fn.synIDtrans(fn.hlID(name))
-
-  local fg = fn.synIDattr(id, "fg#")
-  local bg = fn.synIDattr(id, "bg#")
-  local gui = fn.synIDattr(id, "gui#")
-
-  return { fg = fg, bg = bg, gui = gui }
+  return vim.api.nvim_get_hl(0, { name = name })
 end
 
 -- Creates highlights for:
@@ -114,16 +96,15 @@ function M.setup()
 
   local normal = M.get_hl "Normal"
   local dark = require("darken").get_bg_color()
-  local normal_bg = normal.bg
 
-  highlight("Black", { guifg = p.black })
-  highlight("Blue", { guifg = p.blue })
-  highlight("Green", { guifg = p.green })
-  highlight("Grey", { guifg = p.grey })
-  highlight("Orange", { guifg = p.orange })
-  highlight("Purple", { guifg = p.purple })
-  highlight("Red", { guifg = p.red })
-  highlight("Yellow", { guifg = p.yellow })
+  highlight("Black", { fg = p.black })
+  highlight("Blue", { fg = p.blue })
+  highlight("Green", { fg = p.green })
+  highlight("Grey", { fg = p.grey })
+  highlight("Orange", { fg = p.orange })
+  highlight("Purple", { fg = p.purple })
+  highlight("Red", { fg = p.red })
+  highlight("Yellow", { fg = p.yellow })
 
   -- highlight('SL_Black',  p.black)
   -- highlight('SL_Blue',   p.blue)
@@ -134,42 +115,33 @@ function M.setup()
   -- highlight('SL_Red',    p.red)
   -- highlight('SL_Yellow', p.yellow)
 
-  highlight("GreenBold", { guifg = p.green, gui = "bold" })
-  highlight("OrangeBold", { guifg = p.orange, gui = "bold" })
-  highlight("PurpleBold", { guifg = p.purple, gui = "bold" })
-  highlight("RedBold", { guifg = p.red, gui = "bold" })
-  highlight("YellowBold", { guifg = p.yellow, gui = "bold" })
+  highlight("GreenBold", { fg = p.green, bold = true })
+  highlight("OrangeBold", { fg = p.orange, bold = true })
+  highlight("PurpleBold", { fg = p.purple, bold = true })
+  highlight("RedBold", { fg = p.red, bold = true })
+  highlight("YellowBold", { fg = p.yellow, bold = true })
 
-  -- highlight("DiagnosticSignError", { guifg = p.red })
-  -- highlight("DiagnosticSignWarn", { guifg = p.orange })
-  -- highlight("DiagnosticSignInformation", { guifg = p.purple })
-  -- highlight("DiagnosticSignHint", { guifg = p.green })
+  -- highlight("DiagnosticSignError", { fg = p.red })
+  -- highlight("DiagnosticSignWarn", { fg = p.orange })
+  -- highlight("DiagnosticSignInformation", { fg = p.purple })
+  -- highlight("DiagnosticSignHint", { fg = p.green })
 
   -- highlight('LspDiagnosticsUnderlineError',       nil, nil, 'undercurl', p.red)
   -- highlight('LspDiagnosticsUnderlineWarning',     nil, nil, 'undercurl', p.orange)
   -- highlight('LspDiagnosticsUnderlineInformation', nil, nil, 'undercurl', p.blue)
   -- highlight('LspDiagnosticsUnderlineHint',        nil, nil, 'undercurl', p.green)
 
-  highlight("BlackInv", { guifg = normal_bg, guibg = p.black, gui = "bold" })
-  highlight("BlueInv", { guifg = normal_bg, guibg = p.blue, gui = "bold" })
-  highlight("GreenInv", { guifg = normal_bg, guibg = p.green, gui = "bold" })
-  highlight("GreyInv", { guifg = normal_bg, guibg = p.grey, gui = "bold" })
-  highlight("OrangeInv", { guifg = normal_bg, guibg = p.orange, gui = "bold" })
-  highlight("PurpleInv", { guifg = normal_bg, guibg = p.purple, gui = "bold" })
-  highlight("RedInv", { guifg = normal_bg, guibg = p.red, gui = "bold" })
-  highlight("YellowInv", { guifg = normal_bg, guibg = p.yellow, gui = "bold" })
-
   link("HarpoonWindow", "DarkenedBg")
   link("HarpoonBorder", "DarkenedBg")
 
   link("TelescopeNormal", "DarkenedBg")
 
-  highlight("TelescopeBorder", { guifg = dark, guibg = dark })
-  highlight("TelescopePromptTitle", { guibg = p.red, guifg = normal_bg })
-  highlight("TelescopePreviewTitle", { guibg = p.green, guifg = normal_bg })
-  highlight("TelescopeResultsTitle", { guibg = dark, guifg = dark })
+  highlight("TelescopeBorder", { fg = dark, bg = dark })
+  highlight("TelescopePromptTitle", { bg = p.red, fg = "bg" })
+  highlight("TelescopePreviewTitle", { bg = p.green, fg = "bg" })
+  highlight("TelescopeResultsTitle", { bg = dark, fg = dark })
 
-  highlight("TelescopePromptBorder", { guifg = normal_bg, guibg = normal_bg })
+  highlight("TelescopePromptBorder", { fg = "bg", bg = "bg" })
 
   link("TelescopeResultsBorder", "TelescopeBorder")
   link("TelescopePreviewBorder", "TelescopeBorder")
@@ -183,7 +155,7 @@ function M.setup()
   link("STInfo", "Blue")
   link("STHint", "Green")
 
-  -- link("AerialLine", "QuickFixLine")
+  link("AerialLine", "QuickFixLine")
   -- link("GitSignsCurrentLineBlame", "Comment")
   -- link("FocusedSymbol", "GreenInv")
 
@@ -202,8 +174,8 @@ function M.setup()
 
   -- Less obtrusive folds
 
-  -- highlight('debugPC', normal_bg, p.green)
-  -- highlight('debugBreakpoint', p.red, normal_bg)
+  -- highlight('debugPC', "bg", p.green)
+  -- highlight('debugBreakpoint', p.red, "bg")
 
   for _, icon in pairs(M.signs) do
     local name = "DiagnosticSign" .. icon.name
@@ -212,12 +184,14 @@ function M.setup()
     fn.sign_define(name, { text = icon.sign, texthl = name, numhl = name })
   end
 
-  highlight("DapBreakpoint", { gui = "bold" })
-  -- highlight("DapStopped", { guifg = "NONE", guibg = p.green, guisp = "NONE" })
+  highlight("DapBreakpoint", { bold = true })
+  -- highlight("DapStopped", { fg = "NONE", bg = p.green, guisp = "NONE" })
   link("DapStopped", "CursorLine")
 
   fn.sign_define("DapBreakpoint", { text = "●", texthl = "DiagnosticSignError", linehl = "", numhl = "" })
   fn.sign_define("DapStopped", { text = "", texthl = "Green", linehl = "DapStopped", numhl = "" })
+
+  link("LeapBackdrop", "Comment")
 
   require("config.heirline").setup()
 end

@@ -1,21 +1,24 @@
 return {
 
   "stevearc/aerial.nvim",
-  keys = { { "<leader>po", "<cmd>AerialOpen<CR>" }, { "<leader>pp", "<cmd>AerialToggle!<CR>" } },
+  keys = {
+    { "<leader>po", "<cmd>AerialOpen<CR>" },
+    { "<leader>pp", "<cmd>AerialToggle!<CR>" },
+  },
   event = "BufWinEnter",
   config = function()
     local aerial = require "aerial"
     aerial.setup {
       -- backends = { "treesitter", "lsp", "markdown" },
-      -- on_attach = function(bufnr)
-      --   vim.keymap.set("n", "[[", aerial.prev, { buffer = bufnr })
-      --   vim.keymap.set("n", "]]", aerial.next, { buffer = bufnr })
-      -- end,
+      on_attach = function(bufnr)
+        vim.keymap.set("n", "[[", "<cmd>AerialPrev<CR>", { buffer = bufnr })
+        vim.keymap.set("n", "]]", "<cmd>AerialNext<CR>", { buffer = bufnr })
+      end,
       layout = {
 
         -- The maximum width of the aerial window
-        max_width = { 20, 0.2 },
-        placement = "edge",
+        max_width = { 30, 0.2 },
+        -- placement = "edge",
         default_direction = "prefer_left",
       },
 
@@ -37,7 +40,6 @@ return {
 
       -- Run this command after jumping to a symbol (false will disable)
       post_jump_cmd = "normal! zz",
-
     }
   end,
 }

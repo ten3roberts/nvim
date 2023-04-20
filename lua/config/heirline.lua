@@ -6,26 +6,34 @@ local function pill(component, color)
 end
 local M = {}
 
+local function get_hl(name)
+  local v = utils.get_highlight(name)
+  if not v or vim.tbl_isempty(v) then
+    vim.notify("No highlight for " .. name, vim.log.levels.WARN)
+  end
+  return v
+end
+
 function M.setup_colors()
   return {
-    normal_bg = utils.get_highlight("Normal").bg,
-    bright_bg = utils.get_highlight("Folded").bg,
-    bright_fg = utils.get_highlight("Folded").fg,
-    red = utils.get_highlight("Red").fg,
-    dark_red = utils.get_highlight("DiffDelete").bg,
-    green = utils.get_highlight("Green").fg,
-    blue = utils.get_highlight("Blue").fg,
-    gray = utils.get_highlight("NonText").fg,
-    orange = utils.get_highlight("Orange").fg,
-    purple = utils.get_highlight("Purple").fg,
-    cyan = utils.get_highlight("Special").fg,
-    diag_warn = utils.get_highlight("DiagnosticSignWarn").fg,
-    diag_error = utils.get_highlight("DiagnosticSignError").fg,
-    diag_hint = utils.get_highlight("DiagnosticSignHint").fg,
-    diag_info = utils.get_highlight("DiagnosticSignInfo").fg,
-    git_del = utils.get_highlight("diffRemoved").fg,
-    git_add = utils.get_highlight("diffAdded").fg,
-    git_change = utils.get_highlight("diffChanged").fg,
+    normal_bg = get_hl("Normal").bg,
+    bright_bg = get_hl("Folded").bg,
+    bright_fg = get_hl("Folded").fg,
+    red = get_hl("Red").fg,
+    dark_red = get_hl("DiffDelete").bg,
+    green = get_hl("Green").fg,
+    blue = get_hl("Blue").fg,
+    gray = get_hl("NonText").fg,
+    orange = get_hl("Orange").fg,
+    purple = get_hl("Purple").fg,
+    cyan = get_hl("Special").fg,
+    diag_warn = get_hl("DiagnosticSignWarn").fg,
+    diag_error = get_hl("DiagnosticSignError").fg,
+    diag_hint = get_hl("DiagnosticSignHint").fg,
+    diag_info = get_hl("DiagnosticSignInfo").fg,
+    git_del = get_hl("diffRemoved").fg,
+    git_add = get_hl("diffAdded").fg,
+    git_change = get_hl("diffChanged").fg,
   }
 end
 
@@ -149,7 +157,7 @@ function M.setup()
     },
     {
       provider = function(self)
-        return vim.fn.pathshorten(self.lfilename)
+        return vim.fn.pathshorten(self.lfilename, 5)
       end,
     },
   }
@@ -236,7 +244,7 @@ function M.setup()
 
     -- Or complicate things a bit and get the servers names
     flexible = 5,
-    pill({
+    {
       update = { "LspAttach", "LspDetach" },
       provider = function()
         local names = {}
@@ -246,7 +254,7 @@ function M.setup()
         return " " .. table.concat(names, " ")
       end,
       hl = { fg = "green" },
-    }, "bright_bg"),
+    },
     { provider = "" },
   }
 
@@ -466,6 +474,29 @@ function M.setup()
     hl = { fg = "purple" },
   }
 
+  local GrapheneStatusline = {
+    condition = function()
+      return conditions.buffer_matches { filetype = { "graphene" } }
+    end,
+    pill({
+
+      provider = function()
+        return "󰀘 Graphene"
+      end,
+    }, "teal"),
+    Space,
+    {
+      provider = function()
+        local graphene = require "graphene"
+        local status = graphene.status()
+
+        return status.path or "<no path>"
+      end,
+      hl = "Directory",
+    },
+    Align,
+  }
+
   local qf = require "qf"
   local QfStatusline = {
     condition = function()
@@ -573,6 +604,7 @@ function M.setup()
     -- think of it as a switch case with breaks to stop fallthrough.
     fallthrough = false,
     AerialStatusline,
+    GrapheneStatusline,
     QfStatusline,
     SpecialStatusline,
     TerminalStatusline,
