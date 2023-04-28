@@ -201,12 +201,6 @@ map("n", "<A->>", "<cmd>tabmove +1<CR>")
 -- Clear search highlight
 map("n", "<Esc>", "<cmd>nohl<CR>", {})
 
--- Move lines
-map("n", "<A-k>", ":m .-2<CR>==", silent)
-map("n", "<A-j>", ":m .+1<CR>==", silent)
-map("x", "<A-k>", ":m '<-2<CR>gv=gv", silent)
-map("x", "<A-j>", ":m '>+1<CR>gv=gv", silent)
-
 -- map("n", "<A-h>", ":SidewaysLeft<CR>", silent)
 -- map("n", "<A-l>", ":SidewaysRight<CR>", silent)
 

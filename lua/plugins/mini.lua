@@ -1,8 +1,9 @@
 return {
-  'echasnovski/mini.nvim', version = false ,
+  "echasnovski/mini.nvim",
+  version = false,
   config = function()
-    require("mini.ai").setup {
-    }
+    require("mini.ai").setup {}
     require("mini.bracketed").setup {}
-  end
+    require("mini.move").setup {}
+  end,
 }

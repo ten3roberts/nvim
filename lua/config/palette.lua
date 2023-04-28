@@ -188,8 +188,8 @@ function M.setup()
   -- highlight("DapStopped", { fg = "NONE", bg = p.green, guisp = "NONE" })
   link("DapStopped", "CursorLine")
 
-  fn.sign_define("DapBreakpoint", { text = "●", texthl = "DiagnosticSignError", linehl = "", numhl = "" })
-  fn.sign_define("DapStopped", { text = "", texthl = "Green", linehl = "DapStopped", numhl = "" })
+  fn.sign_define("DapBreakpoint", { text = "󰧞", texthl = "DiagnosticSignError", linehl = "", numhl = "" })
+  fn.sign_define("DapStopped", { text = "󰐊", texthl = "Green", linehl = "DapStopped", numhl = "" })
 
   link("LeapBackdrop", "Comment")
 

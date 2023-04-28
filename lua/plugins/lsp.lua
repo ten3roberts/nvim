@@ -51,7 +51,7 @@ local function on_attach(client, bufnr)
     require("config.lsp").set_loc()
   end)
   buf_map("n", "<leader>rn", vim.lsp.buf.rename)
-  buf_map({ "n", "x" }, "<leader>a", keymap.code_action or vim.lsp.buf.code_action)
+  buf_map({ "n", "x" }, "<leader>a", vim.lsp.buf.code_action)
 
   buf_map("", "K", keymap.hover or vim.lsp.buf.hover)
 
@@ -244,10 +244,10 @@ return {
         -- For example, a handler override for the `rust_analyzer`:
         ["rust_analyzer"] = function()
           local conf = vim.tbl_deep_extend("force", default_conf, {
-            keymap = function()
-              local rt = require "rust-tools"
-              return { hover = rt.hover_actions.hover_actions }
-            end,
+            -- keymap = function()
+            --   local rt = require "rust-tools"
+            --   return { hover = rt.hover_actions.hover_actions }
+            -- end,
             standalone = false,
             -- root_dir = rust_analyzer_root_dir,
             --   local startpath_uri = vim.uri_from_fname(startpath)
@@ -263,18 +263,18 @@ return {
             settings = {
               ["rust-analyzer"] = {
                 cargo = {
-                  loadOutDirsFromCheck = true,
-                  buildScripts = {
-                    enable = true,
-                  },
-                  features = "all",
+                  -- loadOutDirsFromCheck = true,
+                  -- buildScripts = {
+                  --   enable = true,
+                  -- },
+                  -- features = "all",
                 },
                 references = {
                   excludeImports = true,
                 },
-                procMacro = {
-                  enable = true,
-                },
+                -- procMacro = {
+                --   enable = true,
+                -- },
                 check = {
                   command = "clippy",
                 },

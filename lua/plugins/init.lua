@@ -113,7 +113,7 @@ return {
 
   {
     "cbochs/grapple.nvim",
-    enabled = false,
+    enabled = true,
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
       local grapple = require "grapple"
@@ -325,7 +325,6 @@ return {
     end,
   },
 
-  -- "haya14busa/vim-asterisk",
   "tpope/vim-commentary",
   "tpope/vim-abolish",
   "tpope/vim-rsi",
