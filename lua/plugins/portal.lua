@@ -1,5 +1,6 @@
 local M = {
   enabled = true,
+  lazy = false,
   "cbochs/portal.nvim",
   dependencies = {
     -- "cbochs/grapple.nvim", -- Optional: provides the "grapple" query item
@@ -20,6 +21,14 @@ local M = {
 
 function M.config()
   print "Setting up portal"
+
+  vim.keymap.set("n", "<leader>H", function()
+    require("portal").tunnel {
+      require("portal.builtin").grapple.query { direction = "forward" },
+      require("portal.builtin").jumplist.query { direction = "backward" },
+    }
+  end)
+
   require("portal").setup {
     portal = {
       -- title = {

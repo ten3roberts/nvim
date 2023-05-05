@@ -2,7 +2,7 @@ return {
 
   "stevearc/aerial.nvim",
   keys = {
-    { "<leader>po", "<cmd>AerialOpen<CR>" },
+    { "<leader>po", "<cmd>AerialNavOpen<CR>" },
     { "<leader>pp", "<cmd>AerialToggle!<CR>" },
   },
   event = "BufWinEnter",

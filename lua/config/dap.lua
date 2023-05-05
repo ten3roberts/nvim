@@ -97,7 +97,7 @@ dap.configurations.rust = {
   },
 }
 
-require("dap").defaults.fallback.exception_breakpoints = { "rust_panic" }
+require("dap").defaults.fallback.exception_breakpoints = "rust_panic"
 -- dap.defaults.codelldb.exception_breakpoints = { "rust_panic" }
 -- dap.defaults.rust.exception_breakpoints = { "rust_panic" }
 dap.adapters.rust = require("config.codelldb").get_codelldb()
@@ -127,15 +127,17 @@ function M.eval_input()
 end
 
 function M.conditional_breakpoint()
-  vim.ui.input({ prompt = "Condition: " }, function(v)
+  vim.ui.input({ prompt = "Condition: " }, function(cond)
     vim.ui.input({ prompt = "Hit Condition" }, function(hit)
-      dap.set_breakpoint(v, hit)
+      dap.set_breakpoint(cond, hit)
     end)
   end)
 end
 
-local function map(mode, lhs, rhs, opts)
-  vim.keymap.set(mode, lhs, rhs, opts)
+function M.log_breakpoint()
+  vim.ui.input({ prompt = "Condition: " }, function(v)
+    dap.set_breakpoint(nil, nil, v)
+  end)
 end
 
 local tree = require "config.treebind"

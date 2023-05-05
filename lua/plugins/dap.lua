@@ -1,24 +1,14 @@
 return {
 
-  -- {
-  -- "Weissle/persistent-breakpoints.nvim",
-  -- keys = {
-
-  --   {
-  --     "<leader>dbb",
-  --     "<cmd>PBToggleBreakpoint<CR>",
-  --   },
-  --   {
-  --     "<leader>dbB",
-  --     "<cmd>PBSetConditionalBreakpoint<CR>",
-  --   },
-  -- },
-  -- config = function()
-  --   require("persistent-breakpoints").setup {
-  --     load_breakpoints_event = { "BufReadPost" },
-  --   }
-  -- end,
-  -- },
+  {
+    "Weissle/persistent-breakpoints.nvim",
+    event = "VeryLazy",
+    config = function()
+      require("persistent-breakpoints").setup {
+        load_breakpoints_event = { "BufReadPost" },
+      }
+    end,
+  },
 
   {
     "nvim-telescope/telescope-dap.nvim",
@@ -29,7 +19,7 @@ return {
   {
     "mfussenegger/nvim-dap",
     dependencies = {
-      -- "Weissle/persistent-breakpoints.nvim",
+      "Weissle/persistent-breakpoints.nvim",
       "rcarriga/nvim-dap-ui",
       "theHamsta/nvim-dap-virtual-text",
     },
@@ -92,13 +82,14 @@ return {
       {
         "<leader>dbb",
         function()
-          require("dap").toggle_breakpoint()
+          -- require("dap").toggle_breakpoint()
+          require("persistent-breakpoints.api").toggle_breakpoint()
         end,
       },
       {
         "<leader>dbB",
         function()
-          require("config.dap").conditional_breakpoint()
+          require("persistent-breakpoints.api").set_conditional_breakpoint()
         end,
       },
       {
