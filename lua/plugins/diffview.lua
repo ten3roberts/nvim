@@ -13,7 +13,7 @@ return {
   lazy = false,
   config = function()
     require("diffview").setup {
-      enhanced_diff_hl = true, -- See ':h diffview-config-enhanced_diff_hl'
+      enhanced_diff_hl = false, -- See ':h diffview-config-enhanced_diff_hl'
       view = {
 
         merge_tool = {
