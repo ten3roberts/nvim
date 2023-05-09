@@ -4,7 +4,7 @@ local o = vim.o
 local g = vim.g
 
 opt.autoread = true
-opt.conceallevel = 2
+-- opt.conceallevel = 2
 opt.cmdheight = 1
 opt.confirm = true -- Disable 'no write'
 opt.cursorline = true

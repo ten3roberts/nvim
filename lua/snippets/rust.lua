@@ -59,10 +59,10 @@ local function rust_log_crate()
   local log_count = #find_pattern("\\blog\\b", { parent })
   local tracing_count = #find_pattern("\\btracing\\b", { parent })
 
-  if log_count > tracing_count then
-    return "log"
-  else
+  if tracing_count * 5 > log_count then
     return "tracing"
+  else
+    return "log"
   end
 end
 
@@ -151,8 +151,8 @@ return {
   ),
   s("cowstr", fmt("Cow<'{}, {}>", { i(1, "static"), i(2, "str") })),
   s("icowstr", fmt("Into<Cow<'{}, {}>>", { i(1, "static"), i(2, "str") })),
-  s(".map_into", c(1, { t ".map(Into::into)", t ".map(|v| v.into())" })),
-  s(".map_err", c(1, { t ".map_err(Into::into)", t ".map_err(|v| v.into())" })),
+  s("map_into", c(1, { t "map(Into::into)", t "map(|v| v.into())" })),
+  s("map_err", c(1, { t "map_err(Into::into)", t "map_err(|v| v.into())" })),
 
   s(
     "struct-pod",

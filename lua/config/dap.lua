@@ -31,7 +31,7 @@ ui.setup {
         "stacks",
         "watches",
       },
-      size = 50, -- 40 columns
+      size = 40,
       position = "right",
     },
     -- {
@@ -57,17 +57,17 @@ require("nvim-dap-virtual-text").setup {
   highlight_new_as_changed = true,
 }
 
-dap.defaults.fallback.terminal_win_cmd = "24split new"
+dap.defaults.fallback.terminal_win_cmd = "vsplit new"
 
 dap.listeners.after.event_initialized["dapui_config"] = function()
   dap.set_exception_breakpoints { "rust_panic" }
   -- require("qf").close "l"
   require("qf").close "c"
 
-  ui.open {}
+  -- ui.open {}
 end
 dap.listeners.before.event_terminated["dapui_config"] = function()
-  ui.close {}
+  -- ui.close {}
 end
 dap.listeners.before.event_exited["dapui_config"] = function()
   ui.close {}
@@ -97,7 +97,7 @@ dap.configurations.rust = {
   },
 }
 
-require("dap").defaults.fallback.exception_breakpoints = "rust_panic"
+-- require("dap").defaults.fallback.exception_breakpoints = "rust_panic"
 -- dap.defaults.codelldb.exception_breakpoints = { "rust_panic" }
 -- dap.defaults.rust.exception_breakpoints = { "rust_panic" }
 dap.adapters.rust = require("config.codelldb").get_codelldb()

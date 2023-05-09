@@ -273,25 +273,6 @@ return {
     end,
   },
 
-  {
-    "stevearc/stickybuf.nvim",
-    config = function()
-      require("stickybuf").setup {
-        get_auto_pin = function(bufnr)
-          -- You can return "bufnr", "buftype", "filetype", or a custom function to set how the window will be pinned
-          -- The function below encompasses the default logic. Inspect the source to see what it does.
-          local buftype = vim.bo[bufnr].buftype
-          if buftype == "terminal" then
-            print "Pinning terminal"
-            return "buftype"
-          end
-
-          return require("stickybuf").should_auto_pin(bufnr)
-        end,
-      }
-    end,
-  },
-
   "tpope/vim-commentary",
   "tpope/vim-abolish",
   "tpope/vim-rsi",

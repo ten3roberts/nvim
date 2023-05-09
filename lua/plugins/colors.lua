@@ -5,6 +5,7 @@ local colorschemes = {
     "sainnhe/sonokai",
     config = function()
       g.sonokai_enable_italic = 1
+      g.sonokai_show_eob = 0
       g.sonokai_style = "andromeda"
       vim.cmd.colorscheme "sonokai"
     end,
