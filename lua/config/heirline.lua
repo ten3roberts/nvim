@@ -105,7 +105,7 @@ function M.setup()
     -- control the padding and make sure our string is always at least 2
     -- characters long. Plus a nice Icon.
     provider = function(self)
-      return " %-2(" .. self.mode_names[self.mode] .. "%)"
+      return " %-2(" .. (self.mode_names[self.mode] or "__") .. "%)"
     end,
     hl = { fg = "normal_bg", bold = true },
     -- Re-evaluate the component only on ModeChanged event!
