@@ -59,7 +59,7 @@ local function rust_log_crate()
   local log_count = #find_pattern("\\blog\\b", { parent })
   local tracing_count = #find_pattern("\\btracing\\b", { parent })
 
-  if tracing_count * 5 > log_count then
+  if tracing_count * 5 >= log_count then
     return "tracing"
   else
     return "log"
