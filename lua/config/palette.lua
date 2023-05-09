@@ -18,6 +18,7 @@ local md_icons = {
   T = { name = "Text", hl = "DiagnosticSignHint", sign = "󰌪 " },
 }
 
+---@diagnostic disable-next-line: unused-local
 local cod_icons = {
   E = { name = "Error", hl = "DiagnosticSignError", sign = "" },
   W = { name = "Warn", hl = "DiagnosticSignWarn", sign = "" },

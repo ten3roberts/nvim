@@ -39,12 +39,12 @@ end
 
 function M.setup()
   vim.api.nvim_create_augroup("Heirline", { clear = true })
-  vim.api.nvim_create_autocmd("ColorScheme", {
-    callback = function()
-      utils.on_colorscheme(M.setup_colors)
-    end,
-    group = "Heirline",
-  })
+  -- vim.api.nvim_create_autocmd("ColorScheme", {
+  --   callback = function()
+  --     utils.on_colorscheme(M.setup_colors)
+  --   end,
+  --   group = "Heirline",
+  -- })
 
   require("heirline").load_colors(M.setup_colors())
 
