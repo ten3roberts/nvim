@@ -115,6 +115,14 @@ local function fn_like(trig, vis, name, args, ret, body)
   )
 end
 
+local function tracing_span(level)
+  return s(level .. "_span", fmt(string.format("let _span = %s_span!({}).entered();", level), { i(1) }))
+end
+
+local function tracing_instrument(level)
+  return s("instrument_" .. level, fmt(string.format('#[tracing::instrument(level = "%s")]', level), {}))
+end
+
 return {
   pattern_binding("if-some", "if let Some"),
   pattern_binding("if-ok", "if let Ok"),
@@ -315,11 +323,16 @@ Self {{
   s("warn", fmt([[{}::warn!("{}");]], { f(rust_log_crate), i(1) })),
   s("error", fmt([[{}::error!("{}");]], { f(rust_log_crate), i(1) })),
   s("instrument", t('#[tracing::instrument(level = "info")]', {})),
-  s("instrument_trace", t('#[tracing::instrument(level = "trace")]', {})),
-  s("instrument_debug", t('#[tracing::instrument(level = "debug")]', {})),
-  s("instrument_info", t('#[tracing::instrument(level = "info")]', {})),
-  s("instrument_warn", t('#[tracing::instrument(level = "warn")]', {})),
-  s("instrument_error", t('#[tracing::instrument(level = "error")]', {})),
+
+  tracing_instrument "trace",
+  tracing_instrument "debug",
+  tracing_instrument "info",
+  tracing_instrument "warn",
+  tracing_instrument "error",
+
+  tracing_span "info",
+  tracing_span "debug",
+
   s("doc_hidden", t("#[doc(hidden)]", {})),
 
   s("cfg_unknown", fmt([[ #[cfg(target_os = "unknown")] ]], {})),

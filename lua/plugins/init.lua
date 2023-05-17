@@ -120,6 +120,7 @@ return {
     filetype = "toml",
     config = function()
       require("crates").setup {
+        max_parallel_requests = 16,
         popup = {
           autofocus = true,
         },

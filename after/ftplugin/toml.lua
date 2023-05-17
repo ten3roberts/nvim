@@ -1,6 +1,3 @@
-vim.schedule(function()
-  vim.notify "Setting crates keybindings"
-end)
 local crates = require "crates"
 vim.keymap.set("n", "K", crates.show_crate_popup, { buffer = true })
 vim.keymap.set("n", "<leader>cv", crates.show_versions_popup, { buffer = true })

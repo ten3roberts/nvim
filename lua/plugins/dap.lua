@@ -120,8 +120,7 @@ return {
       {
         "<leader>df",
         function()
-          local widgets = require "dap.ui.widgets"
-          widgets.centered_float(widgets.frames)
+          require("telescope").extensions.dap.frames()
         end,
       },
       {

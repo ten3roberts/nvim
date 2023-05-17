@@ -132,10 +132,10 @@ function M.setup()
   -- highlight('LspDiagnosticsUnderlineInformation', nil, nil, 'undercurl', p.blue)
   -- highlight('LspDiagnosticsUnderlineHint',        nil, nil, 'undercurl', p.green)
 
-  link("HarpoonWindow", "DarkenedBg")
-  link("HarpoonBorder", "DarkenedBg")
+  link("HarpoonWindow", "Darkened")
+  link("HarpoonBorder", "Darkened")
 
-  link("TelescopeNormal", "DarkenedBg")
+  link("TelescopeNormal", "Darkened")
 
   highlight("TelescopeBorder", { fg = dark, bg = dark })
   highlight("TelescopePromptTitle", { bg = p.red, fg = "bg" })
@@ -148,7 +148,7 @@ function M.setup()
   link("TelescopePreviewBorder", "TelescopeBorder")
 
   link("TelescopePromptNormal", "Normal")
-  link("TelescopePreviewNormal", "DarkenedBg")
+  link("TelescopePreviewNormal", "Darkened")
 
   link("STError", "Red")
   link("InlayHint", "Grey")

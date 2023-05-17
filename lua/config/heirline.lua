@@ -471,7 +471,7 @@ function M.setup()
     condition = function()
       return conditions.buffer_matches { filetype = { "aerial" } }
     end,
-    provider = "󰀘 Aerial",
+    provider = "󰀘 Aerial%=",
     hl = { fg = "purple" },
   }
 

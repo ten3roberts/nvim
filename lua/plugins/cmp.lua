@@ -84,8 +84,20 @@ function M.config()
       end,
     },
     mapping = {
-      ["<C-p>"] = cmp.mapping.select_prev_item(),
-      ["<C-n>"] = cmp.mapping.select_next_item(),
+      ["<C-p>"] = function()
+        if cmp.visible() then
+          cmp.select_prev_item()
+        else
+          cmp.complete {}
+        end
+      end,
+      ["<C-n>"] = function()
+        if cmp.visible() then
+          cmp.select_next_item()
+        else
+          cmp.complete {}
+        end
+      end,
       -- ["<C-e>"] = cmp.mapping(function()
       --   vim.api.nvim_feedkeys(
       --     vim.fn["copilot#Accept"](vim.api.nvim_replace_termcodes("<Tab>", true, true, true)),
@@ -102,10 +114,10 @@ function M.config()
     sources = cmp.config.sources {
       { name = "luasnip" },
       { name = "nvim_lsp" },
-      -- { name = "treesitter" },
+      { name = "treesitter" },
       -- { name = "buffer" },
-      -- { name = "nvim_lua" },
-      -- { name = "path", option = { trailing_slash = true } },
+      { name = "nvim_lua" },
+      { name = "path", option = { trailing_slash = true } },
       { name = "crates" },
     },
   }
