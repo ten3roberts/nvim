@@ -15,25 +15,6 @@ return {
     end,
   },
   {
-    "ten3roberts/recipe.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-    },
-
-    keys = {
-      { "<leader>e", "<cmd>Telescope recipe pick_recipe<CR>" },
-      { "`<CR>", "<cmd>RecipeBake! check<CR>" },
-    },
-    config = function()
-      require("recipe").setup {
-        term = {
-          auto_close = false,
-        },
-      }
-    end,
-  },
-  {
     "ten3roberts/window-picker.nvim",
     keys = {
       {

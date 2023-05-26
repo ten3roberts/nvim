@@ -6,6 +6,7 @@ local function on_attach(client, bufnr)
   local opts = client.config
 
   require("lsp-format").on_attach(client)
+  require("lsp-inlayhints").on_attach(client, bufnr)
 
   local keymap = {}
   if type(opts.keymap) == "function" then
@@ -152,19 +153,16 @@ return {
     dependencies = {
       -- "mfussenegger/nvim-dap",
       "folke/neodev.nvim",
-      "hrsh7th/cmp-nvim-lsp",
       "simrat39/rust-tools.nvim",
+      "hrsh7th/cmp-nvim-lsp",
+      "lvimuser/lsp-inlayhints.nvim",
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
       "jose-elias-alvarez/null-ls.nvim",
       "lukas-reineke/lsp-format.nvim",
     },
     config = function()
-      require("lspkind").init {
-        symbol_map = {
-          Copilot = "",
-        },
-      }
+      require("lspkind").init {}
 
       local handlers = {
         -- ["textDocument/publishDiagnostics"] = require("config.lsp").on_publish_diagnostics,
@@ -276,7 +274,7 @@ return {
                 --   enable = true,
                 -- },
                 check = {
-                  command = "clippy",
+                  -- command = "clippy",
                 },
                 -- diagnostics = {
                 -- enable = true,
@@ -305,23 +303,7 @@ return {
             tools = {
               -- rust-tools options
               inlay_hints = {
-                auto = true,
-                only_current_line = true,
-                -- prefix for parameter hints
-                parameter_hints_prefix = "  • ",
-                -- prefix for all the other hints (type, chaining)
-                other_hints_prefix = "  => ",
-                -- whether to align to the length of the longest line in the file
-                max_len_align = false,
-                -- padding from the left if max_len_align is true
-                max_len_align_padding = 4,
-                -- padding from the left if max_len_align is true
-                -- whether to align to the extreme right or not
-                right_align = false,
-                -- padding from the right if right_align is true
-                right_align_padding = 8,
-                -- The color of the hints
-                highlight = "InlayHint",
+                auto = false,
               },
               hover_actions = {
                 border = "single",

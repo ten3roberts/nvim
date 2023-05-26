@@ -31,6 +31,12 @@ local colorschemes = {
       vim.cmd.colorscheme "catppuccin"
     end,
   },
+  tokyonight = {
+    "folke/tokyonight.nvim",
+    config = function()
+      vim.cmd.colorscheme "tokyonight"
+    end,
+  },
 
   -- nord = {
   --   "arcticicestudio/nord-vim",

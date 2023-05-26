@@ -77,38 +77,6 @@ tree.register({
     q = { "<cmd>tabclose<CR>", "Close tab" },
   },
 
-  -- g = {
-  --   name = "git",
-  --   d = { diffview.open, "Diffview" },
-  --   D = {
-  --     function()
-  --       if vim.api.nvim_get_mode().mode == "s" then
-  --         vim.cmd ":'<,'>DiffviewFileHistory %"
-  --       else
-  --         vim.cmd "DiffviewFileHistory %"
-  --       end
-  --     end,
-  --     "DiffviewFileHistory",
-  --     mode = { "n", "s" },
-  --   },
-  --   m = {
-  --     function()
-  --       diffview.open "@{u}...HEAD"
-  --     end,
-  --     "Diff against parent branch",
-  --   },
-  -- },
-  h = {
-    name = "term",
-    t = {
-      function()
-        local recipe = require "recipe"
-        recipe.execute({ cmd = "zsh", adapter = "term" }):focus {}
-      end,
-      "Open terminal",
-    },
-  },
-
   b = {
     name = "buffer",
     k = {
@@ -157,8 +125,6 @@ tree.register {
     "Prev quickfix item",
   },
 }
-
-local silent = { silent = true }
 
 for i = 0, 9 do
   map("n", "<leader>" .. i, i .. "gt")

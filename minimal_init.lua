@@ -13,7 +13,6 @@ local function load_plugins()
           { "sindrets/diffview.nvim" },
         },
         config = function()
-          print "loaded neogit"
           require("neogit").setup {
             -- disable_insert_on_commit = false,
           }

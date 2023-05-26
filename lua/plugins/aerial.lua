@@ -11,8 +11,8 @@ return {
     aerial.setup {
       -- backends = { "treesitter", "lsp", "markdown" },
       on_attach = function(bufnr)
-        vim.keymap.set("n", "[[", "<cmd>AerialPrev<CR>", { buffer = bufnr })
-        vim.keymap.set("n", "]]", "<cmd>AerialNext<CR>", { buffer = bufnr })
+        -- vim.keymap.set("n", "[[", "<cmd>AerialPrev<CR>", { buffer = bufnr })
+        -- vim.keymap.set("n", "]]", "<cmd>AerialNext<CR>", { buffer = bufnr })
       end,
       layout = {
 
@@ -21,7 +21,31 @@ return {
         -- placement = "edge",
         default_direction = "prefer_left",
       },
-
+      nav = {
+        border = "single",
+        min_height = { 16, 0.3 },
+        max_height = 0.9,
+        max_width = 0.5,
+        min_width = { 0.2, 20 },
+        win_opts = {
+          cursorline = true,
+          winblend = 10,
+        },
+        -- Jump to symbol in source window when the cursor moves
+        autojump = true,
+        -- Show a preview of the code in the right column, when there are no child symbols
+        preview = true,
+        -- Keymaps in the nav window
+        keymaps = {
+          ["<CR>"] = "actions.jump",
+          ["<2-LeftMouse>"] = "actions.jump",
+          ["<C-v>"] = "actions.jump_vsplit",
+          ["<C-s>"] = "actions.jump_split",
+          ["h"] = "actions.left",
+          ["l"] = "actions.right",
+          ["q"] = "actions.close",
+        },
+      },
       attach_mode = "global",
 
       -- default_bindings = true,
