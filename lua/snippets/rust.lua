@@ -28,7 +28,7 @@ local function get_impl()
     local type = node:type()
     if type == "impl_item" then
       local n = node:field("type")[1]
-      return vim.treesitter.query.get_node_text(n, 0)
+      return vim.treesitter.get_node_text(n, 0)
     end
     node = node:parent()
   end

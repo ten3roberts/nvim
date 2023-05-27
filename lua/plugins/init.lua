@@ -173,10 +173,62 @@ return {
     -- lazy-load on keys
     -- mode is `n` by default. For more advanced options, check the section on key mappings
     keys = {
-      { "<C-a>", "<Plug>(dial-increment)", mode = { "n", "v" } },
-      { "<C-x>", "<Plug>(dial-decrement)", mode = { "n", "v" } },
-      { "g<C-a>", "g<Plug>(dial-increment)", mode = { "v" } },
-      { "g<C-x>", "g<Plug>(dial-decrement)", mode = { "v" } },
+      {
+        "<C-a>",
+        function()
+          require("dial.map").inc_normal()
+        end,
+        { mode = "n" },
+      },
+      {
+        "<C-x>",
+        function()
+          require("dial.map").dec_normal()
+        end,
+        { mode = "n" },
+      },
+      {
+        "g<C-a>",
+        function()
+          require("dial.map").inc_gnormal()
+        end,
+        { mode = "n" },
+      },
+      {
+        "g<C-x>",
+        function()
+          require("dial.map").dec_gnormal()
+        end,
+        { mode = "n" },
+      },
+      {
+        "<C-a>",
+        function()
+          require("dial.map").inc_visual()
+        end,
+        { mode = "v" },
+      },
+      {
+        "<C-x>",
+        function()
+          require("dial.map").dec_visual()
+        end,
+        { mode = "v" },
+      },
+      {
+        "g<C-a>",
+        function()
+          require("dial.map").inc_gvisual()
+        end,
+        { mode = "v" },
+      },
+      {
+        "g<C-x>",
+        function()
+          require("dial.map").dec_gvisual()
+        end,
+        { mode = "v" },
+      },
     },
     config = function()
       local augend = require "dial.augend"

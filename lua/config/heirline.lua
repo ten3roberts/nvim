@@ -10,6 +10,7 @@ local function get_hl(name)
   local v = utils.get_highlight(name)
   if not v or vim.tbl_isempty(v) then
     vim.notify("No highlight for " .. name, vim.log.levels.WARN)
+    return {}
   end
   return v
 end
@@ -33,7 +34,7 @@ function M.setup_colors()
     diag_info = get_hl("DiagnosticSignInfo").fg,
     git_del = get_hl("diffRemoved").fg,
     git_add = get_hl("diffAdded").fg,
-    git_change = get_hl("diffChanged").fg,
+    git_change = get_hl("diffChanged").fg or get_hl("Blue").fg,
   }
 end
 

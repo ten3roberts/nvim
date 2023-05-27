@@ -6,24 +6,25 @@ local colorschemes = {
     config = function()
       g.sonokai_enable_italic = 1
       g.sonokai_show_eob = 0
-      g.sonokai_style = "andromeda"
+      -- g.sonokai_style = "andromeda"
+      g.sonokai_style = "maia"
       vim.cmd.colorscheme "sonokai"
     end,
   },
-  nord = {
-    "shaunsingh/nord.nvim",
-    config = function()
-      g.nord_bold = false
-      g.nord_borders = true
-      vim.cmd "colorscheme nord"
-    end,
-  },
-  onenord = {
-    "rmehri01/onenord.nvim",
-    config = function()
-      vim.cmd.colorscheme "onenord"
-    end,
-  },
+  -- nord = {
+  --   "shaunsingh/nord.nvim",
+  --   config = function()
+  --     g.nord_bold = false
+  --     g.nord_borders = true
+  --     vim.cmd "colorscheme nord"
+  --   end,
+  -- },
+  -- onenord = {
+  -- "rmehri01/onenord.nvim",
+  -- config = function()
+  --   vim.cmd.colorscheme "onenord"
+  -- end,
+  -- },
   catppuccin = {
     "catppuccin/nvim",
     name = "catppuccin",
@@ -38,6 +39,12 @@ local colorschemes = {
     end,
   },
 
+  onedark = {
+    "navarasu/onedark.nvim",
+    config = function()
+      vim.cmd.colorscheme "onedark"
+    end,
+  },
   -- nord = {
   --   "arcticicestudio/nord-vim",
   --   lazy = false,

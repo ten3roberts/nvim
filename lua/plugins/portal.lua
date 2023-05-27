@@ -20,8 +20,6 @@ local M = {
 }
 
 function M.config()
-  print "Setting up portal"
-
   vim.keymap.set("n", "<leader>H", function()
     require("portal").tunnel {
       require("portal.builtin").grapple.query { direction = "forward" },
