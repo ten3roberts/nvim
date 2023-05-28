@@ -253,7 +253,7 @@ function M.setup()
         for _, server in pairs(vim.lsp.get_active_clients { bufnr = 0 }) do
           table.insert(names, server.name)
         end
-        return " " .. table.concat(names, " ")
+        return "󰒓 " .. table.concat(names, " ")
       end,
       hl = { fg = "green" },
     },
@@ -338,7 +338,7 @@ function M.setup()
       {
         -- git branch name
         provider = function(self)
-          return " " .. self.status_dict.head
+          return "󰘬 " .. self.status_dict.head
         end,
       },
 
@@ -376,13 +376,13 @@ function M.setup()
     {
       -- git branch name
       provider = function(self)
-        return " " .. self.status_dict.head
+        return "󰘬 " .. self.status_dict.head
       end,
     },
     {
       -- git branch name
       provider = function()
-        return ""
+        return "󰘬"
       end,
     },
   }

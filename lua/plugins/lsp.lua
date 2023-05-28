@@ -274,7 +274,7 @@ return {
                 --   enable = true,
                 -- },
                 check = {
-                  -- command = "clippy",
+                  command = "clippy",
                 },
                 -- diagnostics = {
                 -- enable = true,

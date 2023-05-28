@@ -170,64 +170,61 @@ return {
   },
   {
     "monaqa/dial.nvim",
-    -- lazy-load on keys
-    -- mode is `n` by default. For more advanced options, check the section on key mappings
     keys = {
       {
         "<C-a>",
         function()
           require("dial.map").inc_normal()
         end,
-        { mode = "n" },
       },
       {
         "<C-x>",
         function()
           require("dial.map").dec_normal()
         end,
-        { mode = "n" },
+        mode = "n",
       },
       {
         "g<C-a>",
         function()
           require("dial.map").inc_gnormal()
         end,
-        { mode = "n" },
+        mode = "n",
       },
       {
         "g<C-x>",
         function()
           require("dial.map").dec_gnormal()
         end,
-        { mode = "n" },
+        mode = "n",
       },
       {
         "<C-a>",
         function()
           require("dial.map").inc_visual()
         end,
-        { mode = "v" },
+        mode = "v",
       },
       {
         "<C-x>",
         function()
           require("dial.map").dec_visual()
         end,
-        { mode = "v" },
+        mode = "v",
       },
       {
         "g<C-a>",
         function()
           require("dial.map").inc_gvisual()
         end,
-        { mode = "v" },
+        mode = "v",
       },
       {
         "g<C-x>",
         function()
           require("dial.map").dec_gvisual()
         end,
-        { mode = "v" },
+        mode = "v",
       },
     },
     config = function()
@@ -235,9 +232,9 @@ return {
       require("dial.config").augends:register_group {
         default = {
           augend.integer.alias.decimal, -- nonnegative decimal number (0, 1, 2, 3, ...)
+          augend.constant.alias.bool,
           augend.integer.alias.hex, -- nonnegative hex number  (0x01, 0x1a1f, etc.)
           augend.date.alias["%Y/%m/%d"], -- date (2022/02/19, etc.)
-          augend.constant.alias.bool,
         },
       }
     end,
