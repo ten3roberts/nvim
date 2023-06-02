@@ -9,7 +9,8 @@ local M = {
     "Saecki/crates.nvim",
     -- "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-nvim-lsp",
-    "saadparwaiz1/cmp_luasnip",
+    -- "saadparwaiz1/cmp_luasnip",
+    "dcampos/cmp-snippy",
     "hrsh7th/cmp-nvim-lua",
     "hrsh7th/cmp-path",
     "hrsh7th/cmp-cmdline",
@@ -27,7 +28,7 @@ function M.config()
     filetypes = { "NeogitCommitMessage", "gitcommit", "octo" },
   }
 
-  local ls = require "luasnip"
+  -- local ls = require "luasnip"
 
   local has_words_before = function()
     local line, col = unpack(api.nvim_win_get_cursor(0))
@@ -35,6 +36,7 @@ function M.config()
   end
 
   local function confirm(behavior)
+    local snippy = require "snippy"
     return cmp.mapping(function(fallback)
       -- local suggestion = require "copilot.suggestion"
       -- if suggestion.is_visible() then
@@ -45,8 +47,8 @@ function M.config()
           select = true,
         }
       elseif has_words_before() then
-        if ls.jumpable(1) then
-          ls.jump(1)
+        if snippy.can_jumb(1) then
+          snippy.jump(1)
         else
           cmp.complete()
         end
@@ -75,12 +77,14 @@ function M.config()
       format = lspkind.cmp_format {
         mode = "symbol", -- show only symbol annotations
         maxwidth = 60, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-        -- menu = menu,
+        menu = menu,
       },
     },
     snippet = {
       expand = function(args)
-        require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
+        -- require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
+
+        require("snippy").expand_snippet(args.body)
       end,
     },
     mapping = {
@@ -112,7 +116,7 @@ function M.config()
       ["<Tab>"] = confirm(cmp.ConfirmBehavior.Replace),
     },
     sources = cmp.config.sources {
-      { name = "luasnip" },
+      { name = "snippy" },
       { name = "nvim_lsp" },
       { name = "treesitter" },
       -- { name = "buffer" },
@@ -138,7 +142,6 @@ function M.config()
     mapping = cmp.mapping.preset.cmdline(),
     sources = cmp.config.sources {
       { name = "cmdline" },
-      { name = "treesitter" },
       { name = "path", option = { trailing_slash = true } },
     },
   })

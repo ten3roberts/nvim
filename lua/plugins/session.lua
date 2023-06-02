@@ -12,8 +12,8 @@ return {
     "rmagatti/auto-session",
     -- branch = "merge-session-lens",
     config = function()
-      -- vim.o.sessionoptions = "buffers,help,tabpages,folds"
-      vim.o.sessionoptions = "buffers,folds,tabpages"
+      -- vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+      vim.o.sessionoptions = "buffers,curdir,folds,help,tabpages"
       require("auto-session").setup {
         -- log_level = "debug",
         -- auto_session_suppress_dirs = { "~/" },
