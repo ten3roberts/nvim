@@ -47,8 +47,8 @@ function M.config()
           select = true,
         }
       elseif has_words_before() then
-        if snippy.can_jumb(1) then
-          snippy.jump(1)
+        if snippy.can_expand_or_advance(1) then
+          snippy.expand_or_advance(1)
         else
           cmp.complete()
         end

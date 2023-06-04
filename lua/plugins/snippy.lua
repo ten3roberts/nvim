@@ -1,5 +1,8 @@
 return {
   "dcampos/nvim-snippy",
+  dependencies = {
+    "honza/vim-snippets",
+  },
   config = function()
     local mappings = require "snippy.mapping"
 

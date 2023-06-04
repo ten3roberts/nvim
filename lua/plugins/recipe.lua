@@ -7,6 +7,7 @@ return {
 
   keys = {
     { "<leader>e", "<cmd>Telescope recipe pick_recipe<CR>" },
+    { "<leader>be", "<cmd>Telescope recipe pick_local<CR>" },
     { "`<CR>", "<cmd>RecipeBake! check<CR>" },
     { "`b", "<cmd>RecipeBake! build<CR>" },
     {
