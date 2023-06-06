@@ -19,7 +19,7 @@ return {
         -- The maximum width of the aerial window
         max_width = { 30, 0.2 },
         -- placement = "edge",
-        default_direction = "prefer_right",
+        default_direction = "right",
       },
       nav = {
         border = "single",
@@ -32,7 +32,7 @@ return {
           winblend = 10,
         },
         -- Jump to symbol in source window when the cursor moves
-        autojump = true,
+        autojump = false,
         -- Show a preview of the code in the right column, when there are no child symbols
         preview = true,
         -- Keymaps in the nav window
