@@ -1,4 +1,4 @@
-local current_colorscheme = "sonokai"
+local current_colorscheme = "catppuccin"
 local g = vim.g
 local colorschemes = {
   sonokai = {

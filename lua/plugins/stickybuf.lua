@@ -21,22 +21,39 @@ local function matched(cache, list, val)
   return false
 end
 
+local function get_pin(bufnr)
+  -- You can return "bufnr", "buftype", "filetype", or a custom function to set how the window will be pinned
+  -- The function below encompasses the default logic. Inspect the source to see what it does.
+  local buftype = vim.bo[bufnr].buftype
+  local filetype = vim.bo[bufnr].filetype
+
+  if matched(cache_ft, filetypes, filetype) then
+    return "filetype"
+  end
+  if matched(cache_bt, buftypes, buftype) then
+    return "buftype"
+  end
+end
+
 return {
   "stevearc/stickybuf.nvim",
   config = function()
     require("stickybuf").setup {
       get_auto_pin = function(bufnr)
-        -- You can return "bufnr", "buftype", "filetype", or a custom function to set how the window will be pinned
-        -- The function below encompasses the default logic. Inspect the source to see what it does.
-        local buftype = vim.bo[bufnr].buftype
-        local filetype = vim.bo[bufnr].filetype
-
-        if matched(cache_ft, filetypes, filetype) then
-          return "filetype"
+        local v = get_pin(bufnr)
+        if v then
+          vim.notify(
+            string.format(
+              "Pinning %d %q %q %q: %s",
+              bufnr,
+              vim.bo[bufnr].buftype,
+              vim.bo[bufnr].filetype,
+              vim.api.nvim_buf_get_name(bufnr),
+              v
+            )
+          )
         end
-        if matched(cache_bt, buftypes, buftype) then
-          return "buftype"
-        end
+        return v
       end,
     }
   end,

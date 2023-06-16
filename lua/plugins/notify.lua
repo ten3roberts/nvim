@@ -2,6 +2,7 @@ return {
   "rcarriga/nvim-notify",
   lazy = false,
 
+  priority = 100,
   keys = { { "<leader>pn", "<cmd>Telescope notify notify<CR>" } },
   config = function()
     require("notify").setup {

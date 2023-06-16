@@ -22,6 +22,11 @@ return {
           disable_diagnostics = false, -- Temporarily disable diagnostics for conflict buffers while in the view.
         },
       },
+
+      default_args = {
+        DiffviewOpen = { "--untracked-files=no", "--imply-local" },
+        DiffviewFileHistory = { "--base=LOCAL" },
+      },
       keymaps = {
         view = {
           ["q"] = "<cmd>DiffviewClose<CR>",

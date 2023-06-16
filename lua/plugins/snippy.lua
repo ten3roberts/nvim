@@ -1,4 +1,5 @@
 return {
+  enabled = false,
   "dcampos/nvim-snippy",
   dependencies = {
     "honza/vim-snippets",

@@ -9,8 +9,8 @@ local M = {
     "Saecki/crates.nvim",
     -- "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-nvim-lsp",
-    -- "saadparwaiz1/cmp_luasnip",
-    "dcampos/cmp-snippy",
+    "saadparwaiz1/cmp_luasnip",
+    -- "dcampos/cmp-snippy",
     "hrsh7th/cmp-nvim-lua",
     "hrsh7th/cmp-path",
     "hrsh7th/cmp-cmdline",
@@ -36,7 +36,7 @@ function M.config()
   end
 
   local function confirm(behavior)
-    local snippy = require "snippy"
+    local ls = require "luasnip"
     return cmp.mapping(function(fallback)
       -- local suggestion = require "copilot.suggestion"
       -- if suggestion.is_visible() then
@@ -47,8 +47,8 @@ function M.config()
           select = true,
         }
       elseif has_words_before() then
-        if snippy.can_expand_or_advance(1) then
-          snippy.expand_or_advance(1)
+        if ls.expand_or_jumpable(1) then
+          ls.expand_op_jump(1)
         else
           cmp.complete()
         end
@@ -82,9 +82,9 @@ function M.config()
     },
     snippet = {
       expand = function(args)
-        -- require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
+        require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
 
-        require("snippy").expand_snippet(args.body)
+        -- require("snippy").expand_snippet(args.body)
       end,
     },
     mapping = {
@@ -116,7 +116,7 @@ function M.config()
       ["<Tab>"] = confirm(cmp.ConfirmBehavior.Replace),
     },
     sources = cmp.config.sources {
-      { name = "snippy" },
+      { name = "luasnip" },
       { name = "nvim_lsp" },
       { name = "treesitter" },
       -- { name = "buffer" },

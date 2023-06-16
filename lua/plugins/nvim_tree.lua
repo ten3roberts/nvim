@@ -12,6 +12,9 @@ return {
         update_root = false,
         ignore_list = {},
       },
+      renderer = {
+        indent_width = 1,
+      },
       on_attach = function(bufnr)
         local api = require "nvim-tree.api"
 

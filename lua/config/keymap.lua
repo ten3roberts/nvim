@@ -2,7 +2,6 @@ local function map(mode, lhs, rhs, opts)
   vim.keymap.set(mode, lhs, rhs, opts)
 end
 
-local qf = require "qf"
 local graphene = require "graphene"
 
 -- local neotest = require "neotest"
@@ -10,40 +9,6 @@ local graphene = require "graphene"
 local tree = require "config.treebind"
 
 tree.register({
-  c = {
-    name = "Quickfix",
-    c = {
-      function()
-        qf.toggle "c"
-      end,
-      "Toggle",
-    },
-    f = {
-      "<cmd>cc<CR>",
-      "Find first",
-    },
-    o = {
-      function()
-        qf.open "c"
-      end,
-      "Open",
-    },
-  },
-  l = {
-    name = "Loclist",
-    l = {
-      function()
-        qf.toggle "l"
-      end,
-      "Toggle",
-    },
-    c = {
-      function()
-        qf.close "l"
-      end,
-      "Close",
-    },
-  },
   f = {
     function()
       graphene.init()
@@ -98,33 +63,6 @@ tree.register({
     "Prev diagnostic item",
   },
 }, { prefix = "<leader>" })
-
-tree.register {
-  ["]l"] = {
-    function()
-      qf.next "l"
-    end,
-    "Next loclist item",
-  },
-  ["[l"] = {
-    function()
-      qf.prev "l"
-    end,
-    "Prev loclist item",
-  },
-  ["]q"] = {
-    function()
-      qf.next "visible"
-    end,
-    "Next quickfix item",
-  },
-  ["[q"] = {
-    function()
-      qf.prev "visible"
-    end,
-    "Prev quickfix item",
-  },
-}
 
 for i = 0, 9 do
   map("n", "<leader>" .. i, i .. "gt")

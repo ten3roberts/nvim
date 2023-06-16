@@ -113,25 +113,6 @@ return {
     end,
   },
 
-  {
-    "williamboman/mason.nvim",
-    dependencies = {
-      "williamboman/mason-lspconfig.nvim",
-    },
-    config = function()
-      require("mason").setup()
-      require("mason-lspconfig").setup {
-        automatic_installation = true,
-      }
-
-      require("config.auto_install").ensure_installed {
-        "prettier",
-        "stylua",
-        -- "yamllint",
-      }
-    end,
-  },
-
   -- auto-resize windows
   -- {
   --   enabled = true,
@@ -208,9 +189,14 @@ return {
       local augend = require "dial.augend"
       require("dial.config").augends:register_group {
         default = {
+          augend.decimal_fraction.new {
+            signed = false,
+            point_char = ".",
+          },
           augend.integer.alias.decimal, -- nonnegative decimal number (0, 1, 2, 3, ...)
           augend.constant.alias.bool,
           augend.integer.alias.hex, -- nonnegative hex number  (0x01, 0x1a1f, etc.)
+          augend.semver.alias.semver, -- nonnegative hex number  (0x01, 0x1a1f, etc.)
           augend.date.alias["%Y/%m/%d"], -- date (2022/02/19, etc.)
           augend.date.alias["%Y-%m-%d"], -- date (2022-02-19, etc.)
         },
@@ -224,16 +210,6 @@ return {
       vim.keymap.set("v", "<C-x>", require("dial.map").dec_visual(), { noremap = true })
       vim.keymap.set("v", "g<C-a>", require("dial.map").inc_gvisual(), { noremap = true })
       vim.keymap.set("v", "g<C-x>", require("dial.map").dec_gvisual(), { noremap = true })
-    end,
-  },
-
-  {
-    "L3MON4D3/LuaSnip",
-    dependencies = {
-      "rafamadriz/friendly-snippets",
-    },
-    config = function()
-      require "config.snippets"
     end,
   },
 

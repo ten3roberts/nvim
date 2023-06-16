@@ -22,27 +22,27 @@ local types = require "luasnip.util.types"
 
 _G.get_impl = get_impl
 
--- require("luasnip.loaders.from_lua").load { paths = vim.fn.stdpath "config" .. "/lua/snippets" }
+require("luasnip.loaders.from_lua").load { paths = vim.fn.stdpath "config" .. "/lua/snippets" }
 
--- ls.filetype_extend("svelte", { "javascript" })
--- ls.filetype_extend("typescript", { "javascript" })
+ls.filetype_extend("svelte", { "javascript" })
+ls.filetype_extend("typescript", { "javascript" })
 
--- vim.keymap.set({ "i", "s" }, "<c-k>", function()
---   if ls.jumpable(1) then
---     ls.jump(1)
---   end
--- end)
+vim.keymap.set({ "i", "s" }, "<c-k>", function()
+  if ls.jumpable(1) then
+    ls.jump(1)
+  end
+end)
 
--- vim.keymap.set({ "i", "s" }, "<c-j>", function()
---   if ls.jumpable(-1) then
---     ls.jump(-1)
---   end
--- end)
+vim.keymap.set({ "i", "s" }, "<c-j>", function()
+  if ls.jumpable(-1) then
+    ls.jump(-1)
+  end
+end)
 
--- vim.keymap.set({ "i", "s" }, "<c-l>", function()
---   if ls.choice_active() then
---     ls.change_choice(1)
---   end
--- end)
+vim.keymap.set({ "i", "s" }, "<c-l>", function()
+  if ls.choice_active() then
+    ls.change_choice(1)
+  end
+end)
 
--- require("luasnip.loaders.from_vscode").lazy_load()
+require("luasnip.loaders.from_vscode").lazy_load()
