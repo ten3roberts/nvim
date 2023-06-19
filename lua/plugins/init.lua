@@ -3,7 +3,9 @@ return {
     "ten3roberts/graphene.nvim",
     config = function()
       local graphene = require "graphene"
-      graphene.setup {}
+      graphene.setup {
+        show_hidden = true,
+      }
     end,
   },
   {
@@ -267,7 +269,6 @@ return {
     end,
   },
 
-  "tpope/vim-commentary",
   "tpope/vim-abolish",
   "tpope/vim-rsi",
   -- "tpope/vim-sleuth",

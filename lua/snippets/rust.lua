@@ -129,11 +129,11 @@ return {
   pattern_binding("while-some", "while let Some"),
   pattern_binding("while-ok", "while let Ok"),
   s(
-    "modtest",
+    "modtests",
     fmt(
       [[
   #[cfg(test)]
-  mod test {{
+  mod tests {{
       {}
 
       {}
@@ -317,11 +317,11 @@ Self {{
   s("de_serde", { t "#[derive(serde::Serialize, serde::Deserialize)]" }),
   s("attr_serde", { t '#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]' }),
 
-  s("trace", fmt([[{}::trace!("{}");]], { f(rust_log_crate), i(1) })),
-  s("debug", fmt([[{}::debug!("{}");]], { f(rust_log_crate), i(1) })),
-  s("info", fmt([[{}::info!("{}");]], { f(rust_log_crate), i(1) })),
-  s("warn", fmt([[{}::warn!("{}");]], { f(rust_log_crate), i(1) })),
-  s("error", fmt([[{}::error!("{}");]], { f(rust_log_crate), i(1) })),
+  s("trace", fmt([[{}::trace!({}"{}");]], { f(rust_log_crate), i(2), i(1) })),
+  s("debug", fmt([[{}::debug!({}"{}");]], { f(rust_log_crate), i(2), i(1) })),
+  s("info", fmt([[{}::info!({}"{}");]], { f(rust_log_crate), i(2), i(1) })),
+  s("warn", fmt([[{}::warn!({}"{}");]], { f(rust_log_crate), i(2), i(1) })),
+  s("error", fmt([[{}::error!({}"{}");]], { f(rust_log_crate), i(2), i(1) })),
   s("instrument", t('#[tracing::instrument(level = "info")]', {})),
 
   tracing_instrument "trace",
