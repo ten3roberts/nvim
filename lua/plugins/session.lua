@@ -4,7 +4,7 @@ return {
   --   config = function()
   --     require("project_nvim").setup {
   --       -- detection_methods = { "pattern", "lsp" },
-  --       -- detection_methods = { "pattern" },
+  --       detection_methods = { "pattern" },
   --     }
   --   end,
   -- },

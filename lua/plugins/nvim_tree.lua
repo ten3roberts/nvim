@@ -7,6 +7,9 @@ return {
   config = function()
     -- empty setup using defaults
     require("nvim-tree").setup {
+      disable_netrw = false,
+      hijack_netrw = false,
+      hijack_unnamed_buffer_when_opening = false,
       update_focused_file = {
         enable = true,
         update_root = false,

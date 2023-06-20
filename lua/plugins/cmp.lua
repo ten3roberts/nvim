@@ -48,7 +48,7 @@ function M.config()
         }
       elseif has_words_before() then
         if ls.expand_or_jumpable(1) then
-          ls.expand_op_jump(1)
+          ls.expand_or_jump(1)
         else
           cmp.complete()
         end

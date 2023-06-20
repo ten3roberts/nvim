@@ -144,7 +144,7 @@ function M.setup()
 
   local FileName = {
     init = function(self)
-      local filename = vim.fn.fnamemodify(self.filename, ":.")
+      local filename = vim.fn.fnamemodify(self.filename, ":~:.")
       if filename == "" then
         filename = "[No Name]"
       end
@@ -442,6 +442,17 @@ function M.setup()
     -- Align,
   }
 
+  local HelpFileName = {
+    condition = function()
+      return vim.bo.filetype == "help"
+    end,
+    provider = function()
+      local filename = vim.api.nvim_buf_get_name(0)
+      return vim.fn.fnamemodify(filename, ":t")
+    end,
+    hl = { fg = "blue" },
+  }
+
   local SpecialStatusline = {
     condition = function()
       return conditions.buffer_matches {
@@ -451,7 +462,7 @@ function M.setup()
     end,
     FileType,
     Space,
-    -- HelpFileName,
+    HelpFileName,
     Align,
   }
 

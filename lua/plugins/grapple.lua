@@ -1,6 +1,6 @@
 return {
   "cbochs/grapple.nvim",
-  enabled = true,
+  enabled = false,
   dependencies = { "nvim-lua/plenary.nvim" },
   config = function()
     local grapple = require "grapple"

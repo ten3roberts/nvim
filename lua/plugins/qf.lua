@@ -58,6 +58,7 @@ return {
         auto_resize = false,
         wide = true,
       },
+      close_other = true,
       -- signs = signs,
     }
   end,
