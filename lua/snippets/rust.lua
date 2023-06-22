@@ -116,7 +116,7 @@ local function fn_like(trig, vis, name, args, ret, body)
 end
 
 local function tracing_span(level)
-  return s(level .. "_span", fmt(string.format("let _span = %s_span!({}).entered();", level), { i(1) }))
+  return s(level .. "_span", fmt(string.format("let _span = tracing::%s_span!({}).entered();", level), { i(1) }))
 end
 
 local function tracing_instrument(level)

@@ -8,9 +8,9 @@ return {
     require("notify").setup {
       timeout = 1000,
       render = "minimal",
-      stages = "slide",
+      -- stages = "slide",
       level = "debug",
-      top_down = true,
+      -- top_down = true,
       -- max_width = 120,
 
       -- on_open = function(win)
