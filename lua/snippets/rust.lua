@@ -123,6 +123,33 @@ local function tracing_instrument(level)
   return s("instrument_" .. level, fmt(string.format('#[tracing::instrument(level = "%s")]', level), {}))
 end
 
+local function with_builder(recv, ret)
+  return fmt(
+    string.format(
+      [[
+        {}
+        pub fn with_{}(%s, {}: {}) -> %s {{
+          self.{} = {};
+          self
+        }}
+      ]],
+      recv,
+      ret
+    ),
+    {
+      d(4, function(args)
+        local value = args[1][1]
+        return sn(4, { i(1, string.format("/// Set the %s", value)) })
+      end, { 1 }),
+      i(1, "value"),
+      rep(1),
+      i(2, "Type"),
+      rep(1),
+      dl(3, l._1, { 1 }), -- RHS
+    }
+  )
+end
+
 return {
   pattern_binding("if-some", "if let Some"),
   pattern_binding("if-ok", "if let Ok"),
@@ -289,30 +316,7 @@ Self {{
     )
   ),
 
-  s(
-    "with",
-    fmt(
-      [[
-        {}
-        pub fn with_{}(&mut self, {}: {}) -> &mut Self {{
-          self.{} = {};
-          self
-        }}
-      ]],
-      {
-        d(4, function(args)
-          local typename = get_impl() or "Type"
-          local value = args[1][1]
-          return sn(4, { i(1, string.format("/// Set the %s's %s", typename, value)) })
-        end, { 1 }),
-        i(1, "value"),
-        rep(1),
-        i(2, "Type"),
-        rep(1),
-        dl(3, l._1, { 1 }), -- RHS
-      }
-    )
-  ),
+  s("with", c(1, { with_builder("&mut self", "&mut Self"), with_builder("mut self", "Self") })),
 
   s("de_serde", { t "#[derive(serde::Serialize, serde::Deserialize)]" }),
   s("attr_serde", { t '#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]' }),

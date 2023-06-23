@@ -1,4 +1,4 @@
-local current_colorscheme = "catppuccin"
+local current_colorscheme = "sonokai"
 local g = vim.g
 local colorschemes = {
   sonokai = {
@@ -6,8 +6,8 @@ local colorschemes = {
     config = function()
       g.sonokai_enable_italic = 1
       g.sonokai_show_eob = 0
-      -- g.sonokai_style = "andromeda"
-      g.sonokai_style = "maia"
+      g.sonokai_style = "andromeda"
+      -- g.sonokai_style = "maia"
       vim.cmd.colorscheme "sonokai"
     end,
   },
