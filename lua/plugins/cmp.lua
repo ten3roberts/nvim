@@ -4,7 +4,7 @@ local M = {
     "petertriho/cmp-git",
 
     "onsails/lspkind-nvim",
-    -- "hrsh7th/cmp-nvim-lsp-signature-help",
+    "hrsh7th/cmp-nvim-lsp-signature-help",
     "jose-elias-alvarez/null-ls.nvim",
     "Saecki/crates.nvim",
     -- "hrsh7th/cmp-buffer",
@@ -116,6 +116,7 @@ function M.config()
       ["<Tab>"] = confirm(cmp.ConfirmBehavior.Replace),
     },
     sources = cmp.config.sources {
+      { name = "nvim_lsp_signature_help" },
       { name = "luasnip" },
       { name = "nvim_lsp" },
       { name = "treesitter" },
