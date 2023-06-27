@@ -1,4 +1,5 @@
 local conditions = require "heirline.conditions"
+local api = vim.api
 local utils = require "heirline.utils"
 
 local function pill(component, color)
@@ -39,8 +40,8 @@ function M.setup_colors()
 end
 
 function M.setup()
-  vim.api.nvim_create_augroup("Heirline", { clear = true })
-  -- vim.api.nvim_create_autocmd("ColorScheme", {
+  api.nvim_create_augroup("Heirline", { clear = true })
+  -- api.nvim_create_autocmd("ColorScheme", {
   --   callback = function()
   --     utils.on_colorscheme(M.setup_colors)
   --   end,
@@ -120,10 +121,14 @@ function M.setup()
     },
   }
 
+  local function statusline_color(v)
+    return v:mode_color()
+  end
+
   local FileNameBlock = {
     -- let's first set up some attributes needed by this component and it's children
     init = function(self)
-      self.filename = vim.api.nvim_buf_get_name(0)
+      self.filename = api.nvim_buf_get_name(0)
     end,
   }
   -- We can now define some children separately and add them later
@@ -193,7 +198,7 @@ function M.setup()
 
   local FileType = {
     init = function(self)
-      local fname = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":p:h")
+      local fname = vim.fn.fnamemodify(api.nvim_buf_get_name(0), ":p:h")
       local ft = vim.bo.filetype
       local icon, color = nvim_web_devicons.get_icon(fname, ft)
       self.icon = icon
@@ -209,7 +214,7 @@ function M.setup()
   }
 
   -- We're getting minimalists here!
-  local Ruler = {
+  local Ruler = pill({
     -- %l = current line number
     -- %L = number of lines in the buffer
     -- %c = column number
@@ -217,10 +222,7 @@ function M.setup()
     provider = "%3l:%-3L",
     hl = { fg = "normal_bg", bold = true },
     -- hl = { bg = "blue" , fg = "normal_bg", bold = true},
-  }
-  Ruler = pill(Ruler, function(self)
-    return self:mode_color()
-  end)
+  }, statusline_color)
 
   -- I take no credits for this! :lion:
   local ScrollBar = {
@@ -230,8 +232,8 @@ function M.setup()
       sbar = { "🭶", "🭷", "🭸", "🭹", "🭺", "🭻" },
     },
     provider = function(self)
-      local curr_line = vim.api.nvim_win_get_cursor(0)[1]
-      local lines = vim.api.nvim_buf_line_count(0)
+      local curr_line = api.nvim_win_get_cursor(0)[1]
+      local lines = api.nvim_buf_line_count(0)
       local p = lines == 0 and 1 or curr_line / lines
       local i = math.floor(p * (#self.sbar - 1)) + 1
       return string.rep(self.sbar[i], 2)
@@ -387,6 +389,19 @@ function M.setup()
     },
   }
 
+  local Align = { provider = "%=" }
+  local Space = { provider = " " }
+
+  local DiffMode = {
+    condition = function()
+      return api.nvim_win_get_option(0, "diff")
+    end,
+    pill({
+      provider = "",
+      hl = { fg = "blue" },
+    }, "bright_bg"),
+  }
+
   local DAPMessages = {
     condition = function()
       local session = require("dap").session()
@@ -403,18 +418,13 @@ function M.setup()
     -- we could add a condition to check that buftype == 'terminal'
     -- or we could do that later (see #conditional-statuslines below)
     provider = function()
-      local tname, _ = vim.api.nvim_buf_get_name(0):gsub(".*:", "")
+      local tname, _ = api.nvim_buf_get_name(0):gsub(".*:", "")
       return " " .. tname
     end,
     hl = { fg = "blue", bold = true },
   }
 
-  local Align = { provider = "%=" }
-  local Space = { provider = " " }
-
-  ViMode = pill(ViMode, function(self)
-    return self:mode_color()
-  end)
+  ViMode = pill(ViMode, statusline_color)
 
   local DefaultStatusline = {
     ViMode,
@@ -423,6 +433,7 @@ function M.setup()
     Space,
     FileNameBlock,
     Space,
+    DiffMode,
     Align,
     DAPMessages,
     Align,
@@ -439,6 +450,8 @@ function M.setup()
     condition = conditions.is_not_active,
     Space,
     FileNameBlock,
+    Space,
+    DiffMode,
     -- Align,
   }
 
@@ -447,7 +460,7 @@ function M.setup()
       return vim.bo.filetype == "help"
     end,
     provider = function()
-      local filename = vim.api.nvim_buf_get_name(0)
+      local filename = api.nvim_buf_get_name(0)
       return vim.fn.fnamemodify(filename, ":t")
     end,
     hl = { fg = "blue" },
@@ -516,7 +529,7 @@ function M.setup()
       return conditions.buffer_matches { filetype = { "qf" } }
     end,
     init = function(self)
-      local info = qf.inspect_win(vim.api.nvim_get_current_win())
+      local info = qf.inspect_win(api.nvim_get_current_win())
 
       self.info = info
     end,
@@ -574,9 +587,7 @@ function M.setup()
           return string.format("%2d / %-2d", self.info.idx, self.info.size)
         end,
         hl = { fg = "normal_bg", bold = true },
-      }, function(self)
-        return self:mode_color()
-      end),
+      }, statusline_color),
     },
   }
 

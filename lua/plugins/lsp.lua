@@ -299,25 +299,26 @@ return {
             },
           })
 
-          require("rust-tools").setup {
-            tools = {
-              -- rust-tools options
-              inlay_hints = {
-                auto = false,
-              },
-              hover_actions = {
-                border = "single",
-              },
-            },
-            dap = {
-              adapter = require("config.codelldb").get_codelldb(),
-            },
-
-            -- all the opts to send to nvim-lspconfig
-            -- these override the defaults set by rust-tools.nvim
-            -- see https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#rust_analyzer
-            server = conf,
-          }
+          lspconfig.rust_analyzer.setup(conf)
+          -- require("rust-tools").setup {
+          --   tools = {
+          --     -- rust-tools options
+          --     inlay_hints = {
+          --       auto = false,
+          --     },
+          --     hover_actions = {
+          --       border = "single",
+          --     },
+          --   },
+          --   dap = {
+          --     adapter = require("config.codelldb").get_codelldb(),
+          --   },
+          --
+          --   -- all the opts to send to nvim-lspconfig
+          --   -- these override the defaults set by rust-tools.nvim
+          --   -- see https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#rust_analyzer
+          --   server = conf,
+          -- }
         end,
       }
     end,
