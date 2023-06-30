@@ -67,74 +67,6 @@ local function on_attach(client, bufnr)
   buf_map("n", "gy", builtin.lsp_type_definitions)
 end
 
-local function ensure_uri_scheme(uri)
-  if not vim.startswith(uri, "file://") then
-    return "file://" .. uri
-  end
-  return uri
-end
-
-local function is_local(uri)
-  uri = ensure_uri_scheme(uri)
-  local path = vim.uri_to_fname(uri)
-  local workspace_dir = vim.fn.getcwd()
-  vim.notify(vim.inspect { path = path, cur_dir = workspace_dir })
-
-  return vim.startswith(path, workspace_dir)
-end
-
-local function rust_analyzer_root_dir(fname)
-  local util = require "lspconfig.util"
-  local startpath_uri = vim.uri_from_fname(fname)
-  vim.notify(string.format("Root dir %q uri: %q", fname, startpath_uri))
-
-  if not is_local(fname) then
-    vim.notify(string.format("%q is not in the workspace", fname), vim.log.levels.ERROR)
-    return nil
-  end
-
-  vim.notify "Directory is local"
-  local cargo_crate_dir = util.root_pattern "Cargo.toml"(fname)
-  local cmd = { "cargo", "metadata", "--no-deps", "--format-version", "1" }
-  if cargo_crate_dir ~= nil then
-    cmd[#cmd + 1] = "--manifest-path"
-    cmd[#cmd + 1] = util.path.join(cargo_crate_dir, "Cargo.toml")
-  end
-  local cargo_metadata = ""
-  local cargo_metadata_err = ""
-  local cm = vim.fn.jobstart(cmd, {
-    on_stdout = function(_, d, _)
-      cargo_metadata = table.concat(d, "\n")
-    end,
-    on_stderr = function(_, d, _)
-      cargo_metadata_err = table.concat(d, "\n")
-    end,
-    stdout_buffered = true,
-    stderr_buffered = true,
-  })
-  if cm > 0 then
-    cm = vim.fn.jobwait({ cm })[1]
-  else
-    cm = -1
-  end
-  local cargo_workspace_dir = nil
-  if cm == 0 then
-    cargo_workspace_dir = vim.json.decode(cargo_metadata)["workspace_root"]
-    if cargo_workspace_dir ~= nil then
-      cargo_workspace_dir = util.path.sanitize(cargo_workspace_dir)
-    end
-  else
-    vim.notify(
-      string.format("[lspconfig] cmd (%q) failed:\n%s", table.concat(cmd, " "), cargo_metadata_err),
-      vim.log.levels.WARN
-    )
-  end
-  return cargo_workspace_dir
-    or cargo_crate_dir
-    or util.root_pattern "rust-project.json"(fname)
-    or util.find_git_ancestor(fname)
-end
-
 return {
   {
     enabled = true,
@@ -241,65 +173,71 @@ return {
         -- Next, you can provide targeted overrides for specific servers.
         -- For example, a handler override for the `rust_analyzer`:
         ["rust_analyzer"] = function()
-          local conf = vim.tbl_deep_extend("force", default_conf, {
-            -- keymap = function()
-            --   local rt = require "rust-tools"
-            --   return { hover = rt.hover_actions.hover_actions }
-            -- end,
-            standalone = false,
-            -- root_dir = rust_analyzer_root_dir,
-            --   local startpath_uri = vim.uri_from_fname(startpath)
-            --   if not is_in_workspace(startpath) then
-            --     vim.notify(string.format("%q is not in the workspace", startpath))
-            --     return nil
-            --   end
+          local depot = require "depot"
+          depot.subscribe(function(settings)
+            local settings = (settings.lsp or {})["rust-analyzer"] or {}
+            vim.notify("Setting up rust-analyzer using settings: " .. vim.inspect(settings))
 
-            --   local root = lspconfig.util.root_pattern("Cargo.toml", "rust-project.json")(startpath)
-            --   vim.notify("Adding workspace roots: " .. vim.inspect(root))
-            --   return root
-            -- end,
-            settings = {
-              ["rust-analyzer"] = {
-                cargo = {
-                  -- loadOutDirsFromCheck = true,
-                  -- buildScripts = {
+            local conf = vim.tbl_deep_extend("force", default_conf, {
+              -- keymap = function()
+              --   local rt = require "rust-tools"
+              --   return { hover = rt.hover_actions.hover_actions }
+              -- end,
+              standalone = false,
+              -- root_dir = rust_analyzer_root_dir,
+              --   local startpath_uri = vim.uri_from_fname(startpath)
+              --   if not is_in_workspace(startpath) then
+              --     vim.notify(string.format("%q is not in the workspace", startpath))
+              --     return nil
+              --   end
+
+              --   local root = lspconfig.util.root_pattern("Cargo.toml", "rust-project.json")(startpath)
+              --   vim.notify("Adding workspace roots: " .. vim.inspect(root))
+              --   return root
+              -- end,
+              settings = {
+                ["rust-analyzer"] = {
+                  cargo = vim.tbl_extend("force", {
+                    -- loadOutDirsFromCheck = true,
+                    -- buildScripts = {
+                    --   enable = true,
+                    -- },
+                    -- features = "all",
+                  }, settings.cargo or {}),
+                  references = {
+                    excludeImports = true,
+                  },
+                  -- procMacro = {
                   --   enable = true,
                   -- },
-                  -- features = "all",
-                },
-                references = {
-                  excludeImports = true,
-                },
-                -- procMacro = {
-                --   enable = true,
-                -- },
-                check = {
-                  command = "clippy",
-                },
-                -- diagnostics = {
-                -- enable = true,
-                -- --   disabled = { "unresolved-proc-macro" },
-                -- enableExperimental = true,
-                -- },
-                -- cargo = {
-                --   loadOutDirsFromCheck = true,
-                --   buildScripts = {
-                --     enable = false,
-                --   },
-                -- },
-                -- procMacro = {
-                --   enable = false,
-                -- },
-                workspace = {
-                  symbol = {
-                    search_kind = "all_symbols",
+                  check = vim.tbl_extend("force", {
+                    command = "clippy",
+                  }, settings.check or {}),
+                  -- diagnostics = {
+                  -- enable = true,
+                  -- --   disabled = { "unresolved-proc-macro" },
+                  -- enableExperimental = true,
+                  -- },
+                  -- cargo = {
+                  --   loadOutDirsFromCheck = true,
+                  --   buildScripts = {
+                  --     enable = false,
+                  --   },
+                  -- },
+                  -- procMacro = {
+                  --   enable = false,
+                  -- },
+                  workspace = {
+                    symbol = {
+                      search_kind = "all_symbols",
+                    },
                   },
                 },
               },
-            },
-          })
+            })
 
-          lspconfig.rust_analyzer.setup(conf)
+            lspconfig.rust_analyzer.setup(conf)
+          end)
           -- require("rust-tools").setup {
           --   tools = {
           --     -- rust-tools options
@@ -344,7 +282,7 @@ return {
           -- null_ls.builtins.diagnostics.yamllint,
           -- null_ls.builtins.diagnostics.selene,
           null_ls.builtins.formatting.stylua,
-          null_ls.builtins.formatting.prettier,
+          -- null_ls.builtins.formatting.prettier,
         },
       }
     end,

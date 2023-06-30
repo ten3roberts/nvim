@@ -15,6 +15,7 @@ return {
       -- vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
       vim.o.sessionoptions = "buffers,curdir,folds,help,tabpages"
       require("auto-session").setup {
+        auto_session_use_git_branch = false,
         -- log_level = "debug",
         -- auto_session_suppress_dirs = { "~/" },
         -- auto_session_enable_last_session = true,

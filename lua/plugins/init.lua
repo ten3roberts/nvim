@@ -269,6 +269,7 @@ return {
     end,
   },
 
+  -- "tpope/vim-commentary",
   "tpope/vim-abolish",
   "tpope/vim-rsi",
   -- "tpope/vim-sleuth",

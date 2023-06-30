@@ -593,10 +593,10 @@ function M.setup()
 
   local StatusLines = {
     static = {
-      error_icon = vim.fn.sign_getdefined("DiagnosticSignError")[1].text,
-      warn_icon = vim.fn.sign_getdefined("DiagnosticSignWarn")[1].text,
-      info_icon = vim.fn.sign_getdefined("DiagnosticSignInfo")[1].text,
-      hint_icon = vim.fn.sign_getdefined("DiagnosticSignHint")[1].text,
+      error_icon = (vim.fn.sign_getdefined("DiagnosticSignError")[1] or { text = "E" }).text,
+      warn_icon = (vim.fn.sign_getdefined("DiagnosticSignWarn")[1] or { text = "W" }).text,
+      info_icon = (vim.fn.sign_getdefined("DiagnosticSignInfo")[1] or { text = "I" }).text,
+      hint_icon = (vim.fn.sign_getdefined("DiagnosticSignHint")[1] or { text = "H" }).text,
       mode_colors_map = {
         n = "blue",
         i = "green",

@@ -63,7 +63,8 @@ function M.save_and_exec()
       mod.setup {}
     end
     if type(mod.test) == "function" then
-      mod.test()
+      local async = require "plenary.async"
+      async.run(mod.test)
     end
   end
 end

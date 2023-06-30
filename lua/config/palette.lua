@@ -10,6 +10,7 @@ function M.highlight(name, opt)
   vim.api.nvim_set_hl(0, name, opt)
 end
 
+---@diagnostic disable-next-line: unused-local
 local md_icons = {
   E = { name = "Error", hl = "DiagnosticSignError", sign = "󰅙" },
   W = { name = "Warn", hl = "DiagnosticSignWarn", sign = "󰀦" },
