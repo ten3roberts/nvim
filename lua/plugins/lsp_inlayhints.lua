@@ -1,6 +1,6 @@
 return {
   "lvimuser/lsp-inlayhints.nvim",
-  lazy = true,
+  lazy = false,
   config = function()
     require("lsp-inlayhints").setup {
       inlay_hints = {

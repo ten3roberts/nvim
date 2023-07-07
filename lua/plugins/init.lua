@@ -269,10 +269,11 @@ return {
     end,
   },
 
+  "ten3roberts/wgsl.vim",
   -- "tpope/vim-commentary",
   "tpope/vim-abolish",
   "tpope/vim-rsi",
-  -- "tpope/vim-sleuth",
+  "tpope/vim-sleuth",
   "tpope/vim-repeat",
   "mg979/vim-visual-multi",
 }

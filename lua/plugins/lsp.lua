@@ -173,71 +173,71 @@ return {
         -- Next, you can provide targeted overrides for specific servers.
         -- For example, a handler override for the `rust_analyzer`:
         ["rust_analyzer"] = function()
-          local depot = require "depot"
-          depot.subscribe(function(settings)
-            local settings = (settings.lsp or {})["rust-analyzer"] or {}
-            vim.notify("Setting up rust-analyzer using settings: " .. vim.inspect(settings))
+          -- local depot = require "depot"
+          -- depot.subscribe(function(settings)
+          --   local settings = (settings.lsp or {})["rust-analyzer"] or {}
+          --   vim.notify("Setting up rust-analyzer using settings: " .. vim.inspect(settings))
 
-            local conf = vim.tbl_deep_extend("force", default_conf, {
-              -- keymap = function()
-              --   local rt = require "rust-tools"
-              --   return { hover = rt.hover_actions.hover_actions }
-              -- end,
-              standalone = false,
-              -- root_dir = rust_analyzer_root_dir,
-              --   local startpath_uri = vim.uri_from_fname(startpath)
-              --   if not is_in_workspace(startpath) then
-              --     vim.notify(string.format("%q is not in the workspace", startpath))
-              --     return nil
-              --   end
+          local conf = vim.tbl_deep_extend("force", default_conf, {
+            -- keymap = function()
+            --   local rt = require "rust-tools"
+            --   return { hover = rt.hover_actions.hover_actions }
+            -- end,
+            standalone = false,
+            -- root_dir = rust_analyzer_root_dir,
+            --   local startpath_uri = vim.uri_from_fname(startpath)
+            --   if not is_in_workspace(startpath) then
+            --     vim.notify(string.format("%q is not in the workspace", startpath))
+            --     return nil
+            --   end
 
-              --   local root = lspconfig.util.root_pattern("Cargo.toml", "rust-project.json")(startpath)
-              --   vim.notify("Adding workspace roots: " .. vim.inspect(root))
-              --   return root
-              -- end,
-              settings = {
-                ["rust-analyzer"] = {
-                  cargo = vim.tbl_extend("force", {
-                    -- loadOutDirsFromCheck = true,
-                    -- buildScripts = {
-                    --   enable = true,
-                    -- },
-                    -- features = "all",
-                  }, settings.cargo or {}),
-                  references = {
-                    excludeImports = true,
-                  },
-                  -- procMacro = {
+            --   local root = lspconfig.util.root_pattern("Cargo.toml", "rust-project.json")(startpath)
+            --   vim.notify("Adding workspace roots: " .. vim.inspect(root))
+            --   return root
+            -- end,
+            settings = {
+              ["rust-analyzer"] = {
+                cargo = {
+                  -- loadOutDirsFromCheck = true,
+                  -- buildScripts = {
                   --   enable = true,
                   -- },
-                  check = vim.tbl_extend("force", {
-                    command = "clippy",
-                  }, settings.check or {}),
-                  -- diagnostics = {
-                  -- enable = true,
-                  -- --   disabled = { "unresolved-proc-macro" },
-                  -- enableExperimental = true,
-                  -- },
-                  -- cargo = {
-                  --   loadOutDirsFromCheck = true,
-                  --   buildScripts = {
-                  --     enable = false,
-                  --   },
-                  -- },
-                  -- procMacro = {
-                  --   enable = false,
-                  -- },
-                  workspace = {
-                    symbol = {
-                      search_kind = "all_symbols",
-                    },
+                  -- features = "all",
+                },
+                references = {
+                  excludeImports = true,
+                },
+                -- procMacro = {
+                --   enable = true,
+                -- },
+                check = {
+                  command = "clippy",
+                },
+                -- diagnostics = {
+                -- enable = true,
+                -- --   disabled = { "unresolved-proc-macro" },
+                -- enableExperimental = true,
+                -- },
+                -- cargo = {
+                --   loadOutDirsFromCheck = true,
+                --   buildScripts = {
+                --     enable = false,
+                --   },
+                -- },
+                -- procMacro = {
+                --   enable = false,
+                -- },
+                workspace = {
+                  symbol = {
+                    search_kind = "all_symbols",
                   },
                 },
               },
-            })
+            },
+          })
 
-            lspconfig.rust_analyzer.setup(conf)
-          end)
+          lspconfig.rust_analyzer.setup(conf)
+          -- end)
           -- require("rust-tools").setup {
           --   tools = {
           --     -- rust-tools options

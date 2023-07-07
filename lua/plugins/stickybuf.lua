@@ -1,4 +1,4 @@
-local filetypes = { "aerial", "dapui.*", "notify", "NvimTree" }
+local filetypes = { "aerial", "dapui.*", "notify", "NvimTree", "notify" }
 local buftypes = { "terminal", "quickfix", "prompt", "help" }
 
 local cache_ft = {}
