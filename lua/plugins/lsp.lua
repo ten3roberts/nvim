@@ -6,7 +6,6 @@ local function on_attach(client, bufnr)
   local opts = client.config
 
   require("lsp-format").on_attach(client)
-  require("lsp-inlayhints").on_attach(client, bufnr)
 
   local keymap = {}
   if type(opts.keymap) == "function" then
@@ -82,12 +81,14 @@ return {
   },
   {
     "neovim/nvim-lspconfig",
+    opts = {
+      inlay_hints = { enabled = true },
+    },
     dependencies = {
       -- "mfussenegger/nvim-dap",
       "folke/neodev.nvim",
       "simrat39/rust-tools.nvim",
       "hrsh7th/cmp-nvim-lsp",
-      "lvimuser/lsp-inlayhints.nvim",
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
       "jose-elias-alvarez/null-ls.nvim",

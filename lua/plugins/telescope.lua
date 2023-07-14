@@ -117,14 +117,14 @@ return {
               ["<C-p>"] = actions.move_selection_previous,
               ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
               ["<C-l>"] = actions.smart_send_to_loclist + actions.open_loclist,
-              ["<c-F>"] = actions.to_fuzzy_refine,
-              ["<c-f>"] = function(prompt_bufnr)
-                local config = require "telescope.config"
-                require("telescope.actions.generate").refine(prompt_bufnr, {
-                  prompt_to_prefix = "Refine",
-                  sorter = config.values.generic_sorter {},
-                })
-              end,
+              ["<c-f>"] = actions.to_fuzzy_refine,
+              -- ["<c-f>"] = function(prompt_bufnr)
+              --   local config = require "telescope.config"
+              --   require("telescope.actions.generate").refine(prompt_bufnr, {
+              --     prompt_to_prefix = "Refine",
+              --     sorter = config.values.generic_sorter {},
+              --   })
+              -- end,
               -- To disable a keymap, put [map] = false
               -- So, to not map "<C-n>", just put
               -- ["<c-x>"] = false,

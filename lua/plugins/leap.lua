@@ -1,12 +1,14 @@
 return {
 
   {
+    enabled = false,
     "ggandor/leap.nvim",
     config = function()
       require("leap").set_default_keymaps()
     end,
   },
   {
+    enabled = false,
     "ggandor/leap-spooky.nvim",
     dependencies = { "ggandor/leap.nvim" },
     config = function()
@@ -14,6 +16,7 @@ return {
     end,
   },
   {
+    enabled = false,
     "ggandor/flit.nvim",
     dependencies = { "ggandor/leap.nvim" },
     config = function()

@@ -147,7 +147,7 @@ tree.register({
 
   e = {
     function()
-      ui.eval(nil, { enter = true })
+      ui.eval(nil, { enter = false })
     end,
     "Evaluate expression under cursor",
   },

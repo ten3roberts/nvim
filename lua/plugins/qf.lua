@@ -32,19 +32,19 @@ return {
     vim.keymap.set("n", "<leader>cf", "<cmd>cc<CR>")
 
     vim.keymap.set("n", "]l", function()
-      qf.below "l"
+      qf.next "l"
     end)
 
     vim.keymap.set("n", "[l", function()
-      qf.above "l"
+      qf.prev "l"
     end)
 
     vim.keymap.set("n", "]q", function()
-      qf.below "c"
+      qf.next "c"
     end)
 
     vim.keymap.set("n", "[q", function()
-      qf.above "c"
+      qf.prev "c"
     end)
 
     require("qf").setup {
