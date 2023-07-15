@@ -360,4 +360,13 @@ Self {{
       { rep(1), i(1), i(2), rep(1) }
     )
   ),
+
+  s(
+    "split_for_impl",
+    fmt(
+      [[let (impl_generics, ty_generics, where_clause) = {}.split_for_impl();
+]],
+      { i(1, "generics") }
+    )
+  ),
 }

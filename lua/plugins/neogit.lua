@@ -1,5 +1,5 @@
 return {
-  "TimUntersberger/neogit",
+  "NeogitOrg/neogit",
   dev = true,
   dependencies = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim" },
   keys = {

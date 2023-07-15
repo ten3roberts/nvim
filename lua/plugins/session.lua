@@ -13,7 +13,7 @@ return {
     -- branch = "merge-session-lens",
     config = function()
       -- vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
-      vim.o.sessionoptions = "buffers,curdir,folds,help,tabpages"
+      vim.o.sessionoptions = "buffers,curdir,help,tabpages"
       require("auto-session").setup {
         auto_session_use_git_branch = false,
         -- log_level = "debug",
