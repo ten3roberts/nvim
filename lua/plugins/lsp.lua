@@ -87,6 +87,7 @@ return {
     dependencies = {
       -- "mfussenegger/nvim-dap",
       "folke/neodev.nvim",
+      "folke/neoconf.nvim",
       "simrat39/rust-tools.nvim",
       "hrsh7th/cmp-nvim-lsp",
       "williamboman/mason.nvim",
@@ -120,7 +121,7 @@ return {
           prefix = "~",
         },
         -- update_in_insert = true,
-        severity_sort = true,
+        -- severity_sort = true,
       }
 
       local default_conf = {
