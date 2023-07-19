@@ -95,3 +95,6 @@ app
 app
 material_layouts
 stability
+cli
+MappingsManager
+MappingTable
