@@ -81,9 +81,6 @@ return {
   },
   {
     "neovim/nvim-lspconfig",
-    opts = {
-      inlay_hints = { enabled = true },
-    },
     dependencies = {
       -- "mfussenegger/nvim-dap",
       "folke/neodev.nvim",
@@ -117,8 +114,8 @@ return {
         --   return winwidth(0) >= 80
         -- end,
         virtual_text = {
-          spacing = 16,
-          prefix = "~",
+          -- spacing = 16,
+          -- prefix = "~",
         },
         -- update_in_insert = true,
         -- severity_sort = true,

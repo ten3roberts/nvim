@@ -15,6 +15,7 @@ return {
     neogit.setup {
       integrations = {
         diffview = true,
+        telescope = false,
       },
       ignored_settings = { "NeogitPushPopup--force-with-lease" },
       disable_builtin_notifications = true,

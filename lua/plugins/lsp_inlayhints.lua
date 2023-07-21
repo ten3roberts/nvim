@@ -1,11 +1,11 @@
 return {
   "lvimuser/lsp-inlayhints.nvim",
-  enabled = false,
+  enabled = true,
   lazy = false,
   config = function()
     require("lsp-inlayhints").setup {
       inlay_hints = {
-        only_current_line = true,
+        only_current_line = false,
       },
       -- highlight = "Comment",
       -- prefix = " » ",
