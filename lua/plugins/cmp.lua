@@ -127,6 +127,16 @@ function M.config()
     },
   }
 
+  cmp.setup.filetype("json", {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources {
+      { name = "nvim_lsp_signature_help" },
+      { name = "luasnip" },
+      { name = "nvim_lsp" },
+      -- { name = "buffer" },
+      { name = "path", option = { trailing_slash = true } },
+    },
+  })
   cmp.setup.cmdline("/", {
     mapping = cmp.mapping.preset.cmdline(),
     sources = cmp.config.sources {

@@ -13,11 +13,6 @@ return {
   config = function()
     local neogit = require "neogit"
     neogit.setup {
-      integrations = {
-        diffview = true,
-        telescope = false,
-      },
-      ignored_settings = { "NeogitPushPopup--force-with-lease" },
       disable_builtin_notifications = true,
       auto_show_console = false,
       disable_commit_confirmation = true,
