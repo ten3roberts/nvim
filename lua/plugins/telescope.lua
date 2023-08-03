@@ -150,10 +150,10 @@ return {
         },
         pickers = {
           buffers = {
-            sort_lastused = true,
+            sort_mru = true,
             ignore_current_buffer = true,
             selection_strategy = "reset",
-            bufnr_width = 2,
+            bufnr_width = 4,
             mappings = {
               i = {
                 ["<c-d>"] = require("telescope.actions").delete_buffer,
