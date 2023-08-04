@@ -276,4 +276,5 @@ return {
   "tpope/vim-sleuth",
   "tpope/vim-repeat",
   "mg979/vim-visual-multi",
+  "dkarter/bullets.vim",
 }
