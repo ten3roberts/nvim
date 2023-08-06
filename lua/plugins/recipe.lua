@@ -17,11 +17,12 @@ return {
       end,
     },
   },
-  config = function()
-    require("recipe").setup {
-      term = {
-        auto_close = false,
-      },
-    }
-  end,
+  opts = {
+    term = {
+      auto_close = true,
+    },
+    default_components = {
+      qf = { open = false },
+    },
+  },
 }

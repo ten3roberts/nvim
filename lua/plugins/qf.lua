@@ -1,65 +1,54 @@
+local function qf(cmd, a, b, c, d)
+  return function()
+    print("qf." .. cmd)
+    require("qf")[cmd](a, b, c, d)
+  end
+end
+
 return {
   "ten3roberts/qf.nvim",
   keys = {
     {
-
       "<leader>E",
-      function()
-        require("qf").filter("visible", function(v)
-          return v.type == "E"
-        end, true)
-      end,
+      qf("filter", "visible", function(v)
+        return v.type == "E"
+      end, true),
     },
+    { "<leader>cc", qf("toggle", "c") },
+    { "<leader>co", qf("open", "c") },
+    { "<leader>cc", qf("close", "c") },
+
+    { "<leader>ll", qf("toggle", "l") },
+    { "<leader>lo", qf("open", "l") },
+    { "<leader>lc", qf("close", "l") },
+
+    { "[l", qf("prev", "l") },
+    { "]l", qf("next", "l") },
+
+    { "[L", qf("prev_group", "l") },
+    { "]L", qf("next_group", "l") },
+
+    { "[q", qf("prev", "c") },
+    { "]q", qf("next", "c") },
+
+    { "[Q", qf("prev_group", "c") },
+    { "]Q", qf("next_group", "c") },
+    { "]Q", qf("next_group", "c") },
+
+    { "<leader>cf", "<cmd>cc<CR>" },
   },
-  config = function()
-    local qf = require "qf"
-    vim.keymap.set("n", "<leader>cc", function()
-      qf.toggle "c"
-    end)
-
-    vim.keymap.set("n", "<leader>co", function()
-      qf.open "c"
-    end)
-
-    vim.keymap.set("n", "<leader>ll", function()
-      qf.toggle "l"
-    end)
-
-    vim.keymap.set("n", "<leader>lo", function()
-      qf.open "l"
-    end)
-
-    vim.keymap.set("n", "<leader>cf", "<cmd>cc<CR>")
-
-    vim.keymap.set("n", "]l", function()
-      qf.next "l"
-    end)
-
-    vim.keymap.set("n", "[l", function()
-      qf.prev "l"
-    end)
-
-    vim.keymap.set("n", "]q", function()
-      qf.next "c"
-    end)
-
-    vim.keymap.set("n", "[q", function()
-      qf.prev "c"
-    end)
-
-    require("qf").setup {
-      -- Location list configuration
-      ["l"] = {
-        auto_follow = "prev",
-      },
-      -- Quickfix list configuration
-      ["c"] = {
-        auto_follow = "prev",
-        auto_resize = false,
-        wide = true,
-      },
-      close_other = true,
-      -- signs = signs,
-    }
-  end,
+  opts = {
+    -- Location list configuration
+    ["l"] = {
+      auto_follow = "prev",
+    },
+    -- Quickfix list configuration
+    ["c"] = {
+      auto_follow = "prev",
+      auto_resize = false,
+      wide = true,
+    },
+    close_other = true,
+    -- signs = signs,
+  },
 }

@@ -1,4 +1,4 @@
-local current_colorscheme = "sonokai"
+local current_colorscheme = "onedark"
 local g = vim.g
 local colorschemes = {
   sonokai = {
@@ -11,60 +11,17 @@ local colorschemes = {
       vim.cmd.colorscheme "sonokai"
     end,
   },
-  -- nord = {
-  --   "shaunsingh/nord.nvim",
-  --   config = function()
-  --     g.nord_bold = false
-  --     g.nord_borders = true
-  --     vim.cmd "colorscheme nord"
-  --   end,
-  -- },
-  -- onenord = {
-  -- "rmehri01/onenord.nvim",
-  -- config = function()
-  --   vim.cmd.colorscheme "onenord"
-  -- end,
-  -- },
-  catppuccin = {
-    "catppuccin/nvim",
-    name = "catppuccin",
-    config = function()
-      vim.cmd.colorscheme "catppuccin"
-    end,
-  },
-  tokyonight = {
-    "folke/tokyonight.nvim",
-    config = function()
-      vim.cmd.colorscheme "tokyonight"
-    end,
-  },
-
   onedark = {
     "navarasu/onedark.nvim",
     config = function()
-      vim.cmd.colorscheme "onedark"
+      require("onedark").load()
     end,
   },
-  -- nord = {
-  --   "arcticicestudio/nord-vim",
-  --   lazy = false,
-  --   config = function()
-  --     vim.cmd "colorscheme nord"
-  --   end,
-  -- },
 }
 
-local t = {}
+local t = colorschemes[current_colorscheme]
 
-for k, v in pairs(colorschemes) do
-  if k == current_colorscheme then
-    v.lazy = false
-    v.priority = 1000
-  else
-    v.lazy = true
-  end
-
-  table.insert(t, v)
-end
+t.lazy = false
+t.priority = 1000
 
 return t

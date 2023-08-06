@@ -7,7 +7,7 @@ return {
         ["B"] = { { "%b[]", "%b{}" }, "^.().*().$" },
       },
     }
-    require("mini.bracketed").setup {}
+    -- require("mini.bracketed").setup {}
     require("mini.move").setup {
 
       left = "<",
