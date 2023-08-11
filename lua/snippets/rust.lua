@@ -343,7 +343,7 @@ Self {{
   s("cfg_not_unknown", fmt([[ #[cfg(not(target_os = "unknown"))] ]], {})),
   s("cfg_arch", fmt([[ #[cfg(target_arch = "{}")] ]], { i(1, "") })),
   s("cfg_not_arch", fmt([[ #[cfg(not(target_arch = "{}"))] ]], { i(1, "") })),
-  s("cfg_feature", fmt([[ #[cfg(feature = "{}")] ]], { i(1, "") })),
+  s("cfgf", fmt([[ #[cfg(feature = "{}")] ]], { i(1, "") })),
   s(
     "ANCHOR",
     fmt(

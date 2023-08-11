@@ -1,13 +1,4 @@
 return {
-  -- {
-  --   "ahmedkhalf/project.nvim",
-  --   config = function()
-  --     require("project_nvim").setup {
-  --       -- detection_methods = { "pattern", "lsp" },
-  --       detection_methods = { "pattern" },
-  --     }
-  --   end,
-  -- },
   {
     "rmagatti/auto-session",
     -- branch = "merge-session-lens",
@@ -15,7 +6,7 @@ return {
       -- vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
       vim.o.sessionoptions = "buffers,curdir,help,tabpages"
       require("auto-session").setup {
-        auto_session_use_git_branch = false,
+        -- auto_session_use_git_branch = false,
         -- log_level = "debug",
         -- auto_session_suppress_dirs = { "~/" },
         -- auto_session_enable_last_session = true,

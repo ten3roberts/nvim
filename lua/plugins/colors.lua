@@ -1,23 +1,44 @@
-local current_colorscheme = "onedark"
-local g = vim.g
 local colorschemes = {
   sonokai = {
     "sainnhe/sonokai",
     config = function()
-      g.sonokai_enable_italic = 1
-      g.sonokai_show_eob = 0
-      g.sonokai_style = "andromeda"
+      vim.g.sonokai_enable_italic = 1
+      vim.g.sonokai_show_eob = 0
+      vim.g.sonokai_style = "andromeda"
       -- g.sonokai_style = "maia"
       vim.cmd.colorscheme "sonokai"
     end,
   },
-  onedark = {
-    "navarasu/onedark.nvim",
-    config = function()
-      require("onedark").load()
+  -- onedark = {
+  --   "navarasu/onedark.nvim",
+  --   config = function()
+  --     require("onedark").load()
+  --   end,
+  -- },
+  onedarkpro = {
+    "olimorris/onedarkpro.nvim",
+    opts = {
+      -- colors = Colors,
+      -- highlights = require "config.ui.highlights",
+      -- styles = {
+      --   comments = "italic",
+      --   methods = "bold",
+      --   functions = "bold",
+      -- },
+      -- options = {
+      --   transparency = false, -- Use a transparent background?
+      --   terminal_colors = true, -- Use the colorscheme's colors for Neovim's :terminal?
+      --   highlight_inactive_windows = true, -- When the window is out of focus, change the normal background?
+      -- },
+    },
+    config = function(_, opts)
+      require("onedarkpro").setup(opts)
+      vim.cmd.colorscheme "onedark"
     end,
   },
 }
+
+local current_colorscheme = "onedarkpro"
 
 local t = colorschemes[current_colorscheme]
 
