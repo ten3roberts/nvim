@@ -20,11 +20,11 @@ local colorschemes = {
     opts = {
       -- colors = Colors,
       -- highlights = require "config.ui.highlights",
-      -- styles = {
-      --   comments = "italic",
-      --   methods = "bold",
-      --   functions = "bold",
-      -- },
+      styles = {
+        comments = "italic",
+        methods = "bold",
+        functions = "bold",
+      },
       -- options = {
       --   transparency = false, -- Use a transparent background?
       --   terminal_colors = true, -- Use the colorscheme's colors for Neovim's :terminal?

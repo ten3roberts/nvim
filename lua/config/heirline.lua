@@ -490,6 +490,9 @@ function M.setup()
     Space,
     TerminalName,
     Align,
+    ScrollBar,
+    Space,
+    Ruler,
   }
 
   local AerialStatusline = {

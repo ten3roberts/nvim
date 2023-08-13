@@ -348,16 +348,11 @@ Self {{
     "ANCHOR",
     fmt(
       [[
-    {{
-      let _span = tracing::info_span!("{}");
-      // ANCHOR: {}
-
-      {}
-
-      // ANCHOR_END: {}
-    }}
+    // ANCHOR: {}
+    {}
+    // ANCHOR_END: {}
     ]],
-      { rep(1), i(1), i(2), rep(1) }
+      { i(1), i(2), rep(1) }
     )
   ),
 

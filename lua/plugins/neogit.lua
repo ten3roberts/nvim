@@ -16,6 +16,7 @@ return {
       disable_builtin_notifications = true,
       auto_show_console = false,
       disable_commit_confirmation = true,
+
       sections = {
         -- untracked = {
         --   folded = true,
