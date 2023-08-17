@@ -1,4 +1,7 @@
 return {
   "ahmedkhalf/project.nvim",
-  opts = {},
+  enable = false,
+  config = function()
+    require("project_nvim").setup {}
+  end,
 }

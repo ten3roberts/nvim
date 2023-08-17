@@ -251,6 +251,7 @@ return {
   },
 
   "ten3roberts/wgsl.vim",
+  "ten3roberts/wit.nvim",
   -- "tpope/vim-commentary",
   "tpope/vim-abolish",
   "tpope/vim-rsi",
