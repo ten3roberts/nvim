@@ -84,6 +84,7 @@ return {
     dependencies = {
       -- "mfussenegger/nvim-dap",
       "folke/neodev.nvim",
+      "j-hui/fidget.nvim",
       "folke/neoconf.nvim",
       "simrat39/rust-tools.nvim",
       "hrsh7th/cmp-nvim-lsp",

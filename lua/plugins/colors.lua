@@ -5,7 +5,7 @@ local colorschemes = {
       vim.g.sonokai_enable_italic = 1
       vim.g.sonokai_show_eob = 0
       vim.g.sonokai_style = "andromeda"
-      -- g.sonokai_style = "maia"
+      -- vim.g.sonokai_style = "maia"
       vim.cmd.colorscheme "sonokai"
     end,
   },
@@ -38,7 +38,7 @@ local colorschemes = {
   },
 }
 
-local current_colorscheme = "onedarkpro"
+local current_colorscheme = "sonokai"
 
 local t = colorschemes[current_colorscheme]
 

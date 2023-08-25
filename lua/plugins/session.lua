@@ -5,17 +5,7 @@ return {
     config = function()
       -- vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
       vim.o.sessionoptions = "buffers,curdir,help,tabpages"
-      require("auto-session").setup {
-        -- auto_session_use_git_branch = false,
-        -- log_level = "debug",
-        -- auto_session_suppress_dirs = { "~/" },
-        -- auto_session_enable_last_session = true,
-        -- cwd_change_handling = {
-        --   restore_upcoming_session = true,
-        --   pre_cwd_changed_hook = nil, -- lua function hook. This is called after auto_session code runs for the `DirChangedPre` autocmd
-        --   post_cwd_changed_hook = nil, -- lua function hook. This is called after auto_session code runs for the `DirChanged` autocmd
-        -- },
-      }
+      require("auto-session").setup {}
     end,
   },
 }

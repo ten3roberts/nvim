@@ -41,18 +41,18 @@ return {
     require("stickybuf").setup {
       get_auto_pin = function(bufnr)
         local v = get_pin(bufnr)
-        if v then
-          vim.notify(
-            string.format(
-              "Pinning %d %q %q %q: %s",
-              bufnr,
-              vim.bo[bufnr].buftype,
-              vim.bo[bufnr].filetype,
-              vim.api.nvim_buf_get_name(bufnr),
-              v
-            )
-          )
-        end
+        -- if v then
+        --   vim.notify(
+        --     string.format(
+        --       "Pinning %d %q %q %q: %s",
+        --       bufnr,
+        --       vim.bo[bufnr].buftype,
+        --       vim.bo[bufnr].filetype,
+        --       vim.api.nvim_buf_get_name(bufnr),
+        --       v
+        --     )
+        --   )
+        -- end
         return v
       end,
     }

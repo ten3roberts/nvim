@@ -16,7 +16,7 @@ return {
     },
     { "<leader>cc", qf("toggle", "c") },
     { "<leader>co", qf("open", "c") },
-    { "<leader>cc", qf("close", "c") },
+    -- { "<leader>cc", qf("close", "c") },
 
     { "<leader>ll", qf("toggle", "l") },
     { "<leader>lo", qf("open", "l") },
@@ -35,7 +35,24 @@ return {
     { "]Q", qf("next_group", "c") },
     { "]Q", qf("next_group", "c") },
 
-    { "<leader>cf", "<cmd>cc<CR>" },
+    {
+      "<leader>lf",
+      function()
+        require("telescope").extensions.qf.list {
+          list = "l",
+        }
+      end,
+      { desc = "Location list" },
+    },
+    {
+      "<leader>cf",
+      function()
+        require("telescope").extensions.qf.list {
+          list = "c",
+        }
+      end,
+      { desc = "Location list" },
+    },
   },
   opts = {
     -- Location list configuration

@@ -4,6 +4,7 @@ return {
     require("lsp-format").setup {
       lua = { exclude = { "lua_ls" } },
       typescript = { exclude = { "tsserver" } },
+      toml = { exclude = { "taplo" } },
     }
   end,
 }

@@ -1,3 +1,28 @@
+local function human_number(num)
+  if num > 1024 * 1024 * 1024 then
+    return string.format("%.1fGB", num / 1e6)
+  elseif num > 1024 * 1024 then
+    return string.format("%.1fMB", num / 1e6)
+  elseif num > 1024 then
+    return string.format("%.1fKB", num / 1e3)
+  end
+end
+local function disable_large_file(module, max_size)
+  return function(_, buf)
+    max_size = max_size or (100 * 1024) -- 100 KB
+    local fname = vim.api.nvim_buf_get_name(buf)
+    local size = vim.fn.getfsize(fname)
+    local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+    if ok and stats and stats.size > max_size then
+      vim.notify(
+        string.format("Disabled %s\n\nSize: %s", module, vim.api.nvim_buf_get_name(buf), human_number(size)),
+        vim.log.levels.WARN
+      )
+      return true
+    end
+  end
+end
+
 return {
   {
     "mizlan/iswap.nvim",
@@ -37,21 +62,19 @@ return {
 
       require("nvim-treesitter.configs").setup {
         ensure_installed = "all",
+        sync_install = false,
+        auto_install = true,
+        ignore_install = {},
+        modules = {},
         autopairs = { enable = true },
         autotag = {
-          enable = true,
+          enable = { "html", "xml", "lua" },
         },
         playground = { enable = true },
-        matchup = { enable = true },
+        matchup = { enable = true, disable = disable_large_file "matchup" },
         highlight = {
           enable = true,
-          disable = function(_, buf)
-            local max_filesize = 100 * 1024 -- 100 KB
-            local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-            if ok and stats and stats.size > max_filesize then
-              return true
-            end
-          end,
+          disable = disable_large_file("highlight", 1000 * 1024),
         },
         incremental_selection = {
           enable = true,
@@ -63,15 +86,10 @@ return {
           },
         },
         refactor = {
-          disable = function(_, buf)
-            local max_filesize = 100 * 1024 -- 100 KB
-            local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-            if ok and stats and stats.size > max_filesize then
-              return true
-            end
-          end,
+          disable = disable_large_file "refactor",
           highlight_definitions = {
             enable = true,
+            disable = disable_large_file "highlight",
             -- Set to false if you have an `updatetime` of ~100.
             -- clear_on_cursor_move = true,
           },

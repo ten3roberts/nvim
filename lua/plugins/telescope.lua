@@ -25,8 +25,8 @@ return {
         "<leader><leader>",
         function()
           require("telescope").extensions.smart_open.smart_open {
-            cwd_only = true,
-            filename_first = false,
+            -- cwd_only = false,
+            -- filename_first = false,
           }
         end,
         { desc = "Smart Open" },

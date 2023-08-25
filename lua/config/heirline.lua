@@ -163,7 +163,7 @@ function M.setup()
     },
     {
       provider = function(self)
-        return vim.fn.pathshorten(self.lfilename, 5)
+        return vim.fn.pathshorten(self.lfilename, 8)
       end,
     },
   }

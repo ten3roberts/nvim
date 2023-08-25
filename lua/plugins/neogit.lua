@@ -17,6 +17,11 @@ return {
       auto_show_console = false,
       disable_commit_confirmation = true,
 
+      mappings = {
+        status = {
+          -- ["!"] = "DebugSelection",
+        },
+      },
       sections = {
         -- untracked = {
         --   folded = true,
