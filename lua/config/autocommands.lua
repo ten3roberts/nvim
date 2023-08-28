@@ -7,22 +7,24 @@ local function au(event, opts)
   a.nvim_create_autocmd(event, opts)
 end
 
-au({ "FileType", "BufWinEnter" }, {
-  callback = function(o)
-    local buftype = a.nvim_buf_get_option(o.buf, "buftype")
-    local filetype = a.nvim_buf_get_option(o.buf, "filetype")
-    local bufname = a.nvim_buf_get_name(o.buf)
+-- au({ "BufNew" }, {
+--   callback = function(o)
+--     local buftype = a.nvim_buf_get_option(o.buf, "buftype")
+--     local filetype = a.nvim_buf_get_option(o.buf, "filetype")
+--     local bufname = a.nvim_buf_get_name(o.buf)
 
-    local disable = { ft = { wit = true, [""] = true }, bt = { quickfix = true, terminal = true, [""] = false } }
+--     local disable = { ft = { wit = true, [""] = true }, bt = { quickfix = true, terminal = true, [""] = false } }
 
-    -- local info = { filetype = filetype, buftype = buftype, bufname = bufname }
-    if disable.ft[filetype] or buftype ~= "" then
-      vim.opt_local.spell = false
-    else
-      vim.opt_local.spell = true
-    end
-  end,
-})
+--     -- local info = { filetype = filetype, buftype = buftype, bufname = bufname }
+--     if disable.ft[filetype] or buftype ~= "" then
+--       print("spell off", filetype)
+--       -- vim.opt_local.spell = false
+--     else
+--       print("spell on", filetype)
+--       vim.opt_local.spell = true
+--     end
+--   end,
+-- })
 
 au({ "ColorScheme" }, { callback = require("config.palette").setup })
 au({ "BufRead", "BufNewFile" }, {

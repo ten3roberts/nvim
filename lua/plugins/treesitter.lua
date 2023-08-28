@@ -91,7 +91,7 @@ return {
             enable = true,
             disable = disable_large_file "highlight",
             -- Set to false if you have an `updatetime` of ~100.
-            -- clear_on_cursor_move = true,
+            clear_on_cursor_move = false,
           },
           highlight_current_scope = { enable = false },
           smart_rename = {
