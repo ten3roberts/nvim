@@ -3,6 +3,7 @@ local colorschemes = {
     "sainnhe/sonokai",
     config = function()
       vim.g.sonokai_enable_italic = 1
+      vim.g.sonokai_float_style = "dim"
       vim.g.sonokai_show_eob = 0
       vim.g.sonokai_style = "andromeda"
       -- vim.g.sonokai_style = "maia"

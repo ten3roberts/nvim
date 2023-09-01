@@ -30,20 +30,19 @@ return {
       require("iswap").setup {}
     end,
   },
-  -- "p00f/nvim-ts-rainbow",
   "nvim-treesitter/playground",
   "nvim-treesitter/nvim-treesitter-textobjects",
   "nvim-treesitter/nvim-treesitter-refactor",
   {
     "nvim-treesitter/nvim-treesitter-context",
     config = function()
-      require("treesitter-context").setup {
-        enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
-        trim_scope = "outer", -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
-        -- mode = "cursor", -- Line used to calculate context. Choices: 'cursor', 'topline'
-      }
+      -- require("treesitter-context").setup {
+      --   enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+      --   trim_scope = "outer", -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+      --   -- mode = "cursor", -- Line used to calculate context. Choices: 'cursor', 'topline'
+      -- }
 
-      vim.cmd.hi("TreesitterContextBottom", "gui=underline", "guisp=Grey")
+      -- vim.cmd.hi("TreesitterContextBottom", "gui=underline", "guisp=Grey")
     end,
   },
   "RRethy/nvim-treesitter-textsubjects",
@@ -66,11 +65,11 @@ return {
         auto_install = true,
         ignore_install = {},
         modules = {},
-        autopairs = { enable = true },
-        autotag = {
-          enable = { "html", "xml", "lua" },
-        },
-        playground = { enable = true },
+        -- autopairs = { enable = true },
+        -- autotag = {
+        --   enable = { "html", "xml", "lua" },
+        -- },
+        -- playground = { enable = true },
         matchup = { enable = true, disable = disable_large_file "matchup" },
         highlight = {
           enable = true,
@@ -160,28 +159,13 @@ return {
         },
         textsubjects = {
           enable = true,
-          -- prev_selection = ",", -- (Optional) keymap to select the previous selection
+          prev_selection = ",", -- (Optional) keymap to select the previous selection
           keymaps = {
             ["."] = "textsubjects-smart",
             ["ac"] = "textsubjects-container-outer",
             ["ic"] = "textsubjects-container-inner",
           },
         },
-        -- rainbow = {
-        --   enable = true,
-        --   -- disable = { "jsx", "cpp" }, list of languages you want to disable the plugin for
-        --   extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
-        --   max_file_lines = 2000, -- Do not enable for files with more than n lines, int
-        --   colors = {
-        --     "#5e81ac",
-        --     "#ebcb8b",
-        --     "#a3be8c",
-        --     "#bf6a6a",
-        --     "#b48ead",
-        --     "#d08770",
-        --   }, -- table of hex strings
-        --   -- termcolors = {} -- table of colour name strings
-        -- },
         indent = { enable = true },
       }
     end,
