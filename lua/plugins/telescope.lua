@@ -17,17 +17,18 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope-fzf-native.nvim",
       "molecule-man/telescope-menufacture",
-      "danielfalk/smart-open.nvim",
+      -- "danielfalk/smart-open.nvim",
     },
     keys = {
       { "z=", "<cmd>Telescope spell_suggest<CR>" },
       {
         "<leader><leader>",
         function()
-          require("telescope").extensions.smart_open.smart_open {
-            cwd_only = true,
-            filename_first = false,
-          }
+          builtin().find_files {}
+          -- require("telescope").extensions.smart_open.smart_open {
+          --   cwd_only = true,
+          --   filename_first = false,
+          -- }
         end,
         { desc = "Smart Open" },
       },

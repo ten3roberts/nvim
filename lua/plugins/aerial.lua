@@ -1,5 +1,4 @@
 return {
-
   "stevearc/aerial.nvim",
   keys = {
     { "<leader>po", "<cmd>AerialNavOpen<CR>" },
@@ -57,7 +56,7 @@ return {
       -- Automatically open aerial when entering supported buffers.
       -- This can be a function (see :help aerial-open-automatic)
       open_automatic = function(_)
-        return not vim.o.diff
+        return (not vim.o.diff) and vim.api.nvim_win_get_width(0) > 120
       end,
 
       -- close_automatic_events = { "unsupported" },

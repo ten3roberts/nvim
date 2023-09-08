@@ -241,15 +241,6 @@ return {
     end,
   },
 
-  {
-    "mcauley-penney/tidy.nvim",
-    enabled = false,
-    event = "BufWritePre",
-    config = function()
-      require("tidy").setup()
-    end,
-  },
-
   "ten3roberts/wgsl.vim",
   "ten3roberts/wit.nvim",
   -- "tpope/vim-commentary",

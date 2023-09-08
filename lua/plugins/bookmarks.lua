@@ -1,5 +1,6 @@
 return {
   "tomasky/bookmarks.nvim",
+  enabled = false,
   event = "VeryLazy",
   config = function()
     require("bookmarks").setup {

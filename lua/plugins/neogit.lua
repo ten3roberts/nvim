@@ -19,7 +19,7 @@ return {
 
       mappings = {
         status = {
-          -- ["!"] = "DebugSelection",
+          ["!"] = "DebugSelection",
         },
       },
       sections = {

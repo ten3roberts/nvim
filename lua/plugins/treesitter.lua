@@ -24,30 +24,26 @@ local function disable_large_file(module, max_size)
 end
 
 return {
-  {
-    "mizlan/iswap.nvim",
-    config = function()
-      require("iswap").setup {}
-    end,
-  },
-  "nvim-treesitter/playground",
-  "nvim-treesitter/nvim-treesitter-textobjects",
-  "nvim-treesitter/nvim-treesitter-refactor",
-  {
-    "nvim-treesitter/nvim-treesitter-context",
-    config = function()
-      -- require("treesitter-context").setup {
-      --   enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
-      --   trim_scope = "outer", -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
-      --   -- mode = "cursor", -- Line used to calculate context. Choices: 'cursor', 'topline'
-      -- }
+  -- {
+  --   "nvim-treesitter/nvim-treesitter-context",
+  --   config = function()
+  --     -- require("treesitter-context").setup {
+  --     --   enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+  --     --   trim_scope = "outer", -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+  --     --   -- mode = "cursor", -- Line used to calculate context. Choices: 'cursor', 'topline'
+  --     -- }
 
-      -- vim.cmd.hi("TreesitterContextBottom", "gui=underline", "guisp=Grey")
-    end,
-  },
-  "RRethy/nvim-treesitter-textsubjects",
+  --     -- vim.cmd.hi("TreesitterContextBottom", "gui=underline", "guisp=Grey")
+  --   end,
+  -- },
   {
     "nvim-treesitter/nvim-treesitter",
+    dependencies = {
+      -- "RRethy/nvim-treesitter-textsubjects",
+      -- "nvim-treesitter/playground",
+      -- "nvim-treesitter/nvim-treesitter-textobjects",
+      -- "nvim-treesitter/nvim-treesitter-refactor",
+    },
     config = function()
       vim.filetype.add { extension = { wgsl = "wgsl" } }
 
@@ -84,32 +80,32 @@ return {
             node_decremental = "<BS>",
           },
         },
-        refactor = {
-          disable = disable_large_file "refactor",
-          highlight_definitions = {
-            enable = true,
-            disable = disable_large_file "highlight",
-            -- Set to false if you have an `updatetime` of ~100.
-            clear_on_cursor_move = false,
-          },
-          highlight_current_scope = { enable = false },
-          smart_rename = {
-            enable = true,
-            keymaps = {
-              smart_rename = "grr",
-            },
-          },
-          navigation = {
-            enable = true,
-            keymaps = {
-              goto_definition = "gnd",
-              list_definitions = "gnD",
-              list_definitions_toc = "gO",
-              goto_next_usage = "gnn",
-              goto_previous_usage = "gNN",
-            },
-          },
-        },
+        -- refactor = {
+        --   disable = disable_large_file "refactor",
+        --   highlight_definitions = {
+        --     enable = true,
+        --     disable = disable_large_file "highlight",
+        --     -- Set to false if you have an `updatetime` of ~100.
+        --     clear_on_cursor_move = false,
+        --   },
+        --   highlight_current_scope = { enable = false },
+        --   smart_rename = {
+        --     enable = true,
+        --     keymaps = {
+        --       smart_rename = "grr",
+        --     },
+        --   },
+        --   navigation = {
+        --     enable = true,
+        --     keymaps = {
+        --       goto_definition = "gnd",
+        --       list_definitions = "gnD",
+        --       list_definitions_toc = "gO",
+        --       goto_next_usage = "gnn",
+        --       goto_previous_usage = "gNN",
+        --     },
+        --   },
+        -- },
 
         textobjects = {
           select = {
