@@ -88,20 +88,22 @@ function M.config()
       end,
     },
     mapping = {
-      ["<C-p>"] = function()
-        if cmp.visible() then
-          cmp.select_prev_item()
-        else
-          cmp.complete {}
-        end
-      end,
-      ["<C-n>"] = function()
-        if cmp.visible() then
-          cmp.select_next_item()
-        else
-          cmp.complete {}
-        end
-      end,
+      ["<C-p>"] = cmp.mapping.select_prev_item {},
+      ["<C-n>"] = cmp.mapping.select_next_item {},
+      -- ["<C-p>"] = function()
+      --   if cmp.visible() then
+      --     cmp.select_prev_item()
+      --   else
+      --     -- cmp.complete {}
+      --   end
+      -- end,
+      -- ["<C-n>"] = function()
+      --   if cmp.visible() then
+      --     cmp.select_next_item()
+      --   else
+      --     -- cmp.complete {}
+      --   end
+      -- end,
       -- ["<C-e>"] = cmp.mapping(function()
       --   vim.api.nvim_feedkeys(
       --     vim.fn["copilot#Accept"](vim.api.nvim_replace_termcodes("<Tab>", true, true, true)),
@@ -116,7 +118,7 @@ function M.config()
       ["<Tab>"] = confirm(cmp.ConfirmBehavior.Replace),
     },
     sources = cmp.config.sources {
-      { name = "nvim_lsp_signature_help" },
+      -- { name = "nvim_lsp_signature_help" },
       { name = "luasnip" },
       { name = "nvim_lsp" },
       { name = "treesitter" },
