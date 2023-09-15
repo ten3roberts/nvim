@@ -6,34 +6,29 @@ local builtin = function()
 end
 
 return {
-
-  { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-  {
-    "molecule-man/telescope-menufacture",
-  },
   {
     "nvim-telescope/telescope.nvim",
     dependencies = {
       "nvim-lua/plenary.nvim",
-      "nvim-telescope/telescope-fzf-native.nvim",
-      "molecule-man/telescope-menufacture",
+      { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
       -- "danielfalk/smart-open.nvim",
+      "molecule-man/telescope-menufacture",
     },
     keys = {
       { "z=", "<cmd>Telescope spell_suggest<CR>" },
       {
         "<leader><leader>",
         function()
-          builtin().find_files {}
-          -- require("telescope").extensions.smart_open.smart_open {
-          --   cwd_only = true,
-          --   filename_first = false,
-          -- }
+          -- builtin().find_files {}
+          require("telescope").extensions.smart_open.smart_open {
+            cwd_only = true,
+            filename_first = false,
+          }
         end,
         { desc = "Smart Open" },
       },
       {
-        "<leader>go",
+        "<leader>o",
         function()
           builtin().lsp_document_symbols {}
         end,
@@ -74,8 +69,15 @@ return {
           builtin().buffers {}
         end,
       },
+      {
+        "<M-x>",
+        function()
+          builtin().command_history {}
+        end,
+      },
     },
     config = function()
+      vim.notify "Loading telescope"
       local actions = require "telescope.actions"
 
       local telescope = require "telescope"
@@ -85,6 +87,8 @@ return {
       local ivy = require("telescope.themes").get_ivy {
         layout_config = { width = 0.7, height = 0.7 },
       }
+
+      telescope.load_extension "fzf"
 
       telescope.setup {
         defaults = {
@@ -182,10 +186,11 @@ return {
             override_file_sorter = true,
             case_mode = "smart_case",
           },
+          smart_open = {
+            match_algorithm = "fzf",
+          },
         },
       }
-
-      telescope.load_extension "fzf"
     end,
   },
 }
