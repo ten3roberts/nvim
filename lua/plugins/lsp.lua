@@ -68,7 +68,7 @@ end
 
 return {
   {
-    enabled = true,
+    enabled = false,
     "j-hui/fidget.nvim",
     config = function()
       require("fidget").setup {

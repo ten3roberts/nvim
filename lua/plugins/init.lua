@@ -54,7 +54,7 @@ return {
   --   end,
   -- },
 
-  { "andymass/vim-matchup" },
+  -- { "andymass/vim-matchup" },
 
   {
     "karb94/neoscroll.nvim",
@@ -116,16 +116,16 @@ return {
   --   end,
   -- },
 
-  {
-    "cshuaimin/ssr.nvim",
-    -- init is always executed during startup, but doesn't load the plugin yet.
-    init = function()
-      vim.keymap.set({ "n", "x" }, "<leader>cR", function()
-        -- this require will automatically load the plugin
-        require("ssr").open()
-      end, { desc = "Structural Replace" })
-    end,
-  },
+  -- {
+  --   "cshuaimin/ssr.nvim",
+  --   -- init is always executed during startup, but doesn't load the plugin yet.
+  --   init = function()
+  --     vim.keymap.set({ "n", "x" }, "<leader>cR", function()
+  --       -- this require will automatically load the plugin
+  --       require("ssr").open()
+  --     end, { desc = "Structural Replace" })
+  --   end,
+  -- },
   {
     "johmsalas/text-case.nvim",
     config = function()
@@ -249,5 +249,5 @@ return {
   "tpope/vim-sleuth",
   "tpope/vim-repeat",
   "mg979/vim-visual-multi",
-  "dkarter/bullets.vim",
+  -- "dkarter/bullets.vim",
 }

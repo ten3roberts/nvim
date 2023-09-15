@@ -45,7 +45,7 @@ return {
       -- "nvim-treesitter/nvim-treesitter-refactor",
     },
     config = function()
-      vim.filetype.add { extension = { wgsl = "wgsl" } }
+      -- vim.filetype.add { extension = { wgsl = "wgsl" } }
 
       -- local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
       -- parser_config.wgsl = {
@@ -56,7 +56,7 @@ return {
       -- }
 
       require("nvim-treesitter.configs").setup {
-        ensure_installed = "all",
+        ensure_installed = "maintained",
         sync_install = false,
         auto_install = true,
         ignore_install = {},
@@ -66,20 +66,20 @@ return {
         --   enable = { "html", "xml", "lua" },
         -- },
         -- playground = { enable = true },
-        matchup = { enable = true, disable = disable_large_file "matchup" },
+        -- matchup = { enable = true, disable = disable_large_file "matchup" },
         highlight = {
           enable = true,
           disable = disable_large_file("highlight", 1000 * 1024),
         },
-        incremental_selection = {
-          enable = true,
-          keymaps = {
-            init_selection = "<CR>",
-            node_incremental = "<CR>",
-            scope_incremental = "<S-CR>",
-            node_decremental = "<BS>",
-          },
-        },
+        -- incremental_selection = {
+        --   enable = true,
+        --   keymaps = {
+        --     init_selection = "<CR>",
+        --     node_incremental = "<CR>",
+        --     scope_incremental = "<S-CR>",
+        --     node_decremental = "<BS>",
+        --   },
+        -- },
         -- refactor = {
         --   disable = disable_large_file "refactor",
         --   highlight_definitions = {
@@ -107,62 +107,62 @@ return {
         --   },
         -- },
 
-        textobjects = {
-          select = {
-            enable = true,
-            lookahead = true,
-            keymaps = {
-              -- You can use the capture groups defined in textobjects.scm
-              -- ["af"] = "@function.outer",
-              -- ["if"] = "@function.inner",
-              -- ["ac"] = "@class.outer",
-              -- ["ic"] = "@class.inner",
-              -- ["iA"] = "@parameter.inner",
-              -- ["aA"] = "@parameter.outer",
-              ["i;"] = "@call.inner",
-              ["a;"] = "@call.outer",
-            },
-          },
-          move = {
-            enable = true,
-            set_jumps = true, -- whether to set jumps in the jumplist
-            goto_next_start = {
-              ["]m"] = "@function.outer",
-              ["]]"] = "@class.outer",
-            },
-            goto_next_end = {
-              ["]M"] = "@function.outer",
-              ["]["] = "@class.outer",
-            },
-            goto_previous_start = {
-              ["[m"] = "@function.outer",
-              ["[["] = "@class.outer",
-            },
-            goto_previous_end = {
-              ["[M"] = "@function.outer",
-              ["[]"] = "@class.outer",
-            },
-          },
-          swap = {
-            enable = true,
-            swap_next = {
-              ["<A-l>"] = "@parameter.inner",
-            },
-            swap_previous = {
-              ["<A-h>"] = "@parameter.inner",
-            },
-          },
-        },
-        textsubjects = {
-          enable = true,
-          prev_selection = ",", -- (Optional) keymap to select the previous selection
-          keymaps = {
-            ["."] = "textsubjects-smart",
-            ["ac"] = "textsubjects-container-outer",
-            ["ic"] = "textsubjects-container-inner",
-          },
-        },
-        indent = { enable = true },
+        -- textobjects = {
+        --   select = {
+        --     enable = true,
+        --     lookahead = true,
+        --     keymaps = {
+        --       -- You can use the capture groups defined in textobjects.scm
+        --       -- ["af"] = "@function.outer",
+        --       -- ["if"] = "@function.inner",
+        --       -- ["ac"] = "@class.outer",
+        --       -- ["ic"] = "@class.inner",
+        --       -- ["iA"] = "@parameter.inner",
+        --       -- ["aA"] = "@parameter.outer",
+        --       ["i;"] = "@call.inner",
+        --       ["a;"] = "@call.outer",
+        --     },
+        --   },
+        --   move = {
+        --     enable = true,
+        --     set_jumps = true, -- whether to set jumps in the jumplist
+        --     goto_next_start = {
+        --       ["]m"] = "@function.outer",
+        --       ["]]"] = "@class.outer",
+        --     },
+        --     goto_next_end = {
+        --       ["]M"] = "@function.outer",
+        --       ["]["] = "@class.outer",
+        --     },
+        --     goto_previous_start = {
+        --       ["[m"] = "@function.outer",
+        --       ["[["] = "@class.outer",
+        --     },
+        --     goto_previous_end = {
+        --       ["[M"] = "@function.outer",
+        --       ["[]"] = "@class.outer",
+        --     },
+        --   },
+        --   swap = {
+        --     enable = true,
+        --     swap_next = {
+        --       ["<A-l>"] = "@parameter.inner",
+        --     },
+        --     swap_previous = {
+        --       ["<A-h>"] = "@parameter.inner",
+        --     },
+        --   },
+        -- },
+        -- textsubjects = {
+        --   enable = true,
+        --   prev_selection = ",", -- (Optional) keymap to select the previous selection
+        --   keymaps = {
+        --     ["."] = "textsubjects-smart",
+        --     ["ac"] = "textsubjects-container-outer",
+        --     ["ic"] = "textsubjects-container-inner",
+        --   },
+        -- },
+        -- indent = { enable = true },
       }
     end,
   },
