@@ -18,9 +18,9 @@ return {
       disable_commit_confirmation = true,
 
       mappings = {
-        status = {
-          ["!"] = "DebugSelection",
-        },
+        -- status = {
+        --   ["!"] = "DebugSelection",
+        -- },
       },
       sections = {
         -- untracked = {

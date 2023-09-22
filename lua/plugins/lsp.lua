@@ -119,7 +119,7 @@ return {
           -- prefix = "~",
         },
         -- update_in_insert = true,
-        -- severity_sort = true,
+        severity_sort = true,
       }
 
       local default_conf = {

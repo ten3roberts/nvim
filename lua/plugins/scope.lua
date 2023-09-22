@@ -1,4 +1,4 @@
 return {
-  -- "tiagovla/scope.nvim",
-  -- opts = {},
+  "tiagovla/scope.nvim",
+  opts = {},
 }
