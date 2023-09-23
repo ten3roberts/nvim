@@ -139,6 +139,11 @@ return {
         end,
         taplo = function()
           lspconfig.taplo.setup(vim.tbl_deep_extend("force", default_conf, {
+            settings = {
+              formatter = {
+                arrayAutoExpand = false,
+              },
+            },
             keymap = function()
               return { hover = require("crates").show_crate_popup }
             end,

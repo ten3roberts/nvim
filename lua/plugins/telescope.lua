@@ -77,7 +77,6 @@ return {
       },
     },
     config = function()
-      vim.notify "Loading telescope"
       local actions = require "telescope.actions"
 
       local telescope = require "telescope"
