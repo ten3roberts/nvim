@@ -24,18 +24,19 @@ local function disable_large_file(module, max_size)
 end
 
 return {
-  -- {
-  --   "nvim-treesitter/nvim-treesitter-context",
-  --   config = function()
-  --     -- require("treesitter-context").setup {
-  --     --   enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
-  --     --   trim_scope = "outer", -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
-  --     --   -- mode = "cursor", -- Line used to calculate context. Choices: 'cursor', 'topline'
-  --     -- }
-
-  --     -- vim.cmd.hi("TreesitterContextBottom", "gui=underline", "guisp=Grey")
-  --   end,
-  -- },
+  {
+    "nvim-treesitter/nvim-treesitter-context",
+    config = function()
+      -- require("treesitter-context").setup {
+      --   enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+      --   trim_scope = "outer", -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+      --   -- mode = "cursor", -- Line used to calculate context. Choices: 'cursor', 'topline'
+      -- }
+      vim.keymap.set("n", "[c", function()
+        require("treesitter-context").go_to_context()
+      end, { silent = true })
+    end,
+  },
   {
     "nvim-treesitter/nvim-treesitter",
     dependencies = {
