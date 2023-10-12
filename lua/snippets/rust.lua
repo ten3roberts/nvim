@@ -341,8 +341,13 @@ Self {{
 
   s("cfg_unknown", fmt([[ #[cfg(target_os = "unknown")] ]], {})),
   s("cfg_not_unknown", fmt([[ #[cfg(not(target_os = "unknown"))] ]], {})),
+
   s("cfg_arch", fmt([[ #[cfg(target_arch = "{}")] ]], { i(1, "") })),
   s("cfg_not_arch", fmt([[ #[cfg(not(target_arch = "{}"))] ]], { i(1, "") })),
+
+  s("cfg_wasm32", fmt([[ #[cfg(target_arch = "wasm32")] ]], {})),
+  s("cfg_not_wasm32", fmt([[ #[cfg(not(target_arch = "wasm32"))] ]], {})),
+
   s("cfgf", fmt([[ #[cfg(feature = "{}")] ]], { i(1, "") })),
   s(
     "ANCHOR",
