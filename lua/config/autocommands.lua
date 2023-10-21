@@ -7,24 +7,37 @@ local function au(event, opts)
   a.nvim_create_autocmd(event, opts)
 end
 
--- au({ "BufNew" }, {
---   callback = function(o)
---     local buftype = a.nvim_buf_get_option(o.buf, "buftype")
---     local filetype = a.nvim_buf_get_option(o.buf, "filetype")
---     local bufname = a.nvim_buf_get_name(o.buf)
+au({ "BufNew", "FileType" }, {
+  callback = function(o)
+    local buftype = vim.bo[o.buf].buftype
+    local filetype = vim.bo[o.buf].filetype
+    local bufname = a.nvim_buf_get_name(o.buf)
 
---     local disable = { ft = { wit = true, [""] = true }, bt = { quickfix = true, terminal = true, [""] = false } }
+    local filetypes = {
+      rust = true,
+      lua = true,
+      c = true,
+      cpp = true,
+      markdown = true,
+      latex = true,
+      json = true,
+      yaml = true,
+      toml = true,
+    }
 
---     -- local info = { filetype = filetype, buftype = buftype, bufname = bufname }
---     if disable.ft[filetype] or buftype ~= "" then
---       print("spell off", filetype)
---       -- vim.opt_local.spell = false
---     else
---       print("spell on", filetype)
---       vim.opt_local.spell = true
---     end
---   end,
--- })
+    local info = string.format("%s %s %s", bufname, filetype, buftype)
+
+    if buftype == "" and filetypes[filetype] then
+      -- vim.notify("Enabling spell for " .. info)
+      -- vim.wo.spell = true
+      -- vim.opt_local.spell = true
+    else
+      -- vim.wo.spell = false
+      -- vim.notify("Enabling spell for" .. info)
+      -- vim.opt_local.spell = false
+    end
+  end,
+})
 
 au({ "ColorScheme" }, { callback = require("config.palette").setup })
 au({ "BufRead", "BufNewFile" }, {
