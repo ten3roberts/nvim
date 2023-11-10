@@ -213,11 +213,10 @@ function M.update_tabline()
   return table.concat(t, "")
 end
 
-
 function M.setup()
   vim.g.qf_disable_statusline = 1
   -- vim.o.statusline = "%{%v:lua.config_sl_update()%}"
-  vim.o.tabline = "%{%v:lua.require'config.statusline'.update_tabline()%}"
+  -- vim.o.tabline = "%{%v:lua.require'config.statusline'.update_tabline()%}"
 
   -- cmd [[
   -- augroup Statusline

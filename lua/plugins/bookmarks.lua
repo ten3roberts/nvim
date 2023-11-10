@@ -1,9 +1,10 @@
 return {
-  "tomasky/bookmarks.nvim",
-  enabled = false,
+  "ten3roberts/bookmarks.nvim",
+  enabled = true,
   event = "VeryLazy",
   config = function()
     require("bookmarks").setup {
+      scoped = true,
       keywords = {
         ["@t"] = "󰀚", -- mark annotation startswith @t ,signs this icon as `Todo`
         ["@f"] = "󰖷", -- mark annotation startswith @f ,signs this icon as `Fix`

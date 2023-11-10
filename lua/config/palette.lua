@@ -133,6 +133,7 @@ function M.setup()
   -- highlight('LspDiagnosticsUnderlineInformation', nil, nil, 'undercurl', p.blue)
   -- highlight('LspDiagnosticsUnderlineHint',        nil, nil, 'undercurl', p.green)
 
+  link("TablineSel", "Normal")
   link("HarpoonWindow", "Darkened")
   link("HarpoonBorder", "Darkened")
 

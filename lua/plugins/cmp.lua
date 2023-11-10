@@ -69,10 +69,26 @@ function M.config()
       return k
     end,
   }
+
+  local path = {
+    name = "path",
+  }
+
+  -- local path_root = {
+  --   name = "path",
+  --   option = {
+  --     get_cwd = function()
+  --       return vim.fn.getcwd()
+  --     end,
+  --   },
+  -- }
+
   setmetatable(menu, menu)
+  ---@diagnostic disable-next-line: missing-fields
   cmp.setup {
     preselect = cmp.PreselectMode.None,
     formatting = {
+      expandable_indicator = true,
       fields = { "kind", "abbr", "menu" },
       format = lspkind.cmp_format {
         mode = "symbol", -- show only symbol annotations
@@ -90,27 +106,7 @@ function M.config()
     mapping = {
       ["<C-p>"] = cmp.mapping.select_prev_item {},
       ["<C-n>"] = cmp.mapping.select_next_item {},
-      -- ["<C-p>"] = function()
-      --   if cmp.visible() then
-      --     cmp.select_prev_item()
-      --   else
-      --     -- cmp.complete {}
-      --   end
-      -- end,
-      -- ["<C-n>"] = function()
-      --   if cmp.visible() then
-      --     cmp.select_next_item()
-      --   else
-      --     -- cmp.complete {}
-      --   end
-      -- end,
-      -- ["<C-e>"] = cmp.mapping(function()
-      --   vim.api.nvim_feedkeys(
-      --     vim.fn["copilot#Accept"](vim.api.nvim_replace_termcodes("<Tab>", true, true, true)),
-      --     "n",
-      --     true
-      --   )
-      -- end),
+
       ["<C-d>"] = cmp.mapping.scroll_docs(-4),
       ["<C-u>"] = cmp.mapping.scroll_docs(4),
       ["<C-Space>"] = cmp.mapping.complete {},
@@ -124,8 +120,9 @@ function M.config()
       { name = "treesitter" },
       -- { name = "buffer" },
       { name = "nvim_lua" },
-      { name = "path", option = { trailing_slash = true } },
       { name = "crates" },
+      -- path_root,
+      path,
     },
   }
 
@@ -136,7 +133,8 @@ function M.config()
       { name = "luasnip" },
       { name = "nvim_lsp" },
       -- { name = "buffer" },
-      { name = "path", option = { trailing_slash = true } },
+      -- path_root,
+      path,
     },
   })
   cmp.setup.cmdline("/", {
@@ -155,7 +153,8 @@ function M.config()
     mapping = cmp.mapping.preset.cmdline(),
     sources = cmp.config.sources {
       { name = "cmdline" },
-      { name = "path", option = { trailing_slash = true } },
+      -- path_root,
+      path,
     },
   })
 end

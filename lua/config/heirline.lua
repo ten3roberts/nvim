@@ -1,10 +1,71 @@
-local conditions = require "heirline.conditions"
+---@diagnostic disable: redefined-local
 local api = vim.api
+local fn = vim.fn
+
+local conditions = require "heirline.conditions"
 local utils = require "heirline.utils"
 
-local function pill(component, color)
-  return utils.surround({ "", "" }, color, component)
+---Surround component with separators and adjust coloring
+---@param delimiters string[]
+---@param color string|function|nil
+---@param component table
+---@return table
+local function surround(delimiters, fg, bg, component)
+  component = utils.clone(component)
+
+  local surround_color = function(self, color)
+    if type(color) == "function" then
+      return color(self)
+    else
+      return color
+    end
+  end
+
+  return {
+    {
+      provider = delimiters[1],
+      hl = function(self)
+        local fg = surround_color(self, fg)
+        local bg = bg and surround_color(self, bg)
+        if fg then
+          return { fg = fg, bg = bg }
+        end
+      end,
+    },
+    {
+      hl = function(self)
+        local fg = surround_color(self, fg)
+        if fg then
+          return { bg = fg }
+        end
+      end,
+      component,
+    },
+    {
+      provider = delimiters[2],
+      hl = function(self)
+        local fg = surround_color(self, fg)
+        local bg = bg and surround_color(self, bg)
+
+        if fg then
+          return { fg = fg, bg = bg }
+        end
+      end,
+    },
+  }
 end
+local function pill(component, fg, bg)
+  return surround({ "", "" }, fg, bg, component)
+end
+
+local function trapeze(component, fg, bg)
+  return surround({ "", "" }, fg, bg, component)
+end
+
+local function rev_trapeze(component, fg, bg)
+  return surround({ "", "" }, fg, bg, component)
+end
+
 local M = {}
 
 local function get_hl(name)
@@ -16,9 +77,16 @@ local function get_hl(name)
   return v
 end
 
+local Align = { provider = "%=" }
+local Space = { provider = " " }
+
 function M.setup_colors()
   return {
     normal_bg = get_hl("Normal").bg,
+    normal_fg = get_hl("Normal").fg,
+    tabline_bg = get_hl("TabLine").bg,
+    tabline_sel_bg = get_hl("TabLineSel").bg,
+    tabline_fill = get_hl("TabLineFill").bg,
     bright_bg = get_hl("Folded").bg,
     bright_fg = get_hl("Folded").fg,
     red = get_hl("Red").fg,
@@ -107,7 +175,7 @@ function M.setup()
     -- control the padding and make sure our string is always at least 2
     -- characters long. Plus a nice Icon.
     provider = function(self)
-      return " %-2(" .. (self.mode_names[self.mode] or "__") .. "%)"
+      return " %-2(" .. (self.mode_names[self.mode] or "__") .. "%) "
     end,
     hl = { fg = "normal_bg", bold = true },
     -- Re-evaluate the component only on ModeChanged event!
@@ -214,15 +282,15 @@ function M.setup()
   }
 
   -- We're getting minimalists here!
-  local Ruler = pill({
+  local Ruler = {
     -- %l = current line number
     -- %L = number of lines in the buffer
     -- %c = column number
     -- %P = percentage through file of displayed window
-    provider = "%3l:%-3L",
+    provider = " %3l:%-3L",
     hl = { fg = "normal_bg", bold = true },
     -- hl = { bg = "blue" , fg = "normal_bg", bold = true},
-  }, statusline_color)
+  }
 
   -- I take no credits for this! :lion:
   local ScrollBar = {
@@ -389,12 +457,9 @@ function M.setup()
     },
   }
 
-  local Align = { provider = "%=" }
-  local Space = { provider = " " }
-
   local DiffMode = {
     condition = function()
-      return api.nvim_win_get_option(0, "diff")
+      return vim.wo[0].diff
     end,
     pill({
       provider = "",
@@ -414,17 +479,56 @@ function M.setup()
     -- see Click-it! section for clickable actions
   }
 
+  local Recipe = require "recipe.recipe"
   local TerminalName = {
     -- we could add a condition to check that buftype == 'terminal'
     -- or we could do that later (see #conditional-statuslines below)
-    provider = function()
-      local tname, _ = api.nvim_buf_get_name(0):gsub(".*:", "")
-      return " " .. tname
+    init = function(self)
+      local task_info = vim.b.recipe_task_info
+      local recipe = task_info and setmetatable(task_info.recipe, Recipe)
+      self.task_info = task_info
+      self.recipe = recipe
     end,
-    hl = { fg = "blue", bold = true },
+    {
+      provider = function()
+        return " "
+      end,
+      hl = { fg = "blue", bold = true },
+    },
+    Space,
+    {
+      condition = function(self)
+        return self.task_info ~= nil
+      end,
+      {
+        provider = function(self)
+          return self.task_info.key
+        end,
+        hl = { fg = "green", bold = true },
+      },
+      Space,
+      {
+
+        provider = function(self)
+          return self.recipe:fmt_cmd()
+        end,
+        hl = "Comment",
+      },
+    },
+    {
+
+      condition = function(self)
+        return self.task_info == nil
+      end,
+      provider = function()
+        local tname, _ = api.nvim_buf_get_name(0):gsub(".*:", "")
+        return tname
+      end,
+    },
   }
 
-  ViMode = pill(ViMode, statusline_color)
+  ViMode = surround({ "", " " }, statusline_color, nil, ViMode)
+  Ruler = surround({ " ", "" }, statusline_color, nil, Ruler)
 
   local DefaultStatusline = {
     ViMode,
@@ -585,12 +689,12 @@ function M.setup()
         { provider = "" },
       },
       Align,
-      pill({
+      surround({ "", "" }, statusline_color, nil, {
         provider = function(self)
           return string.format("%2d / %-2d", self.info.idx, self.info.size)
         end,
         hl = { fg = "normal_bg", bold = true },
-      }, statusline_color),
+      }),
     },
   }
 
@@ -639,9 +743,239 @@ function M.setup()
     DefaultStatusline,
   }
 
+  local tabline = M.setup_tabline()
   require("heirline").setup {
     statusline = StatusLines,
+    tabline = tabline,
   }
+end
+
+local separator = "/"
+
+local function subtbl(tbl, first, last)
+  if type(tbl) == "string" then
+    return string.sub(tbl, first, last)
+  end
+
+  if first < 0 then
+    first = #tbl + 1 + first
+  end
+
+  if last ~= nil and last < 0 then
+    last = #tbl + 1 + last
+  end
+
+  local sliced = {}
+
+  for i = first or 1, last or #tbl do
+    sliced[#sliced + 1] = tbl[i]
+  end
+
+  return sliced
+end
+
+local function get_unique_name(a, b)
+  local a_parts = fn.split(a, separator)
+  local b_parts = fn.split(b, separator)
+
+  local shortest = math.min(#a_parts, #b_parts)
+
+  -- Find the last index of the common divisors
+  local common_divisor = 1
+  for i = 1, shortest do
+    local a_part = a_parts[i]
+    local b_part = b_parts[i]
+
+    if a_part ~= b_part then
+      common_divisor = i
+      break
+    end
+  end
+
+  return fn.join(subtbl(a_parts, common_divisor), separator), fn.join(subtbl(b_parts, common_divisor), separator)
+end
+
+---@param data fun(self): any[]
+---@param sep table
+local function component_list(data, sep)
+  return {
+    init = function(self)
+      local idx = 1
+
+      for i, data in ipairs(data(self)) do
+        if i ~= 1 then
+          self[idx] = self:new(sep, idx)
+          idx = idx + 1
+        end
+
+        local child = self[idx]
+        child = self:new(data, idx)
+        self[idx] = child
+        idx = idx + 1
+      end
+
+      if #self > idx then
+        for i = #self, idx + 1, -1 do
+          self[i] = nil
+        end
+      end
+    end,
+  }
+end
+
+function M.setup_tabline()
+  local function sel_hl(self)
+    if self.is_active then
+      return "TabLineSel"
+    else
+      return "TabLine"
+    end
+  end
+
+  local tab_hide = {
+    NvimTree = true,
+    qf = true,
+    aerial = true,
+    fzf = true,
+  }
+
+  local buffer_names = {}
+  local buffer_ids = {}
+  local function get_buffername(bufnr)
+    if tab_hide[vim.bo[bufnr].filetype] then
+      return
+    end
+
+    local filename = fn.fnamemodify(fn.bufname(bufnr), ":t")
+
+    if filename == nil or filename == "" then
+      return
+    end
+
+    if buffer_names[filename] ~= nil then
+      local other = buffer_names[filename]
+
+      local cur_bufname = fn.bufname(bufnr)
+      local other_bufname = fn.bufname(other)
+
+      if cur_bufname ~= other_bufname then
+        local new_other, new_cur = get_unique_name(other_bufname, cur_bufname)
+
+        buffer_names[new_other] = bufnr
+        buffer_ids[other] = new_other
+
+        filename = new_cur
+      end
+    end
+
+    buffer_names[filename] = bufnr
+    buffer_ids[bufnr] = filename
+  end
+
+  local tabpages = {}
+
+  -- setup an autocmd that updates the buflist_cache every time that buffers are added/removed
+  vim.api.nvim_create_autocmd({ "VimEnter", "UIEnter", "WinClosed", "WinNew", "BufWinEnter", "BufWinLeave" }, {
+    callback = function()
+      vim.schedule(function()
+        -- Clear and update all buffer names to unique paths
+        buffer_names = {}
+        buffer_ids = {}
+        for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+          if vim.bo[bufnr].buftype == "" and vim.api.nvim_buf_is_loaded(bufnr) then
+            get_buffername(bufnr)
+          end
+        end
+
+        -- Update the buffers listed in each tabpage
+        tabpages = {}
+
+        for _, id in ipairs(api.nvim_list_tabpages()) do
+          local windows = api.nvim_tabpage_list_wins(id)
+
+          local tabpage = {}
+          local found = {}
+
+          for _, win in ipairs(windows) do
+            local bufnr = api.nvim_win_get_buf(win)
+
+            if not found[bufnr] and buffer_ids[bufnr] then
+              table.insert(tabpage, bufnr)
+            end
+            found[bufnr] = true
+          end
+
+          tabpages[id] = tabpage
+        end
+      end)
+    end,
+  })
+
+  -- local TabpageClose = {
+  --   provider = function(self)
+  --     return string.format("%%%dX ⨯ %%X", self.tabnr)
+  --   end,
+  --   hl = sel_hl,
+  -- }
+
+  local TabpageBuffers = {
+    condition = function(self)
+      local tabpage = tabpages[self.tabpage]
+      return tabpage and #tabpage > 0
+    end,
+    Space,
+    component_list(function(self)
+      local cur_buf = api.nvim_get_current_buf()
+      return vim.tbl_map(function(bufnr)
+        local fg
+        if bufnr == cur_buf then
+          fg = "bright_fg"
+        end
+
+        local display = buffer_ids[bufnr]
+        return {
+          provider = string.format(" %s ", display),
+          hl = { fg = fg },
+        }
+      end, tabpages[self.tabpage] or {})
+    end, { provider = "·" }),
+    -- provider = function(self)
+    --   local tabpage = tabpages[self.tabpage]
+    --   if not tabpage then
+    --     return
+    --   end
+
+    --   return " " .. table.concat(tabpage, " ")
+    -- end,
+    hl = sel_hl,
+  }
+
+  local Tabpage = trapeze({
+    {
+      provider = function(self)
+        return string.format("%%%dT %d%%T", self.tabnr, self.tabnr)
+      end,
+      hl = sel_hl,
+    },
+    TabpageBuffers,
+    Space,
+  }, function(self)
+    if self.is_active then
+      return "tabline_sel_bg"
+    else
+      return "tabline_bg"
+    end
+  end, "tabline_fill")
+
+  local TabPages = {
+    -- only show this component if there's 2 or more tabpages
+    condition = function()
+      return #vim.api.nvim_list_tabpages() >= 2
+    end,
+    utils.make_tablist(Tabpage),
+  }
+
+  return { TabPages }
 end
 
 return M

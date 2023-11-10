@@ -94,6 +94,10 @@ return {
       "lukas-reineke/lsp-format.nvim",
     },
     config = function()
+      require("neoconf").setup {
+        -- override any of the default settings here
+      }
+
       require("lspkind").init {}
 
       local handlers = {
@@ -203,7 +207,7 @@ return {
             settings = {
               ["rust-analyzer"] = {
                 cargo = {
-                  -- loadOutDirsFromCheck = true,
+                  loadOutDirsFromCheck = true,
                   -- buildScripts = {
                   --   enable = true,
                   -- },
@@ -212,9 +216,9 @@ return {
                 references = {
                   excludeImports = true,
                 },
-                -- procMacro = {
-                --   enable = true,
-                -- },
+                procMacro = {
+                  enable = true,
+                },
                 check = {
                   command = "clippy",
                 },
