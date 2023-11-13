@@ -108,6 +108,7 @@ function M.setup_colors()
 end
 
 function M.setup()
+  local Recipe = require "recipe.recipe"
   api.nvim_create_augroup("Heirline", { clear = true })
   -- api.nvim_create_autocmd("ColorScheme", {
   --   callback = function()
@@ -479,7 +480,6 @@ function M.setup()
     -- see Click-it! section for clickable actions
   }
 
-  local Recipe = require "recipe.recipe"
   local TerminalName = {
     -- we could add a condition to check that buftype == 'terminal'
     -- or we could do that later (see #conditional-statuslines below)
@@ -840,8 +840,17 @@ function M.setup_tabline()
 
   local buffer_names = {}
   local buffer_ids = {}
+  local Recipe = require "recipe.recipe"
+
   local function get_buffername(bufnr)
     if tab_hide[vim.bo[bufnr].filetype] then
+      return
+    end
+
+    local task_info = vim.b[bufnr].recipe_task_info
+    if task_info then
+      local recipe = setmetatable(task_info.recipe, Recipe)
+      buffer_ids[bufnr] = string.format("  %s", recipe.label)
       return
     end
 
@@ -859,6 +868,10 @@ function M.setup_tabline()
 
       if cur_bufname ~= other_bufname then
         local new_other, new_cur = get_unique_name(other_bufname, cur_bufname)
+
+        if new_other == "" then
+          vim.notify(string.format("%s got turned into empty colliding with %s", cur_bufname, other_bufname))
+        end
 
         buffer_names[new_other] = bufnr
         buffer_ids[other] = new_other
