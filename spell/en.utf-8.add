@@ -105,3 +105,6 @@ variant
 variant
 interface
 interface
+WebTransport
+WebGPU
+HRTF

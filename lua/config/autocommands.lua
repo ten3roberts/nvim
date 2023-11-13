@@ -19,6 +19,7 @@ au({ "BufNew", "FileType" }, {
       c = true,
       cpp = true,
       markdown = true,
+      tex = true,
       latex = true,
       json = true,
       yaml = true,
@@ -29,10 +30,10 @@ au({ "BufNew", "FileType" }, {
 
     if buftype == "" and filetypes[filetype] then
       -- vim.notify("Enabling spell for " .. info)
-      -- vim.wo.spell = true
+      vim.wo.spell = true
       -- vim.opt_local.spell = true
     else
-      -- vim.wo.spell = false
+      vim.wo.spell = false
       -- vim.notify("Enabling spell for" .. info)
       -- vim.opt_local.spell = false
     end

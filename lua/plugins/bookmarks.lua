@@ -1,5 +1,6 @@
 return {
   "ten3roberts/bookmarks.nvim",
+  branch = "feat-scoped-bookmarks",
   enabled = true,
   event = "VeryLazy",
   config = function()

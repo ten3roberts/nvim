@@ -826,7 +826,7 @@ end
 function M.setup_tabline()
   local function sel_hl(self)
     if self.is_active then
-      return "TabLineSel"
+      return { bg = "tabline_sel_bg" }
     else
       return "TabLine"
     end
@@ -836,7 +836,6 @@ function M.setup_tabline()
     NvimTree = true,
     qf = true,
     aerial = true,
-    fzf = true,
   }
 
   local buffer_names = {}
@@ -882,7 +881,7 @@ function M.setup_tabline()
         buffer_names = {}
         buffer_ids = {}
         for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
-          if vim.bo[bufnr].buftype == "" and vim.api.nvim_buf_is_loaded(bufnr) then
+          if not tab_hide[vim.bo[bufnr].filetype] and vim.api.nvim_buf_is_loaded(bufnr) then
             get_buffername(bufnr)
           end
         end
