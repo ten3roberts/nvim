@@ -1,5 +1,5 @@
 return {
   "tiagovla/scope.nvim",
-  enabled = true,
+  enabled = false,
   opts = {},
 }
