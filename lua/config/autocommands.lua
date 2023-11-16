@@ -7,8 +7,9 @@ local function au(event, opts)
   a.nvim_create_autocmd(event, opts)
 end
 
-au({ "BufNew", "FileType" }, {
+au({ "BufNew", "BufWinEnter", "FileType" }, {
   callback = function(o)
+    local win = a.nvim_get_current_win()
     local buftype = vim.bo[o.buf].buftype
     local filetype = vim.bo[o.buf].filetype
     local bufname = a.nvim_buf_get_name(o.buf)
@@ -26,15 +27,19 @@ au({ "BufNew", "FileType" }, {
       toml = true,
     }
 
-    local info = string.format("%s %s %s", bufname, filetype, buftype)
+    local info = string.format("%d name: %s ft: %s bt: %s win: %d", o.buf, bufname, filetype, buftype, win)
 
     if buftype == "" and filetypes[filetype] then
-      -- vim.notify("Enabling spell for " .. info)
+      -- vim.defer_fn(function()
+      --   vim.notify("Enable spell " .. info)
+      -- end, 1000)
       vim.wo.spell = true
       -- vim.opt_local.spell = true
-    else
+    elseif vim.wo.spell == true then
+      vim.defer_fn(function()
+        vim.notify("Disable spell " .. info)
+      end, 1000)
       vim.wo.spell = false
-      -- vim.notify("Enabling spell for" .. info)
       -- vim.opt_local.spell = false
     end
   end,

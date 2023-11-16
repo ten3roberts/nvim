@@ -843,10 +843,6 @@ function M.setup_tabline()
   local Recipe = require "recipe.recipe"
 
   local function get_buffername(bufnr)
-    if tab_hide[vim.bo[bufnr].filetype] then
-      return
-    end
-
     local task_info = vim.b[bufnr].recipe_task_info
     if task_info then
       local recipe = setmetatable(task_info.recipe, Recipe)
@@ -869,11 +865,11 @@ function M.setup_tabline()
       if cur_bufname ~= other_bufname then
         local new_other, new_cur = get_unique_name(other_bufname, cur_bufname)
 
-        if new_other == "" then
+        if new_other == "" or new_cur == "" then
           vim.notify(string.format("%s got turned into empty colliding with %s", cur_bufname, other_bufname))
         end
 
-        buffer_names[new_other] = bufnr
+        buffer_names[new_other] = other
         buffer_ids[other] = new_other
 
         filename = new_cur
@@ -894,7 +890,7 @@ function M.setup_tabline()
         buffer_names = {}
         buffer_ids = {}
         for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
-          if not tab_hide[vim.bo[bufnr].filetype] and vim.api.nvim_buf_is_loaded(bufnr) then
+          if not tab_hide[vim.bo[bufnr].ft] and vim.api.nvim_buf_is_loaded(bufnr) then
             get_buffername(bufnr)
           end
         end

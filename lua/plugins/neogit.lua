@@ -2,6 +2,7 @@ return {
   "NeogitOrg/neogit",
   dev = true,
   dependencies = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim" },
+  lazy = false,
   keys = {
     {
       "<leader>gg",

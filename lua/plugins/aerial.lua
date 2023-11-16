@@ -8,11 +8,11 @@ return {
   config = function()
     local aerial = require "aerial"
     aerial.setup {
-      -- backends = { "lsp", "markdown" },
-      on_attach = function(bufnr)
-        -- vim.keymap.set("n", "[[", "<cmd>AerialPrev<CR>", { buffer = bufnr })
-        -- vim.keymap.set("n", "]]", "<cmd>AerialNext<CR>", { buffer = bufnr })
-      end,
+      backends = { "treesitter", "lsp", "markdown" },
+      -- on_attach = function(bufnr)
+      -- vim.keymap.set("n", "[[", "<cmd>AerialPrev<CR>", { buffer = bufnr })
+      -- vim.keymap.set("n", "]]", "<cmd>AerialNext<CR>", { buffer = bufnr })
+      -- end,
       layout = {
 
         -- The maximum width of the aerial window
