@@ -108,3 +108,9 @@ interface
 WebTransport
 WebGPU
 HRTF
+QUIC
+Vulkan
+PhysX
+OpenGL
+APIs
+Fyrvaktarkroken

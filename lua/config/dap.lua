@@ -31,8 +31,8 @@ ui.setup {
         "stacks",
         "watches",
       },
-      size = 40,
-      position = "right",
+      size = 10,
+      position = "bottom",
     },
     -- {
     --   elements = { "console" },
@@ -43,7 +43,7 @@ ui.setup {
   floating = {
     -- max_height = nil, -- These can be integers or a float between 0 and 1.
     -- max_width = nil, -- Floats will be treated as percentage of your screen.
-    border = "none",
+    -- border = "none",
     mappings = {
       close = { "q", "<Esc>" },
     },
@@ -147,7 +147,7 @@ tree.register({
 
   e = {
     function()
-      ui.eval(nil, { enter = false })
+      ui.eval(nil, { enter = true })
     end,
     "Evaluate expression under cursor",
   },
