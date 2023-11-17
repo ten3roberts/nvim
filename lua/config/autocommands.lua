@@ -7,7 +7,7 @@ local function au(event, opts)
   a.nvim_create_autocmd(event, opts)
 end
 
-au({ "BufNew", "BufWinEnter", "FileType" }, {
+au({ "BufNew", "BufWinEnter", "WinEnter", "FileType" }, {
   callback = function(o)
     local win = a.nvim_get_current_win()
     local buftype = vim.bo[o.buf].buftype
@@ -35,7 +35,7 @@ au({ "BufNew", "BufWinEnter", "FileType" }, {
       -- end, 1000)
       vim.wo.spell = true
       -- vim.opt_local.spell = true
-    elseif vim.wo.spell == true then
+    elseif vim.wo.spell == true and filetype ~= "" then
       vim.defer_fn(function()
         vim.notify("Disable spell " .. info)
       end, 1000)

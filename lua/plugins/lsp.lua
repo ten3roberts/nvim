@@ -291,7 +291,7 @@ return {
           -- null_ls.builtins.diagnostics.yamllint,
           -- null_ls.builtins.diagnostics.selene,
           null_ls.builtins.formatting.stylua,
-          null_ls.builtins.formatting.prettier,
+          -- null_ls.builtins.formatting.prettier,
         },
       }
     end,
