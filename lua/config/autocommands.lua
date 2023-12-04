@@ -37,7 +37,7 @@ au({ "BufNew", "BufWinEnter", "FileType" }, {
       -- vim.opt_local.spell = true
     elseif vim.wo.spell == true then
       vim.defer_fn(function()
-        vim.notify("Disable spell " .. info)
+        -- vim.notify("Disable spell " .. info)
       end, 1000)
       vim.wo.spell = false
       -- vim.opt_local.spell = false

@@ -137,10 +137,7 @@ return {
               -- To disable a keymap, put [map] = false
               -- So, to not map "<C-n>", just put
               -- ["<c-x>"] = false,
-              ["<Esc>"] = function(...)
-                vim.cmd "stopinsert"
-                actions.close(...)
-              end,
+              ["<Esc>"] = actions.close,
 
               -- Otherwise, just set the mapping to the function that you want it to be.
               -- ["<C-i>"] = actions.select_horizontal,

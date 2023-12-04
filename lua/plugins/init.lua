@@ -54,7 +54,7 @@ return {
   --   end,
   -- },
 
-  -- { "andymass/vim-matchup" },
+  { "andymass/vim-matchup" },
 
   {
     "karb94/neoscroll.nvim",
