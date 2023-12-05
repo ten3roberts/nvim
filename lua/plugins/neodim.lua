@@ -4,7 +4,7 @@ return {
   config = function()
     require("neodim").setup {
       refresh_delay = 75,
-      alpha = 0.50,
+      alpha = 0.75,
       blend_color = "#000000",
       hide = {
         underline = true,
@@ -12,7 +12,7 @@ return {
         signs = true,
       },
       regex = {
-        "[uU]nused",
+        "[uU]nused import",
         "[nN]ever [rR]ead",
         "[nN]ot [rR]ead",
       },
