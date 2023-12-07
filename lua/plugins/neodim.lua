@@ -12,9 +12,7 @@ return {
         signs = true,
       },
       regex = {
-        "[uU]nused import",
-        "[nN]ever [rR]ead",
-        "[nN]ot [rR]ead",
+        rust = {},
       },
       priority = 128,
       disable = {},
