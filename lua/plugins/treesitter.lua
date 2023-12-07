@@ -45,10 +45,9 @@ return {
         max_lines = 5,
         mode = "cursor", -- Line used to calculate context. Choices: 'cursor', 'topline'
         on_attach = function(buf)
-          if check_file_size("context", buf) then
+          if check_file_size("tresitter-context", buf) then
             return false
           else
-            vim.notify("Attaching context to " .. buf)
             return true
           end
         end,

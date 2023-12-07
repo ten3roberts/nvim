@@ -1,4 +1,4 @@
--- vim.opt.textwidth = 120
+vim.opt.textwidth = 120
 
 -- local function buf_map(mode, lhs, rhs, ops)
 --   vim.keymap.set(mode, lhs, rhs, vim.tbl_extend("error", ops or {}, { buffer = true }))
