@@ -95,7 +95,7 @@ return {
           enable = { "html", "xml", "lua" },
         },
         playground = { enable = true },
-        -- matchup = { enable = true, disable = disable_large_file "matchup" },
+        matchup = { enable = true, disable = disable_large_file "matchup" },
         highlight = {
           enable = true,
           disable = disable_large_file("highlight", 1000 * 1024),

@@ -58,6 +58,22 @@ function M.config()
     end)
   end
 
+  local function select_next_item()
+    if cmp.visible() then
+      cmp.select_next_item()
+    else
+      cmp.complete()
+    end
+  end
+
+  local function select_prev_item()
+    if cmp.visible() then
+      cmp.select_prev_item()
+    else
+      cmp.complete()
+    end
+  end
+
   vim.o.completeopt = "menu,menuone"
 
   local menu = {
@@ -103,13 +119,14 @@ function M.config()
         -- require("snippy").expand_snippet(args.body)
       end,
     },
+
     mapping = {
-      ["<C-p>"] = cmp.mapping.select_prev_item {},
-      ["<C-n>"] = cmp.mapping.select_next_item {},
+      ["<C-p>"] = select_prev_item,
+      ["<C-n>"] = select_next_item,
 
       ["<C-d>"] = cmp.mapping.scroll_docs(-4),
       ["<C-u>"] = cmp.mapping.scroll_docs(4),
-      ["<C-Space>"] = cmp.mapping.complete {},
+      -- ["<C-n>"] = cmp.mapping.complete {},
       ["<C-y>"] = confirm(cmp.ConfirmBehavior.Insert),
       ["<Tab>"] = confirm(cmp.ConfirmBehavior.Replace),
     },

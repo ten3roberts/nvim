@@ -54,7 +54,6 @@ downcasting
 Serializable
 desc
 despawns
-<<<<<<< HEAD
 Dereferences
 str
 ControlHandle
@@ -128,6 +127,6 @@ composable
 data's
 multithreading
 SIMD
-honer/!
 gLTF
 FBX
+impl
