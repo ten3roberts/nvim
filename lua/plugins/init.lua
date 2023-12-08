@@ -65,7 +65,7 @@ return {
     "karb94/neoscroll.nvim",
     opts = {
       -- -- All these keys will be mapped to their corresponding default scrolling animation
-      -- mappings = { "<C-u>", "<C-d>", "<C-b>", "<C-f>", "<C-y>", "<C-e>", "zt", "zz", "zb" },
+      mappings = { "<C-u>", "<C-d>", "<C-b>", "<C-f>", "zt", "zz", "zb" },
       -- hide_cursor = true, -- Hide cursor while scrolling
       -- stop_eof = true, -- Stop at <EOF> when scrolling downwards
       -- respect_scrolloff = false, -- Stop scrolling when the cursor reaches the scrolloff margin of the file
@@ -210,41 +210,41 @@ return {
     end,
   },
 
-  -- {
-  --   "gbprod/yanky.nvim",
-  --   lazy = true,
-  --   keys = {
-  --     { "y", "<Plug>(YankyYank)", mode = { "n", "x" } },
-  --     { "p", "<Plug>(YankyPutAfter)", mode = { "n", "x" } },
-  --     { "P", "<Plug>(YankyPutBefore)", mode = { "n", "x" } },
-  --     { "gP", "<Plug>(YankyGPutBefore)", mode = { "n", "x" } },
-  --     { "gp", "<Plug>(YankyGPutAfter)", mode = { "n", "x" } },
-  --     { "<A-n>", "<Plug>(YankyCycleForward)" },
-  --     { "<A-p>", "<Plug>(YankyCycleBackward)" },
-  --     {
-  --       "<C-p>",
-  --       function()
-  --         require("telescope").extensions.yank_history.yank_history {}
-  --       end,
-  --     },
-  --   },
-  --   config = function()
-  --     require("yanky").setup {
-  --       ring = {},
-  --       system_clipboard = {
-  --         sync_with_ring = false,
-  --       },
-  --       highlight = {
-  --         on_put = true,
-  --         on_yank = true,
-  --         timer = 200,
-  --       },
-  --       preserve_cursor_position = {
-  --         enabled = true,
-  --       },
-  --     }
-  --   end,
-  -- },
+  {
+    "gbprod/yanky.nvim",
+    lazy = true,
+    keys = {
+      { "y", "<Plug>(YankyYank)", mode = { "n", "x" } },
+      { "p", "<Plug>(YankyPutAfter)", mode = { "n", "x" } },
+      { "P", "<Plug>(YankyPutBefore)", mode = { "n", "x" } },
+      { "gP", "<Plug>(YankyGPutBefore)", mode = { "n", "x" } },
+      { "gp", "<Plug>(YankyGPutAfter)", mode = { "n", "x" } },
+      { "<A-n>", "<Plug>(YankyCycleForward)" },
+      { "<A-p>", "<Plug>(YankyCycleBackward)" },
+      {
+        "<C-p>",
+        function()
+          require("telescope").extensions.yank_history.yank_history {}
+        end,
+      },
+    },
+    config = function()
+      require("yanky").setup {
+        ring = {},
+        system_clipboard = {
+          sync_with_ring = false,
+        },
+        highlight = {
+          on_put = true,
+          on_yank = true,
+          timer = 200,
+        },
+        preserve_cursor_position = {
+          enabled = true,
+        },
+      }
+    end,
+  },
 
   "ten3roberts/wgsl.vim",
   "ten3roberts/wit.nvim",
