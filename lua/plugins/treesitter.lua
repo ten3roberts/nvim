@@ -70,8 +70,8 @@ return {
     dependencies = {
       "RRethy/nvim-treesitter-textsubjects",
       "nvim-treesitter/playground",
-      -- "nvim-treesitter/nvim-treesitter-textobjects",
-      -- "nvim-treesitter/nvim-treesitter-refactor",
+      "nvim-treesitter/nvim-treesitter-textobjects",
+      "nvim-treesitter/nvim-treesitter-refactor",
     },
     config = function()
       -- vim.filetype.add { extension = { wgsl = "wgsl" } }
@@ -94,7 +94,6 @@ return {
         autotag = {
           enable = { "html", "xml", "lua" },
         },
-        playground = { enable = true },
         matchup = { enable = true, disable = disable_large_file "matchup" },
         highlight = {
           enable = true,

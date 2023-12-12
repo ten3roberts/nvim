@@ -105,20 +105,6 @@ map("n", "<A->>", "<cmd>tabmove +1<CR>")
 -- Clear search highlight
 map("n", "<Esc>", "<cmd>nohl<CR>", {})
 
--- map("n", "<A-h>", ":SidewaysLeft<CR>", silent)
--- map("n", "<A-l>", ":SidewaysRight<CR>", silent)
-
--- Textobjects for inside and around arguments/lists,paramater constraints
--- map({ "x", "o" }, "aa", "<Plug>SidewaysArgumentTextobjA", silent)
--- map({ "x", "o" }, "a,", "<Plug>SidewaysArgumentTextobjA", silent)
-
--- -- map({ "x", "o" }, "ia", "<Plug>SidewaysArgumentTextobjI", silent)
--- map({ "x", "o" }, "i,", "<Plug>SidewaysArgumentTextobjI", silent)
-
--- map('x', 'x', ':lua require"treesitter-unit".select()<CR>',      silent)
--- map('o', 'x', ':<c-u>lua require"treesitter-unit".select()<CR>', silent)
--- map('n', 'X', ':lua require"treesitter-unit".select()<CR>', silent)
-
 -- Folding
 for i = 1, 9 do
   local o = vim.o

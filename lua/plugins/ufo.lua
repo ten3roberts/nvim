@@ -10,7 +10,7 @@ return {
     local ufo = require "ufo"
     ufo.setup {
       provider_selector = function(_, _, _)
-        return { "treesitter", "indent" }
+        -- return { "treesitter", "indent" }
       end,
     }
 
