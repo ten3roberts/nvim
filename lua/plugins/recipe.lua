@@ -20,6 +20,7 @@ return {
   opts = {
     term = {
       auto_close = true,
+      kind = "float",
     },
     default_components = {
       qf = { open = false },
