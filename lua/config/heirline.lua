@@ -527,8 +527,8 @@ function M.setup()
     },
   }
 
-  ViMode = surround({ "", " " }, statusline_color, nil, ViMode)
-  Ruler = surround({ " ", "" }, statusline_color, nil, Ruler)
+  ViMode = surround({ "", "" }, statusline_color, nil, ViMode)
+  Ruler = surround({ "", "" }, statusline_color, nil, Ruler)
 
   local DefaultStatusline = {
     ViMode,
