@@ -16,7 +16,7 @@ local md_icons = {
   W = { name = "Warn", hl = "DiagnosticSignWarn", sign = "󰀦" },
   I = { name = "Info", hl = "DiagnosticSignInfo", sign = "󰋼" },
   H = { name = "Warn", hl = "DiagnosticSignHint", sign = "󰌵" },
-  T = { name = "Text", hl = "DiagnosticSignHint", sign = "󰌪 " },
+  T = { name = "Text", hl = "DiagnosticSignHint", sign = "󰧞" },
 }
 
 ---@diagnostic disable-next-line: unused-local
