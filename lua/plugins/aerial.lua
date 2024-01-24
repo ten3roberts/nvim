@@ -18,7 +18,7 @@ return {
         -- The maximum width of the aerial window
         max_width = { 30, 0.2 },
         placement = "edge",
-        default_direction = "right",
+        default_direction = "left",
       },
       nav = {
         border = "single",

@@ -127,6 +127,7 @@ return {
               ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
               ["<C-l>"] = actions.smart_send_to_loclist + actions.open_loclist,
               ["<c-f>"] = actions.to_fuzzy_refine,
+              ["<C-r><C-w>"] = false,
               -- ["<c-f>"] = function(prompt_bufnr)
               --   local config = require "telescope.config"
               --   require("telescope.actions.generate").refine(prompt_bufnr, {

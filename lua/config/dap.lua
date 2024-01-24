@@ -64,7 +64,7 @@ dap.listeners.after.event_initialized["dapui_config"] = function()
   -- require("qf").close "l"
   require("qf").close "c"
 
-  -- ui.open {}
+  ui.open {}
 end
 dap.listeners.before.event_terminated["dapui_config"] = function()
   -- ui.close {}

@@ -859,8 +859,8 @@ function M.setup_tabline()
     if buffer_names[filename] ~= nil then
       local other = buffer_names[filename]
 
-      local cur_bufname = fn.bufname(bufnr)
-      local other_bufname = fn.bufname(other)
+      local cur_bufname = fn.fnamemodify(fn.bufname(bufnr), ":~")
+      local other_bufname = fn.fnamemodify(fn.bufname(other), ":~")
 
       if cur_bufname ~= other_bufname then
         local new_other, new_cur = get_unique_name(other_bufname, cur_bufname)
