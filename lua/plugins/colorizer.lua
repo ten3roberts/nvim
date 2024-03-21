@@ -3,6 +3,7 @@ return {
   opts = {
     user_default_options = {
       mode = "background",
+      names = false,
       virtualtext = "███",
     },
   },

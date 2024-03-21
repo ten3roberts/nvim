@@ -116,7 +116,22 @@ local function fn_like(trig, vis, name, args, ret, body)
 end
 
 local function tracing_span(level)
-  return s(level .. "_span", fmt(string.format("let _span = tracing::%s_span!({}).entered();", level), { i(1) }))
+  local versions = {
+    fmt(string.format("let _span = tracing::%s_span!({}).entered();", level), { i(1) }),
+    fmt(string.format("tracing::%s_span!({})", level), { i(1) }),
+    fmt(
+      string.format(
+        [[
+    tracing::%s_span!({}).in_scope(|| {{
+      {}
+    }})
+    ]],
+        level
+      ),
+      { i(1), i(0) }
+    ),
+  }
+  return s(level .. "_span", c(1, versions))
 end
 
 local function tracing_instrument(level)
@@ -139,7 +154,7 @@ local function with_builder(recv, ret)
     {
       d(4, function(args)
         local value = args[1][1]
-        return sn(4, { i(1, string.format("/// Set the %s", value)) })
+        return sn(4, { i(1, string.format("/// Set the %s", value:gsub("_", " "))) })
       end, { 1 }),
       i(1, "value"),
       rep(1),
@@ -316,7 +331,7 @@ Self {{
     )
   ),
 
-  s("with", c(1, { with_builder("&mut self", "&mut Self"), with_builder("mut self", "Self") })),
+  s("with", c(1, { with_builder("mut self", "Self"), with_builder("&mut self", "&mut Self") })),
 
   s("de_serde", { t "#[derive(serde::Serialize, serde::Deserialize)]" }),
   s("attr_serde", { t '#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]' }),
@@ -369,4 +384,7 @@ Self {{
       { i(1, "generics") }
     )
   ),
+
+  s("profile_function", fmt([[puffin::profile_function!();]], {})),
+  s("profile_scope", fmt([[puffin::profile_scope!("{}");]], { i(1) })),
 }

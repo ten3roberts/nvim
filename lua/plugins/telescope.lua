@@ -28,6 +28,18 @@ return {
         { desc = "Smart Open" },
       },
       {
+        "<leader>Q",
+        function()
+          builtin().diagnostics()
+        end,
+      },
+      {
+        "<leader>q",
+        function()
+          builtin().diagnostics { bufnr = 0 }
+        end,
+      },
+      {
         "<leader>o",
         function()
           builtin().lsp_document_symbols {}

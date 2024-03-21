@@ -18,9 +18,9 @@ return {
     { "<leader>co", qf("open", "c") },
     -- { "<leader>cc", qf("close", "c") },
 
-    { "<leader>ll", qf("toggle", "l") },
-    { "<leader>lo", qf("open", "l") },
-    { "<leader>lc", qf("close", "l") },
+    -- { "<leader>ll", qf("toggle", "l") },
+    -- { "<leader>lo", qf("open", "l") },
+    -- { "<leader>lc", qf("close", "l") },
 
     { "[l", qf("prev", "l") },
     { "]l", qf("next", "l") },

@@ -46,10 +46,6 @@ local function on_attach(client, bufnr)
     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
   end)
   buf_map("n", "<leader>cwr", vim.lsp.buf.remove_workspace_folder)
-  buf_map("n", "<leader>Q", require("config.lsp").set_qf)
-  buf_map("n", "<leader>q", function()
-    require("config.lsp").set_loc()
-  end)
   buf_map("n", "<leader>rn", vim.lsp.buf.rename)
   buf_map({ "n", "x" }, "<leader>a", vim.lsp.buf.code_action)
 
@@ -68,16 +64,9 @@ end
 
 return {
   {
-    enabled = false,
+    enabled = true,
     "j-hui/fidget.nvim",
-    config = function()
-      require("fidget").setup {
-
-        text = {
-          spinner = "dots",
-        },
-      }
-    end,
+    opts = {},
   },
   {
     "neovim/nvim-lspconfig",

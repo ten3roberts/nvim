@@ -6,63 +6,37 @@ local graphene = require "graphene"
 
 -- local neotest = require "neotest"
 
-local tree = require "config.treebind"
+map("n", "<leader>j", function()
+  vim.diagnostic.goto_next { severity = vim.diagnostic.severity.WARNING }
+end)
 
-tree.register({
-  f = {
-    function()
-      graphene.init()
-    end,
-    "Open parent folder",
-  },
-  -- F = {
-  --   function()
-  --     graphene.init "."
-  --   end,
-  --   "Open root",
-  -- },
-  -- n = {
-  --   r = {
-  --     function()
-  --       neotest.run.run()
-  --     end,
-  --   },
-  --   f = {
-  --     function()
-  --       neotest.run.run(vim.fn.expand "%")
-  --     end,
-  --   },
-  -- },
+map("n", "<leader>k", function()
+  vim.diagnostic.goto_prev { severity = vim.diagnostic.severity.WARNING }
+end)
 
-  t = {
-    name = "tabs",
+map("n", "<leader>l", function()
+  vim.diagnostic.goto_next { severity = vim.diagnostic.severity.ERROR }
+end)
 
-    o = { "<cmd>tabonly<CR>", "Close other tabs" },
-    t = { "<cmd>tab split<CR>", "New tab" },
-    q = { "<cmd>tabclose<CR>", "Close tab" },
-  },
+map("n", "<leader>h", function()
+  vim.diagnostic.goto_prev { severity = vim.diagnostic.severity.ERROR }
+end)
 
-  b = {
-    name = "buffer",
-    k = {
-      require("config.bclose").close,
-      "Close buffer",
-    },
-    o = {
-      require("config.bclose").close_hidden,
-      "Close all hidden buffers",
-    },
-  },
+map("n", "<leader>bk", function()
+  require("config.bclose").close()
+end)
 
-  j = {
-    vim.diagnostic.goto_next,
-    "Next diagnostic item",
-  },
-  k = {
-    vim.diagnostic.goto_prev,
-    "Prev diagnostic item",
-  },
-}, { prefix = "<leader>" })
+map("n", "<leader>bo", function()
+  require("config.bclose").close_hidden()
+end)
+
+map("n", "<leader>to", "<cmd>tabonly<CR>")
+map("n", "<leader>tt", "<cmd>tab split<CR>")
+map("n", "<leader>tq", "<cmd>tabclose<CR>")
+
+map("n", "<leader>f", function()
+  graphene.init()
+end)
 
 for i = 0, 9 do
   map("n", "<leader>" .. i, i .. "gt")
@@ -119,10 +93,3 @@ map("n", "<leader>ci", "mggg=G`g")
 
 -- Dev utils
 map("n", "<leader>xx", '<cmd>lua require"config.dev_utils".save_and_exec()<CR>')
-
-require("config.treebind").register({
-  r = { "<cmd>RustRunnables<CR>", "Rust runnables" },
-  d = { "<cmd>RustDebuggables<CR>", "Rust debuggables" },
-  u = { "<cmd>RustParentModule<CR>", "Rust parent module" },
-  U = { "<cmd>RustOpenCargo<CR>", "Open Cargo.toml" },
-}, { prefix = "<leader>r" })

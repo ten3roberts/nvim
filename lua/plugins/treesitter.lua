@@ -108,32 +108,32 @@ return {
             node_decremental = "<BS>",
           },
         },
-        -- refactor = {
-        --   disable = disable_large_file "refactor",
-        --   highlight_definitions = {
-        --     enable = true,
-        --     disable = disable_large_file "highlight",
-        --     -- Set to false if you have an `updatetime` of ~100.
-        --     clear_on_cursor_move = false,
-        --   },
-        --   highlight_current_scope = { enable = false },
-        --   smart_rename = {
-        --     enable = true,
-        --     keymaps = {
-        --       smart_rename = "grr",
-        --     },
-        --   },
-        --   navigation = {
-        --     enable = true,
-        --     keymaps = {
-        --       goto_definition = "gnd",
-        --       list_definitions = "gnD",
-        --       list_definitions_toc = "gO",
-        --       goto_next_usage = "gnn",
-        --       goto_previous_usage = "gNN",
-        --     },
-        --   },
-        -- },
+        refactor = {
+          disable = disable_large_file "refactor",
+          highlight_definitions = {
+            enable = true,
+            disable = disable_large_file "highlight",
+            -- Set to false if you have an `updatetime` of ~100.
+            clear_on_cursor_move = false,
+          },
+          highlight_current_scope = { enable = false },
+          smart_rename = {
+            enable = true,
+            keymaps = {
+              smart_rename = "grr",
+            },
+          },
+          navigation = {
+            enable = true,
+            keymaps = {
+              goto_definition = "gnd",
+              list_definitions = "gnD",
+              list_definitions_toc = "gO",
+              goto_next_usage = ")",
+              goto_previous_usage = "(",
+            },
+          },
+        },
 
         textobjects = {
           select = {
