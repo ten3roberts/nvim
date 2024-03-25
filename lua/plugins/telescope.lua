@@ -30,7 +30,7 @@ return {
       {
         "<leader>Q",
         function()
-          builtin().diagnostics()
+          builtin().diagnostics { severity = vim.diagnostic.severity.ERROR }
         end,
       },
       {
