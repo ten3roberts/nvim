@@ -30,13 +30,13 @@ return {
       {
         "<leader>Q",
         function()
-          builtin().diagnostics { severity = vim.diagnostic.severity.ERROR }
+          builtin().diagnostics { severity_limit = vim.diagnostic.severity.WARN, sort_by = "severity" }
         end,
       },
       {
         "<leader>q",
         function()
-          builtin().diagnostics { bufnr = 0 }
+          builtin().diagnostics { bufnr = 0, severity_limit = vim.diagnostic.severity.WARN, sort_by = "severity" }
         end,
       },
       {
