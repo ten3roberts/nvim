@@ -385,6 +385,6 @@ Self {{
     )
   ),
 
-  s("profile_function", fmt([[puffin::profile_function!();]], {})),
-  s("profile_scope", fmt([[puffin::profile_scope!("{}");]], { i(1) })),
+  s("profile_function", fmt([[profile_function!();]], {})),
+  s("profile_scope", fmt([[profile_scope!("{}");]], { i(1) })),
 }

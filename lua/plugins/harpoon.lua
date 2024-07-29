@@ -1,5 +1,6 @@
 return {
   "ThePrimeagen/harpoon",
+  enabled = false,
   config = function()
     local harpoon = require "harpoon"
 
