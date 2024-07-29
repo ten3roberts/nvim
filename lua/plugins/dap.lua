@@ -81,6 +81,24 @@ return {
         end,
       },
       {
+        "<f5>",
+        function()
+          require("dap").continue()
+        end,
+      },
+      {
+        "<f10>",
+        function()
+          require("dap").step()
+        end,
+      },
+      {
+        "<leader>de",
+        function()
+          require("dapui").eval(nil, { enter = true })
+        end,
+      },
+      {
         "<leader>dbb",
         function()
           -- require("dap").toggle_breakpoint()

@@ -21,16 +21,18 @@ if vim.g.neovide then
   vim.g.neovide_position_animation_length = 0.15
   vim.g.neovide_scroll_animation_length = 0.3
 
-  vim.g.neovide_cursor_animation_length = 0.01
+  vim.g.neovide_cursor_animation_length = 0.02
   vim.g.neovide_cursor_trail_size = 0.2
 
   vim.g.neovide_cursor_antialiasing = true
 
   vim.g.neovide_cursor_animate_command_line = true
 
+  vim.g.neovide_scroll_animation_far_lines = 1
+  vim.g.neovide_hide_mouse_when_typing = true
+
   -- g.neovide_floating_blur_amount_x = 2.0
   -- g.neovide_floating_blur_amount_y = 2.0
-  -- g.neovide_hide_mouse_when_typing = true
   -- g.neovide_scroll_animation_length = 0.5
   -- g.neovide_fullscreen = true
 end

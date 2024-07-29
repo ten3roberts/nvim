@@ -84,7 +84,7 @@ function M.setup_colors()
   return {
     normal_bg = get_hl("Normal").bg,
     normal_fg = get_hl("Normal").fg,
-    tabline_bg = get_hl("TabLine").bg,
+    tabline_bg = get_hl("TabLine").bg or get_hl("Pmenu").bg,
     tabline_sel_bg = get_hl("TabLineSel").bg,
     tabline_fill = get_hl("TabLineFill").bg,
     bright_bg = get_hl("Folded").bg,

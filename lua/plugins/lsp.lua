@@ -7,6 +7,7 @@ local function on_attach(client, bufnr)
 
   require("lsp-format").on_attach(client)
 
+  vim.lsp.inlay_hint.enable()
   local keymap = {}
   if type(opts.keymap) == "function" then
     keymap = opts.keymap()
@@ -111,7 +112,7 @@ return {
           -- spacing = 16,
           -- prefix = "~",
         },
-        -- update_in_insert = true,
+        update_in_insert = false,
         severity_sort = true,
       }
 
@@ -200,7 +201,7 @@ return {
                   -- buildScripts = {
                   --   enable = true,
                   -- },
-                  -- features = "all",
+                  features = "all",
                 },
                 references = {
                   excludeImports = true,

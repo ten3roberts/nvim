@@ -28,7 +28,7 @@ ui.setup {
         -- { id = "scopes", size = 0.25 },
         "scopes",
         "breakpoints",
-        "stacks",
+        -- "stacks",
         "watches",
       },
       size = 10,
@@ -145,12 +145,6 @@ local tree = require "config.treebind"
 tree.register({
   O = { ui.toggle, "Toggle dap ui" },
 
-  e = {
-    function()
-      ui.eval(nil, { enter = true })
-    end,
-    "Evaluate expression under cursor",
-  },
   E = { M.eval_input, "Evaluate input" },
   ["."] = { M.float, "Open floating element" },
   w = {
@@ -167,16 +161,5 @@ tree.register({
     c = { "<cmd>:Telescope dap commands", "Commands" },
   },
 }, { prefix = "<leader>d" })
-
-tree.register({
-  ["]d"] = {
-    dap.step_over,
-    "Next diagnostic item",
-  },
-  ["[d"] = {
-    dap.step_back,
-    "Prev diagnostic item",
-  },
-}, {})
 
 return M

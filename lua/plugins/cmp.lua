@@ -154,6 +154,18 @@ function M.config()
       path,
     },
   })
+
+  cmp.setup.filetype("wgsl", {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources {
+      { name = "luasnip" },
+      { name = "nvim_lsp" },
+      { name = "treesitter" },
+      { name = "buffer" },
+      { name = "nvim_lua" },
+      path,
+    },
+  })
   cmp.setup.cmdline("/", {
     mapping = cmp.mapping.preset.cmdline(),
     sources = cmp.config.sources {

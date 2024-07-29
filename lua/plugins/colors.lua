@@ -10,6 +10,18 @@ local colorschemes = {
       vim.cmd.colorscheme "sonokai"
     end,
   },
+  nord = {
+    "gbprod/nord.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require("nord").setup {}
+      vim.cmd.colorscheme "nord"
+    end,
+  },
+  install = {
+    colorscheme = { "nord" },
+  },
   -- onedark = {
   --   "navarasu/onedark.nvim",
   --   config = function()

@@ -1,6 +1,14 @@
 return {
   "folke/trouble.nvim",
-  opts = {}, -- for default options, refer to the configuration section for custom setup.
+  opts = {
+    throttle = {
+      refresh = 1000, -- fetches new data when needed
+      update = 10, -- updates the window
+      render = 10, -- renders the window
+      follow = 100, -- follows the current item
+      preview = { ms = 100, debounce = true }, -- shows the preview for the current item
+    },
+  }, -- for default options, refer to the configuration section for custom setup.
   cmd = "Trouble",
   keys = {
     {

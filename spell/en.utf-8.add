@@ -136,3 +136,7 @@ boolean
 Deduplicates
 args
 combinators
+BUFFER_USAGES
+irradiance
+specular
+brdf
