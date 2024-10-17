@@ -7,7 +7,7 @@ local function on_attach(client, bufnr)
 
   require("lsp-format").on_attach(client)
 
-  vim.lsp.inlay_hint.enable()
+  -- vim.lsp.inlay_hint.enable()
   local keymap = {}
   if type(opts.keymap) == "function" then
     keymap = opts.keymap()

@@ -1,6 +1,6 @@
 return {
   "NeogitOrg/neogit",
-  dev = true,
+  dev = false,
   dependencies = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim" },
   lazy = false,
   keys = {

@@ -19,6 +19,12 @@ local colorschemes = {
       vim.cmd.colorscheme "nord"
     end,
   },
+  nordic = {
+    "AlexvZyl/nordic.nvim",
+    config = function()
+      require("nordic").load()
+    end,
+  },
   install = {
     colorscheme = { "nord" },
   },

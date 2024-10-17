@@ -11,7 +11,10 @@ local actions = transform_mod {
   end,
   file_drop = function(prompt_bufnr)
     return action_set.edit(prompt_bufnr, "tabedit")
-  end
+  end,
+  open_trouble = function()
+    require("trouble").open "quickfix"
+  end,
 }
 
 return actions

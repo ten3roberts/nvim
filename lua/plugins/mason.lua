@@ -15,7 +15,6 @@ return {
         "lua_ls",
 
         "svelte",
-        "tsserver",
 
         "jsonls",
       },

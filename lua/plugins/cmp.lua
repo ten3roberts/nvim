@@ -108,7 +108,8 @@ function M.config()
       fields = { "kind", "abbr", "menu" },
       format = lspkind.cmp_format {
         mode = "symbol", -- show only symbol annotations
-        maxwidth = 60, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+        maxwidth = 30, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+        show_labelDetails = true,
         menu = menu,
       },
     },

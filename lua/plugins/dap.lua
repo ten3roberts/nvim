@@ -89,7 +89,19 @@ return {
       {
         "<f10>",
         function()
-          require("dap").step()
+          require("dap").step_over()
+        end,
+      },
+      {
+        "<f11>",
+        function()
+          require("dap").step_into()
+        end,
+      },
+      {
+        "<s-f11>",
+        function()
+          require("dap").step_out()
         end,
       },
       {
