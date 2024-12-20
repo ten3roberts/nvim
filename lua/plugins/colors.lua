@@ -11,11 +11,12 @@ local colorschemes = {
     end,
   },
   nord = {
-    "gbprod/nord.nvim",
+    "ten3roberts/nord.nvim",
     lazy = false,
     priority = 1000,
     config = function()
-      require("nord").setup {}
+      vim.g.nord_contrast = true
+      vim.g.nord_borders = true
       vim.cmd.colorscheme "nord"
     end,
   },
