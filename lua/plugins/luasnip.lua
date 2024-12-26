@@ -28,7 +28,7 @@ return {
 
     _G.get_impl = get_impl
 
-    require("luasnip.loaders.from_lua").load { paths = vim.fn.stdpath "config" .. "/lua/snippets" }
+    require("luasnip.loaders.from_lua").load { paths = {vim.fn.stdpath "config" .. "/lua/snippets" } }
 
     ls.filetype_extend("svelte", { "javascript" })
     ls.filetype_extend("typescript", { "javascript" })
