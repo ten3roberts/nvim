@@ -1,5 +1,6 @@
 return {
   {
+    enabled = false,
     "windwp/nvim-autopairs",
     dependencies = "windwp/nvim-ts-autotag",
     config = function()

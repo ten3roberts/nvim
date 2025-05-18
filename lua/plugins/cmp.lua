@@ -1,11 +1,11 @@
 local M = {
+  enabled = false,
   "hrsh7th/nvim-cmp",
   dependencies = {
     "petertriho/cmp-git",
 
     "onsails/lspkind-nvim",
     "hrsh7th/cmp-nvim-lsp-signature-help",
-    "jose-elias-alvarez/null-ls.nvim",
     "Saecki/crates.nvim",
     -- "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-nvim-lsp",
@@ -47,11 +47,7 @@ function M.config()
           select = true,
         }
       elseif has_words_before() then
-        if ls.expand_or_jumpable(1) then
-          ls.expand_or_jump(1)
-        else
-          cmp.complete()
-        end
+        cmp.complete()
       else
         fallback()
       end
@@ -108,7 +104,7 @@ function M.config()
       fields = { "kind", "abbr", "menu" },
       format = lspkind.cmp_format {
         mode = "symbol", -- show only symbol annotations
-        maxwidth = 30, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+        maxwidth = 40, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
         show_labelDetails = true,
         menu = menu,
       },

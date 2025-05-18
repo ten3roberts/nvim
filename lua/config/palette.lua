@@ -12,20 +12,11 @@ end
 
 ---@diagnostic disable-next-line: unused-local
 local md_icons = {
-  E = { name = "Error", hl = "DiagnosticSignError", sign = "󰅙" },
-  W = { name = "Warn", hl = "DiagnosticSignWarn", sign = "󰀦" },
-  I = { name = "Info", hl = "DiagnosticSignInfo", sign = "󰋼" },
-  H = { name = "Warn", hl = "DiagnosticSignHint", sign = "󰌵" },
-  T = { name = "Text", hl = "DiagnosticSignHint", sign = "󰧞" },
-}
-
----@diagnostic disable-next-line: unused-local
-local cod_icons = {
-  E = { name = "Error", hl = "DiagnosticSignError", sign = "" },
-  W = { name = "Warn", hl = "DiagnosticSignWarn", sign = "" },
-  I = { name = "Info", hl = "DiagnosticSignInfo", sign = "" },
-  H = { name = "Warn", hl = "DiagnosticSignHint", sign = "" },
-  T = { name = "Text", hl = "DiagnosticSignHint", sign = "" },
+  E = { name = "Error", sign = "󰅙" },
+  W = { name = "Warn", sign = "󰀦" },
+  I = { name = "Info", sign = "󰋼" },
+  H = { name = "Warn", sign = "󰌵" },
+  T = { name = "Text", sign = "󰧞" },
 }
 
 M.signs = md_icons
@@ -108,30 +99,11 @@ function M.setup()
   highlight("Red", { fg = p.red })
   highlight("Yellow", { fg = p.yellow })
 
-  -- highlight('SL_Black',  p.black)
-  -- highlight('SL_Blue',   p.blue)
-  -- highlight('SL_Green',  p.green)
-  -- highlight('SL_Grey',   p.grey)
-  -- highlight('SL_Orange', p.orange)
-  -- highlight('SL_Purple', p.purple)
-  -- highlight('SL_Red',    p.red)
-  -- highlight('SL_Yellow', p.yellow)
-
   highlight("GreenBold", { fg = p.green, bold = true })
   highlight("OrangeBold", { fg = p.orange, bold = true })
   highlight("PurpleBold", { fg = p.purple, bold = true })
   highlight("RedBold", { fg = p.red, bold = true })
   highlight("YellowBold", { fg = p.yellow, bold = true })
-
-  -- highlight("DiagnosticSignError", { fg = p.red })
-  -- highlight("DiagnosticSignWarn", { fg = p.orange })
-  -- highlight("DiagnosticSignInformation", { fg = p.purple })
-  -- highlight("DiagnosticSignHint", { fg = p.green })
-
-  -- highlight('LspDiagnosticsUnderlineError',       nil, nil, 'undercurl', p.red)
-  -- highlight('LspDiagnosticsUnderlineWarning',     nil, nil, 'undercurl', p.orange)
-  -- highlight('LspDiagnosticsUnderlineInformation', nil, nil, 'undercurl', p.blue)
-  -- highlight('LspDiagnosticsUnderlineHint',        nil, nil, 'undercurl', p.green)
 
   link("TablineSel", "Normal")
   link("HarpoonWindow", "Darkened")
@@ -181,9 +153,7 @@ function M.setup()
   -- highlight('debugBreakpoint', p.red, "bg")
 
   for _, icon in pairs(M.signs) do
-    local name = "DiagnosticSign" .. icon.name
-    fn.sign_define(icon.hl, { text = icon.sign, texthl = icon.hl, numhl = icon.hl })
-    name = "DiagnosticVirtualText" .. icon.name
+    local name = "DiagnosticVirtualText" .. icon.name
     fn.sign_define(name, { text = icon.sign, texthl = name, numhl = name })
   end
 

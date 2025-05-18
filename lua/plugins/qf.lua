@@ -14,13 +14,13 @@ return {
         return v.type == "E"
       end, true),
     },
-    -- { "<leader>cc", qf("toggle", "c") },
-    -- { "<leader>co", qf("open", "c") },
-    -- { "<leader>cc", qf("close", "c") },
+    { "<leader>cc", qf("toggle", "c") },
+    { "<leader>co", qf("open", "c") },
+    { "<leader>cc", qf("close", "c") },
 
-    -- { "<leader>ll", qf("toggle", "l") },
-    -- { "<leader>lo", qf("open", "l") },
-    -- { "<leader>lc", qf("close", "l") },
+    { "<leader>ll", qf("toggle", "l") },
+    { "<leader>lo", qf("open", "l") },
+    { "<leader>lc", qf("close", "l") },
 
     { "[l", qf("prev", "l") },
     { "]l", qf("next", "l") },
@@ -28,8 +28,8 @@ return {
     { "[L", qf("prev_group", "l") },
     { "]L", qf("next_group", "l") },
 
-    -- { "[q", qf("prev", "c") },
-    -- { "]q", qf("next", "c") },
+    { "[q", qf("prev", "c") },
+    { "]q", qf("next", "c") },
 
     { "[Q", qf("prev_group", "c") },
     { "]Q", qf("next_group", "c") },

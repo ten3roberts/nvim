@@ -1,0 +1,68 @@
+{
+  "tracing-info": {
+    "prefix": "info",
+    "body": [
+      "tracing::info!(${1});"
+    ]
+  },
+  "profile-function": {
+    "prefix": "profile_function",
+    "body": [
+      "profile_function!();"
+    ]
+  },
+  "profile-scope": {
+    "prefix": "profile_scope",
+    "body": [
+      "profile_scope!(\"{$1}\");{$2}"
+    ]
+  },
+  "if-ok": {
+    "prefix": "if-ok",
+    "body": [
+      "if let Ok($1) = $2 {",
+      "    $3",
+      "}"
+    ]
+  },
+  "if-some": {
+    "prefix": "if-some",
+    "body": [
+      "if let Some($1) = $2 {",
+      "    $3",
+      "}"
+    ]
+  },
+  "derive": {
+    "prefix": "derive",
+    "body": [
+      "#[derive($1)]"
+    ]
+  },
+  "serde-derive": {
+    "prefix": "serde-derive",
+    "body": [
+      "#[derive(serde::Serialize, serde::Deserialize)]"
+    ]
+  },
+  "serde-attr": {
+    "prefix": "serde-attr",
+    "body": [
+      "#[cfg_attr(feature = \"serde\", derive(serde::Serialize, serde::Deserialize))"
+    ]
+  },
+  "default": {
+    "prefix": "default",
+    "body": [
+      "Default::default()"
+    ]
+  },
+  "fnew": {
+    "prefix": "fnew",
+    "body": [
+      "fn new($1) -> Self {",
+      "    Self { $2 }",
+      "}"
+    ]
+  }
+}

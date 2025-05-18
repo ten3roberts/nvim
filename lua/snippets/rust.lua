@@ -387,5 +387,5 @@ Self {{
 
   s("profile_function", fmt([[profile_function!();]], {})),
   s("profile_scope", fmt([[profile_scope!("{}");]], { i(1) })),
-  s("de_serde_attr", fmt [[#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]], {}),
+  s("de_serde_attr", fmt([[#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]], {})),
 }

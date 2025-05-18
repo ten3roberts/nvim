@@ -138,7 +138,7 @@ return {
               ["<C-k>"] = actions.move_selection_previous,
               ["<C-n>"] = actions.move_selection_next,
               ["<C-p>"] = actions.move_selection_previous,
-              ["<C-q>"] = actions.smart_send_to_qflist + telescope_custom.open_trouble,
+              ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
               ["<C-l>"] = actions.smart_send_to_loclist + actions.open_loclist,
               ["<c-f>"] = actions.to_fuzzy_refine,
               ["<C-r><C-w>"] = false,
@@ -167,7 +167,7 @@ return {
               -- ["<CR>"] = actions.select_default + actions.center + my_cool_custom_action,
             },
             n = {
-              ["<C-q>"] = actions.smart_send_to_qflist + telescope_custom.open_trouble,
+              ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
               -- ["<C-i>"] = my_cool_custom_action,
             },
           },

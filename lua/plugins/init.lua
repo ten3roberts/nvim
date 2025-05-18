@@ -45,17 +45,9 @@ return {
     end,
   },
 
-  -- {
-  --   "https://github.com/ahmedkhalf/project.nvim",
-  --   config = function()
-  --     require("project_nvim").setup {
-  --       detection_methods = { "pattern", "lsp" },
-  --     }
-  --   end,
-  -- },
-
   {
     "andymass/vim-matchup",
+    enabled = false,
     config = function()
       vim.g.matchup_matchparen_deferred = 1
     end,
@@ -95,32 +87,12 @@ return {
           autofocus = true,
         },
         null_ls = {
-          enabled = true,
+          enabled = false,
           name = "Crates",
         },
       }
     end,
   },
-
-  -- auto-resize windows
-  -- {
-  --   enabled = true,
-  --   "anuvyklack/windows.nvim",
-  --   event = { "WinNew", "WinEnter" },
-  --   dependencies = {
-  --     { "anuvyklack/middleclass" },
-  --     { "anuvyklack/animation.nvim", enabled = true },
-  --   },
-  --   keys = { { "<leader>Z", "<cmd>WindowsMaximize<cr>" } },
-  --   config = function()
-  --     vim.o.winwidth = 5
-  --     vim.o.winminwidth = 5
-  --     vim.o.equalalways = false
-  --     require("windows").setup {
-  --       animation = { enable = false, duration = 150 },
-  --     }
-  --   end,
-  -- },
 
   {
     "cshuaimin/ssr.nvim",
@@ -248,13 +220,10 @@ return {
   },
 
   "ten3roberts/wgsl.vim",
-  "ten3roberts/wit.nvim",
-  -- "tpope/vim-commentary",
   "tpope/vim-abolish",
   "tpope/vim-rsi",
   "tpope/vim-sleuth",
   "tpope/vim-repeat",
   "mg979/vim-visual-multi",
   "lervag/vimtex",
-  -- "dkarter/bullets.vim",
 }

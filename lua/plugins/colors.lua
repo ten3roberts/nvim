@@ -5,8 +5,8 @@ local colorschemes = {
       vim.g.sonokai_enable_italic = 1
       vim.g.sonokai_float_style = "dim"
       vim.g.sonokai_show_eob = 0
-      -- vim.g.sonokai_style = "andromeda"
-      vim.g.sonokai_style = "maia"
+      vim.g.sonokai_style = "andromeda"
+      -- vim.g.sonokai_style = "atlantis"
       vim.cmd.colorscheme "sonokai"
     end,
   },
@@ -35,6 +35,15 @@ local colorschemes = {
   --     require("onedark").load()
   --   end,
   -- },
+  tokyonight = {
+    "folke/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {},
+    config = function()
+      vim.cmd.colorscheme "tokyonight"
+    end,
+  },
   onedarkpro = {
     "olimorris/onedarkpro.nvim",
     opts = {

@@ -2,14 +2,19 @@ local M = {}
 local adapter = nil
 
 function M.get_codelldb()
+  if true then return {} end
   if adapter then
     return adapter
   end
 
   local mason = require "mason-registry"
   local pkg = mason.get_package "codelldb"
-  local command = pkg:get_install_path() .. "/extension/adapter/codelldb"
-  local port = math.random(8000, 1000)
+  local install_path = vim.fn.expand("$MASON/packages/codelldb")
+
+  vim.notify("Codelldb found at " .. install_path)
+
+  local command = install_path .. "/extension/adapter/codelldb"
+  local port = math.random(8000, 80000)
 
   if not pkg:is_installed() then
     vim.notify "Codelldb is not installed"
@@ -23,12 +28,13 @@ function M.get_codelldb()
   -- end
   adapter = {
     type = "server",
-    port = "${port}",
+    port = port,
     executable = {
       command = command,
-      args = { "--port", "${port}" },
+      args = { "--port", port },
     },
   }
+  vim.notify("Configured codelldb: " .. vim.inspect(adapter))
 
   return adapter
 end

@@ -1,5 +1,6 @@
 return {
   "folke/trouble.nvim",
+  enabled = false,
   opts = {
     throttle = {
       refresh = 1000, -- fetches new data when needed
@@ -46,7 +47,7 @@ return {
       "<cmd>Trouble quickfix focus<cr>",
       desc = "Quickfix List (Trouble)",
     },
-    { "]q", "<cmd>Trouble quickfix next<cr>" },
-    { "[q", "<cmd>Trouble quickfix prev<cr>" },
+    { "]q", "<cmd>cnext<cr>" },
+    { "[q", "<cmd>cprev<cr>" },
   },
 }

@@ -21,7 +21,7 @@ au({ "BufNew", "BufWinEnter", "FileType", "TermOpen" }, {
       cpp = true,
       markdown = true,
       tex = true,
-      latex = true,
+      latex = false,
       json = true,
       yaml = true,
       toml = true,

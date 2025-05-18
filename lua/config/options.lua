@@ -4,8 +4,8 @@ local o = vim.o
 local g = vim.g
 
 opt.autoread = true
--- opt.conceallevel = 2
-opt.cmdheight = 1
+opt.conceallevel = 0
+opt.cmdheight = 2
 opt.confirm = true -- Disable 'no write'
 opt.cursorline = true
 opt.laststatus = 2
@@ -14,7 +14,7 @@ opt.spell = false
 opt.equalalways = true
 opt.foldlevelstart = 99
 opt.foldmethod = "indent"
-opt.pumblend = 10
+-- opt.pumblend = 10
 -- o.foldmethod = "expr"
 -- o.foldexpr = "nvim_treesitter#foldexpr()"
 -- o.foldminlines = 6
@@ -31,8 +31,8 @@ o.linebreak = true
 o.mouse = "a"
 o.number = false
 o.path = o.path .. "**"
-o.pumheight = 8
-o.pumwidth = 20
+-- o.pumheight = 8
+-- o.pumwidth = 20
 o.relativenumber = false
 o.scrolloff = 8 -- Lines from the cursor
 
@@ -54,7 +54,7 @@ o.title = true
 o.titlestring = "nvim %{fnamemodify(getcwd(), ':~')}"
 o.undofile = true
 o.updatetime = 500
-o.wildmenu = true -- Command line completion mode
+-- o.wildmenu = true -- Command line completion mode
 o.wildmode = "full" -- Command line completion mode
 
 opt.fillchars:append "diff:╱"

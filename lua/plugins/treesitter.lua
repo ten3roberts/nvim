@@ -68,7 +68,7 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     dependencies = {
-      "RRethy/nvim-treesitter-textsubjects",
+      -- "RRethy/nvim-treesitter-textsubjects",
       "nvim-treesitter/playground",
       "nvim-treesitter/nvim-treesitter-textobjects",
       "nvim-treesitter/nvim-treesitter-refactor",
@@ -88,7 +88,7 @@ return {
         ensure_installed = "all",
         sync_install = false,
         auto_install = true,
-        ignore_install = {},
+        ignore_install = {"latex"},
         modules = {},
         autopairs = { enable = true },
         autotag = {
@@ -181,15 +181,15 @@ return {
             },
           },
         },
-        textsubjects = {
-          enable = true,
-          prev_selection = ",", -- (Optional) keymap to select the previous selection
-          keymaps = {
-            ["."] = "textsubjects-smart",
-            ["ac"] = "textsubjects-container-outer",
-            ["ic"] = "textsubjects-container-inner",
-          },
-        },
+        -- textsubjects = {
+        --   enable = true,
+        --   prev_selection = ",", -- (Optional) keymap to select the previous selection
+        --   keymaps = {
+        --     ["."] = "textsubjects-smart",
+        --     ["ac"] = "textsubjects-container-outer",
+        --     ["ic"] = "textsubjects-container-inner",
+        --   },
+        -- },
         -- indent = { enable = true },
       }
     end,

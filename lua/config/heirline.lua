@@ -101,9 +101,9 @@ function M.setup_colors()
     diag_error = get_hl("DiagnosticSignError").fg,
     diag_hint = get_hl("DiagnosticSignHint").fg,
     diag_info = get_hl("DiagnosticSignInfo").fg,
-    git_del = get_hl("diffRemoved").fg,
-    git_add = get_hl("diffAdded").fg,
-    git_change = get_hl("diffChanged").fg or get_hl("Blue").fg,
+    git_del = get_hl("DiffDelete").fg or get_hl("DiffDelete").bg,
+    git_add = get_hl("DiffAdd").fg or get_hl("DiffAdd").bg,
+    git_change = get_hl("DiffChange").fg or get_hl("DiffChange").bg or get_hl("Blue").fg,
   }
 end
 
@@ -321,7 +321,7 @@ function M.setup()
       update = { "LspAttach", "LspDetach" },
       provider = function()
         local names = {}
-        for _, server in pairs(vim.lsp.get_active_clients { bufnr = 0 }) do
+        for _, server in pairs(vim.lsp.get_clients { bufnr = 0 }) do
           table.insert(names, server.name)
         end
         return "󰒓 " .. table.concat(names, " ")
@@ -353,25 +353,25 @@ function M.setup()
       {
         provider = function(self)
           -- 0 is just another output, we can decide to print it or not!
-          return self.errors > 0 and (self.error_icon .. self.errors .. " ")
+          return self.errors > 0 and (self.error_icon .. " " .. self.errors .. " ")
         end,
         hl = { fg = "diag_error" },
       },
       {
         provider = function(self)
-          return self.warnings > 0 and (self.warn_icon .. self.warnings .. " ")
+          return self.warnings > 0 and (self.warn_icon .. " " .. self.warnings .. " ")
         end,
         hl = { fg = "diag_warn" },
       },
       {
         provider = function(self)
-          return self.info > 0 and (self.info_icon .. self.info .. " ")
+          return self.info > 0 and (self.info_icon .. " " .. self.info .. " ")
         end,
         hl = { fg = "diag_info" },
       },
       {
         provider = function(self)
-          return self.hints > 0 and (self.hint_icon .. self.hints)
+          return self.hints > 0 and (self.hint_icon .. " " .. self.hints)
         end,
         hl = { fg = "diag_hint" },
       },
@@ -698,12 +698,13 @@ function M.setup()
     },
   }
 
+  local palette = require "config.palette"
   local StatusLines = {
     static = {
-      error_icon = (vim.fn.sign_getdefined("DiagnosticSignError")[1] or { text = "E" }).text,
-      warn_icon = (vim.fn.sign_getdefined("DiagnosticSignWarn")[1] or { text = "W" }).text,
-      info_icon = (vim.fn.sign_getdefined("DiagnosticSignInfo")[1] or { text = "I" }).text,
-      hint_icon = (vim.fn.sign_getdefined("DiagnosticSignHint")[1] or { text = "H" }).text,
+      error_icon = palette.signs.E.sign,
+      warn_icon = palette.signs.W.sign,
+      info_icon = palette.signs.I.sign,
+      hint_icon = palette.signs.H.sign,
       mode_colors_map = {
         n = "blue",
         i = "green",
