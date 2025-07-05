@@ -17,6 +17,10 @@
       "profile_scope!(\"{$1}\");{$2}"
     ]
   },
+  "flume": {
+    "prefix": "flume",
+    "body": [ "let ($1tx, $1rx) = flume::unbounded();" ]
+  },
   "if-ok": {
     "prefix": "if-ok",
     "body": [

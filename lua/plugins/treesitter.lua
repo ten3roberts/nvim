@@ -42,7 +42,7 @@ return {
       require("treesitter-context").setup {
         enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
         trim_scope = "inner", -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
-        max_lines = 5,
+        max_lines = 4,
         mode = "cursor", -- Line used to calculate context. Choices: 'cursor', 'topline'
         on_attach = function(buf)
           if check_file_size("tresitter-context", buf) then
@@ -68,27 +68,15 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     dependencies = {
-      -- "RRethy/nvim-treesitter-textsubjects",
-      "nvim-treesitter/playground",
+      "RRethy/nvim-treesitter-textsubjects",
       "nvim-treesitter/nvim-treesitter-textobjects",
-      "nvim-treesitter/nvim-treesitter-refactor",
     },
     config = function()
-      -- vim.filetype.add { extension = { wgsl = "wgsl" } }
-
-      -- local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
-      -- parser_config.wgsl = {
-      --   install_info = {
-      --     url = "https://github.com/szebniok/tree-sitter-wgsl",
-      --     files = { "src/parser.c" },
-      --   },
-      -- }
-
       require("nvim-treesitter.configs").setup {
         ensure_installed = "all",
-        sync_install = false,
+        sync_install = true,
         auto_install = true,
-        ignore_install = {"latex"},
+        ignore_install = { "latex", "ipkg", "norg" },
         modules = {},
         autopairs = { enable = true },
         autotag = {
@@ -97,7 +85,6 @@ return {
         matchup = { enable = true, disable = disable_large_file "matchup" },
         highlight = {
           enable = true,
-          disable = disable_large_file("highlight", 1000 * 1024),
         },
         incremental_selection = {
           enable = true,
@@ -108,32 +95,32 @@ return {
             node_decremental = "<BS>",
           },
         },
-        refactor = {
-          disable = disable_large_file "refactor",
-          highlight_definitions = {
-            enable = true,
-            disable = disable_large_file "highlight",
-            -- Set to false if you have an `updatetime` of ~100.
-            clear_on_cursor_move = false,
-          },
-          highlight_current_scope = { enable = false },
-          smart_rename = {
-            enable = true,
-            keymaps = {
-              smart_rename = "grr",
-            },
-          },
-          navigation = {
-            enable = true,
-            keymaps = {
-              goto_definition = "gnd",
-              list_definitions = "gnD",
-              list_definitions_toc = "gO",
-              goto_next_usage = ")",
-              goto_previous_usage = "(",
-            },
-          },
-        },
+        -- refactor = {
+        --   disable = disable_large_file "refactor",
+        --   highlight_definitions = {
+        --     enable = false,
+        --     disable = disable_large_file "highlight",
+        --     -- Set to false if you have an `updatetime` of ~100.
+        --     clear_on_cursor_move = false,
+        --   },
+        --   highlight_current_scope = { enable = false },
+        --   smart_rename = {
+        --     enable = true,
+        --     keymaps = {
+        --       smart_rename = "grr",
+        --     },
+        --   },
+        --   navigation = {
+        --     enable = true,
+        --     keymaps = {
+        --       goto_definition = "gnd",
+        --       list_definitions = "gnD",
+        --       list_definitions_toc = "gO",
+        --       goto_next_usage = ")",
+        --       goto_previous_usage = "(",
+        --     },
+        --   },
+        -- },
 
         textobjects = {
           select = {
@@ -181,15 +168,15 @@ return {
             },
           },
         },
-        -- textsubjects = {
-        --   enable = true,
-        --   prev_selection = ",", -- (Optional) keymap to select the previous selection
-        --   keymaps = {
-        --     ["."] = "textsubjects-smart",
-        --     ["ac"] = "textsubjects-container-outer",
-        --     ["ic"] = "textsubjects-container-inner",
-        --   },
-        -- },
+        textsubjects = {
+          enable = true,
+          prev_selection = ",", -- (Optional) keymap to select the previous selection
+          keymaps = {
+            ["."] = "textsubjects-smart",
+            ["ac"] = "textsubjects-container-outer",
+            ["ic"] = "textsubjects-container-inner",
+          },
+        },
         -- indent = { enable = true },
       }
     end,

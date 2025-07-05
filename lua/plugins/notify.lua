@@ -1,5 +1,6 @@
 return {
   "rcarriga/nvim-notify",
+  enabled = false,
   lazy = false,
 
   priority = 100,

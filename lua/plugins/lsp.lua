@@ -45,7 +45,7 @@ end
 
 return {
   {
-    enabled = true,
+    enabled = false,
     "j-hui/fidget.nvim",
     opts = {},
   },
@@ -53,7 +53,6 @@ return {
     "neovim/nvim-lspconfig",
     dependencies = {
       "folke/neodev.nvim",
-      "j-hui/fidget.nvim",
       "folke/neoconf.nvim",
       "mason-org/mason.nvim",
       "mason-org/mason-lspconfig.nvim",

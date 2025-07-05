@@ -54,19 +54,20 @@ return {
       auto_show = false,
 
       -- nvim-cmp style menu
-      draw = {
-        columns = {
-          { "label", "label_description", gap = 1 },
-          { "kind_icon", "kind" },
-        },
-      },
+      -- draw = {
+      --   columns = {
+      --     { "label", "label_description", gap = 1 },
+      --     { "kind_icon", "kind" },
+      --   },
+      -- },
     },
 
     -- (Default) Only show the documentation popup when manually triggered
     completion = { documentation = { auto_show = false } },
 
-    accept = { auto_brackets = { enabled = false } },
+    -- accept = { auto_brackets = { enabled = false }},
 
+    signature = { enabled = true },
     -- Default list of enabled providers defined so that you can extend it
     -- elsewhere in your config, without redefining it, due to `opts_extend`
     sources = {

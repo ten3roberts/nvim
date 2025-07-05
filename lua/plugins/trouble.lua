@@ -1,6 +1,6 @@
 return {
   "folke/trouble.nvim",
-  enabled = false,
+  enabled = true,
   opts = {
     throttle = {
       refresh = 1000, -- fetches new data when needed
@@ -9,8 +9,29 @@ return {
       follow = 100, -- follows the current item
       preview = { ms = 100, debounce = true }, -- shows the preview for the current item
     },
+    modes = {
+      cascade = {
+        mode = "diagnostics", -- inherit from diagnostics mode
+        filter = function(items)
+          local severity = vim.diagnostic.severity.HINT
+          for _, item in ipairs(items) do
+            severity = math.min(severity, item.severity)
+          end
+          return vim.tbl_filter(function(item)
+            return item.severity == severity
+          end, items)
+        end,
+      },
+    },
   }, -- for default options, refer to the configuration section for custom setup.
-  cmd = "Trouble",
+  config = function(_, opts)
+    require("trouble").setup(opts)
+    vim.api.nvim_create_autocmd("QuickFixCmdPost", {
+      callback = function()
+        vim.cmd [[Trouble qflist open]]
+      end,
+    })
+  end,
   keys = {
     {
       "<leader>xx",

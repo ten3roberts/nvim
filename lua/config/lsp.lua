@@ -2,7 +2,6 @@ local M = {}
 local buffers = {}
 local statusline_cache = {}
 
-local qf = require "qf"
 local diagnostic = vim.diagnostic
 local sev = diagnostic.severity
 
@@ -11,10 +10,8 @@ local diagnostic_severities = {
   [sev.ERROR] = signs.E,
   [sev.WARN] = signs.W,
   [sev.INFO] = signs.I,
-
-      [sev.HINT] = signs.H,
+  [sev.HINT] = signs.H,
 }
-
 
 local old = vim.lsp.buf.add_workspace_folder
 vim.lsp.buf.add_workspace_folder = function(...)
@@ -28,8 +25,6 @@ function M.set_loc(open)
     open = false,
     severity = { min = diagnostic.severity.WARN },
   }
-
-  qf.open("l", false, true)
 end
 
 function M.set_qf()
@@ -41,8 +36,6 @@ function M.set_qf()
     open = false,
     severity = { min = diagnostic.severity.WARN },
   }
-
-  qf.open("c", false, true)
 end
 
 return M

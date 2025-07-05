@@ -13,82 +13,81 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-      -- "danielfalk/smart-open.nvim",
       "molecule-man/telescope-menufacture",
     },
     keys = {
       { "z=", "<cmd>Telescope spell_suggest<CR>" },
-      {
-        "<leader><leader>",
-        function()
-          -- builtin().find_files {}
-          require("telescope").extensions.smart_open.smart_open {
-            cwd_only = true,
-            filename_first = false,
-          }
-        end,
-        { desc = "Smart Open" },
-      },
-      {
-        "<leader>Q",
-        function()
-          builtin().diagnostics { severity_limit = vim.diagnostic.severity.WARN, sort_by = "severity" }
-        end,
-      },
-      {
-        "<leader>q",
-        function()
-          builtin().diagnostics { bufnr = 0, severity_limit = vim.diagnostic.severity.WARN, sort_by = "severity" }
-        end,
-      },
-      {
-        "<leader>o",
-        function()
-          builtin().lsp_document_symbols {}
-        end,
-      },
-      {
-        "<leader>O",
-        function()
-          builtin().lsp_dynamic_workspace_symbols {}
-        end,
-      },
-      {
-        "<leader>rg",
-        function()
-          mf().live_grep {}
-        end,
-      },
-      {
-        "<leader>rh",
-        function()
-          builtin().help_tags {}
-        end,
-      },
-      {
-        "<leader>rG",
-        function()
-          mf().grep_string {}
-        end,
-      },
-      {
-        "<leader>/",
-        function()
-          builtin().current_buffer_fuzzy_find {}
-        end,
-      },
-      {
-        "<leader>,",
-        function()
-          builtin().buffers {}
-        end,
-      },
-      {
-        "<M-x>",
-        function()
-          builtin().command_history {}
-        end,
-      },
+      -- {
+      --   "<leader><leader>",
+      --   function()
+      --     -- builtin().find_files {}
+      --     require("telescope").extensions.smart_open.smart_open {
+      --       cwd_only = true,
+      --       filename_first = false,
+      --     }
+      --   end,
+      --   { desc = "Smart Open" },
+      -- },
+      -- {
+      --   "<leader>Q",
+      --   function()
+      --     builtin().diagnostics { severity_limit = vim.diagnostic.severity.WARN, sort_by = "severity" }
+      --   end,
+      -- },
+      -- {
+      --   "<leader>q",
+      --   function()
+      --     builtin().diagnostics { bufnr = 0, severity_limit = vim.diagnostic.severity.WARN, sort_by = "severity" }
+      --   end,
+      -- },
+      -- {
+      --   "<leader>o",
+      --   function()
+      --     builtin().lsp_document_symbols {}
+      --   end,
+      -- },
+      -- {
+      --   "<leader>O",
+      --   function()
+      --     builtin().lsp_dynamic_workspace_symbols {}
+      --   end,
+      -- },
+      -- {
+      --   "<leader>rg",
+      --   function()
+      --     mf().live_grep {}
+      --   end,
+      -- },
+      -- {
+      --   "<leader>rh",
+      --   function()
+      --     builtin().help_tags {}
+      --   end,
+      -- },
+      -- {
+      --   "<leader>rG",
+      --   function()
+      --     mf().grep_string {}
+      --   end,
+      -- },
+      -- {
+      --   "<leader>/",
+      --   function()
+      --     builtin().current_buffer_fuzzy_find {}
+      --   end,
+      -- },
+      -- {
+      --   "<leader>,",
+      --   function()
+      --     builtin().buffers {}
+      --   end,
+      -- },
+      -- {
+      --   "<M-x>",
+      --   function()
+      --     builtin().command_history {}
+      --   end,
+      -- },
     },
     config = function()
       local actions = require "telescope.actions"

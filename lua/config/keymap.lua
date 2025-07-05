@@ -22,10 +22,6 @@ map("n", "<leader>h", function()
   vim.diagnostic.jump { count = -1, float = true, severity = vim.diagnostic.severity.ERROR }
 end)
 
-map("n", "<leader>bk", function()
-  require("config.bclose").close()
-end)
-
 map("n", "<leader>bo", function()
   require("config.bclose").close_hidden()
 end)
@@ -92,4 +88,4 @@ end
 map("n", "<leader>ci", "mggg=G`g")
 
 -- Dev utils
-map("n", "<leader>xx", '<cmd>lua require"config.dev_utils".save_and_exec()<CR>')
+map("n", "<leader>XX", '<cmd>lua require"config.dev_utils".save_and_exec()<CR>')
