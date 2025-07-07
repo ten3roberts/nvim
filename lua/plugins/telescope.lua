@@ -16,7 +16,7 @@ return {
       "molecule-man/telescope-menufacture",
     },
     keys = {
-      { "z=", "<cmd>Telescope spell_suggest<CR>" },
+      -- { "z=", "<cmd>Telescope spell_suggest<CR>" },
       -- {
       --   "<leader><leader>",
       --   function()

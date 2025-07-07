@@ -19,7 +19,7 @@ local function on_attach(client, bufnr)
     vim.keymap.set(mod, lhs, rhs, { silent = true, buffer = bufnr })
   end
 
-  local builtin = require "telescope.builtin"
+  -- local builtin = require "telescope.builtin"
 
   buf_map("n", "<leader>ce", vim.diagnostic.open_float)
   buf_map("n", "<leader>cwa", vim.lsp.buf.add_workspace_folder)
@@ -34,13 +34,33 @@ local function on_attach(client, bufnr)
 
   -- buf_map('', '[d', vim.lsp.diagnostic.goto_prev)
   -- buf_map('', ']d', vim.lsp.diagnostic.goto_next)
-  buf_map("n", "go", builtin.lsp_outgoing_calls)
-  buf_map("n", "gi", builtin.lsp_incoming_calls)
-  buf_map("n", "gD", vim.lsp.buf.declaration)
-  buf_map("n", "gd", builtin.lsp_definitions)
-  buf_map("n", "gI", builtin.lsp_implementations)
-  buf_map("n", "gr", builtin.lsp_references)
-  buf_map("n", "gy", builtin.lsp_type_definitions)
+  buf_map("n", "go", function()
+    require("snacks").picker.lsp_outgoing_calls()
+  end)
+
+  buf_map("n", "gi", function()
+    require("snacks").picker.lsp_incoming_calls()
+  end)
+
+  buf_map("n", "gD", function()
+    require("snacks").picker.lsp_declaration()
+  end)
+
+  buf_map("n", "gd", function()
+    require("snacks").picker.lsp_definitions()
+  end)
+
+  buf_map("n", "gI", function()
+    require("snacks").picker.lsp_implementations()
+  end)
+
+  buf_map("n", "gr", function()
+    require("snacks").picker.lsp_references()
+  end)
+
+  buf_map("n", "gy", function()
+    require("snacks").picker.lsp_type_definitions()
+  end)
 end
 
 return {

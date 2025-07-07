@@ -1,3 +1,20 @@
+local buffer_opts = {
+  finder = "buffers",
+  format = "buffer",
+  hidden = false,
+  unloaded = true,
+  current = false,
+  sort_lastused = true,
+  win = {
+    input = {
+      keys = {
+        ["<c-x>"] = { "bufdelete", mode = { "n", "i" } },
+      },
+    },
+    list = { keys = { ["dd"] = "bufdelete" } },
+  },
+}
+
 function notify_lsp_progress()
   ---@type table<number, {token:lsp.ProgressToken, msg:string, done:boolean}[]>
   local progress = vim.defaulttable()
@@ -120,9 +137,15 @@ return {
       end,
     },
     {
+      "z=",
+      function()
+        require("snacks").picker.spelling()
+      end,
+    },
+    {
       "<leader>,",
       function()
-        require("snacks").picker.buffers()
+        require("snacks").picker.buffers(buffer_opts)
       end,
     },
     {
