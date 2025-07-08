@@ -19,6 +19,14 @@ local colorschemes = {
   install = {
     colorscheme = { "nord" },
   },
+  catppuccin = {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000,
+    config = function()
+      vim.cmd.colorscheme "catppuccin"
+    end,
+  },
   tokyonight = {
     "folke/tokyonight.nvim",
     lazy = false,
@@ -30,7 +38,7 @@ local colorschemes = {
   },
 }
 
-local current_colorscheme = "tokyonight"
+local current_colorscheme = "catppuccin"
 
 local t = colorschemes[current_colorscheme]
 
