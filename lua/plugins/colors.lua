@@ -5,8 +5,8 @@ local colorschemes = {
       vim.g.sonokai_enable_italic = 1
       vim.g.sonokai_float_style = "dim"
       vim.g.sonokai_show_eob = 0
-      vim.g.sonokai_style = "andromeda"
-      -- vim.g.sonokai_style = "atlantis"
+      -- vim.g.sonokai_style = "andromeda"
+      vim.g.sonokai_style = "atlantis"
       vim.cmd.colorscheme "sonokai"
     end,
   },
@@ -18,6 +18,12 @@ local colorschemes = {
   },
   install = {
     colorscheme = { "nord" },
+  },
+  everforest = {
+    "sainnhe/everforest",
+    config = function()
+      vim.cmd.colorscheme "everforest"
+    end,
   },
   catppuccin = {
     "catppuccin/nvim",
@@ -38,7 +44,7 @@ local colorschemes = {
   },
 }
 
-local current_colorscheme = "catppuccin"
+local current_colorscheme = "everforest"
 
 local t = colorschemes[current_colorscheme]
 
