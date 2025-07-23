@@ -1,5 +1,4 @@
 return {
-
   {
     "Weissle/persistent-breakpoints.nvim",
     event = "VeryLazy",
@@ -11,12 +10,6 @@ return {
   },
 
   {
-    "nvim-telescope/telescope-dap.nvim",
-    config = function()
-      require("telescope").load_extension "dap"
-    end,
-  },
-  {
     "mfussenegger/nvim-dap",
     dependencies = {
       "Weissle/persistent-breakpoints.nvim",
@@ -24,6 +17,7 @@ return {
       "nvim-neotest/nvim-nio",
       "theHamsta/nvim-dap-virtual-text",
     },
+    lazy = false,
     keys = {
       {
         "<leader>dn",

@@ -41,8 +41,8 @@ return {
     config = function()
       require("treesitter-context").setup {
         enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
-        trim_scope = "outer", -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
-        max_lines = 4,
+        trim_scope = "inner", -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+        max_lines = 6,
         mode = "cursor", -- Line used to calculate context. Choices: 'cursor', 'topline'
         on_attach = function(buf)
           if check_file_size("tresitter-context", buf) then

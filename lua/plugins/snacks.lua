@@ -93,9 +93,9 @@ return {
           keys = {
             ["<c-l>"] = { "toggle_lua", mode = { "n", "i" } },
             ["<c-i>"] = { "toggle_input", mode = { "n", "i" } },
-            -- ["<c-t>"] = { "edit_tab", mode = { "n", "i" } },
-            -- ["<c-t>"] = { "yankit", mode = { "n", "i" } },
-            -- ["<Esc>"] = { "close", mode = { "n", "i" } },
+            ["<c-t>"] = { "edit_tab", mode = { "n", "i" } },
+            ["<c-y>"] = { "yankit", mode = { "n", "i" } },
+            ["<Esc>"] = { "close", mode = { "n", "i" } },
           },
         },
       },

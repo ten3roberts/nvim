@@ -52,6 +52,7 @@ ui.setup {
 }
 
 local dap = require "dap"
+vim.notify "Configuring dap"
 
 require("nvim-dap-virtual-text").setup {
   highlight_new_as_changed = true,
@@ -101,6 +102,7 @@ dap.configurations.rust = {
 -- dap.defaults.codelldb.exception_breakpoints = { "rust_panic" }
 dap.defaults.rust.exception_breakpoints = { "rust_panic" }
 dap.adapters.rust = require("config.codelldb").get_codelldb()
+dap.adapters.codelldb = require("config.codelldb").get_codelldb()
 -- dap.defaults.rust.exception_breakpoints = { "rust_panic" }
 
 local M = {

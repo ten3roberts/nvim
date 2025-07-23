@@ -22,6 +22,11 @@ local colorschemes = {
   everforest = {
     "sainnhe/everforest",
     config = function()
+      vim.g.everforest_enable_italic = true
+      vim.g.everforest_background = "hard"
+      vim.g.everforest_show_eob = false
+      vim.g.everforest_float_style = "dim"
+      vim.g.everforest_diagnostic_line_highlight = 1
       vim.cmd.colorscheme "everforest"
     end,
   },

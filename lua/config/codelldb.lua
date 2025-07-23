@@ -2,14 +2,16 @@ local M = {}
 local adapter = nil
 
 function M.get_codelldb()
-  if true then return {} end
+  if true then
+    return {}
+  end
   if adapter then
     return adapter
   end
 
   local mason = require "mason-registry"
   local pkg = mason.get_package "codelldb"
-  local install_path = vim.fn.expand("$MASON/packages/codelldb")
+  local install_path = vim.fn.expand "$MASON/packages/codelldb"
 
   vim.notify("Codelldb found at " .. install_path)
 
