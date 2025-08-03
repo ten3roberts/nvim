@@ -65,9 +65,21 @@ end
 
 return {
   {
-    enabled = false,
     "j-hui/fidget.nvim",
-    opts = {},
+    enabled = true,
+    opts = {
+      progress = {
+
+        display = {
+          progress_icon = {
+            "dots_pulse",
+          },
+          done_icon = {
+            { "󰄬" },
+          },
+        },
+      },
+    },
   },
   {
     "neovim/nvim-lspconfig",

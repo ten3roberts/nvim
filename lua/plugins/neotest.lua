@@ -3,6 +3,7 @@ return {
     "nvim-neotest/neotest",
     dependencies = {
       "nvim-neotest/neotest-jest",
+      "rouge8/neotest-rust",
       "nvim-neotest/nvim-nio",
       "nvim-lua/plenary.nvim",
       "antoinemadec/FixCursorHold.nvim",
@@ -36,12 +37,15 @@ return {
               return vim.fn.getcwd()
             end,
           },
+          require "neotest-rust" {
+            args = { "--no-capture" },
+          },
         },
         diagnostics = {
           enabled = true,
           virtual_text = true,
           underline = true,
-          update_in_insert = false,
+          update_in_insert = true,
         },
         status = {
           enabled = true,

@@ -210,6 +210,6 @@ return {
       end,
     })
 
-    notify_lsp_progress()
+    -- notify_lsp_progress()
   end,
 }
