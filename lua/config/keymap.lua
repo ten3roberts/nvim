@@ -7,11 +7,11 @@ local graphene = require "graphene"
 -- local neotest = require "neotest"
 
 map("n", "<leader>j", function()
-  vim.diagnostic.jump { count = 1, float = true, severity = { min = vim.diagnostic.severity.WARN } }
+  vim.diagnostic.jump { count = 1, float = true }
 end)
 
 map("n", "<leader>k", function()
-  vim.diagnostic.jump { count = -1, float = true, severity = { min = vim.diagnostic.severity.WARN } }
+  vim.diagnostic.jump { count = -1, float = true }
 end)
 
 map("n", "<leader>l", function()
