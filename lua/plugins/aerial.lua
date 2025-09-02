@@ -1,14 +1,14 @@
 return {
   "stevearc/aerial.nvim",
   keys = {
-    { "<leader>po", "<cmd>AerialNavOpen<CR>" },
-    { "<leader>pp", "<cmd>AerialOpen<CR>" },
+    { "<leader>pp", "<cmd>AerialNavOpen<CR>" },
+    { "<leader>po", "<cmd>AerialToggle<CR>" },
   },
   event = "BufWinEnter",
   config = function()
     local aerial = require "aerial"
     aerial.setup {
-      backends = { "treesitter", "lsp", "markdown" },
+      backends = { "lsp", "treesitter", "markdown" },
       -- on_attach = function(bufnr)
       -- vim.keymap.set("n", "[[", "<cmd>AerialPrev<CR>", { buffer = bufnr })
       -- vim.keymap.set("n", "]]", "<cmd>AerialNext<CR>", { buffer = bufnr })
@@ -16,24 +16,25 @@ return {
       layout = {
 
         -- The maximum width of the aerial window
-        max_width = { 30, 0.2 },
+        max_width = { 35, 0.2 },
         placement = "edge",
         default_direction = "left",
       },
+      show_guides = true,
       nav = {
-        border = "single",
-        min_height = { 16, 0.3 },
-        max_height = 0.9,
-        max_width = 0.5,
-        min_width = { 0.2, 20 },
-        win_opts = {
-          cursorline = true,
-          winblend = 10,
-        },
+        -- border = "single",
+        -- min_height = { 16, 0.3 },
+        -- max_height = 0.9,
+        -- max_width = 0.5,
+        -- min_width = { 0.2, 20 },
+        -- win_opts = {
+        --   cursorline = true,
+        --   winblend = 10,
+        -- },
         -- Jump to symbol in source window when the cursor moves
-        autojump = false,
+        -- autojump = false,
         -- Show a preview of the code in the right column, when there are no child symbols
-        preview = true,
+        -- preview = true,
         -- Keymaps in the nav window
         keymaps = {
           ["<CR>"] = "actions.jump",
@@ -55,14 +56,14 @@ return {
 
       -- Automatically open aerial when entering supported buffers.
       -- This can be a function (see :help aerial-open-automatic)
-      open_automatic = function(_)
-        return (not vim.o.diff) and vim.api.nvim_win_get_width(0) > 120
-      end,
+      -- open_automatic = function(_)
+      --   return not vim.o.diff
+      -- end,
+      open_automatic = true,
 
       -- close_automatic_events = { "unsupported" },
 
       -- Run this command after jumping to a symbol (false will disable)
-      post_jump_cmd = "normal! zz",
     }
   end,
 }
