@@ -62,9 +62,6 @@ dap.defaults.fallback.terminal_win_cmd = "vsplit new"
 
 dap.listeners.after.event_initialized["dapui_config"] = function()
   dap.set_exception_breakpoints { "rust_panic" }
-  -- require("qf").close "l"
-  require("qf").close "c"
-
   ui.open {}
 end
 dap.listeners.before.event_terminated["dapui_config"] = function()

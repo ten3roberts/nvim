@@ -68,7 +68,15 @@ return {
       "<cmd>Trouble quickfix focus<cr>",
       desc = "Quickfix List (Trouble)",
     },
-    { "]q", "<cmd>cnext<cr>" },
-    { "[q", "<cmd>cprev<cr>" },
+    {
+      "]]",
+      "<cmd>Trouble next jump=true<cr>",
+      desc = "Next item (Trouble)",
+    },
+    {
+      "[[",
+      "<cmd>Trouble prev jump=true<cr>",
+      desc = "Previous item (Trouble)",
+    },
   },
 }

@@ -7,7 +7,8 @@ local utils = require "heirline.utils"
 
 ---Surround component with separators and adjust coloring
 ---@param delimiters string[]
----@param color string|function|nil
+---@param fg string|function|nil
+---@param bg string|function|nil
 ---@param component table
 ---@return table
 local function surround(delimiters, fg, bg, component)
@@ -60,10 +61,6 @@ end
 
 local function trapeze(component, fg, bg)
   return surround({ "", "" }, fg, bg, component)
-end
-
-local function rev_trapeze(component, fg, bg)
-  return surround({ "", "" }, fg, bg, component)
 end
 
 local M = {}
@@ -630,7 +627,120 @@ function M.setup()
     Align,
   }
 
-  local qf = require "qf"
+  local qf = {}
+  function qf.get_list(list, what, winid)
+    local res
+    what = what or { items = 1 }
+    if list == "c" then
+      res = fn.getqflist(what)
+    else
+      res = fn.getloclist(winid or ".", what)
+    end
+
+    if res.items then
+      for i, v in ipairs(res.items) do
+        v.idx = i
+      end
+    end
+
+    return res
+  end
+
+  function qf.tally(items)
+    -- Returns true if the current item is valid by having valid == 1 and a valid bufnr and line number
+    local function is_valid(item)
+      return (item.bufnr > 0 and item.lnum > 0)
+    end
+
+    local error = 0
+    local warn = 0
+    local info = 0
+    local hint = 0
+    local text = 0
+
+    for _, v in ipairs(items) do
+      if is_valid(v) then
+        if v.type == "E" then
+          error = error + 1
+        elseif v.type == "W" then
+          warn = warn + 1
+        elseif v.type == "I" then
+          info = info + 1
+        elseif v.type == "N" then
+          hint = hint + 1
+        else
+          text = text + 1
+        end
+      end
+    end
+
+    return {
+      error = error,
+      warn = warn,
+      info = info,
+      hint = hint,
+      text = text,
+      total = error + warn + info + hint + text,
+    }
+  end
+
+  function qf.tally_str(tally, highlight)
+    local d = {
+      E = vim.fn.sign_getdefined("DiagnosticSignError")[1] or { text = "E", texthl = "DiagnosticSignError" },
+      W = vim.fn.sign_getdefined("DiagnosticSignWarn")[1] or { text = "W", texthl = "DiagnosticSignWarn" },
+      I = vim.fn.sign_getdefined("DiagnosticSignInfo")[1] or { text = "I", texthl = "DiagnosticSignInfo" },
+      N = vim.fn.sign_getdefined("DiagnosticSignHint")[1] or { text = "N", texthl = "DiagnosticSignHint" },
+      T = vim.fn.sign_getdefined("DiagnosticSignHint")[1] or { text = "T", texthl = "DiagnosticSignOk" },
+    }
+    d = {
+      d.E,
+      d.W,
+      d.I,
+      d.N,
+      d.T,
+    }
+
+    local t = {}
+    for i, v in ipairs { tally.error, tally.warn, tally.info, tally.hint, tally.text } do
+      if v > 0 then
+        local severity = d[i]
+        if highlight then
+          t[#t + 1] = "%#" .. severity.texthl .. "#" .. severity.text .. " " .. v
+        else
+          t[#t + 1] = (severity.sign or "_") .. " " .. v
+        end
+      end
+    end
+
+    return table.concat(t, " ") .. "%#Normal#"
+  end
+
+  function qf.inspect_win(winid)
+    local info = fn.getwininfo(winid)[1]
+
+    local title = info.variables.quickfix_title
+    local list
+    local what = { all = 1 }
+    if info.loclist == 1 then
+      list = qf.get_list("l", what, winid)
+    elseif info.quickfix == 1 then
+      list = qf.get_list("c", what, winid)
+    else
+      return nil
+    end
+
+    local tally = qf.tally(list.items)
+
+    local tally_str = qf.tally_str(tally, true)
+    return {
+      title = title,
+      tally = tally,
+      tally_str = tally_str,
+      size = list.size,
+      idx = list.idx,
+    }
+  end
+
   local QfStatusline = {
     condition = function()
       return conditions.buffer_matches { filetype = { "qf" } }
@@ -681,7 +791,7 @@ function M.setup()
           },
           {
             provider = function(self)
-              return self.info.tally.text > 0 and ("󰌪" .. self.info.tally.text .. " ")
+              return self.info.tally.text > 0 and ("󰌪 " .. self.info.tally.text .. " ")
             end,
             hl = { fg = "diag_hint" },
           },
