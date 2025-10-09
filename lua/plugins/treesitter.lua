@@ -41,7 +41,7 @@ return {
     config = function()
       require("treesitter-context").setup {
         enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
-        trim_scope = "inner", -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+        trim_scope = "outer", -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
         max_lines = 6,
         mode = "cursor", -- Line used to calculate context. Choices: 'cursor', 'topline'
         on_attach = function(buf)
@@ -70,6 +70,7 @@ return {
     dependencies = {
       "RRethy/nvim-treesitter-textsubjects",
       "nvim-treesitter/nvim-treesitter-textobjects",
+      "nvim-treesitter/nvim-treesitter-refactor",
     },
     config = function()
       require("nvim-treesitter.configs").setup {
@@ -101,7 +102,7 @@ return {
             enable = false,
             disable = disable_large_file "highlight",
             -- Set to false if you have an `updatetime` of ~100.
-            clear_on_cursor_move = false,
+            clear_on_cursor_move = true,
           },
           highlight_current_scope = { enable = false },
           smart_rename = {
@@ -151,7 +152,7 @@ return {
             },
             goto_previous_start = {
               ["[m"] = "@function.outer",
-              -- ["[["] = "@class.outer",
+              ious, -- ["[["] = "@class.outer",
             },
             goto_previous_end = {
               ["[M"] = "@function.outer",

@@ -8,7 +8,7 @@ return {
   config = function()
     local aerial = require "aerial"
     aerial.setup {
-      backends = { "lsp", "treesitter", "markdown" },
+      backends = { "treesitter", "lsp", "markdown" },
       -- on_attach = function(bufnr)
       -- vim.keymap.set("n", "[[", "<cmd>AerialPrev<CR>", { buffer = bufnr })
       -- vim.keymap.set("n", "]]", "<cmd>AerialNext<CR>", { buffer = bufnr })
@@ -16,11 +16,22 @@ return {
       layout = {
 
         -- The maximum width of the aerial window
-        max_width = { 35, 0.2 },
-        placement = "edge",
+        max_width = { 25, 0.2 },
+        -- placement = "edge",
         default_direction = "left",
       },
       show_guides = true,
+      filter_kind = {
+        "Class",
+        "Constructor",
+        "Enum",
+        "Function",
+        "Interface",
+        "Field",
+        "Module",
+        "Method",
+        "Struct",
+      },
       nav = {
         -- border = "single",
         -- min_height = { 16, 0.3 },
@@ -28,6 +39,7 @@ return {
         -- max_width = 0.5,
         -- min_width = { 0.2, 20 },
         -- win_opts = {
+        --
         --   cursorline = true,
         --   winblend = 10,
         -- },
@@ -56,10 +68,9 @@ return {
 
       -- Automatically open aerial when entering supported buffers.
       -- This can be a function (see :help aerial-open-automatic)
-      -- open_automatic = function(_)
-      --   return not vim.o.diff
-      -- end,
-      open_automatic = true,
+      open_automatic = function(_)
+        return not vim.o.diff
+      end,
 
       -- close_automatic_events = { "unsupported" },
 

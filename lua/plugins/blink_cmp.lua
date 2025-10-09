@@ -41,8 +41,6 @@ return {
       },
     },
 
-    signature = { enabled = true },
-
     appearance = {
       -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
       -- Adjusts spacing to ensure icons are aligned
@@ -72,6 +70,9 @@ return {
     -- elsewhere in your config, without redefining it, due to `opts_extend`
     sources = {
       default = { "snippets", "lsp", "path", "buffer" },
+      per_filetype = {
+        codecompanion = { "codecompanion" },
+      },
     },
 
     -- (Default) Rust fuzzy matcher for typo resistance and significantly better performance

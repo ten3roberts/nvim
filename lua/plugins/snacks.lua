@@ -73,7 +73,7 @@ return {
     bigfile = { enabled = true },
     dashboard = { enabled = true },
     explorer = { enabled = true },
-    indent = { enabled = true, indent = { only_scope = true, only_current = true } },
+    indent = { enabled = true, indent = { only_scope = false, only_current = false } },
     input = {
       enabled = true,
       win = { position = "float", backdrop = false, relative = "cursor" },

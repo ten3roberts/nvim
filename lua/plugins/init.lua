@@ -59,19 +59,14 @@ return {
   {
     "Saecki/crates.nvim",
     dependencies = {
-      "jose-elias-alvarez/null-ls.nvim",
       "nvim-lua/plenary.nvim",
     },
     filetype = "toml",
     config = function()
       require("crates").setup {
-        max_parallel_requests = 16,
+        max_parallel_requests = 2,
         popup = {
           autofocus = true,
-        },
-        null_ls = {
-          enabled = false,
-          name = "Crates",
         },
       }
     end,

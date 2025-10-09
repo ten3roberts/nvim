@@ -25,6 +25,8 @@ au({ "BufNew", "BufWinEnter", "FileType", "TermOpen" }, {
       json = true,
       yaml = true,
       toml = true,
+      typescript = true,
+      javascript = true,
     }
 
     local info = string.format("%d name: %s ft: %s bt: %s win: %d", o.buf, bufname, filetype, buftype, win)
