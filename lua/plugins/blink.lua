@@ -58,5 +58,17 @@ return {
       },
       debug = false,
     },
+    config = function()
+      -- Disable autopairs in prompt buffers (e.g., Snacks picker)
+      vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
+        callback = function()
+          if vim.bo.buftype == "prompt" then
+            require("blink.pairs.mappings").disable()
+          else
+            require("blink.pairs.mappings").enable()
+          end
+        end,
+      })
+    end,
   },
 }

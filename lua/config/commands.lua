@@ -22,11 +22,7 @@ a.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
 
 -- Notifications command to view snacks.notify history
 a.nvim_create_user_command("Notifications", function()
-  local snacks_notify = require('snacks.notify')
-  local history = snacks_notify.history and snacks_notify.history() or {}
-  for _, item in ipairs(history) do
-    print(item.msg or tostring(item))
-  end
+  require("snacks").notifier.show_history()
 end, {})
 
 a.nvim_create_user_command("Dump", function(c)

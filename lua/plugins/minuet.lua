@@ -5,7 +5,7 @@ local function getZenProvider()
   end
   return {
     openai_compatible = {
-      api_key = key,
+      api_key = ZEN_API_KEY,
       end_point = "https://api.opencode.ai/v1/chat/completions",
       model = "zen",
       name = "OpenCode Zen",
@@ -16,9 +16,11 @@ end
 return {
   {
     "milanglacier/minuet-ai.nvim",
+    event = "VeryLazy",
     dependencies = "nvim-lua/plenary.nvim",
     opts = function()
       local zen_provider = getZenProvider()
+      vim.notify("Configuring minuet: " .. (vim.inspect(zen_provider) or "none"))
       return {
         virtualtext = {
           auto_trigger_ft = { "*" },

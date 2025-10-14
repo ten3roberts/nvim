@@ -63,10 +63,10 @@ return {
                  b = { fg = normal_fg, bg = "normal_bg" },
                  c = { fg = normal_fg, bg = "normal_bg" },
                },
-               separators = {
-                 left = { fg = mode_color, bg = "normal_bg" },
-                 right = { fg = "normal_bg", bg = mode_color },
-               },
+                separators = {
+                  left = { fg = mode_color, bg = "normal_bg" },
+                  right = { fg = mode_color, bg = "normal_bg" },
+                },
             }
           end,
           component_separators = { left = "", right = " " }, -- Separators with spacing
@@ -125,18 +125,18 @@ return {
             { "diagnostics", padding = { left = 0, right = 1 } },
             { "lsp_status", padding = { left = 1, right = 0 } },
           },
-          lualine_y = {
-            {
-              "progress",
-              separator = " ",
-              padding = { left = 1, right = 0 },
-            },
-            {
-              "location",
-              padding = { left = 0, right = 1 },
-            },
-          },
-          lualine_z = {},
+           lualine_y = {
+             {
+               "progress",
+               separator = " ",
+               padding = { left = 1, right = 0 },
+             },
+             {
+               "location",
+               padding = { left = 0, right = 1 },
+             },
+           },
+           lualine_z = { "encoding" },
         },
         inactive_sections = {
           lualine_a = {},
