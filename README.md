@@ -117,7 +117,7 @@ Below is a comprehensive list of all `vim.keymap.set` calls found in your config
 - **Mode**: n | **Key**: `<leader><leader>` | **Action**: Files picker (ivy layout)
 - **Mode**: n | **Key**: `z=` | **Action**: Spelling picker
 - **Mode**: n | **Key**: `<leader>,` | **Action**: Buffers picker (ivy layout)
-- **Mode**: n | **Key**: `<leader>/` | **Action**: Buffer grep (ivy layout)
+- **Mode**: n | **Key**: `<leader>/` | **Action**: Buffer lines (fuzzy search)
 - **Mode**: n | **Key**: `<leader>?` | **Action**: Project grep (ivy layout)
 - **Mode**: n | **Key**: `<leader>fg` | **Action**: Git files picker
 - **Mode**: n | **Key**: `<leader>fr` | **Action**: Recent files picker
@@ -134,6 +134,7 @@ Below is a comprehensive list of all `vim.keymap.set` calls found in your config
 - **Mode**: n | **Key**: `<leader>q` | **Action**: Diagnostics buffer picker
 - **Mode**: n | **Key**: `<leader>Q` | **Action**: Diagnostics picker
 - **Mode**: n | **Key**: `<leader>fl` | **Action**: Buffer lines picker
+- **Mode**: n,i | **Key**: `<c-r>` | **Action**: Refine picker results (grep within)
 
 ### lua/plugins/mini-diff.lua
 - **Mode**: n | **Key**: gh | **Action**: Apply hunk

@@ -5,7 +5,7 @@ local function getZenProvider()
   end
   return {
     openai_compatible = {
-      api_key = "ZEN_API_KEY",
+      api_key = key,
       end_point = "https://api.opencode.ai/v1/chat/completions",
       model = "zen",
       name = "OpenCode Zen",
@@ -43,6 +43,9 @@ return {
         config = function(_, opts)
           if opts.provider then
             require("minuet").setup(opts)
+            vim.notify("Minuet AI enabled with OpenCode Zen", vim.log.levels.INFO)
+          else
+            vim.notify("Minuet AI disabled (ZEN_API_KEY not set)", vim.log.levels.WARN)
           end
         end,
       }

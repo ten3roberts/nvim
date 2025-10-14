@@ -95,6 +95,7 @@ return {
             ["<c-i>"] = { "toggle_input", mode = { "n", "i" } },
             ["<c-t>"] = { "edit_tab", mode = { "n", "i" } },
             ["<c-y>"] = { "yankit", mode = { "n", "i" } },
+            ["<c-r>"] = { "picker_grep", mode = { "n", "i" } },
             ["<Esc>"] = { "close", mode = { "n", "i" } },
           },
         },
@@ -151,9 +152,9 @@ return {
     {
       "<leader>/",
       function()
-        require("snacks").picker.grep({ buf = true, layout = "ivy" })
+        require("snacks").picker.lines()
       end,
-      desc = "Buffer grep (ivy layout)",
+      desc = "Buffer lines (fuzzy search)",
     },
     {
       "<leader>?",
