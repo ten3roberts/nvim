@@ -1,7 +1,7 @@
 return {
   {
     "olimorris/codecompanion.nvim",
-    lazy = false,
+    event = "VeryLazy",
     opts = {
       -- strategies = {
       --   chat = {

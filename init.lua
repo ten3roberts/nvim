@@ -1,5 +1,9 @@
 require "config.options"
 require "config.neovide"
+
+-- Statusline provider toggle: "heirline" or "lualine"
+vim.g.statusline_provider = "lualine"
+
 require "config.lazy"
 
 require "config.keymap"

@@ -394,10 +394,15 @@ function M.setup()
   local Git = {
     condition = conditions.is_git_repo,
     init = function(self)
-      self.status_dict = vim.b.gitsigns_status_dict or {}
-      self.total_changes = (self.status_dict.added or 0)
-        + (self.status_dict.removed or 0)
-        + (self.status_dict.changed or 0)
+      local data = MiniDiff.get_buf_data() or {}
+      local summary = data.summary or {}
+      self.status_dict = {
+        added = summary.add or 0,
+        removed = summary.delete or 0,
+        changed = summary.change or 0,
+        head = vim.fn.system('git branch --show-current'):gsub('\n', ''),
+      }
+      self.total_changes = self.status_dict.added + self.status_dict.removed + self.status_dict.changed
     end,
     hl = { fg = "orange" },
     flexible = 5,

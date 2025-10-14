@@ -13,6 +13,22 @@ a.nvim_create_user_command("Reload", function(c)
   require("config.dev_utils").reload(c.args)
 end, { nargs = 1 })
 
+-- Auto-reload buffers on focus if externally changed
+a.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
+  callback = function()
+    vim.cmd "checktime"
+  end,
+})
+
+-- Notifications command to view snacks.notify history
+a.nvim_create_user_command("Notifications", function()
+  local snacks_notify = require('snacks.notify')
+  local history = snacks_notify.history and snacks_notify.history() or {}
+  for _, item in ipairs(history) do
+    print(item.msg or tostring(item))
+  end
+end, {})
+
 a.nvim_create_user_command("Dump", function(c)
   require("config.dev_utils").dump_mod(c.args)
 end, { nargs = 1 })

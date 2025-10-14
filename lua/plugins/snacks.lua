@@ -133,7 +133,7 @@ return {
     {
       "<leader><leader>",
       function()
-        require("snacks").picker.files()
+        require("snacks").picker.files({ layout = "ivy" })
       end,
     },
     {
@@ -145,14 +145,77 @@ return {
     {
       "<leader>,",
       function()
-        require("snacks").picker.buffers(buffer_opts)
+        require("snacks").picker.buffers(vim.tbl_extend("force", buffer_opts, { layout = "ivy" }))
       end,
     },
     {
       "<leader>/",
       function()
-        require("snacks").picker.grep()
+        require("snacks").picker.grep({ buf = true, layout = "ivy" })
       end,
+      desc = "Buffer grep (ivy layout)",
+    },
+    {
+      "<leader>?",
+      function()
+        require("snacks").picker.grep({ layout = "ivy" })
+      end,
+      desc = "Project grep (ivy layout)",
+    },
+    {
+      "<leader>fl",
+      function()
+        require("snacks").picker.lines()
+      end,
+      desc = "Buffer local fuzzy search",
+    },
+    {
+      "<leader>fg",
+      function()
+        require("snacks").picker.git_files()
+      end,
+      desc = "Git files picker",
+    },
+    {
+      "<leader>fr",
+      function()
+        require("snacks").picker.recent()
+      end,
+      desc = "Recent files picker",
+    },
+    {
+      "<leader>sa",
+      ":wa<CR>",
+      desc = "Save all buffers",
+    },
+    {
+      "<leader>fa",
+      function()
+        vim.lsp.buf.format()
+      end,
+      desc = "Format buffer",
+    },
+    {
+      "<leader>cc",
+      function()
+        require("codecompanion").chat()
+      end,
+      desc = "Open CodeCompanion chat",
+    },
+    {
+      "<leader>bc",
+      ":BCloseHidden<CR>",
+      desc = "Close hidden buffers",
+    },
+    {
+      "<leader>tt",
+      ":term<CR>",
+      desc = "Open terminal",
+    },
+    {
+      "<leader>mt",
+      ":Minuet virtualtext toggle<CR>",
+      desc = "Toggle Minuet virtual text",
     },
     {
       "<leader>dd",

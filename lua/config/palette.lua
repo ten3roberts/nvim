@@ -169,7 +169,9 @@ function M.setup()
 
   link("LeapBackdrop", "Comment")
 
-  require("config.heirline").setup()
+  if vim.g.statusline_provider == "heirline" then
+    require("config.heirline").setup()
+  end
 end
 
 return M
