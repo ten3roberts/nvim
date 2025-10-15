@@ -169,30 +169,30 @@ return {
           lualine_a = {
               {
                 "tabs",
-                mode = 2,
+                mode = 0,
                 fmt = function(name, context)
-                  return ' ' .. context.tabnr .. '. ' .. name .. '  '
+                  local tabname = vim.fn.fnamemodify(vim.fn.bufname(vim.fn.tabpagebuflist(context.tabnr)[1]), ':t')
+                  return ' ' .. name .. '. ' .. (tabname ~= '' and tabname or 'No Name') .. '  '
                 end,
-                tabs_color = {
-                  active = { fg = "normal_fg", bg = "tabline_sel_bg" },
-                  inactive = { fg = "gray", bg = "tabline_bg" },
-                },
+              tabs_color = {
+                active = { fg = "normal_fg", bg = "tabline_sel_bg" },
+                inactive = { fg = "gray", bg = "tabline_bg" },
               },
             },
           },
-          lualine_b = {
-              {
-                provider = function()
-                  return vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":t")
-                end,
-              color = { fg = "normal_fg", bg = "tabline_bg" },
-            },
-          },
-          lualine_c = {},
-          lualine_x = {},
-          lualine_y = {},
-          lualine_z = {},
         },
+        lualine_b = {
+          {
+            provider = function()
+              return vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":t")
+            end,
+            color = { fg = "normal_fg", bg = "tabline_bg" },
+          },
+        },
+        lualine_c = {},
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = {},
       }
     end,
   },
