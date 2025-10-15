@@ -81,8 +81,8 @@ function M.setup_colors()
   return {
     normal_bg = get_hl("Normal").bg,
     normal_fg = get_hl("Normal").fg,
-    tabline_bg = get_hl("TabLine").bg or get_hl("Pmenu").bg,
-    tabline_sel_bg = get_hl("TabLineSel").bg,
+     tabline_bg = get_hl("TabLineFill").bg,
+     tabline_sel_bg = get_hl("TabLineSel").bg,
     tabline_fill = get_hl("TabLineFill").bg or get_hl("PmenuSel").bg,
     bright_bg = get_hl("Folded").bg or get_hl("Normal").bg,
     bright_fg = get_hl("Folded").fg,
@@ -866,80 +866,12 @@ function M.setup()
   }
 end
 
-local separator = "/"
 
-local function subtbl(tbl, first, last)
-  if type(tbl) == "string" then
-    return string.sub(tbl, first, last)
-  end
-
-  if first < 0 then
-    first = #tbl + 1 + first
-  end
-
-  if last ~= nil and last < 0 then
-    last = #tbl + 1 + last
-  end
-
-  local sliced = {}
-
-  for i = first or 1, last or #tbl do
-    sliced[#sliced + 1] = tbl[i]
-  end
-
-  return sliced
-end
-
-local function get_unique_name(a, b)
-  local a_parts = fn.split(a, separator)
-  local b_parts = fn.split(b, separator)
-
-  local shortest = math.min(#a_parts, #b_parts)
-
-  -- Find the last index of the common divisors
-  local common_divisor = 1
-  for i = 1, shortest do
-    local a_part = a_parts[i]
-    local b_part = b_parts[i]
-
-    if a_part ~= b_part then
-      common_divisor = i
-      break
-    end
-  end
-
-  return fn.join(subtbl(a_parts, common_divisor), separator), fn.join(subtbl(b_parts, common_divisor), separator)
-end
-
----@param data fun(self): any[]
----@param sep table
-local function component_list(data, sep)
-  return {
-    init = function(self)
-      local idx = 1
-
-      for i, data in ipairs(data(self)) do
-        if i ~= 1 then
-          self[idx] = self:new(sep, idx)
-          idx = idx + 1
-        end
-
-        local child = self[idx]
-        child = self:new(data, idx)
-        self[idx] = child
-        idx = idx + 1
-      end
-
-      if #self > idx then
-        for i = #self, idx + 1, -1 do
-          self[i] = nil
-        end
-      end
-    end,
-  }
-end
 
 function M.setup_tabline()
+  local tabline = require "config.tabline"
+  tabline.setup_autocmd()
+
   local function sel_hl(self)
     if self.is_active then
       return { bg = "tabline_sel_bg" }
@@ -947,93 +879,6 @@ function M.setup_tabline()
       return "TabLine"
     end
   end
-
-  local tab_hide = {
-    NvimTree = true,
-    qf = true,
-    aerial = true,
-  }
-
-  local buffer_names = {}
-  local buffer_ids = {}
-  local Recipe = require "recipe.recipe"
-
-  local function get_buffername(bufnr)
-    local task_info = vim.b[bufnr].recipe_task_info
-    if task_info then
-      local recipe = setmetatable(task_info.recipe, Recipe)
-      buffer_ids[bufnr] = string.format("  %s", recipe.label)
-      return
-    end
-
-    local filename = fn.fnamemodify(fn.bufname(bufnr), ":t")
-
-    if filename == nil or filename == "" then
-      return
-    end
-
-    if buffer_names[filename] ~= nil then
-      local other = buffer_names[filename]
-
-      local cur_bufname = fn.fnamemodify(fn.bufname(bufnr), ":~")
-      local other_bufname = fn.fnamemodify(fn.bufname(other), ":~")
-
-      if cur_bufname ~= other_bufname then
-        local new_other, new_cur = get_unique_name(other_bufname, cur_bufname)
-
-        if new_other == "" or new_cur == "" then
-          vim.notify(string.format("%s got turned into empty colliding with %s", cur_bufname, other_bufname))
-        end
-
-        buffer_names[new_other] = other
-        buffer_ids[other] = new_other
-
-        filename = new_cur
-      end
-    end
-
-    buffer_names[filename] = bufnr
-    buffer_ids[bufnr] = filename
-  end
-
-  local tabpages = {}
-
-  -- setup an autocmd that updates the buflist_cache every time that buffers are added/removed
-  vim.api.nvim_create_autocmd({ "VimEnter", "UIEnter", "WinClosed", "WinNew", "BufWinEnter", "BufWinLeave" }, {
-    callback = function()
-      vim.schedule(function()
-        -- Clear and update all buffer names to unique paths
-        buffer_names = {}
-        buffer_ids = {}
-        for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
-          if not tab_hide[vim.bo[bufnr].ft] and vim.api.nvim_buf_is_loaded(bufnr) then
-            get_buffername(bufnr)
-          end
-        end
-
-        -- Update the buffers listed in each tabpage
-        tabpages = {}
-
-        for _, id in ipairs(api.nvim_list_tabpages()) do
-          local windows = api.nvim_tabpage_list_wins(id)
-
-          local tabpage = {}
-          local found = {}
-
-          for _, win in ipairs(windows) do
-            local bufnr = api.nvim_win_get_buf(win)
-
-            if not found[bufnr] and buffer_ids[bufnr] then
-              table.insert(tabpage, bufnr)
-            end
-            found[bufnr] = true
-          end
-
-          tabpages[id] = tabpage
-        end
-      end)
-    end,
-  })
 
   -- local TabpageClose = {
   --   provider = function(self)
@@ -1044,52 +889,70 @@ function M.setup_tabline()
 
   local TabpageBuffers = {
     condition = function(self)
-      local tabpage = tabpages[self.tabpage]
+      local tabpage = tabline.tabpages[self.tabpage]
       return tabpage and #tabpage > 0
     end,
     Space,
-    component_list(function(self)
+    init = function(self)
       local cur_buf = api.nvim_get_current_buf()
-      return vim.tbl_map(function(bufnr)
-        local fg
-        if bufnr == cur_buf then
-          fg = "bright_fg"
+      self.children = {}
+      for i, bufnr in ipairs(tabline.tabpages[self.tabpage] or {}) do
+        if i > 1 then
+          table.insert(self.children, { provider = "·" })
         end
-
-        local display = buffer_ids[bufnr]
-        return {
-          provider = string.format(" %s ", display),
+        local fg = bufnr == cur_buf and "bright_fg"
+        table.insert(self.children, {
+          provider = " " .. tabline.get_buffer_display(bufnr) .. " ",
           hl = { fg = fg },
-        }
-      end, tabpages[self.tabpage] or {})
-    end, { provider = "·" }),
-    -- provider = function(self)
-    --   local tabpage = tabpages[self.tabpage]
-    --   if not tabpage then
-    --     return
-    --   end
-
-    --   return " " .. table.concat(tabpage, " ")
-    -- end,
+        })
+        table.insert(self.children, {
+          provider = "✗",
+          hl = { fg = "red" },
+          on_click = {
+            callback = function()
+              api.nvim_buf_delete(bufnr, {})
+            end,
+            name = "heirline_tabline_close_" .. bufnr,
+          },
+        })
+      end
+    end,
     hl = sel_hl,
   }
 
-  local Tabpage = trapeze({
+  local Tabpage = {
     {
-      provider = function(self)
-        return string.format("%%%dT %d%%T", self.tabnr, self.tabnr)
+      provider = "",
+      hl = function(self)
+        local fg = self.is_active and "tabline_sel_bg" or "tabline_bg"
+        return { fg = fg, bg = "tabline_fill" }
       end,
-      hl = sel_hl,
     },
-    TabpageBuffers,
-    Space,
-  }, function(self)
-    if self.is_active then
-      return "tabline_sel_bg"
-    else
-      return "tabline_bg"
-    end
-  end, "tabline_fill")
+    {
+      hl = function(self)
+        local bg = self.is_active and "tabline_sel_bg" or "tabline_bg"
+        return { bg = bg }
+      end,
+      {
+        provider = function(self)
+          return string.format("%%%dT %d%%T", self.tabnr, self.tabnr)
+        end,
+        hl = sel_hl,
+      },
+      TabpageBuffers,
+      Space,
+    },
+    {
+      condition = function(self)
+        return self.tabnr ~= #api.nvim_list_tabpages()
+      end,
+      provider = "",
+      hl = function(self)
+        local fg = self.is_active and "tabline_sel_bg" or "tabline_bg"
+        return { fg = "tabline_fill", bg = fg }
+      end,
+    },
+  }
 
   local TabPages = {
     -- only show this component if there's 2 or more tabpages

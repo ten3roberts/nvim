@@ -3,26 +3,28 @@ return {
     "nvim-lualine/lualine.nvim",
     enabled = vim.g.statusline_provider == "lualine",
     dependencies = { "nvim-tree/nvim-web-devicons" }, -- Optional, for icons
-    config = function()
-      local function get_branch_info()
-        -- Branch
-        local branch = vim.b.gitsigns_status_dict and vim.b.gitsigns_status_dict.head
-          or vim.fn.system("git branch --show-current"):gsub("\n", "")
-        branch = branch ~= "" and string.format("󰘬 %s", branch) or ""
+     config = function()
+       local tabline = require "config.tabline"
+       tabline.setup_autocmd()
 
-        -- Diff
-        local diff = ""
-        if vim.b.gitsigns_status_dict then
-          local added = vim.b.gitsigns_status_dict.added or 0
-          local removed = vim.b.gitsigns_status_dict.removed or 0
-          local changed = vim.b.gitsigns_status_dict.changed or 0
-          if added > 0 or removed > 0 or changed > 0 then
-            diff = string.format(" +%d ~%d -%d", added, changed, removed)
-          end
-        end
+       local function get_branch_info()
+         -- Branch
+         local branch = vim.fn.system("git branch --show-current"):gsub("\n", "")
+         branch = branch ~= "" and string.format("󰘬 %s", branch) or ""
 
-        return branch .. diff
-      end
+         -- Diff
+         local diff = ""
+         local data = MiniDiff.get_buf_data() or {}
+         local summary = data.summary or {}
+         local added = summary.add or 0
+         local removed = summary.delete or 0
+         local changed = summary.change or 0
+         if added > 0 or removed > 0 or changed > 0 then
+           diff = string.format(" +%d ~%d -%d", added, changed, removed)
+         end
+
+         return branch .. diff
+       end
 
       local function get_file_info()
         -- Filename
@@ -180,78 +182,35 @@ return {
                 if #vim.api.nvim_list_tabpages() < 2 then
                   return ""
                 end
-                local tabline_hl = vim.api.nvim_get_hl(0, { name = "TabLine", link = false })
-                local tabline_sel_hl = vim.api.nvim_get_hl(0, { name = "TabLineSel", link = false })
-                local tabline_fill_hl = vim.api.nvim_get_hl(0, { name = "TabLineFill", link = false })
-                local tabline_bg = tabline_hl.bg
-                local tabline_sel_bg = tabline_sel_hl.bg
-                local tabline_fill = tabline_fill_hl.bg
-                local tabpages = {}
-                local buffer_names = {}
-                local buffer_ids = {}
-                local tab_hide = {
-                  NvimTree = true,
-                  qf = true,
-                  aerial = true,
-                }
+                 local tabline_hl = vim.api.nvim_get_hl(0, { name = "TabLine", link = false })
+                 local tabline_sel_hl = vim.api.nvim_get_hl(0, { name = "TabLineSel", link = false })
+                 local tabline_fill_hl = vim.api.nvim_get_hl(0, { name = "TabLineFill", link = false })
+                 local tabline_bg = tabline_fill
+                 local tabline_sel_bg = tabline_sel_hl.bg
+                 local tabline_fill = tabline_fill_hl.bg
 
-                local function get_buffername(bufnr)
-                  local filename = vim.fn.fnamemodify(vim.fn.bufname(bufnr), ":t")
-                  if filename == nil or filename == "" then
-                    return
-                  end
-                  buffer_ids[bufnr] = filename
-                end
-
-                -- Update buffers
-                buffer_names = {}
-                buffer_ids = {}
-                for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
-                  if not tab_hide[vim.bo[bufnr].ft] and vim.api.nvim_buf_is_loaded(bufnr) then
-                    get_buffername(bufnr)
-                  end
-                end
-
-                -- Update tabpages
-                tabpages = {}
-                for _, id in ipairs(vim.api.nvim_list_tabpages()) do
-                  local windows = vim.api.nvim_tabpage_list_wins(id)
-                  local tabpage = {}
-                  local found = {}
-                  for _, win in ipairs(windows) do
-                    local bufnr = vim.api.nvim_win_get_buf(win)
-                    if not found[bufnr] and buffer_ids[bufnr] then
-                      table.insert(tabpage, bufnr)
-                    end
-                    found[bufnr] = true
-                  end
-                  tabpages[id] = tabpage
-                end
-
-                local current_tab = vim.api.nvim_get_current_tabpage()
-                local parts = {}
-                for i, tabnr in ipairs(vim.api.nvim_list_tabpages()) do
-                  local is_active = tabnr == current_tab
-                  local hl = is_active and "TabLine" or "TabLineSel"
-                  local bg = is_active and tabline_bg or tabline_sel_bg
-                  local tabpage = tabpages[tabnr] or {}
-                  local buffers = {}
-                  for _, bufnr in ipairs(tabpage) do
-                    table.insert(buffers, buffer_ids[bufnr])
-                  end
-                  local buffer_str = table.concat(buffers, " · ")
+                 local current_tab = vim.api.nvim_get_current_tabpage()
+                 local parts = {}
+                 for i, tabnr in ipairs(vim.api.nvim_list_tabpages()) do
+                   local is_active = tabnr == current_tab
+                   local hl = is_active and "TabLine" or "TabLineSel"
+                   local bg = is_active and tabline_bg or tabline_sel_bg
+                   local tabpage = tabline.tabpages[tabnr] or {}
+                   local buffers = vim.tbl_map(function(bufnr) return tabline.get_buffer_display(bufnr) end, tabpage)
+                   local buffer_str = table.concat(buffers, " · ")
                   local tab_str = string.format("%d. %s", i, buffer_str ~= "" and buffer_str or "[No buffers]")
                   local left_sep_hl_name = "TempTabLeft" .. i
                   vim.api.nvim_set_hl(0, left_sep_hl_name, { fg = bg, bg = tabline_fill })
                   local right_sep_hl_name = "TempTabRight" .. i
                   vim.api.nvim_set_hl(0, right_sep_hl_name, { fg = tabline_fill, bg = bg })
+                  local right_sep = i < #vim.api.nvim_list_tabpages() and string.format("%%#%s#", right_sep_hl_name) or ""
                   local tab_part = string.format(
-                    "%%%dT%%#%s#%%#%s#%s%%#%s#",
+                    "%%%dT%%#%s#%%#%s#%s%s",
                     tabnr,
                     left_sep_hl_name,
                     hl,
                     tab_str,
-                    right_sep_hl_name
+                    right_sep
                   )
                   table.insert(parts, tab_part)
                 end

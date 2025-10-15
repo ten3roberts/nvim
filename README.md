@@ -44,6 +44,8 @@ This Neovim config is tailored for efficient coding, with a focus on LSP, AI ass
 - **Terminal**: Integrated terminal with recipe for task running.
 - **Sessions**: Auto-session with auto-save and restore for project persistence.
 - **Themes**: Palette-based theming with Catppuccin (mocha) as default colorscheme.
+- **Startup Tips**: Random keybinding and functionality tips displayed on Neovim startup for quick learning.
+- **Graphene**: File manager integration for project navigation.
 
 ### Disabled/Optional
 - **Copilot**: GitHub Copilot (disabled in favor of local AI).
@@ -55,123 +57,91 @@ For keymaps, see the [Keymaps](#keymaps) section below.
 
 # Keymaps
 
-Below is a comprehensive list of all `vim.keymap.set` calls found in your config, organized by file. I've extracted the mode, key, action/description, and noted if it's buffer-local or has special options. Commented-out mappings are excluded.
+Keymaps are centralized in `lua/config/keybind_definitions.lua` for consistency and organized into modules in `lua/config/keymaps/`. All use `<leader>` as Space. Below is a table of keybindings by category.
 
-## General Config
-
-### lua/config/keymap.lua
-- **Mode**: n | **Key**: `<C-w>o` | **Action**: Custom window maximize | **Options**: Function-based
-
-### lua/config/autocommands.lua
-- **Mode**: t | **Key**: `<esc>` | **Action**: Exit terminal mode | **Options**: Buffer-local
-
-## Plugins
-
-### lua/plugins/spider.lua
-- **Mode**: n, o, x | **Key**: w | **Action**: Spider-w (motion)
-- **Mode**: n, o, x | **Key**: e | **Action**: Spider-e (motion)
-- **Mode**: n, o, x | **Key**: b | **Action**: Spider-b (motion)
-- **Mode**: n, o, x | **Key**: ge | **Action**: Spider-ge (motion)
-
-### lua/plugins/spectre.lua
-- **Mode**: n | **Key**: `<leader>S` | **Action**: Toggle Spectre
-- **Mode**: n | **Key**: `<leader>sw` | **Action**: Spectre word search
-- **Mode**: v | **Key**: `<leader>sw` | **Action**: Spectre visual search
-- **Mode**: n | **Key**: `<leader>sp` | **Action**: Spectre file search
-
-### lua/plugins/luasnip.lua
-- **Mode**: i, s | **Key**: `<c-k>` | **Action**: Luasnip expand/choice prev
-- **Mode**: i, s | **Key**: `<c-j>` | **Action**: Luasnip jump next
-- **Mode**: i, s | **Key**: `<c-l>` | **Action**: Luasnip choice next
-
-### lua/plugins/lsp.lua
-- **Mode**: Various (LSP-defined) | **Key**: Various (e.g., gd, gr) | **Action**: LSP actions (goto definition, references, etc.) | **Options**: Buffer-local, silent
-
-### lua/plugins/treesitter.lua
-- **Mode**: n | **Key**: `[c` | **Action**: Prev conflict (Treesitter)
-
-### lua/plugins/init.lua
-- **Mode**: n, x | **Key**: `<leader>cR` | **Action**: Comment refactor
-- **Mode**: n | **Key**: `<C-a>` | **Action**: Dial increment
-- **Mode**: n | **Key**: `<C-x>` | **Action**: Dial decrement
-- **Mode**: n | **Key**: `g<C-a>` | **Action**: Dial g-increment
-- **Mode**: n | **Key**: `g<C-x>` | **Action**: Dial g-decrement
-- **Mode**: v | **Key**: `<C-a>` | **Action**: Dial visual increment
-- **Mode**: v | **Key**: `<C-x>` | **Action**: Dial visual decrement
-- **Mode**: v | **Key**: `g<C-a>` | **Action**: Dial g-visual increment
-- **Mode**: v | **Key**: `g<C-x>` | **Action**: Dial g-visual decrement
-
-### lua/plugins/ufo.lua
-- **Mode**: n | **Key**: `zR` | **Action**: Open all folds
-- **Mode**: n | **Key**: `zM` | **Action**: Close all folds
-- **Mode**: n | **Key**: `z1-z9` | **Action**: Set fold level to 0-8
-
-### lua/plugins/codecompanion.lua
-- **Mode**: n, v | **Key**: `<C-c>` | **Action**: CodeCompanion actions
-- **Mode**: n, v | **Key**: `<LocalLeader>a` | **Action**: CodeCompanion chat toggle
-- **Mode**: n | **Key**: `<leader>cc` | **Action**: Open CodeCompanion chat
-- **Mode**: v | **Key**: `ga` | **Action**: CodeCompanion chat add
-
-### lua/plugins/snacks.lua
-- **Mode**: n | **Key**: `<leader>bd` | **Action**: Buffer delete
-- **Mode**: n | **Key**: `<leader>bo` | **Action**: Buffer delete others
-- **Mode**: n | **Key**: `<leader><leader>` | **Action**: Files picker (ivy layout)
-- **Mode**: n | **Key**: `z=` | **Action**: Spelling picker
-- **Mode**: n | **Key**: `<leader>,` | **Action**: Buffers picker (ivy layout)
-- **Mode**: n | **Key**: `<leader>/` | **Action**: Buffer lines (fuzzy search)
-- **Mode**: n | **Key**: `<leader>?` | **Action**: Project grep (ivy layout)
-- **Mode**: n | **Key**: `<leader>fg` | **Action**: Git files picker
-- **Mode**: n | **Key**: `<leader>fr` | **Action**: Recent files picker
-- **Mode**: n | **Key**: `<leader>sa` | **Action**: Save all buffers
-- **Mode**: n | **Key**: `<leader>fa` | **Action**: Format buffer (LSP)
-- **Mode**: n | **Key**: `<leader>bc` | **Action**: Close hidden buffers
-- **Mode**: n | **Key**: `<leader>tt` | **Action**: Open terminal
-- **Mode**: n | **Key**: `<leader>mt` | **Action**: Toggle Minuet virtual text
-- **Mode**: n | **Key**: `<leader>dd` | **Action**: Debug searcher
-- **Mode**: n | **Key**: `<leader>si` | **Action**: Icons picker
-- **Mode**: n | **Key**: `<leader>u` | **Action**: Undo picker
-- **Mode**: n | **Key**: `<leader>o` | **Action**: LSP symbols picker
-- **Mode**: n | **Key**: `<leader>O` | **Action**: LSP workspace symbols picker
-- **Mode**: n | **Key**: `<leader>q` | **Action**: Diagnostics buffer picker
-- **Mode**: n | **Key**: `<leader>Q` | **Action**: Diagnostics picker
-- **Mode**: n | **Key**: `<leader>fl` | **Action**: Buffer lines picker
-- **Mode**: n,i | **Key**: `<c-r>` | **Action**: Refine picker results (grep within)
-
-### lua/plugins/mini-diff.lua
-- **Mode**: n | **Key**: gh | **Action**: Apply hunk
-- **Mode**: n | **Key**: gH | **Action**: Reset hunk
-- **Mode**: n, x | **Key**: gh | **Action**: Hunk textobject
-- **Mode**: n | **Key**: [H | **Action**: First hunk
-- **Mode**: n | **Key**: [h | **Action**: Previous hunk
-- **Mode**: n | **Key**: ]h | **Action**: Next hunk
-- **Mode**: n | **Key**: ]H | **Action**: Last hunk
-
-### lua/plugins/mini-operators.lua
-- **Mode**: n, x | **Key**: g= | **Action**: Evaluate math expressions
-- **Mode**: n, x | **Key**: gx | **Action**: Exchange text regions
-- **Mode**: n, x | **Key**: gm | **Action**: Multiply (duplicate) text
-- **Mode**: n, x | **Key**: gr | **Action**: Replace with register
-- **Mode**: n, x | **Key**: gs | **Action**: Sort text
-
-### lua/plugins/mini-splitjoin.lua
-- **Mode**: n | **Key**: gS | **Action**: Toggle split/join
-
-## Filetype-Specific (after/ftplugin)
-
-### after/ftplugin/toml.lua
-- **Mode**: n | **Key**: `K` | **Action**: Show crate popup (Crates) | **Options**: Buffer-local
-- **Mode**: n | **Key**: `<leader>cv` | **Action**: Show versions popup (Crates) | **Options**: Buffer-local
-- **Mode**: n | **Key**: `<leader>cf` | **Action**: Show features popup (Crates) | **Options**: Buffer-local
-- **Mode**: n | **Key**: `<leader>cd` | **Action**: Show dependencies popup (Crates) | **Options**: Buffer-local
-- **Mode**: n | **Key**: `<leader>cu` | **Action**: Upgrade crate (Crates) | **Options**: Buffer-local
-- **Mode**: n | **Key**: `<leader>cU` | **Action**: Upgrade all crates (Crates) | **Options**: Buffer-local
+| Category | Key | Description |
+|----------|-----|-------------|
+| LSP & Diagnostics | `<leader>j` / `<leader>k` | Next/previous diagnostic |
+| LSP & Diagnostics | `<leader>l` / `<leader>h` | Next/previous error |
+| Windows & Buffers | `<C-w>o` | Close other windows (preserve special) |
+| Windows & Buffers | `<leader>bh` | Close hidden buffers |
+| Windows & Buffers | `<leader>bo` | Buffer delete others (Snacks) |
+| Windows & Buffers | `<leader>bd` | Buffer delete (Snacks) |
+| Tabs | `<leader>0-9` | Switch to tab 1-10 |
+| Tabs | `<A-,>` / `<A-.>` | Previous/next tab |
+| Tabs | `<A-<>` / `<A->>` | Move tab left/right |
+| Tabs | `<leader>to` | Close other tabs |
+| Tabs | `<leader>tt` | Split tab |
+| Tabs | `<leader>tq` | Close tab |
+| Search & Navigation | `<Esc>` | Clear search highlight |
+| Search & Navigation | `<leader><leader>` | Files picker |
+| Search & Navigation | `<leader>,` | Buffers picker |
+| Search & Navigation | `<leader>/` | Buffer lines (fuzzy) |
+| Search & Navigation | `<leader>?` | Project grep |
+| Search & Navigation | `<leader>fg` | Git files |
+| Search & Navigation | `<leader>fr` | Recent files |
+| Search & Navigation | `<leader>o` | LSP symbols |
+| Search & Navigation | `<leader>O` | LSP workspace symbols |
+| Search & Navigation | `<leader>q` | Diagnostics buffer |
+| Search & Navigation | `<leader>Q` | Diagnostics picker |
+| Search & Navigation | `<leader>fl` | Buffer lines picker |
+| Search & Navigation | `<c-r>` | Refine picker results (grep within) |
+| Search & Navigation | `z=` | Spelling picker |
+| Git & Diff | `gh` | Apply/reset hunk (mini.diff) |
+| Git & Diff | `gH` | Reset hunk |
+| Git & Diff | `[h` / `]h` | Previous/next hunk |
+| Git & Diff | `[H` / `]H` | First/last hunk |
+| Folding | `zR` / `zM` | Open/close all folds |
+| Folding | `z1-z9` | Set fold level 0-8 |
+| Text Operations | `g=` | Evaluate math (mini) |
+| Text Operations | `gx` | Exchange regions (mini) |
+| Text Operations | `gm` | Multiply (duplicate) text (mini) |
+| Text Operations | `gr` | Replace with register (mini) |
+| Text Operations | `gs` | Sort text (mini) |
+| Text Operations | `gS` | Toggle split/join (mini) |
+| AI & Completion | `<C-c>` | CodeCompanion actions |
+| AI & Completion | `<LocalLeader>a` | Toggle CodeCompanion chat |
+| AI & Completion | `<leader>cc` | Open CodeCompanion chat |
+| AI & Completion | `ga` | Add to CodeCompanion chat (visual) |
+| AI & Completion | `<leader>mt` | Toggle Minuet virtual text |
+| Tools & Utilities | `<leader>S` | Toggle Spectre |
+| Tools & Utilities | `<leader>sw` | Spectre word/file search |
+| Tools & Utilities | `<leader>sp` | Spectre file search |
+| Tools & Utilities | `<leader>cR` | Structural replace (SSR) |
+| Tools & Utilities | `<leader>sa` | Save all buffers |
+| Tools & Utilities | `<leader>fa` | Format buffer (LSP) |
+| Tools & Utilities | `<leader>tt` | Open terminal |
+| Tools & Utilities | `<leader>dd` | Debug searcher |
+| Tools & Utilities | `<leader>si` | Icons picker |
+| Tools & Utilities | `<leader>u` | Undo picker |
+| Tools & Utilities | `<leader>XX` | Save and execute (dev utils) |
+| Tools & Utilities | `<leader>ci` | Indent whole buffer |
+| Tools & Utilities | `<leader>f` | Init graphene |
+| Window Picker | `<leader>w` | Pick window |
+| Window Picker | `<leader><A-w>` | Zap window |
+| Window Picker | `<leader>W` | Swap window |
+| Dial (Increment/Decrement) | `<C-a>` / `<C-x>` | Increment/decrement (normal/visual) |
+| Dial (Increment/Decrement) | `g<C-a>` / `g<C-x>` | G-increment/decrement (normal/visual) |
+| Yanky (Clipboard) | `y`, `p`, `P`, etc. | Enhanced yank/put |
+| Yanky (Clipboard) | `<A-n>` / `<A-p>` | Cycle forward/backward |
+| Yanky (Clipboard) | `<C-p>` | Yank history (Telescope) |
+| Spider (Motions) | `w`, `e`, `b`, `ge` | Better word motions |
+| LuaSnip | `<c-k>` | Expand/choice prev |
+| LuaSnip | `<c-j>` | Jump next |
+| LuaSnip | `<c-l>` | Choice next |
+| Crates (TOML) | `K` | Show crate popup |
+| Crates (TOML) | `<leader>cv` | Versions popup |
+| Crates (TOML) | `<leader>cf` | Features popup |
+| Crates (TOML) | `<leader>cd` | Dependencies popup |
+| Crates (TOML) | `<leader>cu` | Upgrade crate |
+| Crates (TOML) | `<leader>cU` | Upgrade all crates |
+| Terminal | `<Esc>` | Exit terminal mode |
 
 ## Notes
-- **Dynamic Mappings**: Some (e.g., LSP) are set dynamically and may vary per buffer/plugin.
-- **Exclusions**: Commented-out mappings (e.g., in harpoon.lua, aerial.lua) are not included.
-- **Modes**: n=normal, i=insert, v=visual, x=visual block, o=operator pending, s=select, t=terminal.
-- **Leader**: Assumes `<leader>` is Space (common default).
-- This list is based on static `vim.keymap.set` calls; runtime/plugin-generated ones may exist.
+- **Dynamic Mappings**: LSP and plugin-generated mappings may vary.
+- **Modes**: Most are normal mode; visual/select/insert noted where applicable.
+- **Leader**: Space.
+- Keymaps use centralized definitions for easy customization.
 
 # TODO
 - fn snippet
