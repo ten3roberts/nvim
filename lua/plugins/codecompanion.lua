@@ -23,15 +23,25 @@ return {
       },
     },
     config = function(_, opts)
-      local keybinds = require("config.keybind_definitions")
-      vim.keymap.set({ "n", "v" }, keybinds.getKeybind("codecompanion-actions"), "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true, desc = keybinds.getDesc("codecompanion-actions") })
+      local keybinds = require "config.keybind_definitions"
       vim.keymap.set(
         { "n", "v" },
-        keybinds.getKeybind("codecompanion-chat-toggle"),
-        "<cmd>CodeCompanionChat Toggle<cr>",
-        { noremap = true, silent = true, desc = keybinds.getDesc("codecompanion-chat-toggle") }
+        keybinds.getKeybind "codecompanion-actions",
+        "<cmd>CodeCompanionActions<cr>",
+        { noremap = true, silent = true, desc = keybinds.getDesc "codecompanion-actions" }
       )
-      vim.keymap.set("v", keybinds.getKeybind("codecompanion-chat-add"), "<cmd>CodeCompanionChat Add<cr>", { noremap = true, silent = true, desc = keybinds.getDesc("codecompanion-chat-add") })
+      vim.keymap.set(
+        { "n", "v" },
+        keybinds.getKeybind "codecompanion-chat-toggle",
+        "<cmd>CodeCompanionChat Toggle<cr>",
+        { noremap = true, silent = true, desc = keybinds.getDesc "codecompanion-chat-toggle" }
+      )
+      vim.keymap.set(
+        "v",
+        keybinds.getKeybind "codecompanion-chat-add",
+        "<cmd>CodeCompanionChat Add<cr>",
+        { noremap = true, silent = true, desc = keybinds.getDesc "codecompanion-chat-add" }
+      )
 
       -- Expand 'cc' into 'CodeCompanion' in the command line
       vim.cmd [[cab cc CodeCompanion]]
@@ -46,26 +56,22 @@ return {
     "MeanderingProgrammer/render-markdown.nvim",
     ft = { "markdown", "codecompanion", "Avante" },
   },
-  {
-    "echasnovski/mini.diff",
-    config = function()
-      local diff = require "mini.diff"
-      diff.setup {
-        -- Disabled by default
-        -- source = diff.gen_source.none(),
-      }
-    end,
-  },
-  {
-    "HakonHarnes/img-clip.nvim",
-    opts = {
-      filetypes = {
-        codecompanion = {
-          prompt_for_file_name = false,
-          template = "[Image]($FILE_PATH)",
-          use_absolute_path = true,
-        },
-      },
-    },
-  },
-}
+   {
+     "HakonHarnes/img-clip.nvim",
+     opts = {
+       filetypes = {
+         codecompanion = {
+           prompt_for_file_name = false,
+           template = "[Image]($FILE_PATH)",
+           use_absolute_path = true,
+         },
+       },
+     },
+   },
+   {
+     "echasnovski/mini.move",
+     config = function()
+       require("mini.move").setup()
+     end,
+   },
+ }
