@@ -103,21 +103,46 @@ return {
            end,
           component_separators = { left = "", right = " " }, -- Separators with spacing
           section_separators = { left = "", right = "" }, -- Separator with mode color
-          disabled_filetypes = { "NvimTree", "aerial" },
-        },
-         sections = {
-           -- Filled pill: right side components (x, y, z) with mode-colored backgrounds for high contrast
-           lualine_a = { "mode" },
+           disabled_filetypes = { "NvimTree", "aerial" },
+         },
+         tabline = {
+           component_separators = { left = '', right = '' },
+           section_separators = { left = '', right = '' },
+           lualine_a = {
+             {
+               "tabs",
+               mode = 1,
+               tabs_color = {
+                 active = { fg = "normal_fg", bg = "tabline_sel_bg" },
+                 inactive = { fg = "gray", bg = "tabline_bg" },
+               },
+             },
+           },
            lualine_b = {
              {
-               provider = get_file_info,
-               color = function()
-                 if vim.bo.buftype == "terminal" then
-                   return { fg = "green" }
-                 else
-                   return { fg = "orange" }
+               function()
+                 local tabnr = vim.fn.tabpagenr()
+                 local wins = vim.fn.tabpagewinnr(tabnr, '$')
+                 local buffers = {}
+                 for i = 1, wins do
+                   local bufnr = vim.fn.tabpagebuflist(tabnr)[i]
+                   local name = vim.fn.fnamemodify(vim.fn.bufname(bufnr), ':t')
+                   if name ~= '' then
+                     table.insert(buffers, name)
+                   end
                  end
+                 return table.concat(buffers, ' · ')
                end,
+               color = { fg = "normal_fg", bg = "tabline_bg" },
+             },
+           },
+           lualine_c = {},
+           lualine_x = {},
+           lualine_y = {},
+           lualine_z = {},
+         },
+       }
+     end,
               padding = { left = 1, right = 0 },
             },
           },
