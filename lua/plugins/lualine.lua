@@ -99,7 +99,6 @@ return {
             local mode_color = get_mode_color()
             return get_theme(mode_color)
           end,
-          component_separators = { left = "", right = "" },
           section_separators = { left = "", right = "" }, -- Separator with mode color
           disabled_filetypes = { "NvimTree", "aerial" },
         },
@@ -233,22 +232,22 @@ return {
                 local parts = {}
                 for i, tabnr in ipairs(vim.api.nvim_list_tabpages()) do
                   local is_active = tabnr == current_tab
-                  local hl = is_active and "TabLineSel" or "TabLine"
-                  local bg = is_active and tabline_sel_bg or tabline_bg
+                  local hl = is_active and "TabLine" or "TabLineSel"
+                  local bg = is_active and tabline_bg or tabline_sel_bg
                   local tabpage = tabpages[tabnr] or {}
                   local buffers = {}
                   for _, bufnr in ipairs(tabpage) do
                     table.insert(buffers, buffer_ids[bufnr])
                   end
                   local buffer_str = table.concat(buffers, " · ")
-                  local tab_str =
-                    string.format("%%%dT %d. %s", tabnr, i, buffer_str ~= "" and buffer_str or "[No buffers]")
+                  local tab_str = string.format("%d. %s", i, buffer_str ~= "" and buffer_str or "[No buffers]")
                   local left_sep_hl_name = "TempTabLeft" .. i
                   vim.api.nvim_set_hl(0, left_sep_hl_name, { fg = bg, bg = tabline_fill })
                   local right_sep_hl_name = "TempTabRight" .. i
                   vim.api.nvim_set_hl(0, right_sep_hl_name, { fg = tabline_fill, bg = bg })
                   local tab_part = string.format(
-                    "%%#%s#%%#%s#%s%%#%s#%%#Normal#",
+                    "%%%dT%%#%s#%%#%s#%s%%#%s#",
+                    tabnr,
                     left_sep_hl_name,
                     hl,
                     tab_str,
@@ -256,7 +255,7 @@ return {
                   )
                   table.insert(parts, tab_part)
                 end
-                return table.concat(parts, "")
+                return table.concat(parts, "   ")
               end,
             },
           },

@@ -22,7 +22,7 @@ return {
     dependencies = "nvim-lua/plenary.nvim",
     opts = function()
       local zen_provider = getZenProvider()
-      vim.notify("Configuring minuet: " .. (vim.inspect(zen_provider) or "none"))
+      -- vim.notify("Configuring minuet: " .. (vim.inspect(zen_provider) or "none"))
       return {
         virtualtext = {
           auto_trigger_ft = { "*" },

@@ -72,10 +72,29 @@ return {
       "nvim-treesitter/nvim-treesitter-textobjects",
       "nvim-treesitter/nvim-treesitter-refactor",
     },
-    config = function()
-      require("nvim-treesitter.configs").setup {
-        ensure_installed = "all",
-        sync_install = true,
+     config = function()
+       pcall(function()
+         require("nvim-treesitter.configs").setup {
+        ensure_installed = {
+          "lua",
+          "rust",
+          "python",
+          "javascript",
+          "typescript",
+          "html",
+          "css",
+          "json",
+          "toml",
+          "markdown",
+          "c",
+          "cpp",
+          "go",
+          "java",
+          "bash",
+          "vim",
+          "yaml",
+        },
+        sync_install = false,
         auto_install = true,
         ignore_install = { "latex", "ipkg", "norg" },
         modules = {},
@@ -86,6 +105,7 @@ return {
         matchup = { enable = true, disable = disable_large_file "matchup" },
         highlight = {
           enable = true,
+          disable = disable_large_file "highlight",
         },
         incremental_selection = {
           enable = true,
@@ -137,6 +157,8 @@ return {
               -- ["aA"] = "@parameter.outer",
               ["i;"] = "@call.inner",
               ["a;"] = "@call.outer",
+              ["ab"] = "@block.outer",
+              ["ib"] = "@block.inner",
             },
           },
           move = {
@@ -178,8 +200,9 @@ return {
             ["ic"] = "textsubjects-container-inner",
           },
         },
-        -- indent = { enable = true },
-      }
+        indent = { enable = true },
+        }
+       end)
     end,
   },
 }

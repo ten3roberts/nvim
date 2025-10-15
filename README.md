@@ -8,7 +8,7 @@ This Neovim config is tailored for efficient coding, with a focus on LSP, AI ass
 
 ### Core Functionality
 - **LSP Support**: Full language server protocol integration with diagnostics, goto definitions, references, and more.
-- **Treesitter**: Advanced syntax highlighting, folding, and incremental selection.
+- **Treesitter**: Advanced syntax highlighting, folding, indentation, incremental selection, and textobjects.
 - **Completion**: Multi-source autocompletion via Blink.cmp, nvim-cmp, and Minuet AI (OpenCode Zen provider, requires ZEN_API_KEY).
 - **Snippets**: LuaSnip for expandable code snippets.
 - **AI Assistance**: CodeCompanion for AI chat and code generation; Minuet for inline AI completions (conditional on API key).
