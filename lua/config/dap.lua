@@ -140,26 +140,15 @@ function M.log_breakpoint()
   end)
 end
 
-local tree = require "config.treebind"
-
-tree.register({
-  O = { ui.toggle, "Toggle dap ui" },
-
-  E = { M.eval_input, "Evaluate input" },
-  ["."] = { M.float, "Open floating element" },
-  w = {
-    function()
-      require("dap.ui.widgets").hover()
-    end,
-    "Hover",
-  },
-
-  l = {
-    v = { "<cmd>:Telescope dap variables", "Variables" },
-    b = { "<cmd>:Telescope dap list_breakpoints", "Breakpoints" },
-    f = { "<cmd>:Telescope dap frames", "Frames" },
-    c = { "<cmd>:Telescope dap commands", "Commands" },
-  },
-}, { prefix = "<leader>d" })
+vim.keymap.set("n", "<leader>dO", ui.toggle, { desc = "Toggle dap ui" })
+vim.keymap.set("n", "<leader>dE", M.eval_input, { desc = "Evaluate input" })
+vim.keymap.set("n", "<leader>d.", M.float, { desc = "Open floating element" })
+vim.keymap.set("n", "<leader>dw", function()
+  require("dap.ui.widgets").hover()
+end, { desc = "Hover" })
+vim.keymap.set("n", "<leader>dlv", "<cmd>:Telescope dap variables<CR>", { desc = "Variables" })
+vim.keymap.set("n", "<leader>dlb", "<cmd>:Telescope dap list_breakpoints<CR>", { desc = "Breakpoints" })
+vim.keymap.set("n", "<leader>dlf", "<cmd>:Telescope dap frames<CR>", { desc = "Frames" })
+vim.keymap.set("n", "<leader>dlc", "<cmd>:Telescope dap commands<CR>", { desc = "Commands" })
 
 return M

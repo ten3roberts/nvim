@@ -167,7 +167,7 @@ Below is a comprehensive list of all `vim.keymap.set` calls found in your config
 - **Mode**: n | **Key**: `<leader>cU` | **Action**: Upgrade all crates (Crates) | **Options**: Buffer-local
 
 ## Notes
-- **Dynamic Mappings**: Some (e.g., LSP, treebind) are set dynamically and may vary per buffer/plugin.
+- **Dynamic Mappings**: Some (e.g., LSP) are set dynamically and may vary per buffer/plugin.
 - **Exclusions**: Commented-out mappings (e.g., in harpoon.lua, aerial.lua) are not included.
 - **Modes**: n=normal, i=insert, v=visual, x=visual block, o=operator pending, s=select, t=terminal.
 - **Leader**: Assumes `<leader>` is Space (common default).
