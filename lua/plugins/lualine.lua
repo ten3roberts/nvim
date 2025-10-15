@@ -177,20 +177,22 @@ return {
             },
           },
           lualine_b = {
-            {
-              function()
-                local tabnr = vim.fn.tabpagenr()
-                local wins = vim.fn.tabpagewinnr(tabnr, "$")
-                local buffers = {}
-                for i = 1, wins do
-                  local bufnr = vim.fn.tabpagebuflist(tabnr)[i]
-                  local name = vim.fn.fnamemodify(vim.fn.bufname(bufnr), ":t")
-                  if name ~= "" then
-                    table.insert(buffers, name)
+              {
+                function()
+                  local tabnr = vim.fn.tabpagenr()
+                  local wins = vim.fn.tabpagewinnr(tabnr, "$")
+                  local buffers = {}
+                  local seen = {}
+                  for i = 1, wins do
+                    local bufnr = vim.fn.tabpagebuflist(tabnr)[i]
+                    local name = vim.fn.fnamemodify(vim.fn.bufname(bufnr), ':t')
+                    if name ~= '' and not seen[name] then
+                      seen[name] = true
+                      table.insert(buffers, name)
+                    end
                   end
-                end
-                return table.concat(buffers, " · ")
-              end,
+                  return table.concat(buffers, ' · ')
+                end,
               color = { fg = "normal_fg", bg = "tabline_bg" },
             },
           },
