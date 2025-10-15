@@ -4,21 +4,54 @@ return {
     enabled = vim.g.statusline_provider == "lualine",
     dependencies = { "nvim-tree/nvim-web-devicons" }, -- Optional, for icons
     config = function()
-      local function get_file_info()
-        -- Branch
-        local branch = vim.b.gitsigns_status_dict and vim.b.gitsigns_status_dict.head
-          or vim.fn.system("git branch --show-current"):gsub("\n", "")
-        branch = branch ~= "" and string.format("󰘬 %s", branch) or ""
+        local function get_file_info()
+          -- Branch
+          local branch = vim.b.gitsigns_status_dict and vim.b.gitsigns_status_dict.head
+            or vim.fn.system("git branch --show-current"):gsub("\n", "")
+          branch = branch ~= "" and string.format("󰘬 %s", branch) or ""
 
-        -- Diff
-        local diff = ""
-        if vim.b.gitsigns_status_dict then
-          local added = vim.b.gitsigns_status_dict.added or 0
-          local removed = vim.b.gitsigns_status_dict.removed or 0
-          local changed = vim.b.gitsigns_status_dict.changed or 0
-          if added > 0 or removed > 0 or changed > 0 then
-            diff = string.format("+%d ~%d -%d", added, changed, removed)
+          -- Diff
+          local diff = ""
+          if vim.b.gitsigns_status_dict then
+            local added = vim.b.gitsigns_status_dict.added or 0
+            local removed = vim.b.gitsigns_status_dict.removed or 0
+            local changed = vim.b.gitsigns_status_dict.changed or 0
+            if added > 0 or removed > 0 or changed > 0 then
+              diff = string.format("+%d ~%d -%d", added, changed, removed)
+            end
           end
+
+          -- Filename
+          local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":~:.")
+          if filename == "" then
+            filename = "[No Name]"
+          end
+          local extension = vim.fn.fnamemodify(filename, ":e")
+          local icon, icon_color
+          if vim.bo.buftype == "terminal" then
+            filename = "Terminal"
+            icon = ""
+            icon_color = "#87af87" -- green
+          else
+            icon, icon_color = require("nvim-web-devicons").get_icon_color(filename, extension, { default = true })
+          end
+          local icon_str = icon and (icon .. " ") or ""
+          local modified = vim.bo.modified and " 󰆓" or ""
+          local readonly = (not vim.bo.modifiable or vim.bo.readonly) and " " or ""
+          return branch
+            .. (diff ~= "" and " " .. diff or "")
+            .. " "
+            .. icon_str
+            .. filename
+            .. modified
+            .. readonly
+        end
+
+        local function get_tab_name(tabnr)
+          local bufnr = vim.fn.tabpagebuflist(tabnr)[1]
+          local name = vim.fn.fnamemodify(vim.fn.bufname(bufnr), ':t')
+          return name == '' and '[No Name]' or name
+        end
         end
 
         -- Filename
@@ -168,9 +201,9 @@ return {
             lualine_a = {
               {
                 "tabs",
-                mode = 2,
-                fmt = function(name, context)
-                  return context.tabnr .. ". " .. name
+                mode = 0,
+                fmt = function(number, context)
+                  return context.tabnr .. ". " .. get_tab_name(context.tabnr)
                 end,
                 tabs_color = {
                   active = { fg = "normal_fg", bg = "tabline_sel_bg" },
