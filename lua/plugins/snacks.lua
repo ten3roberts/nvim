@@ -143,23 +143,23 @@ return {
       desc = keybinds.getDesc("snacks-project-grep"),
     },
     {
-      keybinds.getKeybind("snacks-git-files-picker"),
+      keybinds.getKeybind("snacks-git-files"),
       function()
         require("snacks").picker.git_files()
       end,
-      desc = keybinds.getDesc("snacks-git-files-picker"),
+      desc = keybinds.getDesc("snacks-git-files"),
     },
     {
-      keybinds.getKeybind("snacks-recent-files-picker"),
+      keybinds.getKeybind("snacks-recent-files"),
       function()
         require("snacks").picker.recent()
       end,
-      desc = keybinds.getDesc("snacks-recent-files-picker"),
+      desc = keybinds.getDesc("snacks-recent-files"),
     },
     {
-      keybinds.getKeybind("snacks-save-all-buffers"),
+      keybinds.getKeybind("snacks-save-all"),
       ":wa<CR>",
-      desc = keybinds.getDesc("snacks-save-all-buffers"),
+      desc = keybinds.getDesc("snacks-save-all"),
     },
     {
       keybinds.getKeybind("snacks-format-buffer"),
@@ -169,9 +169,9 @@ return {
       desc = keybinds.getDesc("snacks-format-buffer"),
     },
     {
-      keybinds.getKeybind("snacks-close-hidden-buffers"),
+      keybinds.getKeybind("snacks-close-hidden"),
       ":BCloseHidden<CR>",
-      desc = keybinds.getDesc("snacks-close-hidden-buffers"),
+      desc = keybinds.getDesc("snacks-close-hidden"),
     },
     {
       keybinds.getKeybind("snacks-open-terminal"),
@@ -179,9 +179,9 @@ return {
       desc = keybinds.getDesc("snacks-open-terminal"),
     },
     {
-      keybinds.getKeybind("snacks-toggle-minuet-virtual-text"),
+      keybinds.getKeybind("snacks-toggle-minuet"),
       ":Minuet virtualtext toggle<CR>",
-      desc = keybinds.getDesc("snacks-toggle-minuet-virtual-text"),
+      desc = keybinds.getDesc("snacks-toggle-minuet"),
     },
     {
       keybinds.getKeybind("snacks-debug-searcher"),
@@ -205,32 +205,32 @@ return {
       desc = keybinds.getDesc("snacks-undo-picker"),
     },
     {
-      keybinds.getKeybind("snacks-lsp-symbols-picker"),
+      keybinds.getKeybind("snacks-lsp-symbols"),
       function()
         require("snacks").picker.lsp_symbols()
       end,
-      desc = keybinds.getDesc("snacks-lsp-symbols-picker"),
+      desc = keybinds.getDesc("snacks-lsp-symbols"),
     },
     {
-      keybinds.getKeybind("snacks-lsp-workspace-symbols-picker"),
+      keybinds.getKeybind("snacks-lsp-workspace-symbols"),
       function()
         require("snacks").picker.lsp_workspace_symbols()
       end,
-      desc = keybinds.getDesc("snacks-lsp-workspace-symbols-picker"),
+      desc = keybinds.getDesc("snacks-lsp-workspace-symbols"),
     },
     {
-      keybinds.getKeybind("snacks-diagnostics-buffer-picker"),
+      keybinds.getKeybind("snacks-diagnostics-buffer"),
       function()
         require("snacks").picker.diagnostics_buffer()
       end,
-      desc = keybinds.getDesc("snacks-diagnostics-buffer-picker"),
+      desc = keybinds.getDesc("snacks-diagnostics-buffer"),
     },
     {
-      keybinds.getKeybind("snacks-diagnostics-picker"),
+      keybinds.getKeybind("snacks-diagnostics"),
       function()
         require("snacks").picker.diagnostics()
       end,
-      desc = keybinds.getDesc("snacks-diagnostics-picker"),
+      desc = keybinds.getDesc("snacks-diagnostics"),
     },
     {
       keybinds.getKeybind("snacks-buffer-lines-picker"),
