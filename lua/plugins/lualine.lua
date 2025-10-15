@@ -95,14 +95,20 @@ return {
                   end
                 end
 
-                -- Filename
-                local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":~:.")
-                if filename == "" then
-                  filename = "[No Name]"
-                end
-                local extension = vim.fn.fnamemodify(filename, ":e")
-                local icon, icon_color =
-                  require("nvim-web-devicons").get_icon_color(filename, extension, { default = true })
+                 -- Filename
+                 local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":~:.")
+                 if filename == "" then
+                   filename = "[No Name]"
+                 end
+                 local extension = vim.fn.fnamemodify(filename, ":e")
+                 local icon, icon_color
+                 if vim.bo.buftype == "terminal" then
+                   filename = "Terminal"
+                   icon = ""
+                   icon_color = "#87af87" -- green
+                 else
+                   icon, icon_color = require("nvim-web-devicons").get_icon_color(filename, extension, { default = true })
+                 end
                 local icon_str = icon and string.format("%%#%s#%s ", "DevIcon" .. extension, icon) or ""
                 local modified = vim.bo.modified and " 󰆓" or ""
                 local readonly = (not vim.bo.modifiable or vim.bo.readonly) and " " or ""
