@@ -164,8 +164,6 @@ return {
           lualine_z = {},
         },
           tabline = {
-            component_separators = false,
-            section_separators = false,
           lualine_a = {
             {
               "tabs",
