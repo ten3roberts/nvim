@@ -68,50 +68,39 @@ return {
         return mode_colors[mode] or "#5f87af"
       end
 
-      local normal_hl = vim.api.nvim_get_hl(0, { name = "Normal", link = false })
-      local normal_fg = normal_hl.fg and string.format("#%06x", normal_hl.fg) or "#ffffff"
+       local normal_hl = vim.api.nvim_get_hl(0, { name = "Normal", link = false })
+       local normal_fg = normal_hl.fg and string.format("#%06x", normal_hl.fg) or "#ffffff"
 
-      require("lualine").setup {
-        options = {
-          theme = function()
-            local mode_color = get_mode_color()
-            return {
-              normal = {
-                a = { fg = "normal_bg", bg = mode_color, gui = "bold" },
-                b = { fg = normal_fg, bg = "normal_bg" },
-                c = { fg = normal_fg, bg = "normal_bg" },
-              },
-              insert = {
-                a = { fg = "normal_bg", bg = mode_color, gui = "bold" },
-                b = { fg = normal_fg, bg = "normal_bg" },
-                c = { fg = normal_fg, bg = "normal_bg" },
-              },
-              visual = {
-                a = { fg = "normal_bg", bg = mode_color, gui = "bold" },
-                b = { fg = normal_fg, bg = "normal_bg" },
-                c = { fg = normal_fg, bg = "normal_bg" },
-              },
-              replace = {
-                a = { fg = "normal_bg", bg = mode_color, gui = "bold" },
-                b = { fg = normal_fg, bg = "normal_bg" },
-                c = { fg = normal_fg, bg = "normal_bg" },
-              },
-              command = {
-                a = { fg = "normal_bg", bg = mode_color, gui = "bold" },
-                b = { fg = normal_fg, bg = "normal_bg" },
-                c = { fg = normal_fg, bg = "normal_bg" },
-              },
-              inactive = {
-                a = { fg = normal_fg, bg = "normal_bg" },
-                b = { fg = normal_fg, bg = "normal_bg" },
-                c = { fg = normal_fg, bg = "normal_bg" },
-              },
-              separators = {
-                left = { fg = mode_color, bg = "normal_bg" },
-                right = { fg = "normal_bg", bg = mode_color },
-              },
-            }
-          end,
+       local function get_theme(mode_color)
+         local base = {
+           a = { fg = "normal_bg", bg = mode_color, gui = "bold" },
+           b = { fg = normal_fg, bg = "normal_bg" },
+           c = { fg = normal_fg, bg = "normal_bg" },
+         }
+         return {
+           normal = base,
+           insert = base,
+           visual = base,
+           replace = base,
+           command = base,
+           inactive = {
+             a = { fg = normal_fg, bg = "normal_bg" },
+             b = { fg = normal_fg, bg = "normal_bg" },
+             c = { fg = normal_fg, bg = "normal_bg" },
+           },
+           separators = {
+             left = { fg = mode_color, bg = "normal_bg" },
+             right = { fg = "normal_bg", bg = mode_color },
+           },
+         }
+       end
+
+       require("lualine").setup {
+         options = {
+           theme = function()
+             local mode_color = get_mode_color()
+             return get_theme(mode_color)
+           end,
           component_separators = { left = "", right = " " }, -- Separators with spacing
           section_separators = { left = "", right = "" }, -- Separator with mode color
           disabled_filetypes = { "NvimTree", "aerial" },
@@ -122,9 +111,13 @@ return {
            lualine_b = {
              {
                provider = get_file_info,
-              color = function()
-                return { fg = "orange" }
-              end,
+               color = function()
+                 if vim.bo.buftype == "terminal" then
+                   return { fg = "green" }
+                 else
+                   return { fg = "orange" }
+                 end
+               end,
               padding = { left = 1, right = 0 },
             },
           },
