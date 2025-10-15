@@ -59,48 +59,48 @@ local keybinds = {
   ["dap-commands"] = { keybind = "<leader>dlc", desc = "Commands" },
 
   -- Snacks
-  ["buffer-delete"] = { keybind = "<leader>bd", desc = "Buffer delete" },
-  ["buffer-delete-others"] = { keybind = "<leader>bo", desc = "Buffer delete others" },
-  ["files-picker"] = { keybind = "<leader><leader>", desc = "Files picker" },
-  ["spelling-picker"] = { keybind = "z=", desc = "Spelling picker" },
-  ["buffers-picker"] = { keybind = "<leader>,", desc = "Buffers picker" },
-  ["buffer-lines"] = { keybind = "<leader>/", desc = "Buffer lines (fuzzy search)" },
-  ["project-grep"] = { keybind = "<leader>?", desc = "Project grep" },
-  ["git-files-picker"] = { keybind = "<leader>fg", desc = "Git files picker" },
-  ["recent-files-picker"] = { keybind = "<leader>fr", desc = "Recent files picker" },
-  ["save-all-buffers"] = { keybind = "<leader>sa", desc = "Save all buffers" },
-  ["format-buffer"] = { keybind = "<leader>fa", desc = "Format buffer (LSP)" },
-  ["close-hidden-buffers"] = { keybind = "<leader>bc", desc = "Close hidden buffers" },
-  ["open-terminal"] = { keybind = "<leader>tt", desc = "Open terminal" },
-  ["toggle-minuet-virtual-text"] = { keybind = "<leader>mt", desc = "Toggle Minuet virtual text" },
-  ["debug-searcher"] = { keybind = "<leader>dd", desc = "Debug searcher" },
-  ["icons-picker"] = { keybind = "<leader>si", desc = "Icons picker" },
-  ["undo-picker"] = { keybind = "<leader>u", desc = "Undo picker" },
-  ["lsp-symbols-picker"] = { keybind = "<leader>o", desc = "LSP symbols picker" },
-  ["lsp-workspace-symbols-picker"] = { keybind = "<leader>O", desc = "LSP workspace symbols picker" },
-  ["diagnostics-buffer-picker"] = { keybind = "<leader>q", desc = "Diagnostics buffer picker" },
-  ["diagnostics-picker"] = { keybind = "<leader>Q", desc = "Diagnostics picker" },
-  ["buffer-lines-picker"] = { keybind = "<leader>fl", desc = "Buffer lines picker" },
-  ["refine-picker-results"] = { keybind = "<c-r>", desc = "Refine picker results (grep within)" },
+  ["snacks-buffer-delete"] = { keybind = "<leader>bd", desc = "Buffer delete" },
+  ["snacks-buffer-delete-others"] = { keybind = "<leader>bo", desc = "Buffer delete others" },
+  ["snacks-files-picker"] = { keybind = "<leader><leader>", desc = "Files picker" },
+  ["snacks-spelling-picker"] = { keybind = "z=", desc = "Spelling picker" },
+  ["snacks-buffers-picker"] = { keybind = "<leader>,", desc = "Buffers picker" },
+  ["snacks-buffer-lines"] = { keybind = "<leader>/", desc = "Buffer lines (fuzzy search)" },
+  ["snacks-project-grep"] = { keybind = "<leader>?", desc = "Project grep" },
+  ["snacks-git-files-picker"] = { keybind = "<leader>fg", desc = "Git files picker" },
+  ["snacks-recent-files-picker"] = { keybind = "<leader>fr", desc = "Recent files picker" },
+  ["snacks-save-all-buffers"] = { keybind = "<leader>sa", desc = "Save all buffers" },
+  ["snacks-format-buffer"] = { keybind = "<leader>fa", desc = "Format buffer (LSP)" },
+  ["snacks-close-hidden-buffers"] = { keybind = "<leader>bc", desc = "Close hidden buffers" },
+  ["snacks-open-terminal"] = { keybind = "<leader>tt", desc = "Open terminal" },
+  ["snacks-toggle-minuet-virtual-text"] = { keybind = "<leader>mt", desc = "Toggle Minuet virtual text" },
+  ["snacks-debug-searcher"] = { keybind = "<leader>dd", desc = "Debug searcher" },
+  ["snacks-icons-picker"] = { keybind = "<leader>si", desc = "Icons picker" },
+  ["snacks-undo-picker"] = { keybind = "<leader>u", desc = "Undo picker" },
+  ["snacks-lsp-symbols-picker"] = { keybind = "<leader>o", desc = "LSP symbols picker" },
+  ["snacks-lsp-workspace-symbols-picker"] = { keybind = "<leader>O", desc = "LSP workspace symbols picker" },
+  ["snacks-diagnostics-buffer-picker"] = { keybind = "<leader>q", desc = "Diagnostics buffer picker" },
+  ["snacks-diagnostics-picker"] = { keybind = "<leader>Q", desc = "Diagnostics picker" },
+  ["snacks-buffer-lines-picker"] = { keybind = "<leader>fl", desc = "Buffer lines picker" },
+  ["snacks-refine-picker-results"] = { keybind = "<c-r>", desc = "Refine picker results (grep within)" },
 
   -- Mini-diff
-  ["hunk-apply"] = { keybind = "gh", desc = "Apply hunk" },
-  ["hunk-reset"] = { keybind = "gH", desc = "Reset hunk" },
-  ["hunk-textobject"] = { keybind = "gh", desc = "Hunk textobject" },
-  ["first-hunk"] = { keybind = "[H", desc = "First hunk" },
-  ["prev-hunk"] = { keybind = "[h", desc = "Previous hunk" },
-  ["next-hunk"] = { keybind = "]h", desc = "Next hunk" },
-  ["last-hunk"] = { keybind = "]H", desc = "Last hunk" },
+  ["mini-diff-hunk-apply"] = { keybind = "gh", desc = "Apply hunk" },
+  ["mini-diff-hunk-reset"] = { keybind = "gH", desc = "Reset hunk" },
+  ["mini-diff-hunk-textobject"] = { keybind = "gh", desc = "Hunk textobject" },
+  ["mini-diff-first-hunk"] = { keybind = "[H", desc = "First hunk" },
+  ["mini-diff-prev-hunk"] = { keybind = "[h", desc = "Previous hunk" },
+  ["mini-diff-next-hunk"] = { keybind = "]h", desc = "Next hunk" },
+  ["mini-diff-last-hunk"] = { keybind = "]H", desc = "Last hunk" },
 
   -- Mini-operators
-  ["evaluate-math"] = { keybind = "g=", desc = "Evaluate math expressions" },
-  ["exchange-text"] = { keybind = "gx", desc = "Exchange text regions" },
-  ["multiply-text"] = { keybind = "gm", desc = "Multiply (duplicate) text" },
-  ["replace-register"] = { keybind = "gr", desc = "Replace with register" },
-  ["sort-text"] = { keybind = "gs", desc = "Sort text" },
+  ["mini-operators-evaluate-math"] = { keybind = "g=", desc = "Evaluate math expressions" },
+  ["mini-operators-exchange-text"] = { keybind = "gx", desc = "Exchange text regions" },
+  ["mini-operators-multiply-text"] = { keybind = "gm", desc = "Multiply (duplicate) text" },
+  ["mini-operators-replace-register"] = { keybind = "gr", desc = "Replace with register" },
+  ["mini-operators-sort-text"] = { keybind = "gs", desc = "Sort text" },
 
   -- Mini-splitjoin
-  ["toggle-split-join"] = { keybind = "gS", desc = "Toggle split/join" },
+  ["mini-splitjoin-toggle-split-join"] = { keybind = "gS", desc = "Toggle split/join" },
 
   -- Crates (TOML)
   ["crates-popup"] = { keybind = "K", desc = "Show crate popup" },
@@ -145,6 +145,22 @@ end
 function M.getDesc(name)
   local kb = keybinds[name]
   return kb and kb.desc or ""
+end
+
+-- Check for duplicate keybinds on startup
+local keybind_to_names = {}
+for name, info in pairs(keybinds) do
+  local kb = info.keybind
+  if not keybind_to_names[kb] then
+    keybind_to_names[kb] = {}
+  end
+  table.insert(keybind_to_names[kb], name)
+end
+
+for kb, names in pairs(keybind_to_names) do
+  if #names > 1 then
+    vim.notify("Duplicate keybind '" .. kb .. "' used by: " .. table.concat(names, ", "), vim.log.levels.WARN)
+  end
 end
 
 return M
