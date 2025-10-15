@@ -4,6 +4,9 @@ require "config.neovide"
 -- Statusline provider toggle: "heirline" or "lualine"
 vim.g.statusline_provider = "lualine"
 
+-- Disable noice for now
+vim.g.enable_noice = false
+
 require "config.lazy"
 
 require "config.keymap"

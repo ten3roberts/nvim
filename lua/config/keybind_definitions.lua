@@ -15,6 +15,7 @@ local keybinds = {
   ["codecompanion-chat-toggle"] = { keybind = "<LocalLeader>a", desc = "Toggle CodeCompanion chat" },
   ["codecompanion-chat-open"] = { keybind = "<leader>cc", desc = "Open CodeCompanion chat" },
   ["codecompanion-chat-add"] = { keybind = "<leader>ga", desc = "Add to CodeCompanion chat" },
+  ["codecompanion-inline"] = { keybind = "<leader>ci", desc = "CodeCompanion inline transformation" },
   ["ssr-open"] = { keybind = "<leader>cR", desc = "Structural replace (SSR)" },
   ["dial-inc-normal"] = { keybind = "<C-a>", desc = "Dial increment" },
   ["dial-dec-normal"] = { keybind = "<C-x>", desc = "Dial decrement" },

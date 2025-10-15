@@ -11,7 +11,7 @@ This Neovim config is tailored for efficient coding, with a focus on LSP, AI ass
 - **Treesitter**: Advanced syntax highlighting, folding, indentation, incremental selection, and textobjects.
 - **Completion**: Multi-source autocompletion via Blink.cmp, nvim-cmp, and Minuet AI (OpenCode Zen provider, requires ZEN_API_KEY).
 - **Snippets**: LuaSnip for expandable code snippets.
-- **AI Assistance**: CodeCompanion for AI chat and code generation; Minuet for inline AI completions (conditional on API key).
+- **AI Assistance**: CodeCompanion for AI chat, code generation, and inline transformations; Minuet for inline AI completions (conditional on API key).
 
 ### UI & Navigation
 - **Statusline**: Customizable Lualine (or Heirline) with mode-dependent colors and Minuet integration.
@@ -105,8 +105,9 @@ Keymaps are centralized in `lua/config/keybind_definitions.lua` for consistency 
 | AI & Completion | `<C-c>` | CodeCompanion actions |
 | AI & Completion | `<LocalLeader>a` | Toggle CodeCompanion chat |
 | AI & Completion | `<leader>cc` | Open CodeCompanion chat |
-| AI & Completion | `<leader>ga` | Add to CodeCompanion chat (visual) |
-| AI & Completion | `<leader>mt` | Toggle Minuet virtual text |
+ | AI & Completion | `<leader>ga` | Add to CodeCompanion chat (visual) |
+ | AI & Completion | `<leader>ci` | CodeCompanion inline transformation (visual) |
+ | AI & Completion | `<leader>mt` | Toggle Minuet virtual text |
 | Tools & Utilities | `<leader>S` | Toggle Spectre |
 | Tools & Utilities | `<leader>sw` | Spectre word/file search |
 | Tools & Utilities | `<leader>sp` | Spectre file search |

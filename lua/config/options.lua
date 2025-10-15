@@ -47,7 +47,9 @@ o.termguicolors = true
 o.title = true
 o.titlestring = "nvim %{fnamemodify(getcwd(), ':~')}"
 o.undofile = true
+o.swapfile = true
 o.updatetime = 500
+o.shortmess = o.shortmess .. 'A'
 -- o.wildmenu = true -- Command line completion mode
 o.wildmode = "full" -- Command line completion mode
 

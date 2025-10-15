@@ -3,21 +3,19 @@ return {
     "olimorris/codecompanion.nvim",
     event = "VeryLazy",
     opts = {
-      -- strategies = {
-      --   chat = {
-      --     adapter = {
-      --       name = "copilot",
-      --       model = "claude-sonnet-4",
-      --     },
-      --   },
-      -- },
-      --   -- Change the default chat adapter and model
-      --   chat = {
-      --     adapter = "anthropic",
-      --     model = "claude-sonnet-4-20250514",
-      --   },
-      -- },
-      -- NOTE: The log_level is in `opts.opts`
+      adapters = {
+        anthropic = {
+          model = "claude-sonnet-4-20250514",
+        },
+      },
+      strategies = {
+        inline = {
+          adapter = "anthropic",
+        },
+        chat = {
+          adapter = "anthropic",
+        },
+      },
       opts = {
         log_level = "DEBUG",
       },
@@ -41,6 +39,12 @@ return {
         keybinds.getKeybind "codecompanion-chat-add",
         "<cmd>CodeCompanionChat Add<cr>",
         { noremap = true, silent = true, desc = keybinds.getDesc "codecompanion-chat-add" }
+      )
+      vim.keymap.set(
+        "v",
+        keybinds.getKeybind "codecompanion-inline",
+        "<cmd>CodeCompanion<cr>",
+        { noremap = true, silent = true, desc = keybinds.getDesc "codecompanion-inline" }
       )
 
       -- Expand 'cc' into 'CodeCompanion' in the command line

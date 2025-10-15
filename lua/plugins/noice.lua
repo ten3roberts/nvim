@@ -2,6 +2,9 @@ return {
   {
     "folke/noice.nvim",
     event = "VeryLazy",
+    cond = function()
+      return vim.g.enable_noice ~= false
+    end,
     dependencies = {
       "MunifTanjim/nui.nvim",
       "rcarriga/nvim-notify",
