@@ -164,19 +164,20 @@ return {
           lualine_z = {},
         },
           tabline = {
-          lualine_a = {
-            {
-              "tabs",
-              mode = 2,
+            section_separators = {},
+            lualine_a = {
+              {
+                "tabs",
+                mode = 2,
                 fmt = function(name, context)
-                  return " " .. context.tabnr .. ". " .. name .. " |"
+                  return context.tabnr .. ". " .. name
                 end,
-              tabs_color = {
-                active = { fg = "normal_fg", bg = "tabline_sel_bg" },
-                inactive = { fg = "gray", bg = "tabline_bg" },
+                tabs_color = {
+                  active = { fg = "normal_fg", bg = "tabline_sel_bg" },
+                  inactive = { fg = "gray", bg = "tabline_bg" },
+                },
               },
             },
-          },
         },
         lualine_b = {
           {
