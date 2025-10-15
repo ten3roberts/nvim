@@ -170,9 +170,13 @@ return {
               {
                 "tabs",
                 mode = 2,
-              tabs_color = {
-                active = { fg = "normal_fg", bg = "tabline_sel_bg" },
-                inactive = { fg = "gray", bg = "tabline_bg" },
+                fmt = function(name, context)
+                  return ' ' .. context.tabnr .. '. ' .. name .. '  '
+                end,
+                tabs_color = {
+                  active = { fg = "normal_fg", bg = "tabline_sel_bg" },
+                  inactive = { fg = "gray", bg = "tabline_bg" },
+                },
               },
             },
           },
