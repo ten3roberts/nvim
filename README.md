@@ -78,8 +78,8 @@ Keymaps are centralized in `lua/config/keybind_definitions.lua` for consistency 
 | Search & Navigation | `<Esc>` | Clear search highlight |
 | Search & Navigation | `<leader><leader>` | Files picker |
 | Search & Navigation | `<leader>,` | Buffers picker |
-| Search & Navigation | `<leader>b` | Buffer lines (fuzzy) |
-| Search & Navigation | `<leader>/` | Project grep |
+| Search & Navigation | `<leader>/` | Buffer lines (fuzzy) |
+| Search & Navigation | `<leader>rg` | Project grep |
 | Search & Navigation | `<leader>fg` | Git files |
 | Search & Navigation | `<leader>fr` | Recent files |
 | Search & Navigation | `<leader>o` | LSP symbols |
@@ -114,6 +114,8 @@ Keymaps are centralized in `lua/config/keybind_definitions.lua` for consistency 
 | Tools & Utilities | `<leader>cR` | Structural replace (SSR) |
 | Tools & Utilities | `<leader>sa` | Save all buffers |
 | Tools & Utilities | `<leader>fa` | Format buffer (LSP) |
+| Tools & Utilities | `<leader>a` | Code action (LSP) |
+| Tools & Utilities | `<leader>rn` | Rename (LSP) |
 | Tools & Utilities | `<leader>tt` | Open terminal |
 | Tools & Utilities | `<leader>dd` | Debug searcher |
 | Tools & Utilities | `<leader>si` | Icons picker |

@@ -127,12 +127,14 @@ return {
             keymap = opts.keymap
           end
 
-          buf_map("n", "<leader>ce", vim.diagnostic.open_float, "Diagnostic Float")
-          buf_map("n", "<leader>cwa", vim.lsp.buf.add_workspace_folder, "Add Workspace Folder")
-          buf_map("n", "<leader>cwl", function()
-            print(vim.inspect(vim.lsp.buf.list_workspace_folders()), "Workspace Folders")
-          end, "List Workspace Folders")
-          buf_map("n", "<leader>cwr", vim.lsp.buf.remove_workspace_folder, "Remove Workspace Folder")
+           buf_map("n", "<leader>ce", vim.diagnostic.open_float, "Diagnostic Float")
+           buf_map("n", "<leader>cwa", vim.lsp.buf.add_workspace_folder, "Add Workspace Folder")
+           buf_map("n", "<leader>cwl", function()
+             print(vim.inspect(vim.lsp.buf.list_workspace_folders()), "Workspace Folders")
+           end, "List Workspace Folders")
+           buf_map("n", "<leader>cwr", vim.lsp.buf.remove_workspace_folder, "Remove Workspace Folder")
+           buf_map("n", "<leader>rn", vim.lsp.buf.rename, "Rename")
+           buf_map({ "n", "x" }, "<leader>a", vim.lsp.buf.code_action, "Code Action")
           buf_map("n", "go", function() require("snacks").picker.lsp_calls { incoming = false } end, "Outgoing Calls")
           buf_map("n", "gi", function() require("snacks").picker.lsp_calls { incoming = true } end, "Incoming Calls")
 
