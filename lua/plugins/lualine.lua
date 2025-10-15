@@ -163,17 +163,16 @@ return {
           lualine_y = {},
           lualine_z = {},
         },
-        tabline = {
-          component_separators = {},
-          section_separators = {},
+          tabline = {
+            component_separators = false,
+            section_separators = false,
           lualine_a = {
-              {
-                "tabs",
-                mode = 0,
-                fmt = function(name, context)
-                  local tabname = vim.fn.fnamemodify(vim.fn.bufname(vim.fn.tabpagebuflist(context.tabnr)[1]), ':t')
-                  return ' ' .. name .. '. ' .. (tabname ~= '' and tabname or 'No Name') .. '  '
-                end,
+            {
+              "tabs",
+              mode = 2,
+              fmt = function(name, context)
+                return " " .. context.tabnr .. ". " .. name .. "  "
+              end,
               tabs_color = {
                 active = { fg = "normal_fg", bg = "tabline_sel_bg" },
                 inactive = { fg = "gray", bg = "tabline_bg" },
