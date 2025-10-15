@@ -185,10 +185,12 @@ return {
                   local seen = {}
                   for i = 1, wins do
                     local bufnr = vim.fn.tabpagebuflist(tabnr)[i]
-                    local name = vim.fn.fnamemodify(vim.fn.bufname(bufnr), ':t')
-                    if name ~= '' and not seen[name] then
-                      seen[name] = true
-                      table.insert(buffers, name)
+                    if not seen[bufnr] then
+                      seen[bufnr] = true
+                      local name = vim.fn.fnamemodify(vim.fn.bufname(bufnr), ':t')
+                      if name ~= '' then
+                        table.insert(buffers, name)
+                      end
                     end
                   end
                   return table.concat(buffers, ' · ')
