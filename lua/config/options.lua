@@ -12,11 +12,7 @@ opt.laststatus = 2
 opt.spelllang = { "en_us" }
 opt.spell = false
 opt.equalalways = true
-opt.foldlevelstart = 99
-o.foldmethod = "expr"
-o.foldexpr = "nvim_treesitter#foldexpr()"
-o.foldminlines = 6
-o.foldnestmax = 6
+
 -- o.foldtext = "v:lua.clean_fold()"
 o.grepformat = "%f:%l:%c:%m,%f:%l:%m"
 o.grepprg = "rg --vimgrep --no-heading"
