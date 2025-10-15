@@ -58,23 +58,24 @@ return {
                 b = { fg = normal_fg, bg = "normal_bg" },
                 c = { fg = normal_fg, bg = "normal_bg" },
               },
-               inactive = {
-                 a = { fg = normal_fg, bg = "normal_bg" },
-                 b = { fg = normal_fg, bg = "normal_bg" },
-                 c = { fg = normal_fg, bg = "normal_bg" },
-               },
-                separators = {
-                  left = { fg = mode_color, bg = "normal_bg" },
-                  right = { fg = "normal_bg", bg = mode_color },
-                },
+              inactive = {
+                a = { fg = normal_fg, bg = "normal_bg" },
+                b = { fg = normal_fg, bg = "normal_bg" },
+                c = { fg = normal_fg, bg = "normal_bg" },
+              },
+              separators = {
+                left = { fg = mode_color, bg = "normal_bg" },
+                right = { fg = "normal_bg", bg = mode_color },
+              },
             }
           end,
           component_separators = { left = "", right = " " }, -- Separators with spacing
           section_separators = { left = "", right = "" }, -- Separator with mode color
           disabled_filetypes = { "NvimTree", "aerial" },
         },
-        sections = {
-          lualine_a = { "mode" },
+         sections = {
+           -- Filled pill: right side components (x, y, z) with mode-colored backgrounds for high contrast
+           lualine_a = { "mode" },
           lualine_b = {
             {
               function()
@@ -105,7 +106,13 @@ return {
                 local icon_str = icon and string.format("%%#%s#%s ", "DevIcon" .. extension, icon) or ""
                 local modified = vim.bo.modified and " 󰆓" or ""
                 local readonly = (not vim.bo.modifiable or vim.bo.readonly) and " " or ""
-                return branch .. (diff ~= "" and " " .. diff or "") .. " " .. icon_str .. filename .. modified .. readonly
+                return branch
+                  .. (diff ~= "" and " " .. diff or "")
+                  .. " "
+                  .. icon_str
+                  .. filename
+                  .. modified
+                  .. readonly
               end,
               color = function()
                 return { fg = "orange" }
@@ -121,9 +128,9 @@ return {
               provider_model_separator = ":",
               display_on_idle = false,
               padding = { left = 1, right = 0 },
-              color = function()
-                return { fg = "normal_bg", bg = get_mode_color() }
-              end,
+               color = function()
+                 return { fg = "normal_fg", bg = get_mode_color() }
+               end,
             },
             { "diagnostics", padding = { left = 0, right = 1 } },
             {
@@ -132,31 +139,26 @@ return {
               color = { fg = "#90EE90" },
             },
           },
-           lualine_y = {
-             {
-               "progress",
-               separator = " ",
-               padding = { left = 1, right = 0 },
+          lualine_y = {
+            {
+              "progress",
+              separator = " ",
+              padding = { left = 1, right = 1 },
                color = function()
-                 return { fg = "normal_bg", bg = get_mode_color() }
+                 return { fg = "normal_fg", bg = get_mode_color() }
                end,
-             },
-             {
-               "location",
-               padding = { left = 0, right = 1 },
+            },
+            {
+              "location",
+              padding = { left = 0, right = 1 },
                color = function()
-                 return { fg = "normal_bg", bg = get_mode_color() }
+                 return { fg = "normal_fg", bg = get_mode_color() }
                end,
-             },
-           },
-           lualine_z = {
-             {
-               "encoding",
-               color = function()
-                 return { fg = "normal_bg", bg = get_mode_color() }
-               end,
-             },
-           },
+            },
+          },
+          lualine_z = {
+            {},
+          },
         },
         inactive_sections = {
           lualine_a = {},
@@ -170,4 +172,3 @@ return {
     end,
   },
 }
-
