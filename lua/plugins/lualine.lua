@@ -105,6 +105,70 @@ return {
           section_separators = { left = "", right = "" }, -- Separator with mode color
            disabled_filetypes = { "NvimTree", "aerial" },
          },
+         sections = {
+           -- Filled pill: right side components (x, y, z) with mode-colored backgrounds for high contrast
+           lualine_a = { "mode" },
+           lualine_b = {
+             {
+               provider = get_file_info,
+               color = function()
+                 if vim.bo.buftype == "terminal" then
+                   return { fg = "green" }
+                 else
+                   return { fg = "orange" }
+                 end
+               end,
+               padding = { left = 1, right = 0 },
+             },
+           },
+           lualine_c = {},
+           lualine_x = {
+             {
+               require "minuet.lualine",
+               display_name = "both",
+               provider_model_separator = ":",
+               display_on_idle = false,
+               padding = { left = 1, right = 0 },
+               color = function()
+                 return { fg = "normal_fg", bg = get_mode_color() }
+               end,
+             },
+             { "diagnostics", padding = { left = 0, right = 1 } },
+             {
+               "lsp_status",
+               padding = { left = 1, right = 1 },
+               color = { fg = "#90EE90" },
+             },
+           },
+           lualine_y = {
+             {
+               "progress",
+               separator = " ",
+               padding = { left = 1, right = 1 },
+               color = function()
+                 return { fg = "normal_fg", bg = get_mode_color() }
+               end,
+             },
+             {
+               "location",
+               padding = { left = 0, right = 1 },
+               color = function()
+                 return { fg = "normal_fg", bg = get_mode_color() }
+               end,
+             },
+           },
+           lualine_z = {
+             {},
+           },
+         },
+         inactive_sections = {
+           lualine_a = {},
+           lualine_b = { { "filename", padding = { left = 1, right = 0 } } },
+           lualine_c = {},
+           lualine_x = { { "location", padding = { left = 0, right = 1 } } },
+           lualine_y = {},
+           lualine_z = {},
+         },
          tabline = {
            component_separators = { left = '', right = '' },
            section_separators = { left = '', right = '' },
