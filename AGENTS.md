@@ -54,8 +54,8 @@ This document outlines the rules, conventions, and best practices for making cha
 1. **Plan Changes**: Analyze impact and requirements
 2. **Implement**: Make changes following conventions
 3. **Test**: Validate functionality and performance
-4. **Document**: Update README and commit semantically
-5. **Commit**: Use `git commit` with semantic message
+4. **Document**: Update README if needed
+5. **Commit**: Only when explicitly requested by user
 
 ## Emergency Contacts
 
