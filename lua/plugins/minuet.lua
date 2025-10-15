@@ -5,7 +5,7 @@ local function getZenProvider()
   end
   return {
     openai_compatible = {
-      api_key = ZEN_API_KEY,
+      api_key = key,
       end_point = "https://api.opencode.ai/v1/chat/completions",
       model = "zen",
       name = "OpenCode Zen",

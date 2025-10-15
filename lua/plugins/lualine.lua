@@ -65,7 +65,7 @@ return {
                },
                 separators = {
                   left = { fg = mode_color, bg = "normal_bg" },
-                  right = { fg = mode_color, bg = "normal_bg" },
+                  right = { fg = "normal_bg", bg = mode_color },
                 },
             }
           end,
@@ -121,22 +121,42 @@ return {
               provider_model_separator = ":",
               display_on_idle = false,
               padding = { left = 1, right = 0 },
+              color = function()
+                return { fg = "normal_bg", bg = get_mode_color() }
+              end,
             },
             { "diagnostics", padding = { left = 0, right = 1 } },
-            { "lsp_status", padding = { left = 1, right = 0 } },
+            {
+              "lsp_status",
+              padding = { left = 1, right = 1 },
+              color = { fg = "#90EE90" },
+            },
           },
            lualine_y = {
              {
                "progress",
                separator = " ",
                padding = { left = 1, right = 0 },
+               color = function()
+                 return { fg = "normal_bg", bg = get_mode_color() }
+               end,
              },
              {
                "location",
                padding = { left = 0, right = 1 },
+               color = function()
+                 return { fg = "normal_bg", bg = get_mode_color() }
+               end,
              },
            },
-           lualine_z = { "encoding" },
+           lualine_z = {
+             {
+               "encoding",
+               color = function()
+                 return { fg = "normal_bg", bg = get_mode_color() }
+               end,
+             },
+           },
         },
         inactive_sections = {
           lualine_a = {},
