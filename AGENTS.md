@@ -2,14 +2,6 @@
 
 This document outlines the rules, conventions, and best practices for making changes to this Neovim configuration codebase. Follow these guidelines to maintain consistency, performance, and usability.
 
-## Commit Conventions
-
-- **Use Semantic Commits**: Follow conventional commit format (`type(scope): description`)
-  - Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
-  - Examples: `feat: add mini.plugins for advanced editing`, `fix: resolve minuet api key issue`
-- **Detailed Descriptions**: Include bullet points of changes in commit body
-- **Atomic Commits**: One logical change per commit
-
 ## Plugin Management
 
 - **Lazy Loading**: Enable lazy loading for performance
@@ -55,7 +47,6 @@ This document outlines the rules, conventions, and best practices for making cha
 2. **Implement**: Make changes following conventions
 3. **Test**: Validate functionality and performance
 4. **Document**: Update README if needed
-5. **Commit**: Only when explicitly requested by user
 
 ## Emergency Contacts
 

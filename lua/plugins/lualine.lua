@@ -4,56 +4,27 @@ return {
     enabled = vim.g.statusline_provider == "lualine",
     dependencies = { "nvim-tree/nvim-web-devicons" }, -- Optional, for icons
     config = function()
-        local function get_file_info()
-          -- Branch
-          local branch = vim.b.gitsigns_status_dict and vim.b.gitsigns_status_dict.head
-            or vim.fn.system("git branch --show-current"):gsub("\n", "")
-          branch = branch ~= "" and string.format("󰘬 %s", branch) or ""
+      local function get_branch_info()
+        -- Branch
+        local branch = vim.b.gitsigns_status_dict and vim.b.gitsigns_status_dict.head
+          or vim.fn.system("git branch --show-current"):gsub("\n", "")
+        branch = branch ~= "" and string.format("󰘬 %s", branch) or ""
 
-          -- Diff
-          local diff = ""
-          if vim.b.gitsigns_status_dict then
-            local added = vim.b.gitsigns_status_dict.added or 0
-            local removed = vim.b.gitsigns_status_dict.removed or 0
-            local changed = vim.b.gitsigns_status_dict.changed or 0
-            if added > 0 or removed > 0 or changed > 0 then
-              diff = string.format("+%d ~%d -%d", added, changed, removed)
-            end
+        -- Diff
+        local diff = ""
+        if vim.b.gitsigns_status_dict then
+          local added = vim.b.gitsigns_status_dict.added or 0
+          local removed = vim.b.gitsigns_status_dict.removed or 0
+          local changed = vim.b.gitsigns_status_dict.changed or 0
+          if added > 0 or removed > 0 or changed > 0 then
+            diff = string.format(" +%d ~%d -%d", added, changed, removed)
           end
-
-          -- Filename
-          local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":~:.")
-          if filename == "" then
-            filename = "[No Name]"
-          end
-          local extension = vim.fn.fnamemodify(filename, ":e")
-          local icon, icon_color
-          if vim.bo.buftype == "terminal" then
-            filename = "Terminal"
-            icon = ""
-            icon_color = "#87af87" -- green
-          else
-            icon, icon_color = require("nvim-web-devicons").get_icon_color(filename, extension, { default = true })
-          end
-          local icon_str = icon and (icon .. " ") or ""
-          local modified = vim.bo.modified and " 󰆓" or ""
-          local readonly = (not vim.bo.modifiable or vim.bo.readonly) and " " or ""
-          return branch
-            .. (diff ~= "" and " " .. diff or "")
-            .. " "
-            .. icon_str
-            .. filename
-            .. modified
-            .. readonly
         end
 
-        local function get_tab_name(tabnr)
-          local bufnr = vim.fn.tabpagebuflist(tabnr)[1]
-          local name = vim.fn.fnamemodify(vim.fn.bufname(bufnr), ':t')
-          return name == '' and '[No Name]' or name
-        end
-        end
+        return branch .. diff
+      end
 
+      local function get_file_info()
         -- Filename
         local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":~:.")
         if filename == "" then
@@ -71,7 +42,7 @@ return {
         local icon_str = icon and string.format("%%#%s#%s ", "DevIcon" .. extension, icon) or ""
         local modified = vim.bo.modified and " 󰆓" or ""
         local readonly = (not vim.bo.modifiable or vim.bo.readonly) and " " or ""
-        return branch .. (diff ~= "" and " " .. diff or "") .. " " .. icon_str .. filename .. modified .. readonly
+        return icon_str .. filename .. modified .. readonly
       end
 
       local mode_colors = {
@@ -128,7 +99,7 @@ return {
             local mode_color = get_mode_color()
             return get_theme(mode_color)
           end,
-          component_separators = { left = "", right = " " }, -- Separators with spacing
+          component_separators = { left = "", right = "" },
           section_separators = { left = "", right = "" }, -- Separator with mode color
           disabled_filetypes = { "NvimTree", "aerial" },
         },
@@ -137,15 +108,20 @@ return {
           lualine_a = { "mode" },
           lualine_b = {
             {
+              get_branch_info,
+              separator = "",
+              color = { fg = "#ff8800" },
+              padding = { left = 1, right = 1 },
+            },
+            {
               get_file_info,
+              separator = "",
               color = function()
                 if vim.bo.buftype == "terminal" then
                   return { fg = "#00ff00" }
-                else
-                  return { fg = "#ff8800" }
                 end
               end,
-              padding = { left = 1, right = 0 },
+              padding = { left = 0, right = 1 },
             },
           },
           lualine_c = {},
@@ -196,34 +172,95 @@ return {
           lualine_y = {},
           lualine_z = {},
         },
-          tabline = {
-            section_separators = {},
-            lualine_a = {
-              {
-                "tabs",
-                mode = 0,
-                fmt = function(number, context)
-                  return context.tabnr .. ". " .. get_tab_name(context.tabnr)
-                end,
-                tabs_color = {
-                  active = { fg = "normal_fg", bg = "tabline_sel_bg" },
-                  inactive = { fg = "gray", bg = "tabline_bg" },
-                },
-              },
+        tabline = {
+          component_separators = {},
+          section_separators = {},
+          lualine_a = {
+            {
+              function()
+                if #vim.api.nvim_list_tabpages() < 2 then
+                  return ""
+                end
+                local tabline_hl = vim.api.nvim_get_hl(0, { name = "TabLine", link = false })
+                local tabline_sel_hl = vim.api.nvim_get_hl(0, { name = "TabLineSel", link = false })
+                local tabline_fill_hl = vim.api.nvim_get_hl(0, { name = "TabLineFill", link = false })
+                local tabline_bg = tabline_hl.bg
+                local tabline_sel_bg = tabline_sel_hl.bg
+                local tabline_fill = tabline_fill_hl.bg
+                local tabpages = {}
+                local buffer_names = {}
+                local buffer_ids = {}
+                local tab_hide = {
+                  NvimTree = true,
+                  qf = true,
+                  aerial = true,
+                }
+
+                local function get_buffername(bufnr)
+                  local filename = vim.fn.fnamemodify(vim.fn.bufname(bufnr), ":t")
+                  if filename == nil or filename == "" then
+                    return
+                  end
+                  buffer_ids[bufnr] = filename
+                end
+
+                -- Update buffers
+                buffer_names = {}
+                buffer_ids = {}
+                for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+                  if not tab_hide[vim.bo[bufnr].ft] and vim.api.nvim_buf_is_loaded(bufnr) then
+                    get_buffername(bufnr)
+                  end
+                end
+
+                -- Update tabpages
+                tabpages = {}
+                for _, id in ipairs(vim.api.nvim_list_tabpages()) do
+                  local windows = vim.api.nvim_tabpage_list_wins(id)
+                  local tabpage = {}
+                  local found = {}
+                  for _, win in ipairs(windows) do
+                    local bufnr = vim.api.nvim_win_get_buf(win)
+                    if not found[bufnr] and buffer_ids[bufnr] then
+                      table.insert(tabpage, bufnr)
+                    end
+                    found[bufnr] = true
+                  end
+                  tabpages[id] = tabpage
+                end
+
+                local current_tab = vim.api.nvim_get_current_tabpage()
+                local parts = {}
+                for i, tabnr in ipairs(vim.api.nvim_list_tabpages()) do
+                  local is_active = tabnr == current_tab
+                  local hl = is_active and "TabLineSel" or "TabLine"
+                  local bg = is_active and tabline_sel_bg or tabline_bg
+                  local tabpage = tabpages[tabnr] or {}
+                  local buffers = {}
+                  for _, bufnr in ipairs(tabpage) do
+                    table.insert(buffers, buffer_ids[bufnr])
+                  end
+                  local buffer_str = table.concat(buffers, " · ")
+                  local tab_str =
+                    string.format("%%%dT %d. %s", tabnr, i, buffer_str ~= "" and buffer_str or "[No buffers]")
+                  local left_sep_hl_name = "TempTabLeft" .. i
+                  vim.api.nvim_set_hl(0, left_sep_hl_name, { fg = bg, bg = tabline_fill })
+                  local right_sep_hl_name = "TempTabRight" .. i
+                  vim.api.nvim_set_hl(0, right_sep_hl_name, { fg = tabline_fill, bg = bg })
+                  local tab_part = string.format(
+                    "%%#%s#%%#%s#%s%%#%s#%%#Normal#",
+                    left_sep_hl_name,
+                    hl,
+                    tab_str,
+                    right_sep_hl_name
+                  )
+                  table.insert(parts, tab_part)
+                end
+                return table.concat(parts, "")
+              end,
             },
-        },
-        lualine_b = {
-          {
-            provider = function()
-              return vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":t")
-            end,
-            color = { fg = "normal_fg", bg = "tabline_bg" },
           },
         },
-        lualine_c = {},
-        lualine_x = {},
-        lualine_y = {},
-        lualine_z = {},
       }
     end,
   },

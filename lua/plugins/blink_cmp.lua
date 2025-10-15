@@ -24,11 +24,11 @@ return {
       preset = "default",
       ["<C-k>"] = { "snippet_forward" },
       ["<C-j>"] = { "snippet_backward" },
-      ["<C-e>"] = {
-        function()
-          require("copilot.suggestion").accept()
-        end,
-      },
+       ["<C-e>"] = {
+         function()
+           require("minuet.virtualtext").action.accept()
+         end,
+       },
       ["<Tab>"] = {
         function(cmp)
           if cmp.snippet_active() then

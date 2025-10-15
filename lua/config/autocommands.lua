@@ -74,3 +74,13 @@ au({ "BufReadPost" }, {
     end
   end,
 })
+
+au({ "VimEnter" }, {
+  callback = function()
+    vim.defer_fn(function()
+      local tips = require "config.tips"
+      local tip = tips[math.random(#tips)]
+      require("snacks").notifier.notify(tip, { title = "Tip", timeout = 20000 })
+    end, 5000)
+  end,
+})

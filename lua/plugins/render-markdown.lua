@@ -15,6 +15,7 @@ return {
           left_pad = 0,
           right_pad = 2,
           sign = false,
+          rainbow = true,
         },
         code = {
           enabled = true,
