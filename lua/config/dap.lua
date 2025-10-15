@@ -140,15 +140,17 @@ function M.log_breakpoint()
   end)
 end
 
-vim.keymap.set("n", "<leader>dO", ui.toggle, { desc = "Toggle dap ui" })
-vim.keymap.set("n", "<leader>dE", M.eval_input, { desc = "Evaluate input" })
-vim.keymap.set("n", "<leader>d.", M.float, { desc = "Open floating element" })
-vim.keymap.set("n", "<leader>dw", function()
+local keybinds = require("config.keybind_definitions")
+
+vim.keymap.set("n", keybinds.getKeybind("dap-ui-toggle"), ui.toggle, { desc = keybinds.getDesc("dap-ui-toggle") })
+vim.keymap.set("n", keybinds.getKeybind("dap-eval-input"), M.eval_input, { desc = keybinds.getDesc("dap-eval-input") })
+vim.keymap.set("n", keybinds.getKeybind("dap-float-element"), M.float, { desc = keybinds.getDesc("dap-float-element") })
+vim.keymap.set("n", keybinds.getKeybind("dap-hover"), function()
   require("dap.ui.widgets").hover()
-end, { desc = "Hover" })
-vim.keymap.set("n", "<leader>dlv", "<cmd>:Telescope dap variables<CR>", { desc = "Variables" })
-vim.keymap.set("n", "<leader>dlb", "<cmd>:Telescope dap list_breakpoints<CR>", { desc = "Breakpoints" })
-vim.keymap.set("n", "<leader>dlf", "<cmd>:Telescope dap frames<CR>", { desc = "Frames" })
-vim.keymap.set("n", "<leader>dlc", "<cmd>:Telescope dap commands<CR>", { desc = "Commands" })
+end, { desc = keybinds.getDesc("dap-hover") })
+vim.keymap.set("n", keybinds.getKeybind("dap-variables"), "<cmd>:Telescope dap variables<CR>", { desc = keybinds.getDesc("dap-variables") })
+vim.keymap.set("n", keybinds.getKeybind("dap-breakpoints"), "<cmd>:Telescope dap list_breakpoints<CR>", { desc = keybinds.getDesc("dap-breakpoints") })
+vim.keymap.set("n", keybinds.getKeybind("dap-frames"), "<cmd>:Telescope dap frames<CR>", { desc = keybinds.getDesc("dap-frames") })
+vim.keymap.set("n", keybinds.getKeybind("dap-commands"), "<cmd>:Telescope dap commands<CR>", { desc = keybinds.getDesc("dap-commands") })
 
 return M

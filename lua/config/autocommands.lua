@@ -1,5 +1,6 @@
 local a = vim.api
 local fn = vim.fn
+local keybinds = require("config.keybind_definitions")
 
 local group = a.nvim_create_augroup("CONFIG", { clear = true })
 local function au(event, opts)
@@ -62,7 +63,7 @@ au({ "BufWritePre" }, {
 
 au({ "TermEnter" }, {
   callback = function()
-    vim.keymap.set("t", "<esc>", "<C-\\><C-n>", { buffer = true })
+    vim.keymap.set("t", keybinds.getKeybind("terminal-exit"), "<C-\\><C-n>", { buffer = true })
   end,
 })
 

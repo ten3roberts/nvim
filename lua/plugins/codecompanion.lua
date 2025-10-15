@@ -23,14 +23,15 @@ return {
       },
     },
     config = function(_, opts)
-      vim.keymap.set({ "n", "v" }, "<C-c>", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
+      local keybinds = require("config.keybind_definitions")
+      vim.keymap.set({ "n", "v" }, keybinds.getKeybind("codecompanion-actions"), "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true, desc = keybinds.getDesc("codecompanion-actions") })
       vim.keymap.set(
         { "n", "v" },
-        "<LocalLeader>a",
+        keybinds.getKeybind("codecompanion-chat-toggle"),
         "<cmd>CodeCompanionChat Toggle<cr>",
-        { noremap = true, silent = true }
+        { noremap = true, silent = true, desc = keybinds.getDesc("codecompanion-chat-toggle") }
       )
-      vim.keymap.set("v", "ga", "<cmd>CodeCompanionChat Add<cr>", { noremap = true, silent = true })
+      vim.keymap.set("v", keybinds.getKeybind("codecompanion-chat-add"), "<cmd>CodeCompanionChat Add<cr>", { noremap = true, silent = true, desc = keybinds.getDesc("codecompanion-chat-add") })
 
       -- Expand 'cc' into 'CodeCompanion' in the command line
       vim.cmd [[cab cc CodeCompanion]]

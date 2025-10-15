@@ -1,3 +1,5 @@
+local keybinds = require("config.keybind_definitions")
+
 local buffer_opts = {
   finder = "buffers",
   format = "buffer",
@@ -80,10 +82,25 @@ return {
   },
   keys = {
     {
-      "<leader>bd",
+      keybinds.getKeybind("buffer-delete"),
       function()
         require("snacks").bufdelete.delete()
       end,
+      desc = keybinds.getDesc("buffer-delete"),
+    },
+    {
+      keybinds.getKeybind("buffer-delete-others"),
+      function()
+        require("snacks").bufdelete.other()
+      end,
+      desc = keybinds.getDesc("buffer-delete-others"),
+    },
+    {
+      keybinds.getKeybind("files-picker"),
+      function()
+        require("snacks").picker.files({ layout = "ivy" })
+      end,
+      desc = keybinds.getDesc("files-picker"),
     },
     {
       "<leader>bo",
@@ -98,10 +115,137 @@ return {
       end,
     },
     {
-      "z=",
+      keybinds.getKeybind("spelling-picker"),
       function()
         require("snacks").picker.spelling()
       end,
+      desc = keybinds.getDesc("spelling-picker"),
+    },
+    {
+      keybinds.getKeybind("buffers-picker"),
+      function()
+        require("snacks").picker.buffers(vim.tbl_extend("force", buffer_opts, { layout = "ivy" }))
+      end,
+      desc = keybinds.getDesc("buffers-picker"),
+    },
+    {
+      keybinds.getKeybind("buffer-lines"),
+      function()
+        require("snacks").picker.lines()
+      end,
+      desc = keybinds.getDesc("buffer-lines"),
+    },
+    {
+      keybinds.getKeybind("project-grep"),
+      function()
+        require("snacks").picker.grep({ layout = "ivy" })
+      end,
+      desc = keybinds.getDesc("project-grep"),
+    },
+    {
+      keybinds.getKeybind("git-files-picker"),
+      function()
+        require("snacks").picker.git_files()
+      end,
+      desc = keybinds.getDesc("git-files-picker"),
+    },
+    {
+      keybinds.getKeybind("recent-files-picker"),
+      function()
+        require("snacks").picker.recent()
+      end,
+      desc = keybinds.getDesc("recent-files-picker"),
+    },
+    {
+      keybinds.getKeybind("save-all-buffers"),
+      ":wa<CR>",
+      desc = keybinds.getDesc("save-all-buffers"),
+    },
+    {
+      keybinds.getKeybind("format-buffer"),
+      function()
+        vim.lsp.buf.format()
+      end,
+      desc = keybinds.getDesc("format-buffer"),
+    },
+    {
+      keybinds.getKeybind("close-hidden-buffers"),
+      ":BCloseHidden<CR>",
+      desc = keybinds.getDesc("close-hidden-buffers"),
+    },
+    {
+      keybinds.getKeybind("open-terminal"),
+      ":term<CR>",
+      desc = keybinds.getDesc("open-terminal"),
+    },
+    {
+      keybinds.getKeybind("toggle-minuet-virtual-text"),
+      ":Minuet virtualtext toggle<CR>",
+      desc = keybinds.getDesc("toggle-minuet-virtual-text"),
+    },
+    {
+      keybinds.getKeybind("debug-searcher"),
+      function()
+        Snacks.picker.grep { search = "^(?!\\s*--).*\\b(bt|dd)\\(", args = { "-P" }, live = false, ft = "lua" }
+      end,
+      desc = keybinds.getDesc("debug-searcher"),
+    },
+    {
+      keybinds.getKeybind("icons-picker"),
+      function()
+        require("snacks").picker.icons()
+      end,
+      desc = keybinds.getDesc("icons-picker"),
+    },
+    {
+      keybinds.getKeybind("undo-picker"),
+      function()
+        require("snacks").picker.undo()
+      end,
+      desc = keybinds.getDesc("undo-picker"),
+    },
+    {
+      keybinds.getKeybind("lsp-symbols-picker"),
+      function()
+        require("snacks").picker.lsp_symbols()
+      end,
+      desc = keybinds.getDesc("lsp-symbols-picker"),
+    },
+    {
+      keybinds.getKeybind("lsp-workspace-symbols-picker"),
+      function()
+        require("snacks").picker.lsp_workspace_symbols()
+      end,
+      desc = keybinds.getDesc("lsp-workspace-symbols-picker"),
+    },
+    {
+      keybinds.getKeybind("diagnostics-buffer-picker"),
+      function()
+        require("snacks").picker.diagnostics_buffer()
+      end,
+      desc = keybinds.getDesc("diagnostics-buffer-picker"),
+    },
+    {
+      keybinds.getKeybind("diagnostics-picker"),
+      function()
+        require("snacks").picker.diagnostics()
+      end,
+      desc = keybinds.getDesc("diagnostics-picker"),
+    },
+    {
+      keybinds.getKeybind("buffer-lines-picker"),
+      function()
+        require("snacks").picker.lines()
+      end,
+      desc = keybinds.getDesc("buffer-lines-picker"),
+    },
+    {
+      keybinds.getKeybind("refine-picker-results"),
+      function()
+        -- refine
+      end,
+      mode = { "n", "i" },
+      desc = keybinds.getDesc("refine-picker-results"),
     },
     {
       "<leader>,",

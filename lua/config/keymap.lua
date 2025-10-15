@@ -3,28 +3,29 @@ local function map(mode, lhs, rhs, opts)
 end
 
 local graphene = require "graphene"
+local keybinds = require("config.keybind_definitions")
 
 -- local neotest = require "neotest"
 
-map("n", "<leader>j", function()
+vim.keymap.set("n", keybinds.getKeybind("diagnostic-next"), function()
   vim.diagnostic.jump { count = 1, float = true }
-end)
+end, { desc = keybinds.getDesc("diagnostic-next") })
 
-map("n", "<leader>k", function()
+vim.keymap.set("n", keybinds.getKeybind("diagnostic-prev"), function()
   vim.diagnostic.jump { count = -1, float = true }
-end)
+end, { desc = keybinds.getDesc("diagnostic-prev") })
 
-map("n", "<leader>l", function()
+vim.keymap.set("n", keybinds.getKeybind("diagnostic-next-error"), function()
   vim.diagnostic.jump { count = 1, float = true, severity = vim.diagnostic.severity.ERROR }
-end)
+end, { desc = keybinds.getDesc("diagnostic-next-error") })
 
-map("n", "<leader>h", function()
+vim.keymap.set("n", keybinds.getKeybind("diagnostic-prev-error"), function()
   vim.diagnostic.jump { count = -1, float = true, severity = vim.diagnostic.severity.ERROR }
-end)
+end, { desc = keybinds.getDesc("diagnostic-prev-error") })
 
-map("n", "<leader>bo", function()
+vim.keymap.set("n", keybinds.getKeybind("buffer-delete-others"), function()
   require("config.bclose").close_hidden()
-end)
+end, { desc = "Close hidden buffers" })
 
 local function close_normal_windows()
   vim.notify "Closing normal windows"
@@ -66,27 +67,27 @@ local function close_normal_windows()
   vim.notify("Closed " .. closed_count .. " " .. window_word)
 end
 
-vim.keymap.set("n", "<C-w>o", function()
+vim.keymap.set("n", keybinds.getKeybind("window-close-others"), function()
   -- Use the custom function to preserve special windows
   close_normal_windows()
-end, { desc = "Close other windows, preserving special ones" })
+end, { desc = keybinds.getDesc("window-close-others") })
 
-map("n", "<leader>to", "<cmd>tabonly<CR>")
-map("n", "<leader>tt", "<cmd>tab split<CR>")
-map("n", "<leader>tq", "<cmd>tabclose<CR>")
+vim.keymap.set("n", keybinds.getKeybind("tab-only"), "<cmd>tabonly<CR>", { desc = keybinds.getDesc("tab-only") })
+vim.keymap.set("n", keybinds.getKeybind("tab-split"), "<cmd>tab split<CR>", { desc = keybinds.getDesc("tab-split") })
+vim.keymap.set("n", keybinds.getKeybind("tab-close"), "<cmd>tabclose<CR>", { desc = keybinds.getDesc("tab-close") })
 
-map("n", "<leader>f", function()
+vim.keymap.set("n", keybinds.getKeybind("graphene-init"), function()
   graphene.init()
-end)
+end, { desc = keybinds.getDesc("graphene-init") })
 
 for i = 0, 9 do
   map("n", "<leader>" .. i, i .. "gt")
 end
 
-map("n", "<A-,>", "<cmd>tabprevious<CR>")
-map("n", "<A-.>", "<cmd>tabnext<CR>")
-map("n", "<A-<>", "<cmd>tabmove -1<CR>")
-map("n", "<A->>", "<cmd>tabmove +1<CR>")
+vim.keymap.set("n", keybinds.getKeybind("tab-prev"), "<cmd>tabprevious<CR>", { desc = keybinds.getDesc("tab-prev") })
+vim.keymap.set("n", keybinds.getKeybind("tab-next"), "<cmd>tabnext<CR>", { desc = keybinds.getDesc("tab-next") })
+vim.keymap.set("n", keybinds.getKeybind("tab-move-prev"), "<cmd>tabmove -1<CR>", { desc = keybinds.getDesc("tab-move-prev") })
+vim.keymap.set("n", keybinds.getKeybind("tab-move-next"), "<cmd>tabmove +1<CR>", { desc = keybinds.getDesc("tab-move-next") })
 
 -- Search highlighting
 -- map("n", "n", "<plug>(searchhi-n)")
@@ -118,7 +119,7 @@ map("n", "<A->>", "<cmd>tabmove +1<CR>")
 -- map({ "n", "x" }, "gz#", "<Plug>(asterisk-gz#)")
 
 -- Clear search highlight
-map("n", "<Esc>", "<cmd>nohl<CR>", {})
+vim.keymap.set("n", keybinds.getKeybind("nohl"), "<cmd>nohl<CR>", { desc = keybinds.getDesc("nohl") })
 
 -- Folding
 for i = 1, 9 do
@@ -130,7 +131,7 @@ for i = 1, 9 do
 end
 
 -- Indent whole buffer
-map("n", "<leader>ci", "mggg=G`g")
+vim.keymap.set("n", keybinds.getKeybind("indent-buffer"), "mggg=G`g", { desc = keybinds.getDesc("indent-buffer") })
 
 -- Dev utils
-map("n", "<leader>XX", '<cmd>lua require"config.dev_utils".save_and_exec()<CR>')
+vim.keymap.set("n", keybinds.getKeybind("dev-save-exec"), '<cmd>lua require"config.dev_utils".save_and_exec()<CR>', { desc = keybinds.getDesc("dev-save-exec") })
