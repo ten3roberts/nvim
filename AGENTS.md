@@ -12,9 +12,10 @@ This document outlines the rules, conventions, and best practices for making cha
 
 ## Keymaps
 
-- **Documentation**: Update `README.md` with all `vim.keymap.set` calls and plugin mappings
-- **Conflicts**: Avoid keymap conflicts; test thoroughly
-- **Consistency**: Follow existing patterns (e.g., `<leader>` for user commands)
+- **Centralized Definitions**: Use `lua/config/keybind_definitions.lua` for all keybind registrations; add new keybinds there first
+- **Documentation**: Update `README.md` keymaps table to reflect changes in `keybind_definitions.lua`; keep descriptions in sync
+- **Conflicts**: Avoid keymap conflicts; test thoroughly; duplicate detection warns on startup
+- **Consistency**: Follow existing patterns (e.g., `<leader>` for user commands); use `getKeybind()` and `getDesc()` functions
 - **Modes**: Specify modes (n, i, v, etc.) clearly
 
 ## Testing & Validation

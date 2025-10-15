@@ -27,6 +27,15 @@ local colorschemes = {
       vim.g.everforest_show_eob = false
       vim.g.everforest_float_style = "dim"
       vim.g.everforest_diagnostic_line_highlight = 1
+      vim.g.everforest_better_performance = 1
+      vim.g.everforest_ui_contrast = "low"
+      vim.g.everforest_current_word = "grey background"
+      vim.g.everforest_inlay_hints_background = "dimmed"
+      vim.g.everforest_spell_foreground = "colored"
+      vim.g.everforest_diagnostic_text_highlight = 1
+      vim.g.everforest_diagnostic_virtual_text = "grey"
+      vim.g.everforest_statusline_style = "mix"
+      vim.g.everforest_tabline_style = "mix"
       vim.cmd.colorscheme "everforest"
     end,
   },
@@ -35,8 +44,8 @@ local colorschemes = {
     name = "catppuccin",
     priority = 1000,
     config = function()
-      require("catppuccin").setup({
-        flavour = "mocha", -- latte, frappe, macchiato, mocha
+      require("catppuccin").setup {
+        -- flavour = "mocha", -- latte, frappe, macchiato, mocha
         background = { -- :h background
           light = "latte",
           dark = "mocha",
@@ -80,7 +89,7 @@ local colorschemes = {
           },
           -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
         },
-      })
+      }
       vim.cmd.colorscheme "catppuccin"
     end,
   },
@@ -95,7 +104,7 @@ local colorschemes = {
   },
 }
 
-local current_colorscheme = "catppuccin"
+local current_colorscheme = "everforest"
 
 local t = colorschemes[current_colorscheme]
 

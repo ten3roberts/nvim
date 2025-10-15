@@ -9,12 +9,7 @@ return {
     { "gp", "<Plug>(YankyGPutAfter)", mode = { "n", "x" } },
     { "<A-n>", "<Plug>(YankyCycleForward)" },
     { "<A-p>", "<Plug>(YankyCycleBackward)" },
-    {
-      "<C-p>",
-      function()
-        require("telescope").extensions.yank_history.yank_history {}
-      end,
-    },
+
   },
   config = function()
     require("yanky").setup {

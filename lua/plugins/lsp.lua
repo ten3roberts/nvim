@@ -127,26 +127,19 @@ return {
             keymap = opts.keymap
           end
 
-          local builtin = require "telescope.builtin"
-
           buf_map("n", "<leader>ce", vim.diagnostic.open_float, "Diagnostic Float")
           buf_map("n", "<leader>cwa", vim.lsp.buf.add_workspace_folder, "Add Workspace Folder")
           buf_map("n", "<leader>cwl", function()
             print(vim.inspect(vim.lsp.buf.list_workspace_folders()), "Workspace Folders")
-          end)
+          end, "List Workspace Folders")
           buf_map("n", "<leader>cwr", vim.lsp.buf.remove_workspace_folder, "Remove Workspace Folder")
-          buf_map("n", "<leader>rn", vim.lsp.buf.rename, "Rename")
-          buf_map({ "n", "x" }, "<leader>a", vim.lsp.buf.code_action, "Code Action")
+          buf_map("n", "go", function() require("snacks").picker.lsp_calls { incoming = false } end, "Outgoing Calls")
+          buf_map("n", "gi", function() require("snacks").picker.lsp_calls { incoming = true } end, "Incoming Calls")
 
-          buf_map("", "K", keymap.hover or vim.lsp.buf.hover, "Hover")
-
-          buf_map("n", "go", builtin.lsp_outgoing_calls, "Outgoing Calls")
-          buf_map("n", "gi", builtin.lsp_incoming_calls, "Incoming Calls")
-          buf_map("n", "gD", vim.lsp.buf.declaration, "Declaration")
-          buf_map("n", "gd", builtin.lsp_definitions, "Definitions")
-          buf_map("n", "gI", builtin.lsp_implementations, "Implementations")
-          buf_map("n", "gr", builtin.lsp_references, "References")
-          buf_map("n", "gy", builtin.lsp_type_definitions, "Type Definitions")
+          buf_map("n", "gd", function() require("snacks").picker.lsp_definitions() end, "Definitions")
+          buf_map("n", "gI", function() require("snacks").picker.lsp_implementations() end, "Implementations")
+          buf_map("n", "gr", function() require("snacks").picker.lsp_references() end, "References")
+          buf_map("n", "gy", function() require("snacks").picker.lsp_type_definitions() end, "Type Definitions")
 
           -- The following code creates a keymap to toggle inlay hints in your
           -- code, if the language server you are using supports them

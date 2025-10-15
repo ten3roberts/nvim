@@ -2,29 +2,10 @@ return {
   {
     "nvim-lualine/lualine.nvim",
     enabled = vim.g.statusline_provider == "lualine",
-    dependencies = { "nvim-tree/nvim-web-devicons" }, -- Optional, for icons
-     config = function()
-       local tabline = require "config.tabline"
-       tabline.setup_autocmd()
-
-       local function get_branch_info()
-         -- Branch
-         local branch = vim.fn.system("git branch --show-current"):gsub("\n", "")
-         branch = branch ~= "" and string.format("󰘬 %s", branch) or ""
-
-         -- Diff
-         local diff = ""
-         local data = MiniDiff.get_buf_data() or {}
-         local summary = data.summary or {}
-         local added = summary.add or 0
-         local removed = summary.delete or 0
-         local changed = summary.change or 0
-         if added > 0 or removed > 0 or changed > 0 then
-           diff = string.format(" +%d ~%d -%d", added, changed, removed)
-         end
-
-         return branch .. diff
-       end
+    dependencies = { "nvim-tree/nvim-web-devicons", "echasnovski/mini.nvim" }, -- Optional, for icons; mini for diff
+    config = function()
+      local tabline = require "config.tabline"
+      tabline.setup_autocmd()
 
       local function get_file_info()
         -- Filename
@@ -41,10 +22,11 @@ return {
         else
           icon, icon_color = require("nvim-web-devicons").get_icon_color(filename, extension, { default = true })
         end
-        local icon_str = icon and string.format("%%#%s#%s ", "DevIcon" .. extension, icon) or ""
-        local modified = vim.bo.modified and " 󰆓" or ""
-        local readonly = (not vim.bo.modifiable or vim.bo.readonly) and " " or ""
-        return icon_str .. filename .. modified .. readonly
+        local icon_str = icon and string.format("%%#%s#%s %%*", "DevIcon" .. extension, icon) or ""
+         local modified = vim.bo.modified and " 󰆓" or ""
+         local readonly = (not vim.bo.modifiable or vim.bo.readonly) and " " or ""
+         vim.api.nvim_set_hl(0, "TempFileInfo", { fg = normal_fg, bg = normal_bg })
+         return string.format("%%#TempFileInfo#%s", icon_str .. filename .. modified .. readonly)
       end
 
       local mode_colors = {
@@ -70,12 +52,13 @@ return {
 
       local normal_hl = vim.api.nvim_get_hl(0, { name = "Normal", link = false })
       local normal_fg = normal_hl.fg and string.format("#%06x", normal_hl.fg) or "#ffffff"
+      local normal_bg = normal_hl.bg and string.format("#%06x", normal_hl.bg) or "#000000"
 
       local function get_theme(mode_color)
         local base = {
-          a = { fg = "normal_bg", bg = mode_color, gui = "bold" },
-          b = { fg = normal_fg, bg = "normal_bg" },
-          c = { fg = normal_fg, bg = "normal_bg" },
+          a = { fg = normal_bg, bg = mode_color, gui = "bold" },
+          b = { fg = normal_fg, bg = normal_bg },
+          c = { fg = normal_fg, bg = normal_bg },
         }
         return {
           normal = base,
@@ -84,13 +67,13 @@ return {
           replace = base,
           command = base,
           inactive = {
-            a = { fg = normal_fg, bg = "normal_bg" },
-            b = { fg = normal_fg, bg = "normal_bg" },
-            c = { fg = normal_fg, bg = "normal_bg" },
+            a = { fg = normal_fg, bg = normal_bg },
+            b = { fg = normal_fg, bg = normal_bg },
+            c = { fg = normal_fg, bg = normal_bg },
           },
           separators = {
-            left = { fg = mode_color, bg = "normal_bg" },
-            right = { fg = "normal_bg", bg = mode_color },
+            left = { fg = mode_color, bg = normal_bg },
+            right = { fg = normal_bg, bg = mode_color },
           },
         }
       end
@@ -101,42 +84,58 @@ return {
             local mode_color = get_mode_color()
             return get_theme(mode_color)
           end,
-          section_separators = { left = "", right = "" }, -- Separator with mode color
+          section_separators = "",
+          component_separators = "",
           disabled_filetypes = { "NvimTree", "aerial" },
         },
         sections = {
           -- Filled pill: right side components (x, y, z) with mode-colored backgrounds for high contrast
-          lualine_a = { "mode" },
+          lualine_a = { { "mode", padding = { left = 1, right = 1 }, separator = { right = "" } } },
           lualine_b = {
             {
-              get_branch_info,
-              separator = "",
-              color = { fg = "#ff8800" },
+              "branch",
+              icon = "󰘬",
+              separator = " ",
+              color = { fg = "#ffaf5f" },
               padding = { left = 1, right = 1 },
             },
             {
-              get_file_info,
-              separator = "",
-              color = function()
-                if vim.bo.buftype == "terminal" then
-                  return { fg = "#00ff00" }
+              "diff",
+              source = function()
+                local ok, mini_diff = pcall(require, "mini.diff")
+                if not ok then
+                  return { "no diff" }
                 end
+                local data = mini_diff.get_buf_data() or {}
+                local summary = data.summary or {}
+                return {
+                  added = summary.add or 0,
+                  modified = summary.change or 0,
+                  removed = summary.delete or 0,
+                }
               end,
+              separator = "",
+              color = { fg = "#ff8800" },
               padding = { left = 0, right = 1 },
             },
+             {
+               get_file_info,
+               separator = "",
+               padding = { left = 0, right = 1 },
+             },
           },
           lualine_c = {},
           lualine_x = {
-            {
-              require "minuet.lualine",
-              display_name = "both",
-              provider_model_separator = ":",
-              display_on_idle = false,
-              padding = { left = 1, right = 0 },
-              color = function()
-                return { fg = "normal_fg", bg = get_mode_color() }
-              end,
-            },
+             {
+               require "minuet.lualine",
+               display_name = "both",
+               provider_model_separator = ":",
+               display_on_idle = false,
+               padding = { left = 1, right = 0 },
+               color = function()
+                 return { fg = normal_bg, bg = get_mode_color() }
+               end,
+             },
             { "diagnostics", padding = { left = 0, right = 1 } },
             {
               "lsp_status",
@@ -145,21 +144,21 @@ return {
             },
           },
           lualine_y = {
-            {
-              "progress",
-              separator = " ",
-              padding = { left = 1, right = 1 },
-              color = function()
-                return { fg = "normal_fg", bg = get_mode_color() }
-              end,
-            },
-            {
-              "location",
-              padding = { left = 0, right = 1 },
-              color = function()
-                return { fg = "normal_fg", bg = get_mode_color() }
-              end,
-            },
+             {
+               "progress",
+               separator = " ",
+               padding = { left = 1, right = 1 },
+               color = function()
+                 return { fg = normal_bg, bg = get_mode_color() }
+               end,
+             },
+             {
+               "location",
+               padding = { left = 0, right = 1 },
+               color = function()
+                 return { fg = normal_bg, bg = get_mode_color() }
+               end,
+             },
           },
           lualine_z = {
             {},
@@ -182,36 +181,33 @@ return {
                 if #vim.api.nvim_list_tabpages() < 2 then
                   return ""
                 end
-                 local tabline_hl = vim.api.nvim_get_hl(0, { name = "TabLine", link = false })
-                 local tabline_sel_hl = vim.api.nvim_get_hl(0, { name = "TabLineSel", link = false })
-                 local tabline_fill_hl = vim.api.nvim_get_hl(0, { name = "TabLineFill", link = false })
-                 local tabline_bg = tabline_fill
-                 local tabline_sel_bg = tabline_sel_hl.bg
-                 local tabline_fill = tabline_fill_hl.bg
+                local tabline_hl = vim.api.nvim_get_hl(0, { name = "TabLine", link = false })
+                local tabline_sel_hl = vim.api.nvim_get_hl(0, { name = "TabLineSel", link = false })
+                local tabline_fill_hl = vim.api.nvim_get_hl(0, { name = "TabLineFill", link = false })
+                local tabline_bg = tabline_fill
+                local tabline_sel_bg = tabline_sel_hl.bg
+                local tabline_fill = tabline_fill_hl.bg
 
-                 local current_tab = vim.api.nvim_get_current_tabpage()
-                 local parts = {}
-                 for i, tabnr in ipairs(vim.api.nvim_list_tabpages()) do
-                   local is_active = tabnr == current_tab
-                   local hl = is_active and "TabLine" or "TabLineSel"
-                   local bg = is_active and tabline_bg or tabline_sel_bg
-                   local tabpage = tabline.tabpages[tabnr] or {}
-                   local buffers = vim.tbl_map(function(bufnr) return tabline.get_buffer_display(bufnr) end, tabpage)
-                   local buffer_str = table.concat(buffers, " · ")
+                local current_tab = vim.api.nvim_get_current_tabpage()
+                local parts = {}
+                for i, tabnr in ipairs(vim.api.nvim_list_tabpages()) do
+                  local is_active = tabnr == current_tab
+                  local hl = is_active and "TabLine" or "TabLineSel"
+                  local bg = is_active and tabline_bg or tabline_sel_bg
+                  local tabpage = tabline.tabpages[tabnr] or {}
+                  local buffers = vim.tbl_map(function(bufnr)
+                    return tabline.get_buffer_display(bufnr)
+                  end, tabpage)
+                  local buffer_str = table.concat(buffers, " · ")
                   local tab_str = string.format("%d. %s", i, buffer_str ~= "" and buffer_str or "[No buffers]")
                   local left_sep_hl_name = "TempTabLeft" .. i
                   vim.api.nvim_set_hl(0, left_sep_hl_name, { fg = bg, bg = tabline_fill })
                   local right_sep_hl_name = "TempTabRight" .. i
                   vim.api.nvim_set_hl(0, right_sep_hl_name, { fg = tabline_fill, bg = bg })
-                  local right_sep = i < #vim.api.nvim_list_tabpages() and string.format("%%#%s#", right_sep_hl_name) or ""
-                  local tab_part = string.format(
-                    "%%%dT%%#%s#%%#%s#%s%s",
-                    tabnr,
-                    left_sep_hl_name,
-                    hl,
-                    tab_str,
-                    right_sep
-                  )
+                  local right_sep = i < #vim.api.nvim_list_tabpages() and string.format("%%#%s#", right_sep_hl_name)
+                    or ""
+                  local tab_part =
+                    string.format("%%%dT%%#%s#%%#%s#%s%s", tabnr, left_sep_hl_name, hl, tab_str, right_sep)
                   table.insert(parts, tab_part)
                 end
                 return table.concat(parts, "   ")

@@ -142,12 +142,7 @@ return {
           require("dap.ui.widgets").preview()
         end,
       },
-      {
-        "<leader>df",
-        function()
-          require("telescope").extensions.dap.frames()
-        end,
-      },
+
       {
         "<leader>ds",
         function()

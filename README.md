@@ -22,8 +22,10 @@ This Neovim config is tailored for efficient coding, with a focus on LSP, AI ass
 - **Harpoon**: Quick file marking and navigation.
 - **Aerial**: Symbol outline for code navigation.
 
-### Development Tools
-- **Git Integration**: Diffview, Neogit, and mini.diff for Git operations.
+ ### Development Tools
+ - **Git Integration**: Diffview, Neogit, and mini.diff for Git operations.
+   - **Mini.diff**: Lightweight inline diff visualization with signs/numbers, overlay for detailed changes, hunk apply/reset, and navigation. Ideal for quick staging and reviewing changes against the index.
+   - **Diffview**: Dedicated diff windows for comparing commits, branches, or files. Best for in-depth diff reviews, merge conflict resolution, and commit history exploration.
 - **Debugging**: DAP with codelldb for Rust/Python debugging.
 - **Testing**: Neotest for running tests.
 - **Refactoring**: Spectre for find/replace, and comment.nvim for commenting.
@@ -61,8 +63,8 @@ Keymaps are centralized in `lua/config/keybind_definitions.lua` for consistency 
 
 | Category | Key | Description |
 |----------|-----|-------------|
-| LSP & Diagnostics | `<leader>j` / `<leader>k` | Next/previous diagnostic |
-| LSP & Diagnostics | `<leader>l` / `<leader>h` | Next/previous error |
+ | LSP & Diagnostics | `<leader>j` / `<leader>k` | Next/previous diagnostic |
+ | LSP & Diagnostics | `<leader>l` / `<leader>jk` | Next/previous error |
 | Windows & Buffers | `<C-w>o` | Close other windows (preserve special) |
 | Windows & Buffers | `<leader>bh` | Close hidden buffers |
 | Windows & Buffers | `<leader>bo` | Buffer delete others (Snacks) |
@@ -76,8 +78,8 @@ Keymaps are centralized in `lua/config/keybind_definitions.lua` for consistency 
 | Search & Navigation | `<Esc>` | Clear search highlight |
 | Search & Navigation | `<leader><leader>` | Files picker |
 | Search & Navigation | `<leader>,` | Buffers picker |
-| Search & Navigation | `<leader>/` | Buffer lines (fuzzy) |
-| Search & Navigation | `<leader>?` | Project grep |
+| Search & Navigation | `<leader>b` | Buffer lines (fuzzy) |
+| Search & Navigation | `<leader>/` | Project grep |
 | Search & Navigation | `<leader>fg` | Git files |
 | Search & Navigation | `<leader>fr` | Recent files |
 | Search & Navigation | `<leader>o` | LSP symbols |
@@ -87,10 +89,11 @@ Keymaps are centralized in `lua/config/keybind_definitions.lua` for consistency 
 | Search & Navigation | `<leader>fl` | Buffer lines picker |
 | Search & Navigation | `<c-r>` | Refine picker results (grep within) |
 | Search & Navigation | `z=` | Spelling picker |
-| Git & Diff | `gh` | Apply/reset hunk (mini.diff) |
-| Git & Diff | `gH` | Reset hunk |
-| Git & Diff | `[h` / `]h` | Previous/next hunk |
-| Git & Diff | `[H` / `]H` | First/last hunk |
+ | Git & Diff | `gh` | Apply/reset hunk (mini.diff) |
+ | Git & Diff | `gH` | Reset hunk |
+ | Git & Diff | `[h` / `]h` | Previous/next hunk |
+ | Git & Diff | `[H` / `]H` | First/last hunk |
+ | Git & Diff | `<leader>dt` | Toggle diff overlay (mini.diff) |
 | Folding | `zR` / `zM` | Open/close all folds |
 | Folding | `z1-z9` | Set fold level 0-8 |
 | Text Operations | `g=` | Evaluate math (mini) |
@@ -102,7 +105,7 @@ Keymaps are centralized in `lua/config/keybind_definitions.lua` for consistency 
 | AI & Completion | `<C-c>` | CodeCompanion actions |
 | AI & Completion | `<LocalLeader>a` | Toggle CodeCompanion chat |
 | AI & Completion | `<leader>cc` | Open CodeCompanion chat |
-| AI & Completion | `ga` | Add to CodeCompanion chat (visual) |
+| AI & Completion | `<leader>ga` | Add to CodeCompanion chat (visual) |
 | AI & Completion | `<leader>mt` | Toggle Minuet virtual text |
 | Tools & Utilities | `<leader>S` | Toggle Spectre |
 | Tools & Utilities | `<leader>sw` | Spectre word/file search |
@@ -124,7 +127,7 @@ Keymaps are centralized in `lua/config/keybind_definitions.lua` for consistency 
 | Dial (Increment/Decrement) | `g<C-a>` / `g<C-x>` | G-increment/decrement (normal/visual) |
 | Yanky (Clipboard) | `y`, `p`, `P`, etc. | Enhanced yank/put |
 | Yanky (Clipboard) | `<A-n>` / `<A-p>` | Cycle forward/backward |
-| Yanky (Clipboard) | `<C-p>` | Yank history (Telescope) |
+| Yanky (Clipboard) | `<C-y>` | Yank history (Telescope) |
 | Spider (Motions) | `w`, `e`, `b`, `ge` | Better word motions |
 | LuaSnip | `<c-k>` | Expand/choice prev |
 | LuaSnip | `<c-j>` | Jump next |
