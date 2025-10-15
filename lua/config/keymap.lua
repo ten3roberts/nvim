@@ -125,7 +125,7 @@ for i = 1, 9 do
   local o = vim.o
   map("n", "z" .. i, function()
     o.foldlevel = i - 1
-    print("Foldlevel: ", o.foldlevel)
+    vim.notify("Foldlevel: " .. o.foldlevel, vim.log.levels.INFO)
   end)
 end
 

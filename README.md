@@ -104,6 +104,7 @@ Below is a comprehensive list of all `vim.keymap.set` calls found in your config
 ### lua/plugins/ufo.lua
 - **Mode**: n | **Key**: `zR` | **Action**: Open all folds
 - **Mode**: n | **Key**: `zM` | **Action**: Close all folds
+- **Mode**: n | **Key**: `z1-z9` | **Action**: Set fold level to 0-8
 
 ### lua/plugins/codecompanion.lua
 - **Mode**: n, v | **Key**: `<C-c>` | **Action**: CodeCompanion actions
