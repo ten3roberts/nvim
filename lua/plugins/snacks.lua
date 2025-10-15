@@ -1,4 +1,4 @@
-local keybinds = require("config.keybind_definitions")
+local keybinds = require "config.keybind_definitions"
 
 local buffer_opts = {
   finder = "buffers",
@@ -36,6 +36,16 @@ return {
     },
     picker = {
       enabled = true,
+      layout = {
+        width = function()
+          return math.max(0.4 * vim.o.columns, 120)
+        end,
+      },
+      layouts = {
+        ivy = {
+          height = 0.6,
+        },
+      },
       matcher = {
         frecency = true,
       },
@@ -47,6 +57,8 @@ return {
         },
         input = {
           keys = {
+            ["<c-d>"] = { "preview_scroll_down", mode = { "n", "i" } },
+            ["<c-u>"] = { "preview_scroll_up", mode = { "n", "i" } },
             ["<c-l>"] = { "toggle_lua", mode = { "n", "i" } },
             ["<c-i>"] = { "toggle_input", mode = { "n", "i" } },
             ["<c-t>"] = { "edit_tab", mode = { "n", "i" } },
@@ -82,289 +94,180 @@ return {
   },
   keys = {
     {
-      keybinds.getKeybind("snacks-buffer-delete"),
+      keybinds.getKeybind "snacks-buffer-delete",
       function()
         require("snacks").bufdelete.delete()
       end,
-      desc = keybinds.getDesc("snacks-buffer-delete"),
+      desc = keybinds.getDesc "snacks-buffer-delete",
     },
     {
-      keybinds.getKeybind("snacks-buffer-delete-others"),
+      keybinds.getKeybind "snacks-buffer-delete-others",
       function()
         require("snacks").bufdelete.other()
       end,
-      desc = keybinds.getDesc("snacks-buffer-delete-others"),
+      desc = keybinds.getDesc "snacks-buffer-delete-others",
     },
     {
-      keybinds.getKeybind("snacks-files-picker"),
+      keybinds.getKeybind "snacks-files-picker",
       function()
-        require("snacks").picker.files({ layout = "ivy" })
+        require("snacks").picker.files()
       end,
-      desc = keybinds.getDesc("snacks-files-picker"),
+      desc = keybinds.getDesc "snacks-files-picker",
     },
+
+
     {
-      "<leader>bo",
-      function()
-        require("snacks").bufdelete.other()
-      end,
-    },
-    {
-      "<leader><leader>",
-      function()
-        require("snacks").picker.files { layout = "ivy" }
-      end,
-    },
-    {
-      keybinds.getKeybind("snacks-spelling-picker"),
+      keybinds.getKeybind "snacks-spelling-picker",
       function()
         require("snacks").picker.spelling()
       end,
-      desc = keybinds.getDesc("snacks-spelling-picker"),
+      desc = keybinds.getDesc "snacks-spelling-picker",
     },
     {
-      keybinds.getKeybind("snacks-buffers-picker"),
+      keybinds.getKeybind "snacks-buffers-picker",
       function()
-        require("snacks").picker.buffers(vim.tbl_extend("force", buffer_opts, { layout = "ivy" }))
+        require("snacks").picker.buffers(buffer_opts)
       end,
-      desc = keybinds.getDesc("snacks-buffers-picker"),
+      desc = keybinds.getDesc "snacks-buffers-picker",
     },
     {
-      keybinds.getKeybind("snacks-buffer-lines"),
+      keybinds.getKeybind "snacks-buffer-lines",
       function()
-        require("snacks").picker.lines()
+        require("snacks").picker.lines { layout = "ivy" }
       end,
-      desc = keybinds.getDesc("snacks-buffer-lines"),
+      desc = keybinds.getDesc "snacks-buffer-lines",
     },
     {
-      keybinds.getKeybind("snacks-project-grep"),
+      keybinds.getKeybind "snacks-project-grep",
       function()
-        require("snacks").picker.grep({ layout = "ivy" })
+        require("snacks").picker.grep { layout = "ivy" }
       end,
-      desc = keybinds.getDesc("snacks-project-grep"),
+      desc = keybinds.getDesc "snacks-project-grep",
     },
     {
-      keybinds.getKeybind("snacks-git-files"),
+      keybinds.getKeybind "snacks-git-files",
       function()
         require("snacks").picker.git_files()
       end,
-      desc = keybinds.getDesc("snacks-git-files"),
+      desc = keybinds.getDesc "snacks-git-files",
     },
     {
-      keybinds.getKeybind("snacks-recent-files"),
+      keybinds.getKeybind "snacks-recent-files",
       function()
         require("snacks").picker.recent()
       end,
-      desc = keybinds.getDesc("snacks-recent-files"),
+      desc = keybinds.getDesc "snacks-recent-files",
     },
     {
-      keybinds.getKeybind("snacks-save-all"),
+      keybinds.getKeybind "snacks-save-all",
       ":wa<CR>",
-      desc = keybinds.getDesc("snacks-save-all"),
+      desc = keybinds.getDesc "snacks-save-all",
     },
     {
-      keybinds.getKeybind("snacks-format-buffer"),
+      keybinds.getKeybind "snacks-format-buffer",
       function()
         vim.lsp.buf.format()
       end,
-      desc = keybinds.getDesc("snacks-format-buffer"),
+      desc = keybinds.getDesc "snacks-format-buffer",
     },
     {
-      keybinds.getKeybind("snacks-close-hidden"),
+      keybinds.getKeybind "snacks-close-hidden",
       ":BCloseHidden<CR>",
-      desc = keybinds.getDesc("snacks-close-hidden"),
+      desc = keybinds.getDesc "snacks-close-hidden",
     },
     {
-      keybinds.getKeybind("snacks-open-terminal"),
+      keybinds.getKeybind "snacks-open-terminal",
       ":term<CR>",
-      desc = keybinds.getDesc("snacks-open-terminal"),
+      desc = keybinds.getDesc "snacks-open-terminal",
     },
     {
-      keybinds.getKeybind("snacks-toggle-minuet"),
+      keybinds.getKeybind "snacks-toggle-minuet",
       ":Minuet virtualtext toggle<CR>",
-      desc = keybinds.getDesc("snacks-toggle-minuet"),
+      desc = keybinds.getDesc "snacks-toggle-minuet",
     },
     {
-      keybinds.getKeybind("snacks-debug-searcher"),
+      keybinds.getKeybind "snacks-debug-searcher",
       function()
         Snacks.picker.grep { search = "^(?!\\s*--).*\\b(bt|dd)\\(", args = { "-P" }, live = false, ft = "lua" }
       end,
-      desc = keybinds.getDesc("snacks-debug-searcher"),
+      desc = keybinds.getDesc "snacks-debug-searcher",
     },
     {
-      keybinds.getKeybind("snacks-icons-picker"),
+      keybinds.getKeybind "snacks-icons-picker",
       function()
         require("snacks").picker.icons()
       end,
-      desc = keybinds.getDesc("snacks-icons-picker"),
+      desc = keybinds.getDesc "snacks-icons-picker",
     },
     {
-      keybinds.getKeybind("snacks-undo-picker"),
+      keybinds.getKeybind "snacks-undo-picker",
       function()
         require("snacks").picker.undo()
       end,
-      desc = keybinds.getDesc("snacks-undo-picker"),
+      desc = keybinds.getDesc "snacks-undo-picker",
     },
     {
-      keybinds.getKeybind("snacks-lsp-symbols"),
+      keybinds.getKeybind "snacks-lsp-symbols",
       function()
         require("snacks").picker.lsp_symbols()
       end,
-      desc = keybinds.getDesc("snacks-lsp-symbols"),
+      desc = keybinds.getDesc "snacks-lsp-symbols",
     },
     {
-      keybinds.getKeybind("snacks-lsp-workspace-symbols"),
+      keybinds.getKeybind "snacks-lsp-workspace-symbols",
       function()
         require("snacks").picker.lsp_workspace_symbols()
       end,
-      desc = keybinds.getDesc("snacks-lsp-workspace-symbols"),
+      desc = keybinds.getDesc "snacks-lsp-workspace-symbols",
     },
     {
-      keybinds.getKeybind("snacks-diagnostics-buffer"),
+      keybinds.getKeybind "snacks-diagnostics-buffer",
       function()
         require("snacks").picker.diagnostics_buffer()
       end,
-      desc = keybinds.getDesc("snacks-diagnostics-buffer"),
+      desc = keybinds.getDesc "snacks-diagnostics-buffer",
     },
     {
-      keybinds.getKeybind("snacks-diagnostics"),
+      keybinds.getKeybind "snacks-diagnostics",
       function()
         require("snacks").picker.diagnostics()
       end,
-      desc = keybinds.getDesc("snacks-diagnostics"),
+      desc = keybinds.getDesc "snacks-diagnostics",
     },
     {
-      keybinds.getKeybind("snacks-buffer-lines-picker"),
+      keybinds.getKeybind "snacks-buffer-lines-picker",
       function()
         require("snacks").picker.lines()
       end,
-      desc = keybinds.getDesc("snacks-buffer-lines-picker"),
+      desc = keybinds.getDesc "snacks-buffer-lines-picker",
     },
     {
-      keybinds.getKeybind("snacks-refine-picker-results"),
+      keybinds.getKeybind "snacks-refine-picker-results",
       function()
         -- refine
       end,
       mode = { "n", "i" },
-      desc = keybinds.getDesc("snacks-refine-picker-results"),
+      desc = keybinds.getDesc "snacks-refine-picker-results",
     },
-    {
-      "<leader>,",
-      function()
-        require("snacks").picker.buffers(vim.tbl_extend("force", buffer_opts, { layout = "ivy" }))
-      end,
-    },
-    {
-      "<leader>/",
-      function()
-        require("snacks").picker.lines()
-      end,
-      desc = "Buffer lines (fuzzy search)",
-    },
-    {
-      "<leader>?",
-      function()
-        require("snacks").picker.grep { layout = "ivy" }
-      end,
-      desc = "Project grep (ivy layout)",
-    },
-    {
-      "<leader>fl",
-      function()
-        require("snacks").picker.lines()
-      end,
-      desc = "Buffer local fuzzy search",
-    },
-    {
-      "<leader>fg",
-      function()
-        require("snacks").picker.git_files()
-      end,
-      desc = "Git files picker",
-    },
-    {
-      "<leader>fr",
-      function()
-        require("snacks").picker.recent()
-      end,
-      desc = "Recent files picker",
-    },
-    {
-      "<leader>sa",
-      ":wa<CR>",
-      desc = "Save all buffers",
-    },
-    {
-      "<leader>fa",
-      function()
-        vim.lsp.buf.format()
-      end,
-      desc = "Format buffer",
-    },
-    {
-      "<leader>cc",
-      function()
-        require("codecompanion").chat()
-      end,
-      desc = "Open CodeCompanion chat",
-    },
-    {
-      "<leader>bc",
-      ":BCloseHidden<CR>",
-      desc = "Close hidden buffers",
-    },
-    {
-      "<leader>tt",
-      ":term<CR>",
-      desc = "Open terminal",
-    },
-    {
-      "<leader>mt",
-      ":Minuet virtualtext toggle<CR>",
-      desc = "Toggle Minuet virtual text",
-    },
-    {
-      "<leader>dd",
-      function()
-        Snacks.picker.grep { search = "^(?!\\s*--).*\\b(bt|dd)\\(", args = { "-P" }, live = false, ft = "lua" }
-      end,
-      desc = "Debug Searcher",
-    },
-    {
-      "<leader>si",
-      function()
-        require("snacks").picker.icons()
-      end,
-    },
-    {
-      "<leader>u",
-      function()
-        require("snacks").picker.undo()
-      end,
-    },
-    {
-      "<leader>o",
-      function()
-        require("snacks").picker.lsp_symbols()
-      end,
-    },
-    {
-      "<leader>O",
-      function()
-        require("snacks").picker.lsp_workspace_symbols()
-      end,
-    },
-    {
-      "<leader>q",
-      function()
-        require("snacks").picker.diagnostics_buffer()
-      end,
-    },
-    {
-      "<leader>Q",
-      function()
-        require("snacks").picker.diagnostics()
-      end,
-    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   },
   config = function(_, opts)
     local Snacks = require("snacks").setup(opts)

@@ -69,9 +69,12 @@ au({ "TermEnter" }, {
 
 au({ "BufReadPost" }, {
   callback = function()
-    local l = fn.line [['"]]
-    if l > 1 and l < fn.line "$" then
-      vim.cmd [[ normal! g`" ]]
+    local current_line = fn.line('.')
+    if current_line == 1 then
+      local l = fn.line [['"]]
+      if l > 1 and l < fn.line "$" then
+        vim.cmd [[ normal! g`" ]]
+      end
     end
   end,
 })
