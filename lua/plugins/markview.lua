@@ -1,0 +1,22 @@
+return {
+  -- {
+  --   "OXY2DEV/markview.nvim",
+  --   lazy = false,
+  --   enable = false,
+  --   dependencies = { "nvim-treesitter/nvim-treesitter" },
+  --   config = function()
+  --     require("markview").setup {
+  --       preview = {
+  --         icon_provider = "devicons",
+  --         filetypes = { "markdown", "quarto", "rmd" },
+  --       },
+  --       markdown = {
+  --         enable = true,
+  --       },
+  --       markdown_inline = {
+  --         enable = true,
+  --       },
+  --     }
+  --   end,
+  -- },
+}

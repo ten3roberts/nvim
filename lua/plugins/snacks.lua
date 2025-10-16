@@ -241,14 +241,7 @@ return {
       end,
       desc = keybinds.getDesc "snacks-buffer-lines-picker",
     },
-    {
-      keybinds.getKeybind "snacks-refine-picker-results",
-      function()
-        -- refine
-      end,
-      mode = { "n", "i" },
-      desc = keybinds.getDesc "snacks-refine-picker-results",
-    },
+
 
 
 
