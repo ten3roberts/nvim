@@ -1,0 +1,24 @@
+{
+  "function": {
+    "prefix": "fn",
+    "body": [
+      "function ${1:name}(${2:args})",
+      "\t${0}",
+      "end"
+    ],
+    "description": "Function definition"
+  },
+  "local function": {
+    "prefix": "lfn",
+    "body": [
+      "local function ${1:name}(${2:args})",
+      "\t${0}",
+      "end"
+    ],
+    "description": "Local function definition"
+  }
+}</content>
+</xai:function_call"> 
+
+<xai:function_call name="edit">
+<parameter name="filePath">snippets/package.json

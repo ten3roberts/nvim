@@ -12,9 +12,6 @@ return {
         inline = {
           adapter = "anthropic",
         },
-        chat = {
-          adapter = "anthropic",
-        },
       },
       opts = {
         log_level = "DEBUG",
@@ -28,18 +25,7 @@ return {
         "<cmd>CodeCompanionActions<cr>",
         { noremap = true, silent = true, desc = keybinds.getDesc "codecompanion-actions" }
       )
-      vim.keymap.set(
-        { "n", "v" },
-        keybinds.getKeybind "codecompanion-chat-toggle",
-        "<cmd>CodeCompanionChat Toggle<cr>",
-        { noremap = true, silent = true, desc = keybinds.getDesc "codecompanion-chat-toggle" }
-      )
-      vim.keymap.set(
-        "v",
-        keybinds.getKeybind "codecompanion-chat-add",
-        "<cmd>CodeCompanionChat Add<cr>",
-        { noremap = true, silent = true, desc = keybinds.getDesc "codecompanion-chat-add" }
-      )
+
       vim.keymap.set(
         "v",
         keybinds.getKeybind "codecompanion-inline",

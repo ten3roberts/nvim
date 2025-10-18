@@ -13,7 +13,7 @@ return {
           icons = { "# ", "## ", "### ", "#### ", "##### ", "###### " },
           position = "left",
           left_pad = 0,
-          right_pad = 2,
+          right_pad = 0,
           sign = false,
           rainbow = true,
         },

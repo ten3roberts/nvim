@@ -23,10 +23,10 @@ return {
           icon, icon_color = require("nvim-web-devicons").get_icon_color(filename, extension, { default = true })
         end
         local icon_str = icon and string.format("%%#%s#%s %%*", "DevIcon" .. extension, icon) or ""
-         local modified = vim.bo.modified and " 󰆓" or ""
-         local readonly = (not vim.bo.modifiable or vim.bo.readonly) and " " or ""
-         vim.api.nvim_set_hl(0, "TempFileInfo", { fg = normal_fg, bg = normal_bg })
-         return string.format("%%#TempFileInfo#%s", icon_str .. filename .. modified .. readonly)
+        local modified = vim.bo.modified and " 󰆓" or ""
+        local readonly = (not vim.bo.modifiable or vim.bo.readonly) and " " or ""
+        vim.api.nvim_set_hl(0, "TempFileInfo", { fg = normal_fg, bg = normal_bg })
+        return string.format("%%#TempFileInfo#%s", icon_str .. filename .. modified .. readonly)
       end
 
       local mode_colors = {
@@ -78,6 +78,8 @@ return {
         }
       end
 
+      local minuet_lualine = pcall(require, "minuet.lualine")
+
       require("lualine").setup {
         options = {
           theme = function()
@@ -118,47 +120,49 @@ return {
               color = { fg = "#ff8800" },
               padding = { left = 0, right = 1 },
             },
-             {
-               get_file_info,
-               separator = "",
-               padding = { left = 0, right = 1 },
-             },
+            {
+              get_file_info,
+              separator = "",
+              padding = { left = 0, right = 1 },
+            },
           },
           lualine_c = {},
-          lualine_x = {
-             {
-               require "minuet.lualine",
-               display_name = "both",
-               provider_model_separator = ":",
-               display_on_idle = false,
-               padding = { left = 1, right = 0 },
-               color = function()
-                 return { fg = normal_bg, bg = get_mode_color() }
-               end,
-             },
+          lualine_x = vim.tbl_filter(function(v)
+            return v ~= false
+          end, {
+            minuet_lualine and {
+              minuet_lualine,
+              display_name = "both",
+              provider_model_separator = ":",
+              display_on_idle = false,
+              padding = { left = 1, right = 0 },
+              color = function()
+                return { fg = normal_bg, bg = get_mode_color() }
+              end,
+            } or false,
             { "diagnostics", padding = { left = 0, right = 1 } },
             {
               "lsp_status",
               padding = { left = 1, right = 1 },
               color = { fg = "#90EE90" },
             },
-          },
+          }),
           lualine_y = {
-             {
-               "progress",
-               separator = " ",
-               padding = { left = 1, right = 1 },
-               color = function()
-                 return { fg = normal_bg, bg = get_mode_color() }
-               end,
-             },
-             {
-               "location",
-               padding = { left = 0, right = 1 },
-               color = function()
-                 return { fg = normal_bg, bg = get_mode_color() }
-               end,
-             },
+            {
+              "progress",
+              separator = " ",
+              padding = { left = 1, right = 1 },
+              color = function()
+                return { fg = normal_bg, bg = get_mode_color() }
+              end,
+            },
+            {
+              "location",
+              padding = { left = 0, right = 1 },
+              color = function()
+                return { fg = normal_bg, bg = get_mode_color() }
+              end,
+            },
           },
           lualine_z = {
             {},

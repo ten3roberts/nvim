@@ -27,8 +27,8 @@ return {
     -- or leave it empty to use the default settings
     -- refer to the configuration section below
     bigfile = { enabled = true },
-    dashboard = { enabled = true },
-    explorer = { enabled = true },
+    dashboard = { enabled = false },
+    explorer = { enabled = false },
     indent = { enabled = true, indent = { only_scope = false, only_current = false } },
     input = {
       enabled = true,
@@ -42,8 +42,79 @@ return {
         end,
       },
       layouts = {
+        default = {
+          layout = {
+            box = "horizontal",
+            backdrop = true,
+            width = 0.8,
+            min_width = 120,
+            height = 0.8,
+            {
+              box = "vertical",
+              border = "rounded",
+              title = "{title} {live} {flags}",
+              { win = "input", height = 1, border = "none" },
+              { win = "list", border = "none" },
+            },
+            { win = "preview", title = "{preview}", border = "none", width = 0.3 },
+          },
+        },
         ivy = {
-          height = 0.6,
+          layout = {
+            box = "vertical",
+            backdrop = true,
+            row = -1,
+            width = 0,
+            height = 0.6,
+            border = "top",
+            title = " {title} {live} {flags}",
+            title_pos = "left",
+            { win = "input", height = 1, border = "none" },
+            {
+              box = "horizontal",
+              { win = "list", border = "none" },
+              { win = "preview", title = "{preview}", width = 0.4, border = "none" },
+            },
+          },
+        },
+        dropdown_no_preview = {
+          layout = {
+            backdrop = true,
+            row = 1,
+            width = 0.4,
+            min_width = 80,
+            height = 0.4,
+            border = "none",
+            box = "vertical",
+            {
+              box = "vertical",
+              border = "rounded",
+              title = "{title} {live} {flags}",
+              title_pos = "center",
+              { win = "input", height = 1, border = "none" },
+              { win = "list", border = "none" },
+            },
+          },
+        },
+        dropdown = {
+          layout = {
+            backdrop = true,
+            row = 1,
+            width = 0.4,
+            min_width = 80,
+            height = 0.6,
+            border = "none",
+            box = "vertical",
+            { win = "preview", title = "{preview}", height = 0.4, border = "none" },
+            {
+              box = "vertical",
+              border = "rounded",
+              title = "{title} {live} {flags}",
+              title_pos = "center",
+              { win = "input", height = 1, border = "none" },
+              { win = "list", border = "none" },
+            },
+          },
         },
       },
       matcher = {
@@ -65,6 +136,7 @@ return {
             ["<c-y>"] = { "yankit", mode = { "n", "i" } },
             ["<c-r>"] = { "picker_grep", mode = { "n", "i" } },
             ["<Esc>"] = { "close", mode = { "n", "i" } },
+            ["<C-c>"] = { "close", mode = { "n", "i" } },
           },
         },
       },
@@ -110,11 +182,10 @@ return {
     {
       keybinds.getKeybind "snacks-files-picker",
       function()
-        require("snacks").picker.files()
+        require("snacks").picker.files { layout = "dropdown" }
       end,
       desc = keybinds.getDesc "snacks-files-picker",
     },
-
 
     {
       keybinds.getKeybind "snacks-spelling-picker",
@@ -241,26 +312,6 @@ return {
       end,
       desc = keybinds.getDesc "snacks-buffer-lines-picker",
     },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   },
   config = function(_, opts)
     local Snacks = require("snacks").setup(opts)

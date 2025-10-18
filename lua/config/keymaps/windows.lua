@@ -1,8 +1,8 @@
-local keybinds = require("config.keybind_definitions")
+local keybinds = require "config.keybind_definitions"
 
-vim.keymap.set("n", keybinds.getKeybind("buffer-close-hidden"), function()
+vim.keymap.set("n", keybinds.getKeybind "buffer-close-hidden", function()
   require("config.bclose").close_hidden()
-end, { desc = keybinds.getDesc("buffer-close-hidden") })
+end, { desc = keybinds.getDesc "buffer-close-hidden" })
 
 local function close_normal_windows()
   vim.notify "Closing normal windows"
@@ -44,20 +44,31 @@ local function close_normal_windows()
   vim.notify("Closed " .. closed_count .. " " .. window_word)
 end
 
-vim.keymap.set("n", keybinds.getKeybind("window-close-others"), function()
+vim.keymap.set({ "n", "v" }, keybinds.getKeybind "window-close-others", function()
   -- Use the custom function to preserve special windows
   close_normal_windows()
-end, { desc = keybinds.getDesc("window-close-others") })
+end, { desc = keybinds.getDesc "window-close-others" })
 
-vim.keymap.set("n", keybinds.getKeybind("tab-only"), "<cmd>tabonly<CR>", { desc = keybinds.getDesc("tab-only") })
-vim.keymap.set("n", keybinds.getKeybind("tab-split"), "<cmd>tab split<CR>", { desc = keybinds.getDesc("tab-split") })
-vim.keymap.set("n", keybinds.getKeybind("tab-close"), "<cmd>tabclose<CR>", { desc = keybinds.getDesc("tab-close") })
+vim.keymap.set("n", keybinds.getKeybind "tab-only", "<cmd>tabonly<CR>", { desc = keybinds.getDesc "tab-only" })
+vim.keymap.set("n", keybinds.getKeybind "tab-split", "<cmd>tab split<CR>", { desc = keybinds.getDesc "tab-split" })
+vim.keymap.set("n", keybinds.getKeybind "tab-close", "<cmd>tabclose<CR>", { desc = keybinds.getDesc "tab-close" })
 
 for i = 0, 9 do
   vim.keymap.set("n", "<leader>" .. i, i .. "gt")
 end
 
-vim.keymap.set("n", keybinds.getKeybind("tab-prev"), "<cmd>tabprevious<CR>", { desc = keybinds.getDesc("tab-prev") })
-vim.keymap.set("n", keybinds.getKeybind("tab-next"), "<cmd>tabnext<CR>", { desc = keybinds.getDesc("tab-next") })
-vim.keymap.set("n", keybinds.getKeybind("tab-move-prev"), "<cmd>tabmove -1<CR>", { desc = keybinds.getDesc("tab-move-prev") })
-vim.keymap.set("n", keybinds.getKeybind("tab-move-next"), "<cmd>tabmove +1<CR>", { desc = keybinds.getDesc("tab-move-next") })
+vim.keymap.set("n", keybinds.getKeybind "tab-prev", "<cmd>tabprevious<CR>", { desc = keybinds.getDesc "tab-prev" })
+vim.keymap.set("n", keybinds.getKeybind "tab-next", "<cmd>tabnext<CR>", { desc = keybinds.getDesc "tab-next" })
+vim.keymap.set(
+  "n",
+  keybinds.getKeybind "tab-move-prev",
+  "<cmd>tabmove -1<CR>",
+  { desc = keybinds.getDesc "tab-move-prev" }
+)
+vim.keymap.set(
+  "n",
+  keybinds.getKeybind "tab-move-next",
+  "<cmd>tabmove +1<CR>",
+  { desc = keybinds.getDesc "tab-move-next" }
+)
+

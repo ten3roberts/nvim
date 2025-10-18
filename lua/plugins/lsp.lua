@@ -5,8 +5,6 @@ local border = "single"
 local function on_attach(client, bufnr)
   local opts = client.config
 
-  require("lsp-format").on_attach(client)
-
   -- vim.lsp.inlay_hint.enable()
   local keymap = {}
   if type(opts.keymap) == "function" then
@@ -167,7 +165,7 @@ return {
         severity_sort = true,
 
         -- float = { border = "rounded", source = "if_many" },
-        underline = { severity = vim.diagnostic.severity.ERROR },
+         underline = { severity = { min = vim.diagnostic.severity.WARN } },
         signs = {
           text = {
             [vim.diagnostic.severity.ERROR] = palette.signs.E.sign,

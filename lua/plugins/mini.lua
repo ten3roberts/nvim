@@ -4,7 +4,8 @@ return {
   config = function()
     local keybind = require("config.keybind_definitions").getKeybind
 
-    require("mini.ai").setup {
+    pcall(function()
+      require("mini.ai").setup {
       custom_textobjects = {
         ["B"] = { { "%b[]", "%b{}" }, "^.().*().$" },
       },
@@ -33,13 +34,13 @@ return {
         signs = { add = "│", change = "▔", delete = "▁" },
       },
       mappings = {
-        apply = keybind("mini-diff-apply"),
-        reset = keybind("mini-diff-reset"),
-        textobject = keybind("mini-diff-textobject"),
-        goto_first = keybind("mini-diff-first"),
-        goto_prev = keybind("mini-diff-prev"),
-        goto_next = keybind("mini-diff-next"),
-        goto_last = keybind("mini-diff-last"),
+        apply = keybind "mini-diff-apply",
+        reset = keybind "mini-diff-reset",
+        textobject = keybind "mini-diff-textobject",
+        goto_first = keybind "mini-diff-first",
+        goto_prev = keybind "mini-diff-prev",
+        goto_next = keybind "mini-diff-next",
+        goto_last = keybind "mini-diff-last",
       },
       options = {
         algorithm = "histogram",
@@ -50,9 +51,11 @@ return {
     }
 
     -- Set up toggle overlay keybind
-    vim.keymap.set('n', keybind("mini-diff-toggle-overlay"), function() require("mini.diff").toggle_overlay() end)
+    vim.keymap.set("n", keybind "mini-diff-toggle-overlay", function()
+      require("mini.diff").toggle_overlay()
+    end)
 
-    local hipatterns = require("mini.hipatterns")
+    local hipatterns = require "mini.hipatterns"
     hipatterns.setup {
       highlighters = {
         -- Highlight TODO, FIXME, etc.
@@ -61,7 +64,7 @@ return {
         todo = { pattern = "%f[%w]()TODO()%f[%W]", group = "MiniHipatternsTodo" },
         note = { pattern = "%f[%w]()NOTE()%f[%W]", group = "MiniHipatternsNote" },
         -- Highlight URLs
-        url = hipatterns.gen_highlighter.url(),
+        -- url = hipatterns.gen_highlighter.url(),
         -- Highlight hex colors
         hex_color = hipatterns.gen_highlighter.hex_color(),
       },
@@ -70,31 +73,32 @@ return {
     require("mini.operators").setup {
       -- Evaluate math expressions
       evaluate = {
-        prefix = keybind("mini-eval-math"),
+        prefix = keybind "mini-eval-math",
       },
       -- Exchange text regions
       exchange = {
-        prefix = keybind("mini-exchange-text"),
+        prefix = keybind "mini-exchange-text",
       },
       -- Multiply (duplicate) text
       multiply = {
-        prefix = keybind("mini-multiply-text"),
+        prefix = keybind "mini-multiply-text",
       },
       -- Replace with register
       replace = {
-        prefix = keybind("mini-replace-register"),
+        prefix = keybind "mini-replace-register",
       },
       -- Sort text
       sort = {
-        prefix = keybind("mini-sort-text"),
+        prefix = keybind "mini-sort-text",
       },
     }
 
     require("mini.splitjoin").setup {
       -- Split/join mappings
       mappings = {
-        toggle = keybind("mini-splitjoin-toggle"),
+        toggle = keybind "mini-splitjoin-toggle",
       },
     }
+    end)
   end,
 }

@@ -87,7 +87,7 @@ local keybinds = {
   ["diagnostic-next"] = { keybind = "<leader>j", desc = "Next diagnostic" },
   ["diagnostic-prev"] = { keybind = "<leader>k", desc = "Previous diagnostic" },
   ["diagnostic-next-error"] = { keybind = "<leader>l", desc = "Next error" },
-  ["diagnostic-prev-error"] = { keybind = "<leader>jk", desc = "Previous error" },
+  ["diagnostic-prev-error"] = { keybind = "<leader>h", desc = "Previous error" },
   ["tab-only"] = { keybind = "<leader>to", desc = "Close other tabs" },
   ["tab-split"] = { keybind = "<leader>tt", desc = "Split tab" },
   ["tab-close"] = { keybind = "<leader>tq", desc = "Close tab" },

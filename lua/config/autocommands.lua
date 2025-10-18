@@ -1,6 +1,6 @@
 local a = vim.api
 local fn = vim.fn
-local keybinds = require("config.keybind_definitions")
+local keybinds = require "config.keybind_definitions"
 
 local group = a.nvim_create_augroup("CONFIG", { clear = true })
 local function au(event, opts)
@@ -63,13 +63,13 @@ au({ "BufWritePre" }, {
 
 au({ "TermEnter" }, {
   callback = function()
-    vim.keymap.set("t", keybinds.getKeybind("terminal-exit"), "<C-\\><C-n>", { buffer = true })
+    vim.keymap.set("t", keybinds.getKeybind "terminal-exit", "<C-\\><C-n>", { buffer = true })
   end,
 })
 
 au({ "BufReadPost" }, {
   callback = function()
-    local current_line = fn.line('.')
+    local current_line = fn.line "."
     if current_line == 1 then
       local l = fn.line [['"]]
       if l > 1 and l < fn.line "$" then
@@ -84,7 +84,7 @@ au({ "VimEnter" }, {
     vim.defer_fn(function()
       local tips = require "config.tips"
       local tip = tips[math.random(#tips)]
-      require("snacks").notifier.notify(tip, { title = "Tip", timeout = 20000 })
+      require("snacks").notifier.notify(tip, { title = "Tip", timeout = 30000 })
     end, 5000)
   end,
 })

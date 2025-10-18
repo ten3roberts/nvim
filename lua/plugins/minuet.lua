@@ -19,6 +19,7 @@ return {
   {
     "milanglacier/minuet-ai.nvim",
     event = "VeryLazy",
+    enabled = false,
     dependencies = "nvim-lua/plenary.nvim",
     opts = function()
       local zen_provider = getZenProvider()

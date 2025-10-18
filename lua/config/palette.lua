@@ -134,18 +134,7 @@ function M.setup()
   -- link("GitSignsCurrentLineBlame", "Comment")
   -- link("FocusedSymbol", "GreenInv")
 
-  -- link('DiagnosticError', 'Red')
-  -- link('DiagnosticWarning', 'Orange')
-  -- link('DiagnosticInformation', 'Blue')
-  -- link('DiagnosticHint', 'Green')
 
-  -- highlight('DiagnosticUnderlineError', nil, nil, "undercurl", p.red)
-  -- highlight('DiagnosticUnderlineWarn', nil, nil, "undercurl", p.orange)
-  -- highlight('DiagnosticUnderlineInformation', nil, nil, "undercurl", p.blue)
-  -- highlight('DiagnosticUnderlineHint', nil, nil, "undercurl", p.green)
-
-  -- link('TSError',   'DiagnosticUnderlineError')
-  -- link('TSWarning', 'DiagnosticUnderlineWarning')
 
   -- Less obtrusive folds
 

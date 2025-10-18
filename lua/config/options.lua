@@ -5,7 +5,7 @@ local g = vim.g
 
 opt.autoread = true
 opt.conceallevel = 0
-opt.cmdheight = 2
+opt.cmdheight = 1
 opt.confirm = true -- Disable 'no write'
 opt.cursorline = true
 opt.laststatus = 2
@@ -27,7 +27,7 @@ o.number = false
 o.path = o.path .. "**"
 -- o.pumheight = 8
 -- o.pumwidth = 20
-o.relativenumber = false
+o.relativenumber = true
 o.scrolloff = 8 -- Lines from the cursor
 
 o.expandtab = true
@@ -38,7 +38,7 @@ o.showmode = false -- Do not output message on the bottom
 o.signcolumn = "yes"
 o.smartcase = true
 o.smartindent = true
-o.splitbelow = false -- Splits open on the bottom
+o.splitbelow = true -- Splits open on the bottom
 o.splitright = true -- Splits open on the right
 -- o.switchbuf = "useopen"
 o.tabstop = 2
@@ -48,8 +48,8 @@ o.title = true
 o.titlestring = "nvim %{fnamemodify(getcwd(), ':~')}"
 o.undofile = true
 o.swapfile = true
-o.updatetime = 500
-o.shortmess = o.shortmess .. 'A'
+o.updatetime = 200
+o.shortmess = o.shortmess .. "A"
 -- o.wildmenu = true -- Command line completion mode
 o.wildmode = "full" -- Command line completion mode
 

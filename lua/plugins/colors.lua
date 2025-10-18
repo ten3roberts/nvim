@@ -4,7 +4,6 @@ local colorschemes = {
     config = function()
       vim.g.sonokai_enable_italic = 1
       vim.g.sonokai_float_style = "dim"
-      vim.g.sonokai_show_eob = 0
       -- vim.g.sonokai_style = "andromeda"
       vim.g.sonokai_style = "atlantis"
       vim.cmd.colorscheme "sonokai"
@@ -47,8 +46,8 @@ local colorschemes = {
       require("catppuccin").setup {
         -- flavour = "mocha", -- latte, frappe, macchiato, mocha
         background = { -- :h background
-          light = "latte",
-          dark = "mocha",
+          -- light = "latte",
+          -- dark = "mocha",
         },
         transparent_background = false, -- disables setting the background color.
         show_end_of_buffer = false, -- shows the '~' characters after the end of buffers
@@ -104,7 +103,7 @@ local colorschemes = {
   },
 }
 
-local current_colorscheme = "everforest"
+local current_colorscheme = "catppuccin"
 
 local t = colorschemes[current_colorscheme]
 

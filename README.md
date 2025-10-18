@@ -149,6 +149,4 @@ Keymaps are centralized in `lua/config/keybind_definitions.lua` for consistency 
 - **Leader**: Space.
 - Keymaps use centralized definitions for easy customization.
 
-# TODO
-- fn snippet
-- non-empty
+
