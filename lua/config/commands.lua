@@ -25,6 +25,23 @@ a.nvim_create_user_command("Notifications", function()
   require("snacks").notifier.show_history()
 end, {})
 
+-- Git workflow commands
+a.nvim_create_user_command("GitStatus", function()
+  require("snacks").picker.git_status()
+end, {})
+
+a.nvim_create_user_command("GitLog", function()
+  require("snacks").picker.git_log()
+end, {})
+
+a.nvim_create_user_command("GitBranches", function()
+  require("snacks").picker.git_branches()
+end, {})
+
+a.nvim_create_user_command("GitStash", function()
+  require("snacks").picker.git_stash()
+end, {})
+
 a.nvim_create_user_command("Dump", function(c)
   require("config.dev_utils").dump_mod(c.args)
 end, { nargs = 1 })

@@ -4,7 +4,6 @@ local fn = vim.fn
 local M = {}
 
 M.tab_hide = {
-  NvimTree = true,
   qf = true,
   aerial = true,
 }

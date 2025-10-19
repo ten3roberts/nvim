@@ -33,14 +33,9 @@ au({ "BufNew", "BufWinEnter", "FileType", "TermOpen" }, {
     local info = string.format("%d name: %s ft: %s bt: %s win: %d", o.buf, bufname, filetype, buftype, win)
 
     if buftype == "" and filetypes[filetype] then
-      -- vim.defer_fn(function()
-      --   vim.notify("Enable spell " .. info)
-      -- end, 1000)
       vim.wo.spell = true
-      -- vim.opt_local.spell = true
     elseif vim.wo.spell == true and (filetype ~= "" or buftype == "terminal") then
       vim.wo.spell = false
-      -- vim.opt_local.spell = false
     end
   end,
 })

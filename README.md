@@ -7,7 +7,7 @@ This is my personal configuration of neovim
 This Neovim config is tailored for efficient coding, with a focus on LSP, AI assistance, and modern UI enhancements.
 
 ### Core Functionality
-- **LSP Support**: Full language server protocol integration with diagnostics, goto definitions, references, and more.
+- **LSP Support**: Full language server protocol integration with diagnostics, goto definitions, references, inlay hints, call hierarchy, and enhanced hover.
 - **Treesitter**: Advanced syntax highlighting, folding, indentation, incremental selection, and textobjects.
 - **Completion**: Multi-source autocompletion via Blink.cmp, nvim-cmp, and Minuet AI (OpenCode Zen provider, requires ZEN_API_KEY).
 - **Snippets**: LuaSnip for expandable code snippets.
@@ -18,13 +18,13 @@ This Neovim config is tailored for efficient coding, with a focus on LSP, AI ass
 - **Picker/Fuzzy Finder**: Snacks picker for files, buffers, grep, diagnostics, undo, and more (ivy layout for grep).
 - **Notifications**: Snacks notifier for clean, compact messages.
 - **Command Line**: Noice for fancy popup cmdline with icons and history.
-- **File Explorer**: Nvim-tree with custom mappings.
+- **File Explorer**: Graphene for project navigation.
 - **Harpoon**: Quick file marking and navigation.
 - **Aerial**: Symbol outline for code navigation.
 
  ### Development Tools
- - **Git Integration**: Diffview, Neogit, and mini.diff for Git operations.
-   - **Mini.diff**: Lightweight inline diff visualization with signs/numbers, overlay for detailed changes, hunk apply/reset, and navigation. Ideal for quick staging and reviewing changes against the index.
+  - **Git Integration**: Diffview, Neogit, and mini.diff for Git operations.
+    - **Gitsigns**: Comprehensive Git integration with signs, hunk operations, blame functionality, and floating blame windows. Provides stage/reset hunks, preview diffs, and toggleable blame lenses.
    - **Diffview**: Dedicated diff windows for comparing commits, branches, or files. Best for in-depth diff reviews, merge conflict resolution, and commit history exploration.
 - **Debugging**: DAP with codelldb for Rust/Python debugging.
 - **Testing**: Neotest for running tests.
@@ -36,7 +36,7 @@ This Neovim config is tailored for efficient coding, with a focus on LSP, AI ass
 - **Mini Hipatterns**: Custom pattern highlighting (TODO, FIXME, HACK, NOTE, URLs, hex colors).
 
 ### Language-Specific
-- **Rust**: Crates.nvim for Cargo.toml management.
+- **Rust**: Crates.nvim for Cargo.toml management, rust-analyzer with inlay hints, macro expansion, and test running.
 - **Lua**: Enhanced Lua development with lua-lsp and dev utils.
 - **Markdown**: Render-markdown with full features (code blocks, checkboxes, tables, links, quotes), and headlines.
 - **TOML/JSON**: Syntax highlighting and tools.
@@ -52,8 +52,14 @@ This Neovim config is tailored for efficient coding, with a focus on LSP, AI ass
 ### Disabled/Optional
 - **Copilot**: GitHub Copilot (disabled in favor of local AI).
 - **Telescope**: Replaced by Snacks picker for consistency.
-- **Gitsigns**: Replaced by mini.diff for lightweight Git diffs.
+ - **Mini.diff**: Replaced by gitsigns for blame functionality.
 - **Minuet AI**: Conditionally enabled if ZEN_API_KEY is set.
+
+### Performance Notes
+- **Startup Time**: Optimized for <200ms startup with lazy loading
+- **Plugin Management**: Unused plugins removed, lazy loading enabled where possible
+- **Memory Usage**: Minimal plugin footprint with focused feature set
+- **Profiling**: Run `NVIM_PROFILE=1 nvim` to enable performance profiling
 
 For keymaps, see the [Keymaps](#keymaps) section below.
 
@@ -64,7 +70,14 @@ Keymaps are centralized in `lua/config/keybind_definitions.lua` for consistency 
 | Category | Key | Description |
 |----------|-----|-------------|
  | LSP & Diagnostics | `<leader>j` / `<leader>k` | Next/previous diagnostic |
- | LSP & Diagnostics | `<leader>l` / `<leader>jk` | Next/previous error |
+ | LSP & Diagnostics | `<leader>l` / `<leader>h` | Next/previous error |
+ | LSP & Diagnostics | `<leader>le` | Next error |
+ | LSP & Diagnostics | `<leader>li` | Toggle inlay hints |
+ | LSP & Diagnostics | `<leader>ld` | Toggle diagnostic virtual text |
+ | LSP & Diagnostics | `<leader>ch` | Call hierarchy |
+ | LSP & Diagnostics | `<leader>ha` | Hover with actions |
+ | Rust | `<leader>rt` | Run tests |
+ | Rust | `<leader>me` | Expand macro |
 | Windows & Buffers | `<C-w>o` | Close other windows (preserve special) |
 | Windows & Buffers | `<leader>bh` | Close hidden buffers |
 | Windows & Buffers | `<leader>bo` | Buffer delete others (Snacks) |
@@ -89,11 +102,18 @@ Keymaps are centralized in `lua/config/keybind_definitions.lua` for consistency 
 | Search & Navigation | `<leader>fl` | Buffer lines picker |
 | Search & Navigation | `<c-r>` | Refine picker results (grep within) |
 | Search & Navigation | `z=` | Spelling picker |
- | Git & Diff | `gh` | Apply/reset hunk (mini.diff) |
- | Git & Diff | `gH` | Reset hunk |
- | Git & Diff | `[h` / `]h` | Previous/next hunk |
- | Git & Diff | `[H` / `]H` | First/last hunk |
- | Git & Diff | `<leader>dt` | Toggle diff overlay (mini.diff) |
+   | Git & Diff | `<leader>hs` | Stage hunk (gitsigns) |
+   | Git & Diff | `<leader>hr` | Reset hunk |
+   | Git & Diff | `<leader>hu` | Unstage hunk |
+   | Git & Diff | `<leader>hp` | Preview hunk |
+   | Git & Diff | `<leader>hb` | Blame line |
+   | Git & Diff | `<leader>hd` | Diff this |
+   | Git & Diff | `<leader>tb` | Toggle current line blame |
+   | Git & Diff | `[c` / `]c` | Previous/next hunk |
+  | Git & Diff | `<leader>gs` | Git status picker |
+  | Git & Diff | `<leader>gc` | Git log picker |
+  | Git & Diff | `<leader>gp` | Git push |
+  | Git & Diff | `<leader>gl` | Git pull |
 | Folding | `zR` / `zM` | Open/close all folds |
 | Folding | `z1-z9` | Set fold level 0-8 |
 | Text Operations | `g=` | Evaluate math (mini) |
@@ -120,10 +140,15 @@ Keymaps are centralized in `lua/config/keybind_definitions.lua` for consistency 
 | Tools & Utilities | `<leader>dd` | Debug searcher |
 | Tools & Utilities | `<leader>si` | Icons picker |
 | Tools & Utilities | `<leader>u` | Undo picker |
-| Tools & Utilities | `<leader>XX` | Save and execute (dev utils) |
-| Tools & Utilities | `<leader>ci` | Indent whole buffer |
-| Tools & Utilities | `<leader>f` | Init graphene |
-| Window Picker | `<leader>w` | Pick window |
+ | Tools & Utilities | `<leader>XX` | Save and execute (dev utils) |
+ | Tools & Utilities | `<leader>f` | Init graphene |
+ | Bracket Navigation | `[b` / `]b` | Previous/next buffer |
+ | Bracket Navigation | `[t` / `]t` | Previous/next tab |
+ | Bracket Navigation | `[q` / `]q` | Previous/next quickfix |
+ | Bracket Navigation | `[l` / `]l` | Previous/next location list |
+ | Bracket Navigation | `[d` / `]d` | Previous/next diagnostic |
+ | Bracket Navigation | `[e` / `]e` | Previous/next error |
+ | Window Picker | `<leader>w` | Pick window |
 | Window Picker | `<leader><A-w>` | Zap window |
 | Window Picker | `<leader>W` | Swap window |
 | Dial (Increment/Decrement) | `<C-a>` / `<C-x>` | Increment/decrement (normal/visual) |

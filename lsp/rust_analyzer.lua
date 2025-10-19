@@ -11,6 +11,18 @@ return {
       procMacro = {
         enable = true,
       },
+      inlayHints = {
+        enable = true,
+        showParameterNames = true,
+        parameterHintsPrefix = "<- ",
+        otherHintsPrefix = "=> ",
+      },
+      diagnostics = {
+        enable = true,
+        experimental = {
+          enable = true,
+        },
+      },
       check = {
         -- command = "clippy",
       },

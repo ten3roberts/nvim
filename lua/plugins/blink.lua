@@ -1,3 +1,5 @@
+-- Blink provides fast, Rust-based completion
+-- Chosen over nvim-cmp for better performance and modern architecture
 return {
   {
     "saghen/blink.nvim",
@@ -7,7 +9,9 @@ return {
       {
         "<C-;>",
         function()
-          require("blink.chartoggle").toggle_char_eol ";"
+          pcall(function()
+            require("blink.chartoggle").toggle_char_eol ";"
+          end)
         end,
         mode = { "n", "v" },
         desc = "Toggle ; at eol",
@@ -15,7 +19,9 @@ return {
       {
         ",",
         function()
-          require("blink.chartoggle").toggle_char_eol ","
+          pcall(function()
+            require("blink.chartoggle").toggle_char_eol ","
+          end)
         end,
         mode = { "n", "v" },
         desc = "Toggle , at eol",

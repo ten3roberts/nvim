@@ -78,7 +78,8 @@ return {
         }
       end
 
-      local minuet_lualine = pcall(require, "minuet.lualine")
+       local minuet_lualine = pcall(require, "minuet.lualine")
+       local palette = require("config.palette")
 
       require("lualine").setup {
         options = {
@@ -88,7 +89,7 @@ return {
           end,
           section_separators = "",
           component_separators = "",
-          disabled_filetypes = { "NvimTree", "aerial" },
+          disabled_filetypes = { "aerial" },
         },
         sections = {
           -- Filled pill: right side components (x, y, z) with mode-colored backgrounds for high contrast
@@ -140,7 +141,12 @@ return {
                 return { fg = normal_bg, bg = get_mode_color() }
               end,
             } or false,
-            { "diagnostics", padding = { left = 0, right = 1 } },
+             { "diagnostics", icons = {
+               error = palette.signs.E.sign,
+               warn = palette.signs.W.sign,
+               info = palette.signs.I.sign,
+               hint = palette.signs.H.sign,
+             }, padding = { left = 0, right = 1 } },
             {
               "lsp_status",
               padding = { left = 1, right = 1 },

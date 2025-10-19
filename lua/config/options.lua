@@ -27,11 +27,12 @@ o.number = false
 o.path = o.path .. "**"
 -- o.pumheight = 8
 -- o.pumwidth = 20
-o.relativenumber = true
+o.relativenumber = false
 o.scrolloff = 8 -- Lines from the cursor
 
 o.expandtab = true
-o.shiftwidth = 4
+o.shiftwidth = 2
+o.tabstop = 2
 
 o.showmatch = true -- Show matching brackets/parenthesis
 o.showmode = false -- Do not output message on the bottom

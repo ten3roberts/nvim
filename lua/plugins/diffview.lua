@@ -9,9 +9,8 @@ return {
       "<esc><cmd>'<,'>DiffviewFileHistory<cr>",
       mode = "x",
     },
-  },
-  lazy = false,
-  config = function()
+   },
+   config = function()
     require("diffview").setup {
       enhanced_diff_hl = true, -- See ':h diffview-config-enhanced_diff_hl'
       view = {

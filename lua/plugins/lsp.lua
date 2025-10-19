@@ -139,17 +139,37 @@ return {
           buf_map("n", "gd", function() require("snacks").picker.lsp_definitions() end, "Definitions")
           buf_map("n", "gI", function() require("snacks").picker.lsp_implementations() end, "Implementations")
           buf_map("n", "gr", function() require("snacks").picker.lsp_references() end, "References")
-          buf_map("n", "gy", function() require("snacks").picker.lsp_type_definitions() end, "Type Definitions")
+           buf_map("n", "gy", function() require("snacks").picker.lsp_type_definitions() end, "Type Definitions")
 
-          -- The following code creates a keymap to toggle inlay hints in your
-          -- code, if the language server you are using supports them
-          --
-          -- This may be unwanted, since they displace some of your code
-          if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
-            buf_map("n", "<C-t>", function()
-              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
-            end, "Inlay Hints")
-          end
+           -- Toggle inlay hints
+           if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
+             buf_map("n", "<leader>li", function()
+               vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
+             end, "Toggle Inlay Hints")
+           end
+
+           -- Toggle diagnostic virtual text
+           buf_map("n", "<leader>ld", function()
+             local config = vim.diagnostic.config()
+             vim.diagnostic.config { virtual_text = not config.virtual_text }
+           end, "Toggle Diagnostic Virtual Text")
+
+           -- Call hierarchy
+           buf_map("n", "<leader>ch", function() require("snacks").picker.lsp_calls() end, "Call Hierarchy")
+
+           -- Hover with actions (enhanced hover)
+           buf_map("n", "<leader>ha", vim.lsp.buf.hover, "Hover with Actions")
+
+           -- Next error
+           buf_map("n", "<leader>le", function() vim.diagnostic.goto_next { severity = vim.diagnostic.severity.ERROR } end, "Next Error")
+
+           -- Rust-specific
+           if client.name == "rust_analyzer" then
+             buf_map("n", "<leader>rt", function() require("neotest").run.run() end, "Run Tests")
+             buf_map("n", "<leader>me", function()
+               vim.lsp.buf.code_action { context = { only = { "refactor.rewrite.expandMacro" } } }
+             end, "Expand Macro")
+           end
         end,
       })
 
@@ -175,21 +195,9 @@ return {
           },
         },
         virtual_text = {
-          -- source = 'if_many',
           spacing = 4,
-          -- format = function(diagnostic)
-          --   local diagnostic_message = {
-          --     [vim.diagnostic.severity.ERROR] = diagnostic.message,
-          --     [vim.diagnostic.severity.WARN] = diagnostic.message,
-          --     [vim.diagnostic.severity.INFO] = diagnostic.message,
-          --     [vim.diagnostic.severity.HINT] = diagnostic.message,
-          --   }
-          --   return diagnostic_message[diagnostic.severity]
-          -- end,
         },
       }
-
-      -- require "lspconfig"
 
       local ensure_installed = {}
 

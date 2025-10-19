@@ -36,11 +36,12 @@ This document outlines the rules, conventions, and best practices for making cha
 
 - **Statusline Toggle**: Use `vim.g.statusline_provider` to switch between Heirline/Lualine
 - **AI Plugins**: Conditionally load based on env vars (Minuet: `ZEN_API_KEY`)
-- **Git Integration**: Prefer mini.diff over Gitsigns for lightweight diffs
+- **Git Integration**: Use gitsigns for comprehensive Git features including blame
 - **Picker**: Use Snacks for unified fuzzy finding
 - **Theme**: Catppuccin (mocha) with custom integrations
 - **Mini Plugins**: Leverage mini.nvim ecosystem for consistency
 - **README Updates**: Keep features, keymaps, and setup instructions current
+- **Snippets Documentation**: Keep `SNIPPETS.md` up to date when adding/modifying custom snippets
 
 ## Workflow
 

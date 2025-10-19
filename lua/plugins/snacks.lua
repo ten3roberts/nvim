@@ -17,6 +17,8 @@ local buffer_opts = {
   },
 }
 
+-- Snacks provides unified UI components (picker, notifications, dashboard, etc.)
+-- Chosen over Telescope for consistency and better Neovim integration
 return {
   "folke/snacks.nvim",
   priority = 1000,

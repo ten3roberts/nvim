@@ -16,6 +16,41 @@
       "end"
     ],
     "description": "Local function definition"
+  },
+  "append": {
+    "prefix": "append",
+    "body": "table.insert(${1:t}, ${2})",
+    "description": "Table insert"
+  },
+  "require": {
+    "prefix": "req",
+    "body": "require(\"${1}\")",
+    "description": "Require module"
+  },
+  "local require": {
+    "prefix": "lreq",
+    "body": "local ${1} = require(\"${2}\")",
+    "description": "Local require with variable"
+  },
+  "class": {
+    "prefix": "class",
+    "body": "---@class ${1}",
+    "description": "EmmyLua class annotation"
+  },
+  "field": {
+    "prefix": "field",
+    "body": "---@field ${1}",
+    "description": "EmmyLua field annotation"
+  },
+  "param": {
+    "prefix": "param",
+    "body": "---@param ${1}",
+    "description": "EmmyLua param annotation"
+  },
+  "date": {
+    "prefix": "date",
+    "body": "${1:os.date('%Y-%m-%d')}",
+    "description": "Date"
   }
 }</content>
 </xai:function_call"> 

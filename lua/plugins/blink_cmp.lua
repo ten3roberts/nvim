@@ -24,46 +24,98 @@ return {
       preset = "default",
       ["<C-k>"] = { "snippet_forward" },
       ["<C-j>"] = { "snippet_backward" },
-       ["<C-e>"] = {
-         function()
-           require("minuet.virtualtext").action.accept()
-         end,
-       },
+      ["<C-e>"] = {
+        function()
+          require("minuet.virtualtext").action.accept()
+        end,
+      },
       ["<Tab>"] = {
         function(cmp)
           if cmp.snippet_active() then
             return cmp.accept()
           else
+            local item = cmp.get_selected_item()
+            if item and item.kind == "Snippet" then
+              vim.api.nvim_feedkeys("\<C-g>u", "n", false)
+            end
             return cmp.select_and_accept()
           end
         end,
         "fallback",
       },
+
+      -- Additional navigation and control
+      ["<C-y>"] = { "accept" },
+      ["<C-n>"] = { "select_next" },
+      ["<C-p>"] = { "select_prev" },
+      ["<C-b>"] = { "scroll_documentation_up" },
+      ["<C-f>"] = { "scroll_documentation_down" },
+      ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
     },
 
     appearance = {
       -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
       -- Adjusts spacing to ensure icons are aligned
       nerd_font_variant = "mono",
+
+      -- Enhanced kind icons
+      kind_icons = {
+        Text = "󰉿",
+        Method = "󰆧",
+        Function = "󰊕",
+        Constructor = "󰒓",
+        Field = "󰜢",
+        Variable = "󰀫",
+        Class = "󰠱",
+        Interface = "󰜰",
+        Module = "󰏗",
+        Property = "󰜢",
+        Unit = "󰑭",
+        Value = "󰎠",
+        Enum = "󰕘",
+        Keyword = "󰌋",
+        Snippet = "󰩫",
+        Color = "󰏘",
+        File = "󰈙",
+        Reference = "󰈇",
+        Folder = "󰉋",
+        EnumMember = "󰕘",
+        Constant = "󰏿",
+        Struct = "󰙅",
+        Event = "󰗽",
+        Operator = "󰆕",
+        TypeParameter = "󰊄",
+      },
     },
 
     menu = {
       -- Don't automatically show the completion menu
       auto_show = false,
 
-      -- nvim-cmp style menu
-      -- draw = {
-      --   columns = {
-      --     { "label", "label_description", gap = 1 },
-      --     { "kind_icon", "kind" },
-      --   },
-      -- },
+      -- Menu appearance
+      border = "single",
+      scrollbar = true,
+      max_height = 12,
+      direction_priority = { "s", "n" },
+
     },
 
     -- (Default) Only show the documentation popup when manually triggered
-    completion = { documentation = { auto_show = false } },
+    completion = {
+      documentation = { auto_show = false },
+      -- Replace similar text ahead of cursor on completion
+      keyword = { range = "full" },
 
-    -- accept = { auto_brackets = { enabled = false }},
+      -- Preselect first item and auto-insert brackets
+      list = { selection = { mode = "preselect" } },
+      accept = { auto_brackets = { enabled = true } },
+
+      -- Trigger completion settings
+      trigger = {
+        show_on_keyword = true,
+        show_on_trigger_character = true,
+      },
+    },
 
     signature = { enabled = true },
     -- Default list of enabled providers defined so that you can extend it
@@ -73,6 +125,19 @@ return {
       per_filetype = {
         codecompanion = { "codecompanion" },
       },
+
+      -- Source-specific tuning
+      providers = {
+        snippets = {
+          score_offset = 10, -- Prefer snippets above all other sources
+        },
+        lsp = {
+          timeout_ms = 500,
+        },
+        buffer = {
+          min_keyword_length = 3,
+        },
+      },
     },
 
     -- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
@@ -80,7 +145,18 @@ return {
     -- when the Rust fuzzy matcher is not available, by using `implementation = "prefer_rust"`
     --
     -- See the fuzzy documentation for more information
-    fuzzy = { implementation = "rust" },
+    fuzzy = {
+      implementation = "rust",
+      prebuilt_indices = true,
+      use_fuzzy_match = true,
+      use_typo_resistance = true,
+    },
+
+    -- Experimental features for enhanced performance
+    experimental = {
+      native_fuzzy = true,
+      ghost_text = { enabled = true },
+    },
   },
   opts_extend = { "sources.default" },
 }

@@ -1,0 +1,16 @@
+{
+  "doc-link": {
+    "prefix": "doc-link",
+    "body": "[${1}](${2:https://docs.rs/}${3}/${4})",
+    "description": "Docs.rs link"
+  },
+  "code-include": {
+    "prefix": "code-include",
+    "body": [
+      "```rust",
+      "{{{ #include ${1} }}}",
+      "```"
+    ],
+    "description": "Code include"
+  }
+}
