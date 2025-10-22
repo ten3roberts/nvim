@@ -36,7 +36,7 @@ return {
           else
             local item = cmp.get_selected_item()
             if item and item.kind == "Snippet" then
-              vim.api.nvim_feedkeys("\<C-g>u", "n", false)
+              vim.api.nvim_feedkeys("\\<C-g>u", "n", false)
             end
             return cmp.select_and_accept()
           end
