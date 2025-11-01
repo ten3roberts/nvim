@@ -50,31 +50,20 @@ return {
         -- see the defaults: https://github.com/Saghen/blink.pairs/blob/main/lua/blink/pairs/config/mappings.lua#L10
         pairs = {},
       },
-      highlights = {
-        enabled = true,
-        groups = {
-          "BlinkPairsOrange",
-          "BlinkPairsPurple",
-          "BlinkPairsBlue",
-        },
-        matchparen = {
-          enabled = true,
-          group = "MatchParen",
-        },
-      },
+      disabled_filetypes = { "snacks", "snacks_picker", "snacks.picker" },
+      -- highlights = {
+      --   enabled = true,
+      --   groups = {
+      --     "BlinkPairsOrange",
+      --     "BlinkPairsPurple",
+      --     "BlinkPairsBlue",
+      --   },
+      --   matchparen = {
+      --     enabled = true,
+      --     group = "MatchParen",
+      --   },
+      -- },
       debug = false,
     },
-    config = function()
-      -- Disable autopairs in prompt buffers (e.g., Snacks picker)
-      vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
-        callback = function()
-          if vim.bo.buftype == "prompt" then
-            require("blink.pairs.mappings").disable()
-          else
-            require("blink.pairs.mappings").enable()
-          end
-        end,
-      })
-    end,
   },
 }

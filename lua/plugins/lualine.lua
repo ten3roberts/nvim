@@ -4,9 +4,6 @@ return {
     enabled = vim.g.statusline_provider == "lualine",
     dependencies = { "nvim-tree/nvim-web-devicons", "echasnovski/mini.nvim" }, -- Optional, for icons; mini for diff
     config = function()
-      local tabline = require "config.tabline"
-      tabline.setup_autocmd()
-
       local function get_file_info()
         -- Filename
         local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":~:.")
@@ -78,8 +75,8 @@ return {
         }
       end
 
-       local minuet_lualine = pcall(require, "minuet.lualine")
-       local palette = require("config.palette")
+      local minuet_lualine = pcall(require, "minuet.lualine")
+      local palette = require "config.palette"
 
       require("lualine").setup {
         options = {
@@ -141,12 +138,16 @@ return {
                 return { fg = normal_bg, bg = get_mode_color() }
               end,
             } or false,
-             { "diagnostics", icons = {
-               error = palette.signs.E.sign,
-               warn = palette.signs.W.sign,
-               info = palette.signs.I.sign,
-               hint = palette.signs.H.sign,
-             }, padding = { left = 0, right = 1 } },
+            {
+              "diagnostics",
+              icons = {
+                error = palette.signs.E.sign,
+                warn = palette.signs.W.sign,
+                info = palette.signs.I.sign,
+                hint = palette.signs.H.sign,
+              },
+              padding = { left = 0, right = 1 },
+            },
             {
               "lsp_status",
               padding = { left = 1, right = 1 },
@@ -191,68 +192,20 @@ return {
                 if #vim.api.nvim_list_tabpages() < 2 then
                   return ""
                 end
-                -- Extract colors with proper fallbacks like heirline
-                local normal_hl = vim.api.nvim_get_hl(0, { name = "Normal", link = false })
-                local tabline_hl = vim.api.nvim_get_hl(0, { name = "TabLine", link = false })
-                local tabline_sel_hl = vim.api.nvim_get_hl(0, { name = "TabLineSel", link = false })
-                local tabline_fill_hl = vim.api.nvim_get_hl(0, { name = "TabLineFill", link = false })
-                local folded_hl = vim.api.nvim_get_hl(0, { name = "Folded", link = false })
-                
-                -- Semantic color definitions
-                local normal_bg = normal_hl.bg or tabline_fill_hl.bg
-                local tabline_bg = tabline_fill_hl.bg
-                local tabline_sel_bg = normal_bg  -- Active tab matches Normal background
-                local tabline_fill = tabline_fill_hl.bg
-                local bright_fg = folded_hl.fg or normal_hl.fg
 
                 local current_tab = vim.api.nvim_get_current_tabpage()
                 local parts = {}
+
                 for i, tabnr in ipairs(vim.api.nvim_list_tabpages()) do
                   local is_active = tabnr == current_tab
-                  local hl = is_active and "Normal" or "TabLine"
-                  local bg = is_active and tabline_sel_bg or tabline_bg
-                  local tabpage = tabline.tabpages[tabnr] or {}
-                  local current_buf = vim.api.nvim_get_current_buf()
-                  local buffers = {}
-                  
-                  for j, bufnr in ipairs(tabpage) do
-                    if j > 1 then
-                      table.insert(buffers, "·")
-                    end
-                    local is_current_buf = bufnr == current_buf
-                    local buffer_hl = hl
-                    if is_current_buf and is_active then
-                      -- Current buffer in active tab gets bright foreground
-                      local hl_name = "TablineCurrentBuffer" .. tabnr .. "_" .. bufnr
-                      vim.api.nvim_set_hl(0, hl_name, { fg = bright_fg, bg = bg })
-                      buffer_hl = hl_name
-                    end
-                    
-                    local buffer_display = tabline.get_buffer_display(bufnr, buffer_hl)
-                    
-                    if is_current_buf and is_active then
-                      buffer_display = " " .. buffer_display .. " "
-                    else
-                      buffer_display = " " .. buffer_display .. " "
-                    end
-                    table.insert(buffers, buffer_display)
+                  if is_active then
+                    table.insert(parts, string.format("%%#TabLineSel# %d %%*", i))
+                  else
+                    table.insert(parts, string.format("%%#TabLine# %d %%*", i))
                   end
-                  
-                  local buffer_str = table.concat(buffers, "")
-                  local tab_str = string.format("%d. %s", i, buffer_str ~= "" and buffer_str or "[No buffers]")
-                  -- Use heirline-style separators (/) for better visual distinction
-                  local left_sep_hl_name = "TempTabLeft" .. i
-                  vim.api.nvim_set_hl(0, left_sep_hl_name, { fg = bg, bg = tabline_fill })
-                  local right_sep_hl_name = "TempTabRight" .. i
-                  -- Right separator: use tab background for active, TabLine fg for inactive
-                  local right_sep_fg = is_active and bg or (tabline_hl.fg or bg)
-                  vim.api.nvim_set_hl(0, right_sep_hl_name, { fg = right_sep_fg, bg = tabline_fill })
-                  local right_sep = string.format("%%#%s#", right_sep_hl_name)
-                  local tab_part =
-                    string.format("%%%dT%%#%s#%%#%s#%s%s", tabnr, left_sep_hl_name, hl, tab_str, right_sep)
-                  table.insert(parts, tab_part)
                 end
-                return table.concat(parts, "   ")
+
+                return table.concat(parts, "")
               end,
             },
           },
