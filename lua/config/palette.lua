@@ -11,15 +11,15 @@ function M.highlight(name, opt)
 end
 
 ---@diagnostic disable-next-line: unused-local
-local md_icons = {
-  E = { name = "Error", sign = "󰅙" },
-  W = { name = "Warn", sign = "󰀦" },
-  I = { name = "Info", sign = "󰋼" },
-  H = { name = "Warn", sign = "󰌵" },
-  T = { name = "Text", sign = "󰧞" },
+local codicons = {
+  E = { name = "Error", sign = "" },
+  W = { name = "Warn", sign = "" },
+  I = { name = "Info", sign = "" },
+  H = { name = "Hint", sign = "" },
+  T = { name = "Text", sign = "" },
 }
 
-M.signs = md_icons
+M.signs = codicons
 
 M.signs.N = M.signs.H
 
@@ -134,17 +134,32 @@ function M.setup()
   -- link("GitSignsCurrentLineBlame", "Comment")
   -- link("FocusedSymbol", "GreenInv")
 
-
-
   -- Less obtrusive folds
 
   -- highlight('debugPC', "bg", p.green)
   -- highlight('debugBreakpoint', p.red, "bg")
 
   for _, icon in pairs(M.signs) do
-    local name = "DiagnosticVirtualText" .. icon.name
+    local name = "DiagnosticSign" .. icon.name
     fn.sign_define(name, { text = icon.sign, texthl = name, numhl = name })
   end
+
+  link("DiagnosticSignError", "Red")
+  link("DiagnosticSignWarn", "Orange")
+  link("DiagnosticSignInfo", "Blue")
+  link("DiagnosticSignHint", "Green")
+  link("DiagnosticSignText", "Grey")
+
+  vim.diagnostic.config {
+    virtual_text = {
+      prefix = function(diagnostic)
+        local signs = require("config.palette").signs
+        local severity_names = { "E", "W", "I", "H" }
+        local severity_name = severity_names[diagnostic.severity]
+        return signs[severity_name] and signs[severity_name].sign or ""
+      end,
+    },
+  }
 
   highlight("DapBreakpoint", { bold = true })
   -- highlight("DapStopped", { fg = "NONE", bg = p.green, guisp = "NONE" })

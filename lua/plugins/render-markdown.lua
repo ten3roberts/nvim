@@ -11,7 +11,7 @@ return {
         heading = {
           border = false,
           icons = { "# ", "## ", "### ", "#### ", "##### ", "###### " },
-          position = "left",
+          -- position = "left",
           left_pad = 0,
           right_pad = 0,
           sign = false,

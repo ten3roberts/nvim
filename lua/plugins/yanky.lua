@@ -9,7 +9,6 @@ return {
     { "gp", "<Plug>(YankyGPutAfter)", mode = { "n", "x" } },
     { "<A-n>", "<Plug>(YankyCycleForward)" },
     { "<A-p>", "<Plug>(YankyCycleBackward)" },
-
   },
   config = function()
     require("yanky").setup {
@@ -28,3 +27,4 @@ return {
     }
   end,
 }
+

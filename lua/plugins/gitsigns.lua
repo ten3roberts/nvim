@@ -2,6 +2,7 @@ return {
   "lewis6991/gitsigns.nvim",
   event = "BufReadPre",
   config = function()
+    local keybinds = require("config.keybind_definitions")
     require("gitsigns").setup {
       signs = {
         add = { text = "│" },
@@ -24,7 +25,7 @@ return {
       current_line_blame_opts = {
         virt_text = true,
         virt_text_pos = "eol", -- 'eol' | 'overlay' | 'right_align'
-        delay = 1000,
+        delay = 0,
         ignore_whitespace = false,
         virt_text_priority = 100,
       },
@@ -51,43 +52,59 @@ return {
         end
 
         -- Navigation
-        map("n", "]c", function()
+        map("n", keybinds.getKeybind("gitsigns-next-hunk"), function()
           if vim.wo.diff then
             vim.cmd.normal { "]c", bang = true }
           else
             gitsigns.nav_hunk "next"
           end
-        end)
+        end, { desc = keybinds.getDesc("gitsigns-next-hunk") })
 
-        map("n", "[c", function()
+        map("n", keybinds.getKeybind("gitsigns-prev-hunk"), function()
           if vim.wo.diff then
             vim.cmd.normal { "[c", bang = true }
           else
             gitsigns.nav_hunk "prev"
           end
-        end)
+        end, { desc = keybinds.getDesc("gitsigns-prev-hunk") })
+
+        map("n", keybinds.getKeybind("gitsigns-next-hunk-alt"), function()
+          if vim.wo.diff then
+            vim.cmd.normal { "]c", bang = true }
+          else
+            gitsigns.nav_hunk "next"
+          end
+        end, { desc = keybinds.getDesc("gitsigns-next-hunk-alt") })
+
+        map("n", keybinds.getKeybind("gitsigns-prev-hunk-alt"), function()
+          if vim.wo.diff then
+            vim.cmd.normal { "[c", bang = true }
+          else
+            gitsigns.nav_hunk "prev"
+          end
+        end, { desc = keybinds.getDesc("gitsigns-prev-hunk-alt") })
 
         -- Actions
-        map("n", "<leader>hs", gitsigns.stage_hunk)
-        map("n", "<leader>hr", gitsigns.reset_hunk)
-        map("n", "<leader>hu", gitsigns.reset_hunk)
-        map("v", "<leader>hs", function()
+        map("n", keybinds.getKeybind("gitsigns-stage-hunk"), gitsigns.stage_hunk, { desc = keybinds.getDesc("gitsigns-stage-hunk") })
+        map("n", keybinds.getKeybind("gitsigns-reset-hunk"), gitsigns.reset_hunk, { desc = keybinds.getDesc("gitsigns-reset-hunk") })
+        map("n", keybinds.getKeybind("gitsigns-unstage-hunk"), gitsigns.reset_hunk, { desc = keybinds.getDesc("gitsigns-unstage-hunk") })
+        map("v", keybinds.getKeybind("gitsigns-stage-hunk"), function()
           gitsigns.stage_hunk { vim.fn.line ".", vim.fn.line "v" }
-        end)
-        map("v", "<leader>hr", function()
+        end, { desc = keybinds.getDesc("gitsigns-stage-hunk") })
+        map("v", keybinds.getKeybind("gitsigns-reset-hunk"), function()
           gitsigns.reset_hunk { vim.fn.line ".", vim.fn.line "v" }
-        end)
-        map("v", "<leader>hu", function()
+        end, { desc = keybinds.getDesc("gitsigns-reset-hunk") })
+        map("v", keybinds.getKeybind("gitsigns-unstage-hunk"), function()
           gitsigns.reset_hunk { vim.fn.line ".", vim.fn.line "v" }
-        end)
+        end, { desc = keybinds.getDesc("gitsigns-unstage-hunk") })
         map("n", "<leader>hS", gitsigns.stage_buffer)
         map("n", "<leader>hR", gitsigns.reset_buffer)
-        map("n", "<leader>hp", gitsigns.preview_hunk)
+        map("n", keybinds.getKeybind("gitsigns-preview-hunk"), gitsigns.preview_hunk, { desc = keybinds.getDesc("gitsigns-preview-hunk") })
         map("n", "<leader>hi", gitsigns.preview_hunk_inline)
-        map("n", "<leader>hb", function()
+        map("n", keybinds.getKeybind("gitsigns-blame-line"), function()
           gitsigns.blame_line { full = true }
-        end)
-        map("n", "<leader>hd", gitsigns.diffthis)
+        end, { desc = keybinds.getDesc("gitsigns-blame-line") })
+        map("n", keybinds.getKeybind("gitsigns-diffthis"), gitsigns.diffthis, { desc = keybinds.getDesc("gitsigns-diffthis") })
         map("n", "<leader>hD", function()
           gitsigns.diffthis "~"
         end)
@@ -97,7 +114,7 @@ return {
         map("n", "<leader>hq", gitsigns.setqflist)
 
         -- Toggles
-        map("n", "<leader>tb", gitsigns.toggle_current_line_blame)
+        map("n", keybinds.getKeybind("gitsigns-toggle-blame"), gitsigns.toggle_current_line_blame, { desc = keybinds.getDesc("gitsigns-toggle-blame") })
         map("n", "<leader>tw", gitsigns.toggle_word_diff)
 
         -- Text object

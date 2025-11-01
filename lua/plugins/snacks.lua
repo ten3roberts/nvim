@@ -30,7 +30,7 @@ return {
     -- refer to the configuration section below
     bigfile = { enabled = true },
     dashboard = { enabled = false },
-    explorer = { enabled = false },
+    explorer = { enabled = true },
     indent = { enabled = true, indent = { only_scope = false, only_current = false } },
     input = {
       enabled = true,
@@ -177,6 +177,7 @@ return {
     {
       keybinds.getKeybind "snacks-buffer-delete-others",
       function()
+        vim.notify "Deleting other buffers"
         require("snacks").bufdelete.other()
       end,
       desc = keybinds.getDesc "snacks-buffer-delete-others",
@@ -313,6 +314,13 @@ return {
         require("snacks").picker.lines()
       end,
       desc = keybinds.getDesc "snacks-buffer-lines-picker",
+    },
+    {
+      keybinds.getKeybind "snacks-explorer",
+      function()
+        require("snacks").explorer()
+      end,
+      desc = keybinds.getDesc "snacks-explorer",
     },
   },
   config = function(_, opts)

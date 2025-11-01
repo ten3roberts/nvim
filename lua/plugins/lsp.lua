@@ -125,51 +125,69 @@ return {
             keymap = opts.keymap
           end
 
-           buf_map("n", "<leader>ce", vim.diagnostic.open_float, "Diagnostic Float")
-           buf_map("n", "<leader>cwa", vim.lsp.buf.add_workspace_folder, "Add Workspace Folder")
-           buf_map("n", "<leader>cwl", function()
-             print(vim.inspect(vim.lsp.buf.list_workspace_folders()), "Workspace Folders")
-           end, "List Workspace Folders")
-           buf_map("n", "<leader>cwr", vim.lsp.buf.remove_workspace_folder, "Remove Workspace Folder")
-           buf_map("n", "<leader>rn", vim.lsp.buf.rename, "Rename")
-           buf_map({ "n", "x" }, "<leader>a", vim.lsp.buf.code_action, "Code Action")
-          buf_map("n", "go", function() require("snacks").picker.lsp_calls { incoming = false } end, "Outgoing Calls")
-          buf_map("n", "gi", function() require("snacks").picker.lsp_calls { incoming = true } end, "Incoming Calls")
+          buf_map("n", "<leader>ce", vim.diagnostic.open_float, "Diagnostic Float")
+          buf_map("n", "<leader>cwa", vim.lsp.buf.add_workspace_folder, "Add Workspace Folder")
+          buf_map("n", "<leader>cwl", function()
+            print(vim.inspect(vim.lsp.buf.list_workspace_folders()), "Workspace Folders")
+          end, "List Workspace Folders")
+          buf_map("n", "<leader>cwr", vim.lsp.buf.remove_workspace_folder, "Remove Workspace Folder")
+          buf_map("n", "<leader>rn", vim.lsp.buf.rename, "Rename")
+          buf_map({ "n", "x" }, "<leader>a", vim.lsp.buf.code_action, "Code Action")
+          buf_map("n", "go", function()
+            require("snacks").picker.lsp_outgoing_calls()
+          end, "Outgoing Calls")
+          buf_map("n", "gi", function()
+            require("snacks").picker.lsp_incoming_calls()
+          end, "Incoming Calls")
 
-          buf_map("n", "gd", function() require("snacks").picker.lsp_definitions() end, "Definitions")
-          buf_map("n", "gI", function() require("snacks").picker.lsp_implementations() end, "Implementations")
-          buf_map("n", "gr", function() require("snacks").picker.lsp_references() end, "References")
-           buf_map("n", "gy", function() require("snacks").picker.lsp_type_definitions() end, "Type Definitions")
+          buf_map("n", "gd", function()
+            require("snacks").picker.lsp_definitions()
+          end, "Definitions")
+          buf_map("n", "gI", function()
+            require("snacks").picker.lsp_implementations()
+          end, "Implementations")
+          buf_map("n", "gr", function()
+            require("snacks").picker.lsp_references()
+          end, "References")
+          buf_map("n", "gy", function()
+            require("snacks").picker.lsp_type_definitions()
+          end, "Type Definitions")
 
-           -- Toggle inlay hints
-           if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
-             buf_map("n", "<leader>li", function()
-               vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
-             end, "Toggle Inlay Hints")
-           end
+          -- Toggle inlay hints
+          if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
+            buf_map("n", "<leader>li", function()
+              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
+            end, "Toggle Inlay Hints")
+          end
 
-           -- Toggle diagnostic virtual text
-           buf_map("n", "<leader>ld", function()
-             local config = vim.diagnostic.config()
-             vim.diagnostic.config { virtual_text = not config.virtual_text }
-           end, "Toggle Diagnostic Virtual Text")
+          -- Toggle diagnostic virtual text
+          buf_map("n", "<leader>ld", function()
+            local config = vim.diagnostic.config()
+            vim.diagnostic.config { virtual_text = not config.virtual_text }
+          end, "Toggle Diagnostic Virtual Text")
 
-           -- Call hierarchy
-           buf_map("n", "<leader>ch", function() require("snacks").picker.lsp_calls() end, "Call Hierarchy")
+          -- Call hierarchy
+          buf_map("n", "<leader>ch", function()
+            require("snacks").picker.lsp_calls()
+          end, "Call Hierarchy")
 
-           -- Hover with actions (enhanced hover)
-           buf_map("n", "<leader>ha", vim.lsp.buf.hover, "Hover with Actions")
+          -- Hover with actions (enhanced hover)
+          buf_map("n", "<leader>ha", vim.lsp.buf.hover, "Hover with Actions")
 
-           -- Next error
-           buf_map("n", "<leader>le", function() vim.diagnostic.goto_next { severity = vim.diagnostic.severity.ERROR } end, "Next Error")
+          -- Next error
+          buf_map("n", "<leader>le", function()
+            vim.diagnostic.goto_next { severity = vim.diagnostic.severity.ERROR }
+          end, "Next Error")
 
-           -- Rust-specific
-           if client.name == "rust_analyzer" then
-             buf_map("n", "<leader>rt", function() require("neotest").run.run() end, "Run Tests")
-             buf_map("n", "<leader>me", function()
-               vim.lsp.buf.code_action { context = { only = { "refactor.rewrite.expandMacro" } } }
-             end, "Expand Macro")
-           end
+          -- Rust-specific
+          if client.name == "rust_analyzer" then
+            buf_map("n", "<leader>rt", function()
+              require("neotest").run.run()
+            end, "Run Tests")
+            buf_map("n", "<leader>me", function()
+              vim.lsp.buf.code_action { context = { only = { "refactor.rewrite.expandMacro" } } }
+            end, "Expand Macro")
+          end
         end,
       })
 
@@ -185,7 +203,7 @@ return {
         severity_sort = true,
 
         -- float = { border = "rounded", source = "if_many" },
-         underline = { severity = { min = vim.diagnostic.severity.WARN } },
+        underline = { severity = { min = vim.diagnostic.severity.WARN } },
         signs = {
           text = {
             [vim.diagnostic.severity.ERROR] = palette.signs.E.sign,

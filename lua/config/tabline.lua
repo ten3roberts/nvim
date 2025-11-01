@@ -135,15 +135,26 @@ function M.update_buffers_and_tabpages()
   end
 end
 
-function M.get_buffer_display(bufnr)
+function M.get_buffer_display(bufnr, bg_hl)
   local name = M.buffer_ids[bufnr] or "[No Name]"
   local icon_str = ""
   if not name:find("^") then
-    local icon = require("nvim-web-devicons").get_icon(name, fn.fnamemodify(name, ":e"), { default = true })
-    icon_str = icon and icon .. " " or ""
+    local icon, icon_color = require("nvim-web-devicons").get_icon_color(name, fn.fnamemodify(name, ":e"), { default = true })
+    if icon then
+      local hl_name = "TablineDevIcon" .. fn.fnamemodify(name, ":e")
+      vim.api.nvim_set_hl(0, hl_name, { fg = icon_color, bg = "bg" })
+      icon_str = string.format("%%#%s#%s %%*", hl_name, icon)
+    end
   end
   local modified = vim.bo[bufnr].modified and " 󰆓" or ""
-  return icon_str .. name .. modified
+  
+  -- Apply background highlighting to filename if provided
+  local name_with_hl = name
+  if bg_hl then
+    name_with_hl = string.format("%%#%s#%s%%*", bg_hl, name)
+  end
+  
+  return icon_str .. name_with_hl .. modified
 end
 
 function M.setup_autocmd()

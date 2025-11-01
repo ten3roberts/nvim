@@ -42,6 +42,7 @@ This Neovim config is tailored for efficient coding, with a focus on LSP, AI ass
 - **TOML/JSON**: Syntax highlighting and tools.
 
 ### Utilities
+- **Clipboard**: Yanky for enhanced yank/paste with system clipboard sync and yank history ring. Use `<leader>y`/`<leader>p` for explicit system clipboard operations while preserving Vim's internal registers.
 - **Image Support**: Snacks image for inline images.
 - **Terminal**: Integrated terminal with recipe for task running.
 - **Sessions**: Auto-session with auto-save and restore for project persistence.
@@ -97,11 +98,23 @@ Keymaps are centralized in `lua/config/keybind_definitions.lua` for consistency 
 | Search & Navigation | `<leader>fr` | Recent files |
 | Search & Navigation | `<leader>o` | LSP symbols |
 | Search & Navigation | `<leader>O` | LSP workspace symbols |
-| Search & Navigation | `<leader>q` | Diagnostics buffer |
-| Search & Navigation | `<leader>Q` | Diagnostics picker |
-| Search & Navigation | `<leader>fl` | Buffer lines picker |
-| Search & Navigation | `<c-r>` | Refine picker results (grep within) |
-| Search & Navigation | `z=` | Spelling picker |
+ | Search & Navigation | `<leader>q` | Diagnostics buffer |
+ | Search & Navigation | `<leader>Q` | Diagnostics picker |
+ | Search & Navigation | `<leader>xx` | Diagnostics (Trouble) |
+ | Search & Navigation | `<leader>xX` | Buffer Diagnostics (Trouble) |
+ | Search & Navigation | `<leader>cs` | Symbols (Trouble) |
+ | Search & Navigation | `<leader>cl` | LSP Definitions / references / ... (Trouble) |
+ | Search & Navigation | `<leader>xL` | Location List (Trouble) |
+ | Search & Navigation | `<leader>cq` | Quickfix List (Trouble) |
+ | Search & Navigation | `<leader>cQ` | Quickfix List (Trouble) |
+ | Search & Navigation | `<leader>xw` | Workspace Diagnostics (Trouble) |
+ | Search & Navigation | `<leader>xe` | Buffer Errors (Trouble) |
+ | Search & Navigation | `<leader>gR` | LSP References (Trouble) |
+ | Search & Navigation | `]]` / `[[` | Next/Previous item (Trouble) |
+ | Search & Navigation | `<leader>fl` | Buffer lines picker |
+ | Search & Navigation | `<leader>ct` | Snacks explorer |
+ | Search & Navigation | `<c-r>` | Refine picker results (grep within) |
+ | Search & Navigation | `z=` | Spelling picker |
    | Git & Diff | `<leader>hs` | Stage hunk (gitsigns) |
    | Git & Diff | `<leader>hr` | Reset hunk |
    | Git & Diff | `<leader>hu` | Unstage hunk |
@@ -122,6 +135,9 @@ Keymaps are centralized in `lua/config/keybind_definitions.lua` for consistency 
 | Text Operations | `gr` | Replace with register (mini) |
 | Text Operations | `gs` | Sort text (mini) |
 | Text Operations | `gS` | Toggle split/join (mini) |
+| Clipboard | `<leader>y` | Yank to system clipboard |
+| Clipboard | `<leader>p` | Paste from system clipboard |
+| Clipboard | `<leader>P` | Paste before from system clipboard |
 | AI & Completion | `<C-c>` | CodeCompanion actions |
 | AI & Completion | `<LocalLeader>a` | Toggle CodeCompanion chat |
 | AI & Completion | `<leader>cc` | Open CodeCompanion chat |
