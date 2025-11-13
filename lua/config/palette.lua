@@ -61,6 +61,18 @@ local palettes = {
       yellow = "#ebcb8b",
     }
   end,
+  everforest = function()
+    return {
+      black = "#2d353b",
+      blue = "#7fbbb3",
+      green = "#a7c080",
+      grey = "#859289",
+      orange = "#e3986d",
+      purple = "#d699b6",
+      red = "#e67e80",
+      yellow = "#dbbc7f",
+    }
+  end,
 }
 
 -- Returns a dictionary of current common colors

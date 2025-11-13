@@ -229,7 +229,10 @@ return {
       require("mason").setup()
       require("mason-lspconfig").setup {
         -- Populated by tool installer
-        ensure_installed = {},
+        ensure_installed = {
+          -- "vtsls",
+          "vue_ls",
+        },
         automatic_enable = true,
       }
     end,

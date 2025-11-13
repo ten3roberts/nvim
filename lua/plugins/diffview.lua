@@ -1,6 +1,7 @@
 return {
   "sindrets/diffview.nvim",
   dependencies = { "nvim-lua/plenary.nvim" },
+  lazy = false,
   keys = {
     { "<leader>gd", "<cmd>DiffviewOpen<cr>" },
     { "<leader>gD", "<cmd>DiffviewFileHistory %<cr>" },
@@ -9,8 +10,8 @@ return {
       "<esc><cmd>'<,'>DiffviewFileHistory<cr>",
       mode = "x",
     },
-   },
-   config = function()
+  },
+  config = function()
     require("diffview").setup {
       enhanced_diff_hl = true, -- See ':h diffview-config-enhanced_diff_hl'
       view = {

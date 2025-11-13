@@ -30,8 +30,8 @@ return {
     -- refer to the configuration section below
     bigfile = { enabled = true },
     dashboard = { enabled = false },
-    explorer = { enabled = true },
-    indent = { enabled = true, indent = { only_scope = false, only_current = false } },
+    explorer = { enabled = false },
+    indent = { enabled = false, indent = { only_scope = false, only_current = false } },
     input = {
       enabled = true,
       win = { position = "float", backdrop = false, relative = "cursor" },
@@ -47,7 +47,7 @@ return {
         default = {
           layout = {
             box = "horizontal",
-            backdrop = true,
+            backdrop = false,
             width = 0.8,
             min_width = 120,
             height = 0.8,
@@ -64,7 +64,7 @@ return {
         ivy = {
           layout = {
             box = "vertical",
-            backdrop = true,
+            backdrop = false,
             row = -1,
             width = 0,
             height = 0.6,
@@ -81,7 +81,7 @@ return {
         },
         dropdown_no_preview = {
           layout = {
-            backdrop = true,
+            backdrop = false,
             row = 1,
             width = 0.4,
             min_width = 80,
@@ -100,7 +100,7 @@ return {
         },
         dropdown = {
           layout = {
-            backdrop = true,
+            backdrop = false,
             row = 1,
             width = 0.4,
             min_width = 80,
@@ -160,7 +160,7 @@ return {
         easing = "inout",
       },
     },
-    quickfile = { enabled = true },
+    quickfile = { enabled = false },
     scope = { enabled = true },
     scroll = { enabled = true },
     statuscolumn = { enabled = true },
@@ -262,7 +262,7 @@ return {
     {
       keybinds.getKeybind "snacks-debug-searcher",
       function()
-        Snacks.picker.grep { search = "^(?!\\s*--).*\\b(bt|dd)\\(", args = { "-P" }, live = false, ft = "lua" }
+        require("snacks").picker.grep { search = "^(?!\\s*--).*\\b(bt|dd)\\(", args = { "-P" }, live = false, ft = "lua" }
       end,
       desc = keybinds.getDesc "snacks-debug-searcher",
     },
@@ -273,13 +273,7 @@ return {
       end,
       desc = keybinds.getDesc "snacks-icons-picker",
     },
-    {
-      keybinds.getKeybind "snacks-undo-picker",
-      function()
-        require("snacks").picker.undo()
-      end,
-      desc = keybinds.getDesc "snacks-undo-picker",
-    },
+
     {
       keybinds.getKeybind "snacks-lsp-symbols",
       function()
@@ -314,13 +308,6 @@ return {
         require("snacks").picker.lines()
       end,
       desc = keybinds.getDesc "snacks-buffer-lines-picker",
-    },
-    {
-      keybinds.getKeybind "snacks-explorer",
-      function()
-        require("snacks").explorer()
-      end,
-      desc = keybinds.getDesc "snacks-explorer",
     },
   },
   config = function(_, opts)
