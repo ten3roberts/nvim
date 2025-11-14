@@ -53,6 +53,7 @@ return {
             components.search_count(),
             components.macro_recording(),
             components.dap_status(),
+            components.clock(),
           }),
           lualine_y = {
             {

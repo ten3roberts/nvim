@@ -390,6 +390,17 @@ function M.get_theme()
   }
 end
 
+-- Clock component
+function M.clock()
+  return {
+    function()
+      return os.date "%b %d %H:%M"
+    end,
+    update = { "CursorHold", "CursorHoldI" },
+    padding = { left = 1, right = 1 },
+  }
+end
+
 -- Cleanup function for cache
 function M.cleanup()
   cache.highlights = {}
