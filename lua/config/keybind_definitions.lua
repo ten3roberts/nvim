@@ -123,7 +123,7 @@ local keybinds = {
   ["bracket-prev-diagnostic"] = { keybind = "[d", desc = "Previous diagnostic" },
   ["bracket-next-diagnostic"] = { keybind = "]d", desc = "Next diagnostic" },
   ["bracket-prev-error"] = { keybind = "[e", desc = "Previous error" },
-   ["bracket-next-error"] = { keybind = "]e", desc = "Next error" },
+  ["bracket-next-error"] = { keybind = "]e", desc = "Next error" },
   ["snacks-explorer"] = { keybind = "<leader>ct", desc = "Snacks explorer" },
   ["trouble-diagnostics"] = { keybind = "<leader>xx", desc = "Diagnostics (Trouble)" },
   ["trouble-buffer"] = { keybind = "<leader>xb", desc = "Buffer Diagnostics (Trouble)" },
@@ -133,9 +133,9 @@ local keybinds = {
   ["trouble-next"] = { keybind = "]]", desc = "Next item (Trouble)" },
   ["trouble-prev"] = { keybind = "[[", desc = "Previous item (Trouble)" },
   ["clipboard-yank"] = { keybind = "<leader>y", desc = "Yank to system clipboard" },
-   ["clipboard-paste"] = { keybind = "<leader>p", desc = "Paste from system clipboard" },
-   ["clipboard-paste-before"] = { keybind = "<leader>P", desc = "Paste before from system clipboard" },
- }
+  ["clipboard-paste"] = { keybind = "<leader>p", desc = "Paste from system clipboard" },
+  ["clipboard-paste-before"] = { keybind = "<leader>P", desc = "Paste before from system clipboard" },
+}
 -- stylua ignore start
 
 function M.getKeybind(name)
@@ -151,30 +151,30 @@ function M.getDesc(name)
   local kb = keybinds[name]
   return kb and kb.desc or ""
 end
-
-local function checkDuplicates()
-  -- Check for duplicate keybinds on startup
-  local keybind_to_names = {}
-  for name, info in pairs(keybinds) do
-    local kb = info.keybind
-    if not keybind_to_names[kb] then
-      keybind_to_names[kb] = {}
-    end
-    table.insert(keybind_to_names[kb], name)
-  end
-
-  local messages = {}
-  for kb, names in pairs(keybind_to_names) do
-    if #names > 1 then
-      table.insert(messages, "Duplicate keybind '" .. kb .. "' used by: " .. table.concat(names, ", "))
-    end
-  end
-
-  if #messages > 0 then
-    vim.notify(table.concat(messages, "\n"), vim.log.levels.WARN)
-  end
-end
-
-vim.defer_fn(checkDuplicates, 15000)
+--
+-- local function checkDuplicates()
+--   -- Check for duplicate keybinds on startup
+--   local keybind_to_names = {}
+--   for name, info in pairs(keybinds) do
+--     local kb = info.keybind
+--     if not keybind_to_names[kb] then
+--       keybind_to_names[kb] = {}
+--     end
+--     table.insert(keybind_to_names[kb], name)
+--   end
+--
+--   local messages = {}
+--   for kb, names in pairs(keybind_to_names) do
+--     if #names > 1 then
+--       table.insert(messages, "Duplicate keybind '" .. kb .. "' used by: " .. table.concat(names, ", "))
+--     end
+--   end
+--
+--   if #messages > 0 then
+--     vim.notify(table.concat(messages, "\n"), vim.log.levels.WARN)
+--   end
+-- end
+--
+-- vim.defer_fn(checkDuplicates, 15000)
 
 return M
