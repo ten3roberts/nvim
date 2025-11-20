@@ -88,32 +88,42 @@ return {
       },
     },
 
-    menu = {
-      -- Don't automatically show the completion menu
-      auto_show = false,
-
-      -- Menu appearance
-      border = "single",
-      scrollbar = true,
-      max_height = 12,
-      direction_priority = { "s", "n" },
-
-    },
-
-    -- (Default) Only show the documentation popup when manually triggered
     completion = {
+      menu = {
+        -- Auto-show menu so you can see all options alongside ghost text
+        auto_show = true,
+
+        -- Menu appearance - sleek, no border
+        border = "none",
+        scrollbar = false,
+      },
+
+      -- (Default) Only show the documentation popup when manually triggered
       documentation = { auto_show = false },
+
       -- Replace similar text ahead of cursor on completion
       keyword = { range = "full" },
 
-      -- Preselect first item and auto-insert brackets
-      list = { selection = { mode = "preselect" } },
+      -- Auto-insert brackets
       accept = { auto_brackets = { enabled = true } },
+
+      -- List behavior
+      list = {
+        selection = {
+          preselect = true,
+          auto_insert = false,
+        },
+      },
 
       -- Trigger completion settings
       trigger = {
         show_on_keyword = true,
         show_on_trigger_character = true,
+      },
+
+      -- Ghost text shows the top result inline
+      ghost_text = {
+        enabled = true,
       },
     },
 
@@ -146,16 +156,8 @@ return {
     --
     -- See the fuzzy documentation for more information
     fuzzy = {
-      implementation = "rust",
-      prebuilt_indices = true,
-      use_fuzzy_match = true,
-      use_typo_resistance = true,
-    },
-
-    -- Experimental features for enhanced performance
-    experimental = {
-      native_fuzzy = true,
-      ghost_text = { enabled = true },
+      frecency = { enabled = true },
+      proximity = { enabled = true },
     },
   },
   opts_extend = { "sources.default" },

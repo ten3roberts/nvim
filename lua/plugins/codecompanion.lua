@@ -4,8 +4,10 @@ return {
     event = "VeryLazy",
     opts = {
       adapters = {
-        anthropic = {
-          model = "claude-sonnet-4-20250514",
+        http = {
+          anthropic = {
+            model = "claude-sonnet-4-20250514",
+          },
         },
       },
       strategies = {

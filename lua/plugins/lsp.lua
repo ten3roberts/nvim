@@ -197,6 +197,11 @@ return {
         capabilities = capabilities,
       })
 
+      -- Apply language server specific configurations
+      vim.lsp.config("rust_analyzer", require("lsp.rust_analyzer"))
+      vim.lsp.config("vtsls", require("lsp.vtsls"))
+      vim.lsp.config("vue_ls", require("lsp.vue_ls"))
+
       local palette = require "config.palette"
       diagnostic.config {
         update_in_insert = true,
@@ -230,7 +235,7 @@ return {
       require("mason-lspconfig").setup {
         -- Populated by tool installer
         ensure_installed = {
-          -- "vtsls",
+          "vtsls",
           "vue_ls",
         },
         automatic_enable = true,

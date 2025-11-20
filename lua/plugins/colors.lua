@@ -22,7 +22,7 @@ local colorschemes = {
     "sainnhe/everforest",
     config = function()
       vim.g.everforest_enable_italic = true
-      -- vim.g.everforest_background = "hard"
+      vim.g.everforest_background = "hard"
       vim.g.everforest_show_eob = false
       vim.g.everforest_float_style = "dim"
       vim.g.everforest_diagnostic_line_highlight = 1
@@ -104,7 +104,7 @@ local colorschemes = {
   },
 }
 
-local current_colorscheme = "catppuccin"
+local current_colorscheme = "everforest"
 
 local t = colorschemes[current_colorscheme]
 
