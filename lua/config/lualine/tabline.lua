@@ -1,41 +1,24 @@
 local M = {}
 
--- Cache for tabline data
-local cache = {
-  tabs = {},
-  buffers = {},
-  last_update = 0,
-}
-
 -- Helper to safely require modules
 local function safe_require(module)
   local ok, result = pcall(require, module)
   return ok, result
 end
 
--- Get theme colors from palette or highlight groups
+-- Get theme colors
 local function get_theme_colors()
   local ok, palette = safe_require("config.palette")
-  if ok and palette.palette then
+  if ok and palette.generate_palette then
     local colors = palette.generate_palette()
     return {
       terminal = colors.green,
       graphene = colors.blue,
     }
   end
-  
-  -- Fallback to highlight groups
-  local function get_hl_color(hl_name, property)
-    local hl = vim.api.nvim_get_hl(0, { name = hl_name, link = false })
-    if hl and hl[property] then
-      return string.format("#%06x", hl[property])
-    end
-    return nil
-  end
-  
   return {
-    terminal = get_hl_color("String", "fg") or get_hl_color("Normal", "fg") or "#87af87",
-    graphene = get_hl_color("DiagnosticInfo", "fg") or get_hl_color("Normal", "fg") or "#87afff",
+    terminal = "#87af87",
+    graphene = "#87afff",
   }
 end
 
@@ -58,53 +41,43 @@ local function should_show_buffer(bufnr)
   local excluded_bt = {
     quickfix = true,
     help = true,
-    terminal = false, -- terminals are handled separately
+    terminal = false,
   }
 
   return not (excluded_ft[ft] or excluded_bt[bt])
 end
 
--- Get buffer display with caching
-local function get_buffer_display(bufnr, is_active_tab)
+-- Get tab background color
+local function get_tab_bg(is_active)
+  local hl_name = is_active and "TabLineSel" or "TabLine"
+  local hl = vim.api.nvim_get_hl(0, { name = hl_name, link = false })
+  return hl.bg
+end
+
+-- Get buffer display with colored icon using vim statusline highlight codes
+local function get_buffer_display(bufnr, is_active)
   if not should_show_buffer(bufnr) then
     return nil
   end
 
-  -- Check cache
-  local cache_key = bufnr .. ":" .. is_active_tab
-  if cache.buffers[cache_key] then
-    return cache.buffers[cache_key]
-  end
-
   local bt = vim.bo[bufnr].buftype
   local ft = vim.bo[bufnr].filetype
-
-  -- Get tab background colors
-  local tabline_hl = vim.api.nvim_get_hl(0, { name = "TabLine", link = false })
-  local tabline_sel_hl = vim.api.nvim_get_hl(0, { name = "TabLineSel", link = false })
-  local tabline_fill_hl = vim.api.nvim_get_hl(0, { name = "TabLineFill", link = false })
-  local normal_hl = vim.api.nvim_get_hl(0, { name = "Normal", link = false })
-
-  local tab_bg = is_active_tab and (tabline_sel_hl.bg or normal_hl.bg) or (tabline_hl.bg or tabline_fill_hl.bg)
-
-  local result
+  local reset_hl = is_active and "%#TabLineSel#" or "%#TabLine#"
+  local tab_bg = get_tab_bg(is_active)
+  local suffix = is_active and "_sel" or ""
 
   if bt == "terminal" then
     local job_info = vim.b[bufnr].terminal_job_info or {}
     local cmd = job_info.cmd or "Terminal"
-    -- Create colored terminal icon with tab background
-    local theme_colors = get_theme_colors()
-    local hl_name = "TablineTerminalIcon" .. bufnr .. (is_active_tab and "_active" or "_inactive")
-    vim.api.nvim_set_hl(0, hl_name, { fg = theme_colors.terminal, bg = tab_bg })
-    local reset_hl = is_active_tab and "TabLineSel" or "TabLine"
-    result = string.format("%%#%s#%%#%s# %s", hl_name, reset_hl, cmd)
+    local colors = get_theme_colors()
+    local hl_name = "TablineTerminal" .. suffix
+    vim.api.nvim_set_hl(0, hl_name, { fg = colors.terminal, bg = tab_bg })
+    return string.format("%%#%s#%s %s", hl_name, "", cmd) .. reset_hl
   elseif ft == "graphene" then
-    -- Create colored graphene icon with tab background
-    local theme_colors = get_theme_colors()
-    local hl_name = "TablineGrapheneIcon" .. bufnr .. (is_active_tab and "_active" or "_inactive")
-    vim.api.nvim_set_hl(0, hl_name, { fg = theme_colors.graphene, bg = tab_bg })
-    local reset_hl = is_active_tab and "TabLineSel" or "TabLine"
-    result = string.format("%%#%s#󰉋%%#%s# graphene", hl_name, reset_hl)
+    local colors = get_theme_colors()
+    local hl_name = "TablineGraphene" .. suffix
+    vim.api.nvim_set_hl(0, hl_name, { fg = colors.graphene, bg = tab_bg })
+    return string.format("%%#%s#%s %s", hl_name, "󰉋", "graphene") .. reset_hl
   else
     local bufname = vim.api.nvim_buf_get_name(bufnr)
     local filename = vim.fn.fnamemodify(bufname, ":t")
@@ -112,36 +85,22 @@ local function get_buffer_display(bufnr, is_active_tab)
       return nil
     end
 
-    -- Add colored filetype icon with tab background
     local extension = vim.fn.fnamemodify(filename, ":e")
     local ok, devicons = safe_require("nvim-web-devicons")
     if ok then
       local icon, icon_color = devicons.get_icon_color(filename, extension, { default = true })
-      if icon then
-        local hl_name = "TablineDevIcon" .. bufnr .. (is_active_tab and "_active" or "_inactive")
+      if icon and icon_color then
+        local hl_name = "TablineIcon_" .. (extension ~= "" and extension or "default") .. suffix
         vim.api.nvim_set_hl(0, hl_name, { fg = icon_color, bg = tab_bg })
-        local reset_hl = is_active_tab and "TabLineSel" or "TabLine"
-        result = string.format("%%#%s#%s%%#%s# %s", hl_name, icon, reset_hl, filename)
-      else
-        result = filename
+        return string.format("%%#%s#%s%s %s", hl_name, icon, reset_hl, filename)
       end
-    else
-      result = filename
     end
+    return filename
   end
-
-  -- Cache the result
-  cache.buffers[cache_key] = result
-  return result
 end
 
--- Main tabline function with performance optimizations
+-- Main tabline function (for vim's native tabline)
 function M.tabline()
-  -- Only show tabline if there are 2 or more tabpages
-  if #vim.api.nvim_list_tabpages() < 2 then
-    return ""
-  end
-
   local current_tab = vim.api.nvim_get_current_tabpage()
   local parts = {}
 
@@ -152,52 +111,26 @@ function M.tabline()
 
     for _, winid in ipairs(windows) do
       local bufnr = vim.api.nvim_win_get_buf(winid)
-      local buffer_display = get_buffer_display(bufnr, is_active)
-      if buffer_display and buffer_display ~= "" then
-        table.insert(buffers, buffer_display)
+      local display = get_buffer_display(bufnr, is_active)
+      if display then
+        table.insert(buffers, display)
       end
     end
 
-    local buffer_str = #buffers > 0 and table.concat(buffers, " | ") or "[No buffers]"
-    local tab_content = string.format("%d. %s", i, buffer_str)
-
-    if is_active then
-      table.insert(parts, string.format("%%#TabLineSel# %s %%*", tab_content))
-    else
-      table.insert(parts, string.format("%%#TabLine# %s %%*", tab_content))
-    end
+    local buffer_str = #buffers > 0 and table.concat(buffers, " | ") or "[Empty]"
+    local tab_hl = is_active and "%#TabLineSel#" or "%#TabLine#"
+    table.insert(parts, string.format("%s %d. %s ", tab_hl, i, buffer_str))
   end
 
-  return table.concat(parts, "")
+  return table.concat(parts, "") .. "%#TabLineFill#"
 end
 
--- Cleanup function for cache
+-- Cleanup function
 function M.cleanup()
-  cache.tabs = {}
-  cache.buffers = {}
-  cache.last_update = 0
 end
 
--- Setup autocmds for cache invalidation
+-- Setup autocmds
 function M.setup_autocmds()
-  local group = vim.api.nvim_create_augroup("LualineTabline", { clear = true })
-
-  vim.api.nvim_create_autocmd({ "BufAdd", "BufDelete", "BufEnter", "BufWritePost" }, {
-    group = group,
-    callback = function()
-      -- Clear buffer cache when buffers change
-      cache.buffers = {}
-    end,
-  })
-
-  vim.api.nvim_create_autocmd({ "TabNew", "TabClosed", "TabEnter" }, {
-    group = group,
-    callback = function()
-      -- Clear tab cache when tabs change
-      cache.tabs = {}
-      cache.buffers = {}
-    end,
-  })
 end
 
 return M

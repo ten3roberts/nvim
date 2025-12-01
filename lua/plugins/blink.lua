@@ -49,9 +49,7 @@ return {
         enabled = true,
         -- see the defaults: https://github.com/Saghen/blink.pairs/blob/main/lua/blink/pairs/config/mappings.lua#L10
         pairs = {},
-        disabled = {
-          filetypes = { "snacks", "snacks_picker", "snacks.picker" },
-        },
+        disabled_filetypes = { "snacks", "snacks_picker", "snacks.picker" },
       },
       -- highlights = {
       --   enabled = true,

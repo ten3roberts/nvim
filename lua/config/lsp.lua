@@ -13,12 +13,6 @@ local diagnostic_severities = {
   [sev.HINT] = signs.H,
 }
 
-local old = vim.lsp.buf.add_workspace_folder
-vim.lsp.buf.add_workspace_folder = function(...)
-  vim.notify("Adding workspace folder from: " .. vim.inspect(debug.traceback))
-  old(...)
-end
-
 -- Sets the location list with predefined options. Does not focus list.
 function M.set_loc(open)
   diagnostic.setloclist {

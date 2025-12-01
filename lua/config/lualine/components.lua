@@ -401,6 +401,66 @@ function M.clock()
   }
 end
 
+-- Trouble status indicator
+function M.trouble_status()
+  return {
+    function()
+      local trouble_ok, _ = safe_require "trouble"
+      if not trouble_ok then
+        return ""
+      end
+
+      -- Check if Trouble window is open
+      local is_open = false
+      for _, win in ipairs(vim.api.nvim_list_wins()) do
+        local buf = vim.api.nvim_win_get_buf(win)
+        if vim.bo[buf].filetype == "trouble" then
+          is_open = true
+          break
+        end
+      end
+
+      -- Count items (diagnostics + qf)
+      local diag_count = #vim.diagnostic.get(0)
+      local qf_count = #vim.fn.getqflist()
+      local total = diag_count + qf_count
+
+      if total == 0 then
+        return ""
+      end
+
+      local icon = is_open and "" or ""
+      return string.format("%s %d", icon, total)
+    end,
+    cond = function()
+      -- Only show if there are items to display
+      local diag_count = #vim.diagnostic.get(0)
+      local qf_count = #vim.fn.getqflist()
+      return (diag_count + qf_count) > 0
+    end,
+    color = function()
+      -- Check if open for color
+      local is_open = false
+      for _, win in ipairs(vim.api.nvim_list_wins()) do
+        local buf = vim.api.nvim_win_get_buf(win)
+        if vim.bo[buf].filetype == "trouble" then
+          is_open = true
+          break
+        end
+      end
+
+      local theme_colors = M.get_theme_colors()
+      if is_open then
+        return { fg = theme_colors.diagnostics_warn } -- Orange when open
+      else
+        return { fg = M.get_hl("Comment", "fg") or "#808080" } -- Dim when closed
+      end
+    end,
+    update = { "DiagnosticChanged", "BufEnter", "WinEnter", "WinClosed" },
+    padding = { left = 1, right = 0 },
+  }
+end
+
 -- Cleanup function for cache
 function M.cleanup()
   cache.highlights = {}

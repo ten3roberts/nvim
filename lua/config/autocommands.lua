@@ -63,14 +63,94 @@ local autocmds = {
     end,
   } },
   { {"BufReadPost"}, {
-    callback = function()
-      local current_line = fn.line "."
-      if current_line == 1 then
-        local l = fn.line [['"]]
-        if l > 1 and l < fn.line "$" then
-          vim.cmd [[ normal! g`" ]]
+    callback = function(args)
+      local bufnr = args.buf
+
+      -- Skip special buffer types and filetypes
+      local buftype = vim.bo[bufnr].buftype
+      local filetype = vim.bo[bufnr].filetype
+
+      -- Exclude list based on LazyVim best practices + user preferences
+      local exclude_filetypes = {
+        "gitcommit",
+        "gitrebase",
+        "help",
+      }
+
+      local exclude_buftypes = {
+        "quickfix",
+        "nofile",
+        "help",
+        "terminal",
+      }
+
+      -- Check exclusions
+      if buftype ~= "" then
+        for _, bt in ipairs(exclude_buftypes) do
+          if buftype == bt then
+            return
+          end
         end
       end
+
+      if filetype ~= "" then
+        for _, ft in ipairs(exclude_filetypes) do
+          if filetype == ft then
+            return
+          end
+        end
+      end
+
+      -- Prevent double-restoration using buffer-local flag
+      if vim.b[bufnr].cursor_restored then
+        return
+      end
+
+      -- Use modern API to get the mark position
+      local mark_ok, mark = pcall(vim.api.nvim_buf_get_mark, bufnr, '"')
+      if not mark_ok then
+        return
+      end
+
+      local mark_line = mark[1]
+      local last_line = vim.api.nvim_buf_line_count(bufnr)
+
+      -- Validate mark is within buffer bounds
+      if mark_line < 1 or mark_line > last_line then
+        return
+      end
+
+      -- THE KEY FIX: Schedule cursor restoration to run AFTER LSP/picker
+      vim.schedule(function()
+        -- Double-check buffer is still valid
+        if not vim.api.nvim_buf_is_valid(bufnr) then
+          return
+        end
+
+        -- Get current window displaying this buffer
+        local win = vim.fn.bufwinid(bufnr)
+        if win == -1 then
+          return
+        end
+
+        -- Re-check current cursor position
+        -- If LSP/picker moved cursor, it won't be at line 1 anymore
+        local current_pos = vim.api.nvim_win_get_cursor(win)
+        local current_line = current_pos[1]
+
+        -- Only restore if cursor is still at line 1 (meaning LSP/picker didn't move it)
+        if current_line == 1 then
+          -- Use modern API for cursor positioning (safer than vim.cmd)
+          local ok = pcall(vim.api.nvim_win_set_cursor, win, mark)
+          if ok then
+            -- Center the cursor line in the window for better visibility (user preference)
+            vim.cmd('normal! zz')
+
+            -- Set flag to prevent double-restoration
+            vim.b[bufnr].cursor_restored = true
+          end
+        end
+      end)
     end,
   } },
   { {"VimEnter"}, {

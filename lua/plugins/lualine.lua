@@ -19,9 +19,6 @@ return {
           section_separators = "",
           component_separators = "",
           disabled_filetypes = { "aerial" },
-          tabline = function()
-            return #vim.api.nvim_list_tabpages() >= 2
-          end,
         },
         sections = {
           lualine_a = { { "mode", padding = { left = 1, right = 1 }, separator = { right = "" } } },
@@ -49,6 +46,7 @@ return {
               end,
             } or false,
             components.diagnostics(),
+            components.trouble_status(),
             components.lsp_status(),
             components.search_count(),
             components.macro_recording(),
@@ -94,15 +92,7 @@ return {
           lualine_y = {},
           lualine_z = {},
         },
-        tabline = {
-          component_separators = {},
-          section_separators = {},
-          lualine_a = {
-            {
-              tabline.tabline,
-            },
-          },
-        },
+        tabline = {},
       }
 
       -- Setup cleanup on exit
@@ -112,6 +102,10 @@ return {
           tabline.cleanup()
         end,
       })
+
+      -- Use native vim tabline with our custom function
+      vim.o.showtabline = 2
+      vim.o.tabline = "%!v:lua.require'config.lualine.tabline'.tabline()"
     end,
   },
 }
