@@ -12,7 +12,7 @@ local function check_file_size(module, buf, max_size)
   max_size = max_size or (100 * 1024) -- 100 KB
   local fname = vim.api.nvim_buf_get_name(buf)
   local size = vim.fn.getfsize(fname)
-  local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+  local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(buf))
   if ok and stats and stats.size > max_size then
     vim.notify(
       string.format(
@@ -55,14 +55,6 @@ return {
       vim.keymap.set("n", "[c", function()
         require("treesitter-context").go_to_context()
       end, { silent = true })
-
-      -- vim.api.nvim_create_autocmd("BufReadPre", {
-      --   callback = function()
-      --       if disable_large_file(nil,  o.buf) then
-      --           kk
-      --       end
-      --   end,
-      -- })
     end,
   },
   {
@@ -72,137 +64,130 @@ return {
       "nvim-treesitter/nvim-treesitter-textobjects",
       "nvim-treesitter/nvim-treesitter-refactor",
     },
-     config = function()
-       pcall(function()
-         require("nvim-treesitter.configs").setup {
-        ensure_installed = {
-          "lua",
-          "rust",
-          "python",
-          "javascript",
-          "typescript",
-          "html",
-          "css",
-          "json",
-          "toml",
-          "markdown",
-          "c",
-          "cpp",
-          "go",
-          "java",
-          "bash",
-          "vim",
-          "yaml",
-        },
-        sync_install = false,
-        auto_install = true,
-        ignore_install = { "latex", "ipkg", "norg" },
-        modules = {},
-        autopairs = { enable = true },
-        autotag = {
-          enable = { "html", "xml", "lua" },
-        },
-        matchup = { enable = true, disable = disable_large_file "matchup" },
-        highlight = {
-          enable = true,
-          disable = disable_large_file "highlight",
-        },
-        incremental_selection = {
-          enable = true,
-          keymaps = {
-            init_selection = "<CR>",
-            node_incremental = "<CR>",
-            scope_incremental = "<S-CR>",
-            node_decremental = "<BS>",
+    config = function()
+      pcall(function()
+        require("nvim-treesitter.configs").setup {
+          ensure_installed = {
+            "lua",
+            "rust",
+            "python",
+            "javascript",
+            "typescript",
+            "html",
+            "css",
+            "json",
+            "toml",
+            "markdown",
+            "c",
+            "cpp",
+            "go",
+            "java",
+            "bash",
+            "vim",
+            "yaml",
           },
-        },
-        refactor = {
-          disable = disable_large_file "refactor",
-          highlight_definitions = {
-            enable = false,
+          sync_install = false,
+          auto_install = true,
+          ignore_install = { "latex", "ipkg", "norg" },
+          modules = {},
+          autopairs = { enable = true },
+          autotag = {
+            enable = { "html", "xml", "lua" },
+          },
+          matchup = { enable = true, disable = disable_large_file "matchup" },
+          highlight = {
+            enable = true,
             disable = disable_large_file "highlight",
-            -- Set to false if you have an `updatetime` of ~100.
-            clear_on_cursor_move = true,
           },
-          highlight_current_scope = { enable = false },
-          smart_rename = {
+          incremental_selection = {
             enable = true,
             keymaps = {
-              smart_rename = "grr",
+              init_selection = "<CR>",
+              node_incremental = "<CR>",
+              scope_incremental = "<S-CR>",
+              node_decremental = "<BS>",
             },
           },
-          navigation = {
-            enable = true,
-            keymaps = {
-              goto_definition = "gnd",
-              list_definitions = "gnD",
-              list_definitions_toc = "gO",
-              goto_next_usage = ")",
-              goto_previous_usage = "(",
+          refactor = {
+            disable = disable_large_file "refactor",
+            highlight_definitions = {
+              enable = false,
+              disable = disable_large_file "highlight",
+              -- Set to false if you have an `updatetime` of ~100.
+              clear_on_cursor_move = true,
+            },
+            highlight_current_scope = { enable = false },
+            smart_rename = {
+              enable = true,
+              keymaps = {
+                smart_rename = "grr",
+              },
+            },
+            navigation = {
+              enable = true,
+              keymaps = {
+                goto_definition = "gnd",
+                list_definitions = "gnD",
+                list_definitions_toc = "gO",
+                goto_next_usage = ")",
+                goto_previous_usage = "(",
+              },
             },
           },
-        },
 
-        textobjects = {
-          select = {
+          textobjects = {
+            select = {
+              enable = true,
+              lookahead = true,
+              keymaps = {
+                ["iA"] = "@parameter.inner",
+                ["aA"] = "@parameter.outer",
+                ["i;"] = "@call.inner",
+                ["a;"] = "@call.outer",
+                ["ae"] = "@block.outer",
+                ["ie"] = "@block.inner",
+              },
+            },
+            move = {
+              enable = true,
+              set_jumps = true, -- whether to set jumps in the jumplist
+              goto_next_start = {
+                ["]m"] = "@function.outer",
+              },
+              goto_next_end = {
+                ["]M"] = "@function.outer",
+                ["]["] = "@class.outer",
+              },
+              goto_previous_start = {
+                ["[m"] = "@function.outer",
+              },
+              goto_previous_end = {
+                ["[M"] = "@function.outer",
+                ["[]"] = "@class.outer",
+              },
+            },
+            swap = {
+              enable = true,
+              swap_next = {
+                ["<A-l>"] = "@parameter.inner",
+              },
+              swap_previous = {
+                ["<A-h>"] = "@parameter.inner",
+              },
+            },
+          },
+          textsubjects = {
             enable = true,
-            lookahead = true,
+            prev_selection = ",", -- (Optional) keymap to select the previous selection
             keymaps = {
-              -- You can use the capture groups defined in textobjects.scm
-              -- ["af"] = "@function.outer",
-              -- ["if"] = "@function.inner",
-              -- ["ac"] = "@class.outer",
-              -- ["ic"] = "@class.inner",
-              -- ["iA"] = "@parameter.inner",
-              -- ["aA"] = "@parameter.outer",
-              ["i;"] = "@call.inner",
-              ["a;"] = "@call.outer",
-              ["ab"] = "@block.outer",
-              ["ib"] = "@block.inner",
+              ["."] = "textsubjects-smart",
+              ["ac"] = "textsubjects-container-outer",
+              ["ic"] = "textsubjects-container-inner",
             },
           },
-          move = {
-            enable = true,
-            set_jumps = true, -- whether to set jumps in the jumplist
-            goto_next_start = {
-              ["]m"] = "@function.outer",
-              -- ["]]"] = "@class.outer",
-            },
-            goto_next_end = {
-              ["]M"] = "@function.outer",
-              ["]["] = "@class.outer",
-            },
-            goto_previous_start = {
-              ["[m"] = "@function.outer",
-              ious, -- ["[["] = "@class.outer",
-            },
-            goto_previous_end = {
-              ["[M"] = "@function.outer",
-              ["[]"] = "@class.outer",
-            },
-          },
-          swap = {
-            enable = true,
-            swap_next = {
-              ["<A-l>"] = "@parameter.inner",
-            },
-            swap_previous = {
-              ["<A-h>"] = "@parameter.inner",
-            },
-          },
-        },
-        textsubjects = {
-          enable = true,
-          prev_selection = ",", -- (Optional) keymap to select the previous selection
-          keymaps = {
-            ["."] = "textsubjects-smart",
-            ["ac"] = "textsubjects-container-outer",
-            ["ic"] = "textsubjects-container-inner",
-          },
-        },
-        indent = { enable = true },
+          indent = { enable = true },
         }
-       end)
+      end)
     end,
   },
 }

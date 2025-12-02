@@ -1,26 +1,5 @@
 local ui = require "dapui"
 ui.setup {
-  -- icons = { expanded = "▾", collapsed = "▸" },
-  -- mappings = {
-  --   -- Use a table to apply multiple mappings
-  --   expand = { "<CR>", "<2-LeftMouse>", "<Tab>" },
-  --   open = { "o" },
-  --   remove = "d",
-  --   edit = "e",
-  --   repl = "r",
-  -- },
-  -- layouts = {
-  --   {
-  --     elements = {
-  --       "scopes",
-  --       "watches",
-  --       "stacks",
-  --       { id = "breakpoints", size = 0.1 },
-  --     },
-  --     size = 8, -- 40 columns
-  --     -- position = "bottom",
-  --   },
-  -- },
   layouts = {
     {
       elements = {
@@ -34,25 +13,15 @@ ui.setup {
       size = 10,
       position = "bottom",
     },
-    -- {
-    --   elements = { "console" },
-    --   position = "bottom",
-    --   size = 16,
-    -- },
   },
   floating = {
-    -- max_height = nil, -- These can be integers or a float between 0 and 1.
-    -- max_width = nil, -- Floats will be treated as percentage of your screen.
-    -- border = "none",
     mappings = {
       close = { "q", "<Esc>" },
     },
   },
-  -- windows = { indent = 0 },
 }
 
 local dap = require "dap"
--- vim.notify "Configuring dap"
 
 require("nvim-dap-virtual-text").setup {
   highlight_new_as_changed = true,
@@ -95,13 +64,10 @@ dap.configurations.rust = {
   },
 }
 
--- require("dap").defaults.fallback.exception_breakpoints = "rust_panic"
--- dap.defaults.codelldb.exception_breakpoints = { "rust_panic" }
 dap.defaults.rust.exception_breakpoints = { "rust_panic" }
 local codelldb_adapter = require("config.codelldb").get_codelldb()
 dap.adapters.rust = codelldb_adapter
 dap.adapters.codelldb = codelldb_adapter
--- dap.defaults.rust.exception_breakpoints = { "rust_panic" }
 
 local M = {
   dap = dap,

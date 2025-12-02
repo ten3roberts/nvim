@@ -7,12 +7,12 @@ return {
     local keybind = require("config.keybind_definitions").getKeybind
 
     pcall(function()
-      -- require("mini.ai").setup {
-      --   custom_textobjects = {
-      --     ["b"] = { { "%b()", "%b{}" }, "^.().*().$" },
-      --     ["B"] = { { "%b[]", "%b{}" }, "^.().*().$" },
-      --   },
-      -- }
+      require("mini.ai").setup {
+        custom_textobjects = {
+          ["b"] = { { "%b()", "%b{}" }, "^.().*().$" },
+        },
+      }
+
       require("mini.move").setup {
 
         mappings = {

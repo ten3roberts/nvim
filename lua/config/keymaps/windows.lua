@@ -11,7 +11,7 @@ local function close_normal_windows()
   -- Collect all normal windows
   for _, win in ipairs(wins) do
     local buf = vim.api.nvim_win_get_buf(win)
-    local buftype = vim.api.nvim_buf_get_option(buf, "buftype")
+    local buftype = vim.bo[buf].buftype
     if buftype == "" then
       table.insert(normal_wins, win)
     end

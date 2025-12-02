@@ -8,13 +8,6 @@ return {
     end,
   },
   {
-    "andymass/vim-matchup",
-    enabled = false,
-    config = function()
-      vim.g.matchup_matchparen_deferred = 1
-    end,
-  },
-  {
     -- File icons
     "kyazdani42/nvim-web-devicons",
   },

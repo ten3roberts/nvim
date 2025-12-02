@@ -11,11 +11,6 @@ local keybinds = {
   ["spectre-word-search"] = { keybind = "<leader>sw", desc = "Spectre word search" },
   ["spectre-visual-search"] = { keybind = "<leader>sw", desc = "Spectre visual search" },
   ["spectre-file-search"] = { keybind = "<leader>sp", desc = "Spectre file search" },
-  ["codecompanion-actions"] = { keybind = "<C-c>", desc = "CodeCompanion actions" },
-  ["codecompanion-chat-toggle"] = { keybind = "<LocalLeader>a", desc = "Toggle CodeCompanion chat" },
-  ["codecompanion-chat-open"] = { keybind = "<leader>cc", desc = "Open CodeCompanion chat" },
-  ["codecompanion-chat-add"] = { keybind = "<leader>ga", desc = "Add to CodeCompanion chat" },
-  ["codecompanion-inline"] = { keybind = "<leader>ci", desc = "CodeCompanion inline transformation" },
   ["ssr-open"] = { keybind = "<leader>cR", desc = "Structural replace (SSR)" },
   ["dial-inc-normal"] = { keybind = "<C-a>", desc = "Dial increment" },
   ["dial-dec-normal"] = { keybind = "<C-x>", desc = "Dial decrement" },
@@ -52,7 +47,6 @@ local keybinds = {
   ["snacks-format-buffer"] = { keybind = "<leader>bf", desc = "Format buffer (LSP)" },
   ["snacks-close-hidden"] = { keybind = "<leader>bc", desc = "Close hidden buffers" },
   ["snacks-open-terminal"] = { keybind = "<leader>tt", desc = "Open terminal" },
-  ["snacks-toggle-minuet"] = { keybind = "<leader>mt", desc = "Toggle Minuet virtual text" },
   ["snacks-debug-searcher"] = { keybind = "<leader>dd", desc = "Debug searcher" },
   ["snacks-icons-picker"] = { keybind = "<leader>si", desc = "Icons picker" },
   ["snacks-undo-picker"] = { keybind = "<leader>u", desc = "Undo picker" },
@@ -147,30 +141,4 @@ function M.getDesc(name)
   local kb = keybinds[name]
   return kb and kb.desc or ""
 end
---
--- local function checkDuplicates()
---   -- Check for duplicate keybinds on startup
---   local keybind_to_names = {}
---   for name, info in pairs(keybinds) do
---     local kb = info.keybind
---     if not keybind_to_names[kb] then
---       keybind_to_names[kb] = {}
---     end
---     table.insert(keybind_to_names[kb], name)
---   end
---
---   local messages = {}
---   for kb, names in pairs(keybind_to_names) do
---     if #names > 1 then
---       table.insert(messages, "Duplicate keybind '" .. kb .. "' used by: " .. table.concat(names, ", "))
---     end
---   end
---
---   if #messages > 0 then
---     vim.notify(table.concat(messages, "\n"), vim.log.levels.WARN)
---   end
--- end
---
--- vim.defer_fn(checkDuplicates, 15000)
-
 return M

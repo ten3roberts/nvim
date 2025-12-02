@@ -99,13 +99,13 @@ return {
       },
 
       -- (Default) Only show the documentation popup when manually triggered
-      documentation = { auto_show = false },
+      documentation = { auto_show = true },
 
       -- Replace similar text ahead of cursor on completion
       keyword = { range = "full" },
 
       -- Auto-insert brackets
-      accept = { auto_brackets = { enabled = true } },
+      -- accept = { auto_brackets = { enabled = true } },
 
       -- List behavior
       list = {
@@ -123,7 +123,7 @@ return {
 
       -- Ghost text shows the top result inline
       ghost_text = {
-        enabled = true,
+        enabled = false,
       },
     },
 
@@ -138,14 +138,14 @@ return {
 
       -- Source-specific tuning
       providers = {
-        snippets = {
-          score_offset = 10, -- Prefer snippets above all other sources
-        },
+        -- snippets = {
+        --   score_offset = 10, -- Prefer snippets above all other sources
+        -- },
         lsp = {
           timeout_ms = 500,
         },
         buffer = {
-          min_keyword_length = 3,
+          min_keyword_length = 2,
         },
       },
     },
@@ -156,8 +156,10 @@ return {
     --
     -- See the fuzzy documentation for more information
     fuzzy = {
+      implementation = "prefer_rust_with_warning",
       frecency = { enabled = true },
       proximity = { enabled = true },
+      use_proximity = true,
     },
   },
   opts_extend = { "sources.default" },
