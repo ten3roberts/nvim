@@ -42,7 +42,6 @@ o.smartindent = true
 o.splitbelow = true -- Splits open on the bottom
 o.splitright = true -- Splits open on the right
 -- o.switchbuf = "useopen"
-o.tabstop = 2
 o.termguicolors = true
 -- o.textwidth = 80
 o.title = true

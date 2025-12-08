@@ -1,6 +1,7 @@
 return {
   {
     "MeanderingProgrammer/render-markdown.nvim",
+    enabled = false,
     ft = { "markdown", "codecompanion", "Avante" },
     config = function()
       require("render-markdown").setup {

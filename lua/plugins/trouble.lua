@@ -3,6 +3,7 @@ local keybinds = require "config.keybind_definitions"
 return {
   "folke/trouble.nvim",
   enabled = true,
+  dependencies = { "folke/snacks.nvim" },
   opts = {
     throttle = {
       refresh = 1000, -- fetches new data when needed
@@ -116,31 +117,30 @@ return {
     })
 
     -- Custom Snacks picker action to send to Trouble instead of quickfix
-    vim.defer_fn(function()
-      local snacks = require("snacks")
-      if snacks and snacks.picker and snacks.picker.actions then
-        snacks.picker.actions.qflist = function(picker)
-          local items = picker:selected()
-          if #items == 0 then
-            items = picker:items()
-          end
-          
-          -- Convert to quickfix format and open in Trouble
-          local qf_items = {}
-          for _, item in ipairs(items) do
-            table.insert(qf_items, {
-              filename = item.file,
-              lnum = item.line or 1,
-              col = item.col or 1,
-              text = item.text or item.title or "",
-            })
-          end
-          
-          vim.fn.setqflist(qf_items, "r")
-          require("trouble").open("qflist")
+    -- Snacks is guaranteed to be loaded due to dependency declaration
+    local snacks = require("snacks")
+    if snacks and snacks.picker and snacks.picker.actions then
+      snacks.picker.actions.qflist = function(picker)
+        local items = picker:selected()
+        if #items == 0 then
+          items = picker:items()
         end
+
+        -- Convert to quickfix format and open in Trouble
+        local qf_items = {}
+        for _, item in ipairs(items) do
+          table.insert(qf_items, {
+            filename = item.file,
+            lnum = item.line or 1,
+            col = item.col or 1,
+            text = item.text or item.title or "",
+          })
+        end
+
+        vim.fn.setqflist(qf_items, "r")
+        require("trouble").open("qflist")
       end
-    end, 100)
+    end
     
     -- Expose smart functions to global scope for keybinds
     vim.g.smart_trouble_toggle = smart_trouble_toggle

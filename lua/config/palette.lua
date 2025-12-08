@@ -136,6 +136,30 @@ function M.setup()
   link("TelescopePromptNormal", "Normal")
   link("TelescopePreviewNormal", "Darkened")
 
+  -- Snacks Picker (darker background)
+  link("SnacksPickerNormal", "Darkened")
+  link("SnacksPickerPreview", "Darkened")
+  link("SnacksPickerList", "Darkened")
+  link("SnacksPickerInput", "Darkened")
+  highlight("SnacksPickerBorder", { fg = p.grey, bg = dark })
+  highlight("SnacksPickerTitle", { bg = p.green, fg = "bg" })
+  highlight("SnacksPickerInputTitle", { bg = p.blue, fg = "bg" })
+
+  -- Enhanced picker UX
+  highlight("SnacksPickerCursorLine", {
+    bg = "#343c42",  -- ~15% lighter than dark bg for visibility
+    bold = true
+  })
+  highlight("SnacksPickerMatch", {
+    fg = p.orange,
+    bold = true
+  })
+  highlight("SnacksPickerSelected", {
+    fg = p.green,
+    bold = true,
+    bg = dark
+  })
+
   link("STError", "Red")
   link("InlayHint", "Grey")
   link("STWarning", "Orange")
@@ -161,17 +185,6 @@ function M.setup()
   link("DiagnosticSignInfo", "Blue")
   link("DiagnosticSignHint", "Green")
   link("DiagnosticSignText", "Grey")
-
-  vim.diagnostic.config {
-    virtual_text = {
-      prefix = function(diagnostic)
-        local signs = require("config.palette").signs
-        local severity_names = { "E", "W", "I", "H" }
-        local severity_name = severity_names[diagnostic.severity]
-        return signs[severity_name] and signs[severity_name].sign or ""
-      end,
-    },
-  }
 
   highlight("DapBreakpoint", { bold = true })
   -- highlight("DapStopped", { fg = "NONE", bg = p.green, guisp = "NONE" })

@@ -154,12 +154,37 @@ return {
           "vtsls",
           "vue_ls",
         },
-        automatic_enable = true,
+        automatic_enable = false,  -- Disable automatic enabling to prevent conflicts
       }
 
       -- Global capabilities for all servers
       vim.lsp.config("*", {
         capabilities = capabilities,
+      })
+
+      -- Explicitly disable ts_ls/tsserver to prevent conflict with vtsls
+      vim.lsp.config("ts_ls", {
+        enabled = false,
+      })
+
+      vim.lsp.config("tsserver", {
+        enabled = false,
+      })
+
+      -- Explicitly enable only the servers we want
+      vim.lsp.enable("rust_analyzer")
+      vim.lsp.enable("vtsls")
+      vim.lsp.enable("vue_ls")
+
+      -- Forcefully stop ts_ls if it somehow attaches
+      vim.api.nvim_create_autocmd("LspAttach", {
+        callback = function(args)
+          local client = vim.lsp.get_client_by_id(args.data.client_id)
+          if client and (client.name == "ts_ls" or client.name == "tsserver") then
+            vim.notify("Blocking ts_ls/tsserver (conflict with vtsls)", vim.log.levels.WARN)
+            vim.lsp.stop_client(client.id, true)
+          end
+        end,
       })
 
       -- rust-analyzer specific settings

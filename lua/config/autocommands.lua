@@ -2,6 +2,10 @@ local a = vim.api
 local fn = vim.fn
 local keybinds = require "config.keybind_definitions"
 
+-- Tip display timing constants
+local TIP_DISPLAY_DELAY_MS = 5000  -- Show tip 5 seconds after startup
+local TIP_TIMEOUT_MS = 30000       -- Display tip for 30 seconds
+
 local group = a.nvim_create_augroup("CONFIG", { clear = true })
 local function au(event, opts)
   opts.group = group
@@ -34,9 +38,18 @@ local function setup_spell(o)
   end
 end
 
+local function setup_palette_with_profiling()
+  local start = vim.loop.hrtime()
+  require("config.palette").setup()
+  local elapsed = (vim.loop.hrtime() - start) / 1e6  -- Convert to ms
+  if elapsed > 50 then
+    vim.notify(string.format("Palette setup took %.2fms (slow)", elapsed), vim.log.levels.WARN)
+  end
+end
+
 local autocmds = {
   { {"BufNew", "BufWinEnter", "FileType", "TermOpen"}, { callback = setup_spell } },
-  { {"ColorScheme"}, { callback = require("config.palette").setup } },
+  { {"ColorScheme"}, { callback = setup_palette_with_profiling } },
   { {"BufRead", "BufNewFile"}, {
     callback = function() vim.o.ft = "json" end,
     pattern = ".gltf",
@@ -51,10 +64,15 @@ local autocmds = {
   { {"BufWritePre"}, {
     pattern = "*.rs",
     callback = function()
-      vim.lsp.buf.code_action({
-        context = { only = { "source.organizeImports" } },
-        apply = true,
-      })
+      local ok, err = pcall(function()
+        vim.lsp.buf.code_action({
+          context = { only = { "source.organizeImports" } },
+          apply = true,
+        })
+      end)
+      if not ok then
+        vim.notify("Organize imports failed: " .. tostring(err), vim.log.levels.WARN)
+      end
     end,
   } },
   { {"TermEnter"}, {
@@ -158,8 +176,8 @@ local autocmds = {
       vim.defer_fn(function()
         local tips = require "config.tips"
         local tip = tips[math.random(#tips)]
-        require("snacks").notifier.notify(tip, { title = "Tip", timeout = 30000 })
-      end, 5000)
+        require("snacks").notifier.notify(tip, { title = "Tip", timeout = TIP_TIMEOUT_MS })
+      end, TIP_DISPLAY_DELAY_MS)
     end,
   } },
 }

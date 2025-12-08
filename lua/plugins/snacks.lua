@@ -22,7 +22,8 @@ local buffer_opts = {
 return {
   "folke/snacks.nvim",
   priority = 1000,
-  lazy = false,
+  lazy = false,  -- Keep false for critical features (notifications, statuscolumn)
+  event = "VeryLazy",  -- Defer non-critical features until after startup
   ---@type snacks.Config
   opts = {
     -- your configuration comes here
@@ -126,6 +127,7 @@ return {
         list = {
           keys = {
             ["<c-i>"] = { "toggle_input", mode = { "n", "i" } },
+            ["<C-c>"] = { "close", mode = { "n", "i" } },
           },
         },
         input = {
@@ -253,11 +255,6 @@ return {
       keybinds.getKeybind "snacks-open-terminal",
       ":term<CR>",
       desc = keybinds.getDesc "snacks-open-terminal",
-    },
-    {
-      keybinds.getKeybind "snacks-toggle-minuet",
-      ":Minuet virtualtext toggle<CR>",
-      desc = keybinds.getDesc "snacks-toggle-minuet",
     },
     {
       keybinds.getKeybind "snacks-debug-searcher",

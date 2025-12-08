@@ -35,3 +35,6 @@ vim.keymap.set("n", keybinds.getKeybind("bracket-next-error"), function() vim.di
 vim.keymap.set({ "n", "v" }, keybinds.getKeybind("clipboard-yank"), '"+y', { desc = keybinds.getDesc("clipboard-yank") })
 vim.keymap.set({ "n", "v" }, keybinds.getKeybind("clipboard-paste"), '"+p', { desc = keybinds.getDesc("clipboard-paste") })
 vim.keymap.set({ "n", "v" }, keybinds.getKeybind("clipboard-paste-before"), '"+P', { desc = keybinds.getDesc("clipboard-paste-before") })
+
+-- Quick exit with Ctrl-C Ctrl-C
+vim.keymap.set("n", "<C-c><C-c>", "<cmd>qa<CR>", { desc = "Exit Neovim" })
