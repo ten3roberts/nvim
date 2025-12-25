@@ -4,8 +4,6 @@ vim.cmd "command! CargoUpdateReadme :Execute cargo readme > README.md"
 vim.cmd "command! -nargs=* CargoPublish :ExecuteInteractive cargo workspaces publish <args>"
 vim.cmd "command! CargoUpgrade !cargo --color=never upgrade --workspace"
 
-local recipe = require "recipe"
-
 a.nvim_create_user_command("Q", ":silent wa | qa", {})
 a.nvim_create_user_command("W", ":silent wa", {})
 
@@ -45,48 +43,6 @@ end, {})
 a.nvim_create_user_command("Dump", function(c)
   require("config.dev_utils").dump_mod(c.args)
 end, { nargs = 1 })
-
-a.nvim_create_user_command("CargoClean", function(_)
-  recipe.execute { cmd = "cargo clean" }
-end, { nargs = "*" })
-
-a.nvim_create_user_command("CargoDoc", function(_)
-  recipe.execute { cmd = "cargo doc --all-features --open" }
-end, { nargs = "*" })
-
-a.nvim_create_user_command("Cargo", function(c)
-  recipe.execute { cmd = "cargo " .. c.args, kind = "term", opts = { auto_close = false } }
-end, { nargs = "*" })
-
-a.nvim_create_user_command("CargoUpgrade", function(c)
-  recipe.execute { cmd = "cargo upgrade " .. c.args, kind = "term", opts = { auto_close = false } }
-end, { nargs = "*" })
-
-a.nvim_create_user_command("CargoAdd", function(c)
-  recipe
-    .execute({
-      cmd = "cargo add " .. c.args,
-      kind = "term",
-      action = {},
-    })
-    :attach_callback(function(_)
-      vim.cmd "CargoReload"
-    end)
-end, { nargs = "*" })
-
-a.nvim_create_user_command("CargoVersion", function(c)
-  recipe.execute { cmd = "cargo workspaces version " .. c.args, kind = "term" }
-end, { nargs = "*" })
-
-a.nvim_create_user_command("CargoTest", function(c)
-  recipe.execute { cmd = string.format("cargo test %s -- --nocapture", c.args), kind = "term" }
-end, { nargs = "*" })
-
-a.nvim_create_user_command("Clip", 'let @+=@"', {})
-
-a.nvim_create_user_command("CargoSyncReadme", function(c)
-  recipe.execute { cmd = "cargo sync-readme " .. c.args, kind = "term" }
-end, {})
 
 vim.cmd [[
 function! Redir(cmd, rng, start, end)

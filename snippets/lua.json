@@ -52,8 +52,4 @@
     "body": "${1:os.date('%Y-%m-%d')}",
     "description": "Date"
   }
-}</content>
-</xai:function_call"> 
-
-<xai:function_call name="edit">
-<parameter name="filePath">snippets/package.json
+}

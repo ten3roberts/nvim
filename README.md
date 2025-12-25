@@ -182,7 +182,7 @@ Keymaps are centralized in `lua/config/keybind_definitions.lua` for consistency 
 | Crates (TOML) | `<leader>cd` | Dependencies popup |
 | Crates (TOML) | `<leader>cu` | Upgrade crate |
 | Crates (TOML) | `<leader>cU` | Upgrade all crates |
-| Terminal | `<Esc>` | Exit terminal mode |
+| Terminal | `jk` | Exit terminal mode |
 
 ## Notes
 - **Dynamic Mappings**: LSP and plugin-generated mappings may vary.

@@ -21,6 +21,7 @@ local keybinds = {
   ["snacks-undo-picker"] = { keybind = "<leader>u", desc = "Undo picker" },
   ["snacks-debug-searcher"] = { keybind = "<leader>dd", desc = "Debug searcher" },
   ["snacks-explorer"] = { keybind = "<leader>ct", desc = "Snacks explorer" },
+  ["snacks-projects-picker"] = { keybind = "<leader>fp", desc = "Projects picker" },
 
   -- ============================================================================
   -- BUFFER MANAGEMENT
@@ -177,15 +178,13 @@ local keybinds = {
   -- ============================================================================
   -- TERMINAL
   -- ============================================================================
-  ["terminal-exit"] = { keybind = "<esc>", desc = "Exit terminal mode" },
+  ["terminal-exit"] = { keybind = "<A-j>", desc = "Exit terminal mode" },
   ["snacks-open-terminal"] = { keybind = "<leader>tt", desc = "Open terminal" },
 
   -- ============================================================================
   -- CLIPBOARD
   -- ============================================================================
-  ["clipboard-yank"] = { keybind = "<leader>y", desc = "Yank to system clipboard" },
-  ["clipboard-paste"] = { keybind = "<leader>p", desc = "Paste from system clipboard" },
-  ["clipboard-paste-before"] = { keybind = "<leader>P", desc = "Paste before from system clipboard" },
+  ["clipboard-paste"] = { keybind = "<leader>v", desc = "Paste from system clipboard" },
 
   -- ============================================================================
   -- MISC

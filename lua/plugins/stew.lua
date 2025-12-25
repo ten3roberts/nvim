@@ -1,5 +1,5 @@
 return {
-  -- "ten3roberts/stew.nvim",
-  --
-  -- opts = {},
+  "ten3roberts/forge.nvim",
+
+  opts = {},
 }

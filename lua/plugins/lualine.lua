@@ -13,6 +13,9 @@ return {
       -- Check for Minuet integration
       local minuet_ok, minuet_lualine = pcall(require, "minuet.lualine")
 
+      -- Check for Stew integration
+      local stew_ok, stew_lualine = pcall(require, "forge.lualine")
+
       require("lualine").setup {
         options = {
           theme = components.get_theme,
@@ -51,6 +54,7 @@ return {
             components.search_count(),
             components.macro_recording(),
             components.dap_status(),
+            stew_ok and stew_lualine.jobs() or false,
             components.clock(),
           }),
           lualine_y = {

@@ -22,15 +22,36 @@ local buffer_opts = {
 return {
   "folke/snacks.nvim",
   priority = 1000,
-  lazy = false,  -- Keep false for critical features (notifications, statuscolumn)
-  event = "VeryLazy",  -- Defer non-critical features until after startup
+  lazy = false, -- Keep false for critical features (notifications, statuscolumn)
+  event = "VeryLazy", -- Defer non-critical features until after startup
   ---@type snacks.Config
   opts = {
     -- your configuration comes here
     -- or leave it empty to use the default settings
     -- refer to the configuration section below
     bigfile = { enabled = true },
-    dashboard = { enabled = false },
+    dashboard = {
+      enabled = true,
+      preset = {
+        keys = {
+          { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.picker.files()" },
+          -- { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
+          { icon = " ", key = "g", desc = "Find Text", action = ":lua Snacks.picker.grep()" },
+          -- { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.picker.recent()" },
+          { icon = " ", key = "p", desc = "Projects", action = ":lua Snacks.picker.projects()" },
+          -- { icon = " ", key = "s", desc = "Restore Session", action = ":lua require('persistence').load()" },
+          { icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy" },
+          { icon = " ", key = "q", desc = "Quit", action = ":qa" },
+        },
+      },
+      sections = {
+        { section = "header" },
+        { section = "keys", gap = 1, padding = 1 },
+        { section = "recent_files", limit = 8, padding = 1, indent = 2 },
+        { section = "projects", limit = 8, padding = 1, indent = 2 },
+        { section = "startup" },
+      },
+    },
     explorer = { enabled = false },
     indent = { enabled = false, indent = { only_scope = false, only_current = false } },
     input = {
@@ -39,6 +60,33 @@ return {
     },
     picker = {
       enabled = true,
+      actions = {
+        qflist = function(picker)
+          picker:close()
+          local sel = picker:selected()
+          local items = #sel > 0 and sel or picker:items()
+
+          local snacks = require "snacks"
+          local qf_items = {}
+          for _, item in ipairs(items) do
+            table.insert(qf_items, {
+              filename = snacks.picker.util.path(item),
+              bufnr = item.buf,
+              lnum = item.pos and item.pos[1] or 1,
+              col = item.pos and item.pos[2] + 1 or 1,
+              end_lnum = item.end_pos and item.end_pos[1] or nil,
+              end_col = item.end_pos and item.end_pos[2] + 1 or nil,
+              text = item.line or item.comment or item.label or item.name or item.detail or item.text,
+              pattern = item.search,
+              type = ({ "E", "W", "I", "N" })[item.severity],
+              valid = true,
+            })
+          end
+
+          vim.fn.setqflist(qf_items, "r")
+          require("trouble").open "qflist"
+        end,
+      },
       layout = {
         width = function()
           return math.max(0.4 * vim.o.columns, 120)
@@ -233,6 +281,13 @@ return {
         require("snacks").picker.recent()
       end,
       desc = keybinds.getDesc "snacks-recent-files",
+    },
+    {
+      keybinds.getKeybind "snacks-projects-picker",
+      function()
+        require("snacks").picker.projects()
+      end,
+      desc = keybinds.getDesc "snacks-projects-picker",
     },
     {
       keybinds.getKeybind "snacks-save-all",

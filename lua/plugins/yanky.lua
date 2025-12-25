@@ -12,9 +12,12 @@ return {
   },
   config = function()
     require("yanky").setup {
-      ring = {},
+      ring = {
+        history_length = 50,
+        storage = "shada",
+      },
       system_clipboard = {
-        sync_with_ring = false,
+        sync_with_ring = false, -- We handle sync manually below
       },
       highlight = {
         on_put = true,
@@ -25,6 +28,16 @@ return {
         enabled = true,
       },
     }
+
+    -- Smart sync: only explicit yanks (y) go to system clipboard, not d/c/x
+    vim.api.nvim_create_autocmd("TextYankPost", {
+      group = vim.api.nvim_create_augroup("YankToClipboard", { clear = true }),
+      callback = function()
+        if vim.v.event.operator == "y" then
+          vim.fn.setreg("+", vim.fn.getreg('"'))
+        end
+      end,
+    })
   end,
 }
 

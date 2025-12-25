@@ -81,8 +81,8 @@ function M.setup_colors()
   return {
     normal_bg = get_hl("Normal").bg,
     normal_fg = get_hl("Normal").fg,
-     tabline_bg = get_hl("TabLineFill").bg,
-     tabline_sel_bg = get_hl("TabLineSel").bg,
+    tabline_bg = get_hl("TabLineFill").bg,
+    tabline_sel_bg = get_hl("TabLineSel").bg,
     tabline_fill = get_hl("TabLineFill").bg or get_hl("PmenuSel").bg,
     bright_bg = get_hl("Folded").bg or get_hl("Normal").bg,
     bright_fg = get_hl("Folded").fg,
@@ -105,7 +105,6 @@ function M.setup_colors()
 end
 
 function M.setup()
-  local Recipe = require "recipe.recipe"
   api.nvim_create_augroup("Heirline", { clear = true })
   -- api.nvim_create_autocmd("ColorScheme", {
   --   callback = function()
@@ -400,7 +399,7 @@ function M.setup()
         added = summary.add or 0,
         removed = summary.delete or 0,
         changed = summary.change or 0,
-        head = vim.fn.system('git branch --show-current'):gsub('\n', ''),
+        head = vim.fn.system("git branch --show-current"):gsub("\n", ""),
       }
       self.total_changes = self.status_dict.added + self.status_dict.removed + self.status_dict.changed
     end,
@@ -483,14 +482,6 @@ function M.setup()
   }
 
   local TerminalName = {
-    -- we could add a condition to check that buftype == 'terminal'
-    -- or we could do that later (see #conditional-statuslines below)
-    init = function(self)
-      local task_info = vim.b.recipe_task_info
-      local recipe = task_info and setmetatable(task_info.recipe, Recipe)
-      self.task_info = task_info
-      self.recipe = recipe
-    end,
     {
       provider = function()
         return " "
@@ -865,8 +856,6 @@ function M.setup()
     tabline = tabline,
   }
 end
-
-
 
 function M.setup_tabline()
   local tabline = require "config.tabline"

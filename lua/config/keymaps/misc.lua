@@ -31,10 +31,8 @@ vim.keymap.set("n", keybinds.getKeybind("bracket-next-diagnostic"), vim.diagnost
 vim.keymap.set("n", keybinds.getKeybind("bracket-prev-error"), function() vim.diagnostic.goto_prev { severity = vim.diagnostic.severity.ERROR } end, { desc = keybinds.getDesc("bracket-prev-error") })
 vim.keymap.set("n", keybinds.getKeybind("bracket-next-error"), function() vim.diagnostic.goto_next { severity = vim.diagnostic.severity.ERROR } end, { desc = keybinds.getDesc("bracket-next-error") })
 
--- Clipboard keybindings for system clipboard
-vim.keymap.set({ "n", "v" }, keybinds.getKeybind("clipboard-yank"), '"+y', { desc = keybinds.getDesc("clipboard-yank") })
+-- Paste from system clipboard (for content copied from external apps)
 vim.keymap.set({ "n", "v" }, keybinds.getKeybind("clipboard-paste"), '"+p', { desc = keybinds.getDesc("clipboard-paste") })
-vim.keymap.set({ "n", "v" }, keybinds.getKeybind("clipboard-paste-before"), '"+P', { desc = keybinds.getDesc("clipboard-paste-before") })
 
 -- Quick exit with Ctrl-C Ctrl-C
 vim.keymap.set("n", "<C-c><C-c>", "<cmd>qa<CR>", { desc = "Exit Neovim" })

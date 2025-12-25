@@ -131,16 +131,18 @@ return {
     -- Default list of enabled providers defined so that you can extend it
     -- elsewhere in your config, without redefining it, due to `opts_extend`
     sources = {
-      default = { "snippets", "lsp", "path", "buffer" },
+      default = { "lazydev", "snippets", "lsp", "path", "buffer" },
       per_filetype = {
         codecompanion = { "codecompanion" },
       },
 
       -- Source-specific tuning
       providers = {
-        -- snippets = {
-        --   score_offset = 10, -- Prefer snippets above all other sources
-        -- },
+        lazydev = {
+          name = "LazyDev",
+          module = "lazydev.integrations.blink",
+          score_offset = 100,
+        },
         lsp = {
           timeout_ms = 500,
         },

@@ -21,7 +21,7 @@ return {
   {
     "neovim/nvim-lspconfig",
     dependencies = {
-      "folke/neodev.nvim",
+      "folke/lazydev.nvim",
       "folke/neoconf.nvim",
       "mason-org/mason.nvim",
       "mason-org/mason-lspconfig.nvim",
@@ -150,11 +150,12 @@ return {
       require("mason").setup()
       require("mason-lspconfig").setup {
         ensure_installed = {
+          "lua_ls",
           "rust_analyzer",
           "vtsls",
           "vue_ls",
         },
-        automatic_enable = false,  -- Disable automatic enabling to prevent conflicts
+        automatic_enable = false, -- Disable automatic enabling to prevent conflicts
       }
 
       -- Global capabilities for all servers
@@ -172,9 +173,10 @@ return {
       })
 
       -- Explicitly enable only the servers we want
-      vim.lsp.enable("rust_analyzer")
-      vim.lsp.enable("vtsls")
-      vim.lsp.enable("vue_ls")
+      vim.lsp.enable "lua_ls"
+      vim.lsp.enable "rust_analyzer"
+      vim.lsp.enable "vtsls"
+      vim.lsp.enable "vue_ls"
 
       -- Forcefully stop ts_ls if it somehow attaches
       vim.api.nvim_create_autocmd("LspAttach", {
