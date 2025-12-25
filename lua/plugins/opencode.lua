@@ -7,6 +7,8 @@ return {
     { "folke/snacks.nvim", opts = { input = {}, picker = {}, terminal = {} } },
   },
   config = function()
+    vim.env.OPENCODE_CONFIG = vim.fn.stdpath("config") .. "/opencode"
+
     ---@type opencode.Opts
     vim.g.opencode_opts = {
       provider = {
